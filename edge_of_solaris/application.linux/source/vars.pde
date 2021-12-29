@@ -2,6 +2,7 @@
 int screenIndex = 0;
 int playerBulletCount = 200;
 int basicECount = 5;
+int starCount = 150;
 
 //player vars
 int playerX = 200;
