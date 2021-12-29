@@ -37,9 +37,6 @@ starsBG[] stars;
 
  public void drawUI() {
   if (screenIndex == 0) {
-    setRect(1);
-    rect(playerX, playerY, 60, 20);
-    
     for (starsBG stars : stars) {
       stars.update();
       stars.display();
@@ -53,6 +50,10 @@ starsBG[] stars;
       blts.update();
       blts.display();
     }
+    
+    //draw player
+    setRect(1);
+    rect(playerX, playerY, 60, 20);
   }
 }
 
@@ -72,7 +73,7 @@ starsBG[] stars;
     basicE[i] = new enemy(-200, -200, 0, 0, 0, 0, 0);
   }
   for (int i = 0; i < starCount; i++) {
-    stars[i] = new starsBG(700, PApplet.parseInt(i * random(120)), PApplet.parseInt(-1 * random(10)), 0);
+    stars[i] = new starsBG(700, PApplet.parseInt(i * random(120)), PApplet.parseInt(-1 * (random(10) + 1)), 0);
   }
 }
 class bullet {
@@ -211,7 +212,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
   if (starX < 0) {
     starY = PApplet.parseInt(random(500));
     starX = 700;
-    starSpeedX = PApplet.parseInt(-1 * random(10));
+    starSpeedX = PApplet.parseInt(-1 * (random(10) + 1));
   }
 }
 

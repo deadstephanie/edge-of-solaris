@@ -20,9 +20,6 @@ void draw() {
 
 void drawUI() {
   if (screenIndex == 0) {
-    setRect(1);
-    rect(playerX, playerY, 60, 20);
-    
     for (starsBG stars : stars) {
       stars.update();
       stars.display();
@@ -36,6 +33,10 @@ void drawUI() {
       blts.update();
       blts.display();
     }
+    
+    //draw player
+    setRect(1);
+    rect(playerX, playerY, 60, 20);
   }
 }
 
@@ -55,6 +56,6 @@ void initObjects() {
     basicE[i] = new enemy(-200, -200, 0, 0, 0, 0, 0);
   }
   for (int i = 0; i < starCount; i++) {
-    stars[i] = new starsBG(700, int(i * random(120)), int(-1 * random(10)), 0);
+    stars[i] = new starsBG(700, int(i * random(120)), int(-1 * (random(10) + 1)), 0);
   }
 }

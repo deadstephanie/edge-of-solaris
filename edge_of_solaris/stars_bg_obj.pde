@@ -17,7 +17,7 @@ void update() {
   if (starX < 0) {
     starY = int(random(500));
     starX = 700;
-    starSpeedX = int(-1 * random(10));
+    starSpeedX = int(-1 * (random(10) + 1));
   }
 }
 
