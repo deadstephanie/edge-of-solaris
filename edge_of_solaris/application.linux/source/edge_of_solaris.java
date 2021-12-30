@@ -66,13 +66,40 @@ starsBG[] stars;
 
  public void drawUI() {
   if (screenIndex == 0) {
+    textSize(64);
+    fill(255);
+    text("Q and E switch weapons", 50, 650);
   } else if (screenIndex == 1) {
     fill(200, 200, 255, 120);
-    textSize(136);
-    text("Edge Of Solaris", 200, 120);
+    textSize(130);
+    text("Edge Of Solaris", 240, 120);
+    text("Edge Of Solaris", 248, 120);
     fill(200, 200, 255, 255);
     textSize(128);
-    text("Edge Of Solaris", 200, 120);
+    text("Edge Of Solaris", 250, 120);
+    fill(200, 200, 255);
+    textSize(90);
+    text("random bullshit in space", 200, 240);
+    textSize(64);
+    text("new game", 500, 400);
+    text("continue", 500, 500);
+    text("press space to continue (temp)", 50, 650);
+  } else if (screenIndex == 2) {
+    stroke(255);
+    strokeWeight(10);
+    fill(50, 0, 50);
+    rect(950, 25, 300, 75);
+    rect(950, 125, 300, 75);
+    rect(950, 225, 300, 75);
+    rect(950, 325, 300, 75);
+    noStroke();
+    fill(255);
+    textSize(48);
+    text("status", 975, 75);
+    text("mess hall", 975, 175);
+    text("hanger", 975, 275);
+    text("engineering", 975, 375);
+    text("press w to continue (temp)", 50, 650);
   }
 }
 
@@ -245,6 +272,15 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         playerWeapon = 4;
       }
   }
+  if (screenIndex == 1) {
+    if (keyInput[4] == true) screenIndex = 2;
+  }
+  if (screenIndex == 2) {
+    if (keyInput[0] == true) {
+      screenIndex = 0;
+      initObjects();
+    }  
+  }
 }
 
  public void keyPressed() {
@@ -269,8 +305,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void playerShoot() {
   if (playerWeapon == 0) { //machine gun
-    if (timing > 5) {
-    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 18, 5, 0, playerWeapon, 5, 5);
+    if (timing > 10) {
+    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
     playerBulletIndex++;
     if (playerBulletIndex == playerBulletCount) playerBulletIndex = 0;
     timing = 0;
@@ -278,7 +314,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   }
   if (playerWeapon == 4) { //sniper shot
     if (timing > 30) {
-    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 18, 25, 0, playerWeapon, 50, 5);
+    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 9, 30, 0, playerWeapon, 100, 5);
     playerBulletIndex++;
     if (playerBulletIndex == playerBulletCount) playerBulletIndex = 0;
     timing = 0;
@@ -321,7 +357,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int screenIndex = 0;
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select
 int playerBulletCount = 200;
 int basicECount = 2;
 int starCount = 300;
