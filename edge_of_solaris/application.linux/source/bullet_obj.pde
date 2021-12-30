@@ -32,6 +32,9 @@ void reset() {
   bulletHitY = 0;
 }
 
+void explode() {
+}
+
 void display() {
   if (bulletType == 0) {
     stroke(20, 20, 200, 120);

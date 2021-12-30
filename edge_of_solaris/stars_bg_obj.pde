@@ -15,10 +15,17 @@ void update() {
   starX = starX + starSpeedX;
   starY = starY + starSpeedY;
   if (starX < 0) {
-    starY = int(random(500));
-    starX = 700;
+    starY = int(random(720));
+    starX = 1300;
     starSpeedX = int(-1 * (random(10) + 1));
   }
+}
+
+void reset() {
+  starX = -200;
+  starY = -200;
+  starSpeedX = 0;
+  starSpeedY = 0;
 }
 
 void display() {

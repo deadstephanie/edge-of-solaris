@@ -2,7 +2,7 @@
 int screenIndex = 0;
 int playerBulletCount = 200;
 int basicECount = 2;
-int starCount = 150;
+int starCount = 300;
 int timing = 0;
 
 //player vars

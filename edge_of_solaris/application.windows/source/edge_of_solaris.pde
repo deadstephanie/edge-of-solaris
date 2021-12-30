@@ -3,7 +3,7 @@ enemy[] basicE;
 starsBG[] stars;
 
 void setup() {
-  size(640, 480);
+  size(1280, 720);
   blts = new bullet[playerBulletCount];
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
@@ -13,13 +13,16 @@ void setup() {
 void draw() {
   background(0);
   processInput();
+  drawFrame();
   drawUI();
-  basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
-  basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+  if (screenIndex == 0) {
+    basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
+    basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+  }
   if (timing < 255) timing++;
 }
 
-void drawUI() {
+void drawFrame() {
   if (screenIndex == 0) {
     for (starsBG stars : stars) {
       stars.update();
@@ -38,6 +41,21 @@ void drawUI() {
     //draw player
     setRect(1);
     rect(playerX, playerY, 60, 20);
+  } else if (screenIndex == 1) {
+    resetObjects();
+    
+  }
+}
+
+void drawUI() {
+  if (screenIndex == 0) {
+  } else if (screenIndex == 1) {
+    fill(200, 200, 255, 120);
+    textSize(136);
+    text("Edge Of Solaris", 200, 120);
+    fill(200, 200, 255, 255);
+    textSize(128);
+    text("Edge Of Solaris", 200, 120);
   }
 }
 
@@ -61,6 +79,18 @@ void initObjects() {
     basicE[i] = new enemy(-200, -200, 0, 0, 0, 0, 0);
   }
   for (int i = 0; i < starCount; i++) {
-    stars[i] = new starsBG(700, int(i * random(120)), int(-1 * (random(10) + 1)), 0);
+    stars[i] = new starsBG(int(random(1300)), int(random(720)), int(-1 * (random(10) + 1)), 0);
   }
+}
+
+void resetObjects() {
+    for (starsBG stars : stars) {
+      stars.reset();
+    }
+    for (enemy basicE : basicE) {
+      basicE.reset();
+    }
+    for (bullet blts : blts) {
+      blts.reset();
+    }
 }

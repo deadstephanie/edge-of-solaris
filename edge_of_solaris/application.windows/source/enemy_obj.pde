@@ -38,6 +38,16 @@ void collision() {
   }
 }
 
+void reset() {
+  enemyX = -250;
+  enemyY = -250;
+  enemySpeedX = 0;
+  enemySpeedY = 0;
+  enemyType = 0;
+  enemyHitX = 0;
+  enemyHitY = 0;
+}
+
 void display() {
   strokeWeight(1);
   noStroke();

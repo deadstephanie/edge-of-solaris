@@ -30,13 +30,16 @@ starsBG[] stars;
  public void draw() {
   background(0);
   processInput();
+  drawFrame();
   drawUI();
-  basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
-  basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+  if (screenIndex == 0) {
+    basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
+    basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+  }
   if (timing < 255) timing++;
 }
 
- public void drawUI() {
+ public void drawFrame() {
   if (screenIndex == 0) {
     for (starsBG stars : stars) {
       stars.update();
@@ -55,6 +58,21 @@ starsBG[] stars;
     //draw player
     setRect(1);
     rect(playerX, playerY, 60, 20);
+  } else if (screenIndex == 1) {
+    resetObjects();
+    
+  }
+}
+
+ public void drawUI() {
+  if (screenIndex == 0) {
+  } else if (screenIndex == 1) {
+    fill(200, 200, 255, 120);
+    textSize(136);
+    text("Edge Of Solaris", 200, 120);
+    fill(200, 200, 255, 255);
+    textSize(128);
+    text("Edge Of Solaris", 200, 120);
   }
 }
 
@@ -78,8 +96,20 @@ starsBG[] stars;
     basicE[i] = new enemy(-200, -200, 0, 0, 0, 0, 0);
   }
   for (int i = 0; i < starCount; i++) {
-    stars[i] = new starsBG(700, PApplet.parseInt(i * random(120)), PApplet.parseInt(-1 * (random(10) + 1)), 0);
+    stars[i] = new starsBG(PApplet.parseInt(random(1300)), PApplet.parseInt(random(720)), PApplet.parseInt(-1 * (random(10) + 1)), 0);
   }
+}
+
+ public void resetObjects() {
+    for (starsBG stars : stars) {
+      stars.reset();
+    }
+    for (enemy basicE : basicE) {
+      basicE.reset();
+    }
+    for (bullet blts : blts) {
+      blts.reset();
+    }
 }
 class bullet {
   int bulletX;
@@ -113,6 +143,9 @@ bullet(int bulletXtemp, int bulletYtemp, int bulletSpeedXtemp, int bulletSpeedYt
   bulletType = 0;
   bulletHitX = 0;
   bulletHitY = 0;
+}
+
+ public void explode() {
 }
 
  public void display() {
@@ -168,6 +201,16 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       }
     }
   }
+}
+
+ public void reset() {
+  enemyX = -250;
+  enemyY = -250;
+  enemySpeedX = 0;
+  enemySpeedY = 0;
+  enemyType = 0;
+  enemyHitX = 0;
+  enemyHitY = 0;
 }
 
  public void display() {
@@ -259,10 +302,17 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
   starX = starX + starSpeedX;
   starY = starY + starSpeedY;
   if (starX < 0) {
-    starY = PApplet.parseInt(random(500));
-    starX = 700;
+    starY = PApplet.parseInt(random(720));
+    starX = 1300;
     starSpeedX = PApplet.parseInt(-1 * (random(10) + 1));
   }
+}
+
+ public void reset() {
+  starX = -200;
+  starY = -200;
+  starSpeedX = 0;
+  starSpeedY = 0;
 }
 
  public void display() {
@@ -274,7 +324,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 int screenIndex = 0;
 int playerBulletCount = 200;
 int basicECount = 2;
-int starCount = 150;
+int starCount = 300;
 int timing = 0;
 
 //player vars
@@ -289,7 +339,7 @@ int playerBulletIndex = 0;
 boolean keyInput[] = new boolean [15];
 
 
-  public void settings() { size(640, 480); }
+  public void settings() { size(1280, 720); }
 
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "edge_of_solaris" };
