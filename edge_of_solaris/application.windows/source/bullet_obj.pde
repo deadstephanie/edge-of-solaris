@@ -22,9 +22,28 @@ void update() {
   bulletY = bulletY + bulletSpeedY;
 }
 
+void reset() {
+  bulletX = -20;
+  bulletY = -20;
+  bulletSpeedX = 0;
+  bulletSpeedY = 0;
+  bulletType = 0;
+  bulletHitX = 0;
+  bulletHitY = 0;
+}
+
 void display() {
-  fill(255);
-  if (bulletType == 4) fill(255, 0, 255);
-  ellipse(bulletX, bulletY, 5, 5);
+  if (bulletType == 0) {
+    stroke(20, 20, 200, 120);
+    strokeWeight(2);
+    fill(20, 20, 200);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  }
+  if (bulletType == 4) {
+    stroke(255, 120);
+    strokeWeight(10);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  }
 }
 }

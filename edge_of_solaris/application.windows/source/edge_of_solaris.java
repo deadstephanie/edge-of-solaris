@@ -33,6 +33,7 @@ starsBG[] stars;
   drawUI();
   basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
   basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+  if (timing < 255) timing++;
 }
 
  public void drawUI() {
@@ -59,8 +60,12 @@ starsBG[] stars;
 
  public void setRect(int colorIndex) {
   if (colorIndex == 0) {
+    strokeWeight(1);
+    noStroke();
     fill(0);
   } else if (colorIndex == 1) {
+    strokeWeight(1);
+    noStroke();
     fill(255);
   }
 }
@@ -100,10 +105,29 @@ bullet(int bulletXtemp, int bulletYtemp, int bulletSpeedXtemp, int bulletSpeedYt
   bulletY = bulletY + bulletSpeedY;
 }
 
+ public void reset() {
+  bulletX = -20;
+  bulletY = -20;
+  bulletSpeedX = 0;
+  bulletSpeedY = 0;
+  bulletType = 0;
+  bulletHitX = 0;
+  bulletHitY = 0;
+}
+
  public void display() {
-  fill(255);
-  if (bulletType == 4) fill(255, 0, 255);
-  ellipse(bulletX, bulletY, 5, 5);
+  if (bulletType == 0) {
+    stroke(20, 20, 200, 120);
+    strokeWeight(2);
+    fill(20, 20, 200);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  }
+  if (bulletType == 4) {
+    stroke(255, 120);
+    strokeWeight(10);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  }
 }
 }
 class enemy {
@@ -133,10 +157,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void collision() {
   for (int i = 0; i < playerBulletCount; i++) {
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
-      if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX + (blts[i].bulletHitX / 2))) {
+      //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
+      if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
-          if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY + (blts[i].bulletHitY / 2))) {
+          if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             enemyType = 4;
+            if (blts[i].bulletType == 0) blts[i].reset();
           }
         }
       }
@@ -145,6 +171,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void display() {
+  strokeWeight(1);
+  noStroke();
   fill(255, 0, 0);
   if (enemyType == 4) fill(0, 255, 0);
   ellipse(enemyX, enemyY, 25, 25);
@@ -167,6 +195,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (keyInput[4] == true) { //space
         playerShoot();
       }
+      if (keyInput[5] == true) { //q, prev weapon
+        playerWeapon = 0;
+      }
+      if (keyInput[6] == true) { //q, next weapon
+        playerWeapon = 4;
+      }
   }
 }
 
@@ -176,6 +210,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == 'd' || key == 'D')  keyInput[2] = true;
   if (key == 'a' || key == 'A')  keyInput[3] = true;
   if (key == ' ') keyInput[4] = true;
+  if (key == 'q' || key == 'Q')  keyInput[5] = true;
+  if (key == 'e' || key == 'E')  keyInput[6] = true;
 }
 
  public void keyReleased() {
@@ -184,13 +220,26 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == 'd' || key == 'D')  keyInput[2] = false;
   if (key == 'a' || key == 'A')  keyInput[3] = false;
   if (key == ' ') keyInput[4] = false;
+  if (key == 'q' || key == 'Q')  keyInput[5] = false;
+  if (key == 'e' || key == 'E')  keyInput[6] = false;
 }
 
  public void playerShoot() {
-  if (playerWeapon == 0) {
-    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 18, 10, 0, 0, 5, 5);
+  if (playerWeapon == 0) { //machine gun
+    if (timing > 5) {
+    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 18, 5, 0, playerWeapon, 5, 5);
     playerBulletIndex++;
     if (playerBulletIndex == playerBulletCount) playerBulletIndex = 0;
+    timing = 0;
+    }
+  }
+  if (playerWeapon == 4) { //sniper shot
+    if (timing > 30) {
+    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 18, 25, 0, playerWeapon, 50, 5);
+    playerBulletIndex++;
+    if (playerBulletIndex == playerBulletCount) playerBulletIndex = 0;
+    timing = 0;
+    }
   }
 }
 class starsBG {
@@ -224,8 +273,9 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 //game vars
 int screenIndex = 0;
 int playerBulletCount = 200;
-int basicECount = 5;
+int basicECount = 2;
 int starCount = 150;
+int timing = 0;
 
 //player vars
 int playerX = 200;

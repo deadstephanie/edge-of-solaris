@@ -25,10 +25,12 @@ void update() {
 void collision() {
   for (int i = 0; i < playerBulletCount; i++) {
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
-      if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX + (blts[i].bulletHitX / 2))) {
+      //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
+      if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
-          if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY + (blts[i].bulletHitY / 2))) {
+          if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             enemyType = 4;
+            if (blts[i].bulletType == 0) blts[i].reset();
           }
         }
       }
@@ -37,6 +39,8 @@ void collision() {
 }
 
 void display() {
+  strokeWeight(1);
+  noStroke();
   fill(255, 0, 0);
   if (enemyType == 4) fill(0, 255, 0);
   ellipse(enemyX, enemyY, 25, 25);

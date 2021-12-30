@@ -16,6 +16,7 @@ void draw() {
   drawUI();
   basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
   basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+  if (timing < 255) timing++;
 }
 
 void drawUI() {
@@ -42,8 +43,12 @@ void drawUI() {
 
 void setRect(int colorIndex) {
   if (colorIndex == 0) {
+    strokeWeight(1);
+    noStroke();
     fill(0);
   } else if (colorIndex == 1) {
+    strokeWeight(1);
+    noStroke();
     fill(255);
   }
 }

@@ -1,8 +1,9 @@
 //game vars
 int screenIndex = 0;
 int playerBulletCount = 200;
-int basicECount = 5;
+int basicECount = 2;
 int starCount = 150;
+int timing = 0;
 
 //player vars
 int playerX = 200;
