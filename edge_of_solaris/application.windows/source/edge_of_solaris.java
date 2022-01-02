@@ -49,7 +49,7 @@ starsBG[] stars;
     basicE[1].enemyHitX = 25;
     basicE[1].enemyHitY = 25;
     
-    basicE[2].enemyX = 20;
+    basicE[2].enemyX = 700;
     basicE[2].enemyY = 400;
     basicE[2].enemySpeedX = 0;
     basicE[2].enemySpeedY = 0;
@@ -57,7 +57,7 @@ starsBG[] stars;
     basicE[2].enemyHitX = 25;
     basicE[2].enemyHitY = 25;
     
-    basicE[3].enemyX = 20;
+    basicE[3].enemyX = 9000;
     basicE[3].enemyY = 20;
     basicE[3].enemySpeedX = 0;
     basicE[3].enemySpeedY = 0;
@@ -65,7 +65,7 @@ starsBG[] stars;
     basicE[3].enemyHitX = 25;
     basicE[3].enemyHitY = 25;
     
-    basicE[4].enemyX = 400;
+    basicE[4].enemyX = 600;
     basicE[4].enemyY = 20;
     basicE[4].enemySpeedX = 0;
     basicE[4].enemySpeedY = 0;
@@ -298,7 +298,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void shoot() {
     if (enemyType == 0) {
-    if (enemyTiming > 10) {
+    if (enemyTiming > 40) {
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -427,7 +427,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10);
     timing = 0;
     }
   }

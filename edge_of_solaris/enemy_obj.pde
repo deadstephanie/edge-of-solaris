@@ -59,7 +59,7 @@ void hit(int bulletType) {
 
 void shoot() {
     if (enemyType == 0) {
-    if (enemyTiming > 10) {
+    if (enemyTiming > 40) {
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;

@@ -32,7 +32,7 @@ void draw() {
     basicE[1].enemyHitX = 25;
     basicE[1].enemyHitY = 25;
     
-    basicE[2].enemyX = 20;
+    basicE[2].enemyX = 700;
     basicE[2].enemyY = 400;
     basicE[2].enemySpeedX = 0;
     basicE[2].enemySpeedY = 0;
@@ -40,7 +40,7 @@ void draw() {
     basicE[2].enemyHitX = 25;
     basicE[2].enemyHitY = 25;
     
-    basicE[3].enemyX = 20;
+    basicE[3].enemyX = 9000;
     basicE[3].enemyY = 20;
     basicE[3].enemySpeedX = 0;
     basicE[3].enemySpeedY = 0;
@@ -48,7 +48,7 @@ void draw() {
     basicE[3].enemyHitX = 25;
     basicE[3].enemyHitY = 25;
     
-    basicE[4].enemyX = 400;
+    basicE[4].enemyX = 600;
     basicE[4].enemyY = 20;
     basicE[4].enemySpeedX = 0;
     basicE[4].enemySpeedY = 0;

@@ -88,7 +88,7 @@ void playerShoot() {
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10);
     timing = 0;
     }
   }
