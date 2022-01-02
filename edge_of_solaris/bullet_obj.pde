@@ -1,13 +1,13 @@
 class bullet {
-  int bulletX;
-  int bulletY;
+  float bulletX;
+  float bulletY;
   float bulletSpeedX;
   float bulletSpeedY;
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX;
   int bulletHitY;
 
-bullet(int bulletXtemp, int bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -18,10 +18,11 @@ bullet(int bulletXtemp, int bulletYtemp, float bulletSpeedXtemp, float bulletSpe
 }
 
 void update() {
-  if (bulletX > (screenX + 100) || bulletX < -100) bulletType = 255;
-  else bulletX = int(bulletX + bulletSpeedX);
-  if (bulletY > (screenY + 100) || bulletY < -100) bulletType = 255;
-  else bulletY = int(bulletY + bulletSpeedY);
+  if (bulletX > (screenX + 100) || bulletX < -100 || bulletY > (screenY + 100) || bulletY < -100) bulletType = 255;
+  else {
+    bulletX = bulletX + bulletSpeedX;
+    bulletY = bulletY + bulletSpeedY;
+  }
 }
 
 public void reset() {

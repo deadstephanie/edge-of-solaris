@@ -177,15 +177,15 @@ starsBG[] stars;
     }
 }
 class bullet {
-  int bulletX;
-  int bulletY;
+  float bulletX;
+  float bulletY;
   float bulletSpeedX;
   float bulletSpeedY;
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX;
   int bulletHitY;
 
-bullet(int bulletXtemp, int bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -196,10 +196,11 @@ bullet(int bulletXtemp, int bulletYtemp, float bulletSpeedXtemp, float bulletSpe
 }
 
  public void update() {
-  if (bulletX > (screenX + 100) || bulletX < -100) bulletType = 255;
-  else bulletX = PApplet.parseInt(bulletX + bulletSpeedX);
-  if (bulletY > (screenY + 100) || bulletY < -100) bulletType = 255;
-  else bulletY = PApplet.parseInt(bulletY + bulletSpeedY);
+  if (bulletX > (screenX + 100) || bulletX < -100 || bulletY > (screenY + 100) || bulletY < -100) bulletType = 255;
+  else {
+    bulletX = bulletX + bulletSpeedX;
+    bulletY = bulletY + bulletSpeedY;
+  }
 }
 
 public void reset() {
@@ -297,7 +298,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void shoot() {
     if (enemyType == 0) {
-    if (enemyTiming > 30) {
+    if (enemyTiming > 10) {
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -306,17 +307,22 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         bulletIndex = i;
         exit = true;
       } else i++;
-      if (i > bulletCount) {
+      if (i > (bulletCount - 1)) {
         bulletIndex = 0;
         exit = true;
       }
     }
-    float speed = 500; //higher numbers are slower
-    int offsetX = 60; //account for incorrect aim, ie these values change the point of aim
-    int offsetY = 20; //account for incorrect aim
+    float speed = 10; //higher numbers are slower
+    int offsetX = 30; //account for incorraaaaaaaaaaect aim, ie these values change the point of aim
+    int offsetY = 10; //account for incorrect aim
     float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
-    float speedX = (playerX - enemyX + offsetX) / (speed / c);
-    float speedY = (playerY - enemyY + offsetY) / (speed / c);
+    c = c * speed;
+    float speedX = (playerX - enemyX + offsetX);
+    float speedY = (playerY - enemyY + offsetY);
+    speedX = speedX / (c);
+    speedY = speedY / (c);
+    //speedX = speedX / speed;
+    //speedY = speedY / speed;
     blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10);
     enemyTiming = 0;
     }
@@ -463,7 +469,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 //game vars
 int screenIndex = 0; //0 = game, 1 = title, 2 = level select
-int bulletCount = 200;
+int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;
 int timing = 0;

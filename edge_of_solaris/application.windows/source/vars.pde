@@ -1,6 +1,6 @@
 //game vars
 int screenIndex = 0; //0 = game, 1 = title, 2 = level select
-int bulletCount = 200;
+int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;
 int timing = 0;

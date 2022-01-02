@@ -59,7 +59,7 @@ void hit(int bulletType) {
 
 void shoot() {
     if (enemyType == 0) {
-    if (enemyTiming > 30) {
+    if (enemyTiming > 10) {
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -68,17 +68,22 @@ void shoot() {
         bulletIndex = i;
         exit = true;
       } else i++;
-      if (i > bulletCount) {
+      if (i > (bulletCount - 1)) {
         bulletIndex = 0;
         exit = true;
       }
     }
-    float speed = 500; //higher numbers are slower
-    int offsetX = 60; //account for incorrect aim, ie these values change the point of aim
-    int offsetY = 20; //account for incorrect aim
+    float speed = 10; //higher numbers are slower
+    int offsetX = 30; //account for incorraaaaaaaaaaect aim, ie these values change the point of aim
+    int offsetY = 10; //account for incorrect aim
     float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
-    float speedX = (playerX - enemyX + offsetX) / (speed / c);
-    float speedY = (playerY - enemyY + offsetY) / (speed / c);
+    c = c * speed;
+    float speedX = (playerX - enemyX + offsetX);
+    float speedY = (playerY - enemyY + offsetY);
+    speedX = speedX / (c);
+    speedY = speedY / (c);
+    //speedX = speedX / speed;
+    //speedY = speedY / speed;
     blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10);
     enemyTiming = 0;
     }
