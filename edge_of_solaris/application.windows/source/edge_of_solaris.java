@@ -40,6 +40,7 @@ starsBG[] stars;
     basicE[0].enemyType = 0;
     basicE[0].enemyHitX = 25;
     basicE[0].enemyHitY = 25;
+    basicE[0].enemyState = 0;
         
     basicE[1].enemyX = 300;
     basicE[1].enemyY = 400;
@@ -48,6 +49,7 @@ starsBG[] stars;
     basicE[1].enemyType = 0;
     basicE[1].enemyHitX = 25;
     basicE[1].enemyHitY = 25;
+    basicE[1].enemyState = 0;
     
     basicE[2].enemyX = 700;
     basicE[2].enemyY = 400;
@@ -56,6 +58,7 @@ starsBG[] stars;
     basicE[2].enemyType = 0;
     basicE[2].enemyHitX = 25;
     basicE[2].enemyHitY = 25;
+    basicE[2].enemyState = 0;
     
     basicE[3].enemyX = 9000;
     basicE[3].enemyY = 20;
@@ -64,6 +67,7 @@ starsBG[] stars;
     basicE[3].enemyType = 0;
     basicE[3].enemyHitX = 25;
     basicE[3].enemyHitY = 25;
+    basicE[3].enemyState = 0;
     
     basicE[4].enemyX = 600;
     basicE[4].enemyY = 20;
@@ -72,6 +76,7 @@ starsBG[] stars;
     basicE[4].enemyType = 0;
     basicE[4].enemyHitX = 25;
     basicE[4].enemyHitY = 25;
+    basicE[4].enemyState = 0;
   }
   if (timing < 255) timing++;
 }
@@ -94,8 +99,13 @@ starsBG[] stars;
     }
     
     //draw player
-    setRect(1);
+    playerCollision();
+    if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen;
+    if (playerShield > playerShieldMax) playerShield = playerShieldMax;
+    if (playerState == 0) setRect(1);
+    else if (playerState == 1) setRect(2);
     rect(playerX, playerY, 60, 20);
+    playerState = 0; // reset player state after hit/render
   } else if (screenIndex == 1) {
     resetObjects();
     
@@ -106,7 +116,14 @@ starsBG[] stars;
   if (screenIndex == 0) {
     textSize(64);
     fill(255);
-    text("Q and E switch weapons", 50, 650);
+    text("Q and E switch weapons", 50, 600);
+    setRect(3);
+    rect(20, 650, 200, 50);
+    rect(235, 650, 200, 50);
+    setRect(4);
+    rect(23, 653, (194 * (playerHP / playerHPMax)), 44);
+    setRect(5);
+    rect(238, 653, (194 * (playerShield / playerShieldMax)), 44);
   } else if (screenIndex == 1) {
     fill(200, 200, 255, 120);
     textSize(130);
@@ -146,19 +163,33 @@ starsBG[] stars;
     strokeWeight(1);
     noStroke();
     fill(0);
-  } else if (colorIndex == 1) {
+  } else if (colorIndex == 1) { //used for player ship rendering
     strokeWeight(1);
     noStroke();
     fill(255);
+  } else if (colorIndex == 2) { //used for player hurt rendering
+    strokeWeight(5);
+    stroke(200, 0, 0, 100);
+    fill(255, 200, 200);
+  } else if (colorIndex == 3) { //used for hp surround
+    strokeWeight(6);
+    fill(0);
+    stroke(255);
+  } else if (colorIndex == 4) { //used for hp bar fill
+    noStroke();
+    fill(20, 255, 20);
+  } else if (colorIndex == 5) {
+    noStroke();
+    fill(20, 20, 255);
   }
 }
 
  public void initObjects() {
   for (int i = 0; i < bulletCount; i++) {
-    blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0);
+    blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
   }
   for (int i = 0; i < basicECount; i++) {
-    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 1, 0);
+    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 10, 10, 0, 2);
   }
   for (int i = 0; i < starCount; i++) {
     stars[i] = new starsBG(PApplet.parseInt(random(screenX + 20)), PApplet.parseInt(random(screenY)), PApplet.parseInt(-1 * (random(10) + 1)), 0);
@@ -176,6 +207,27 @@ starsBG[] stars;
       blts.reset();
     }
 }
+
+ public void playerCollision() {
+    for (int i = 0; i < bulletCount; i++) {
+   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
+    if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
+      //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
+      if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
+        if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
+          if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
+            if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
+              playerState = 1;
+              if (playerShield > 0) playerShield = playerShield - blts[i].bulletPower;
+            }
+            if (blts[i].bulletType == 200) blts[i].reset();
+          }
+        }
+      }
+    }
+  }
+  }
+}
 class bullet {
   float bulletX;
   float bulletY;
@@ -184,8 +236,9 @@ class bullet {
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX;
   int bulletHitY;
+  int bulletPower;
 
-bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, int bulletPowertemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -193,6 +246,7 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
   bulletType = bulletTypetemp;
   bulletHitX = bulletHitXtemp;
   bulletHitY = bulletHitYtemp;
+  bulletPower = bulletPowertemp;
 }
 
  public void update() {
@@ -211,6 +265,7 @@ public void reset() {
   bulletType = 255;
   bulletHitX = 0;
   bulletHitY = 0;
+  bulletPower = 0;
 }
 
  public void explode() {
@@ -238,17 +293,19 @@ public void reset() {
 }
 }
 class enemy {
-  int enemyX;
-  int enemyY;
-  int enemySpeedX;
-  int enemySpeedY;
-  int enemyType;
-  int enemyHitX;
-  int enemyHitY;
-  int enemyHP;
-  int enemyTiming;
+  int enemyX; //enemy x pos
+  int enemyY; //enemy y pos
+  int enemySpeedX; //enemy x speed
+  int enemySpeedY; //enemy y speed
+  int enemyType; //type of enemy, 0 = basic
+  int enemyHitX; //enemy hitbox x
+  int enemyHitY; //enemy hitbox y
+  float enemyHP; //enemy current hp
+  float enemyHPMax; //enemy max hp
+  int enemyTiming; //enemy timing, used for projectile shot timing
+  int enemyState; //0 = normal, 1 = hurt, 2 = dead
 
-enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, int enemyTypetemp, int enemyHitXtemp, int enemyHitYtemp, int enemyHPtemp, int enemyTimingtemp) {
+enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, int enemyTypetemp, int enemyHitXtemp, int enemyHitYtemp, float enemyHPtemp, float enemyHPMaxtemp, int enemyTimingtemp, int enemyStatetemp) {
   enemyX = enemyXtemp;
   enemyY = enemyYtemp;
   enemySpeedX = enemySpeedXtemp;
@@ -257,28 +314,36 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   enemyHitX = enemyHitXtemp;
   enemyHitY = enemyHitYtemp;
   enemyHP = enemyHPtemp;
+  enemyHPMax = enemyHPMaxtemp;
   enemyTiming = enemyTimingtemp;
+  enemyState = enemyStatetemp;
 }
 
  public void update() {
-  enemyX = enemyX + enemySpeedX;
-  enemyY = enemyY + enemySpeedY;
-  if (enemyTiming < 255) enemyTiming++;
+  enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed
+  enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
+  if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+  if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
 }
 
  public void collision() {
-  for (int i = 0; i < bulletCount; i++) {
+  for (int i = 0; i < bulletCount; i++) { //run for every bullet instance
+   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType == 0 || blts[i].bulletType == 4) enemyType = 4;
-            if (blts[i].bulletType == 0) blts[i].reset();
+            if (blts[i].bulletType == 0 || blts[i].bulletType == 4) { //check if bullet type is player projectile
+              enemyState = 1; //change enemy to hurt state
+              enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
+            }
+            if (blts[i].bulletType == 0) blts[i].reset(); //reset bullet on impact if not snipe shot
           }
         }
       }
     }
+  }
   }
 }
 
@@ -290,6 +355,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   enemyType = 0;
   enemyHitX = 0;
   enemyHitY = 0;
+  enemyHP = 0;
+  enemyHPMax = 0;
+  enemyState = 2; //dead
 }
 
  public void hit(int bulletType) {
@@ -313,17 +381,15 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       }
     }
     float speed = 10; //higher numbers are slower
-    int offsetX = 30; //account for incorraaaaaaaaaaect aim, ie these values change the point of aim
+    int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
     float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
-    c = c * speed;
+    c = c * speed; //scale c (distance hypotenuse) to speed
     float speedX = (playerX - enemyX + offsetX);
     float speedY = (playerY - enemyY + offsetY);
     speedX = speedX / (c);
     speedY = speedY / (c);
-    //speedX = speedX / speed;
-    //speedY = speedY / speed;
-    blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10);
+    blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
     enemyTiming = 0;
     }
   }
@@ -332,8 +398,14 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void display() {
   strokeWeight(1);
   noStroke();
+  if (enemyState != 2) { //do not display hp bar if enemy is dead
+    fill(20, 255, 20, 100);
+    rect(enemyX - 10, enemyY - 20, (20 * (enemyHP / enemyHPMax)), 5);
+  }
   fill(255, 0, 0);
-  if (enemyType == 4) fill(0, 255, 0);
+  if (enemyState == 1) {
+    fill(0, 255, 0);
+  }
   ellipse(enemyX, enemyY, 25, 25);
 }
 }
@@ -408,7 +480,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10, 5);
     timing = 0;
     }
   }
@@ -427,7 +499,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10);
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10, 5);
     timing = 0;
     }
   }
@@ -479,10 +551,18 @@ int screenY = 720;
 //player vars
 int playerX = 200;
 int playerY = 250;
+int playerHitX = 60;
+int playerHitY = 20;
 int playerMoveX = 2;
 int playerMoveY = 2;
 int playerWeapon = 0;
+int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
+float playerShield = 20;
+float playerShieldMax = 100;
+float playerShieldRegen = 0.5f;
+float playerHP = 50;
+float playerHPMax = 100;
 
 //input vars
 boolean keyInput[] = new boolean [15];

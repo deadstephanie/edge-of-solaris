@@ -1,15 +1,17 @@
 class enemy {
-  int enemyX;
-  int enemyY;
-  int enemySpeedX;
-  int enemySpeedY;
-  int enemyType;
-  int enemyHitX;
-  int enemyHitY;
-  int enemyHP;
-  int enemyTiming;
+  int enemyX; //enemy x pos
+  int enemyY; //enemy y pos
+  int enemySpeedX; //enemy x speed
+  int enemySpeedY; //enemy y speed
+  int enemyType; //type of enemy, 0 = basic
+  int enemyHitX; //enemy hitbox x
+  int enemyHitY; //enemy hitbox y
+  float enemyHP; //enemy current hp
+  float enemyHPMax; //enemy max hp
+  int enemyTiming; //enemy timing, used for projectile shot timing
+  int enemyState; //0 = normal, 1 = hurt, 2 = dead
 
-enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, int enemyTypetemp, int enemyHitXtemp, int enemyHitYtemp, int enemyHPtemp, int enemyTimingtemp) {
+enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, int enemyTypetemp, int enemyHitXtemp, int enemyHitYtemp, float enemyHPtemp, float enemyHPMaxtemp, int enemyTimingtemp, int enemyStatetemp) {
   enemyX = enemyXtemp;
   enemyY = enemyYtemp;
   enemySpeedX = enemySpeedXtemp;
@@ -18,28 +20,36 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   enemyHitX = enemyHitXtemp;
   enemyHitY = enemyHitYtemp;
   enemyHP = enemyHPtemp;
+  enemyHPMax = enemyHPMaxtemp;
   enemyTiming = enemyTimingtemp;
+  enemyState = enemyStatetemp;
 }
 
 void update() {
-  enemyX = enemyX + enemySpeedX;
-  enemyY = enemyY + enemySpeedY;
-  if (enemyTiming < 255) enemyTiming++;
+  enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed
+  enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
+  if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+  if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
 }
 
 void collision() {
-  for (int i = 0; i < bulletCount; i++) {
+  for (int i = 0; i < bulletCount; i++) { //run for every bullet instance
+   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType == 0 || blts[i].bulletType == 4) enemyType = 4;
-            if (blts[i].bulletType == 0) blts[i].reset();
+            if (blts[i].bulletType == 0 || blts[i].bulletType == 4) { //check if bullet type is player projectile
+              enemyState = 1; //change enemy to hurt state
+              enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
+            }
+            if (blts[i].bulletType == 0) blts[i].reset(); //reset bullet on impact if not snipe shot
           }
         }
       }
     }
+  }
   }
 }
 
@@ -51,6 +61,9 @@ void reset() {
   enemyType = 0;
   enemyHitX = 0;
   enemyHitY = 0;
+  enemyHP = 0;
+  enemyHPMax = 0;
+  enemyState = 2; //dead
 }
 
 void hit(int bulletType) {
@@ -74,17 +87,15 @@ void shoot() {
       }
     }
     float speed = 10; //higher numbers are slower
-    int offsetX = 30; //account for incorraaaaaaaaaaect aim, ie these values change the point of aim
+    int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
     float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
-    c = c * speed;
+    c = c * speed; //scale c (distance hypotenuse) to speed
     float speedX = (playerX - enemyX + offsetX);
     float speedY = (playerY - enemyY + offsetY);
     speedX = speedX / (c);
     speedY = speedY / (c);
-    //speedX = speedX / speed;
-    //speedY = speedY / speed;
-    blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10);
+    blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
     enemyTiming = 0;
     }
   }
@@ -93,8 +104,14 @@ void shoot() {
 void display() {
   strokeWeight(1);
   noStroke();
+  if (enemyState != 2) { //do not display hp bar if enemy is dead
+    fill(20, 255, 20, 100);
+    rect(enemyX - 10, enemyY - 20, (20 * (enemyHP / enemyHPMax)), 5);
+  }
   fill(255, 0, 0);
-  if (enemyType == 4) fill(0, 255, 0);
+  if (enemyState == 1) {
+    fill(0, 255, 0);
+  }
   ellipse(enemyX, enemyY, 25, 25);
 }
 }

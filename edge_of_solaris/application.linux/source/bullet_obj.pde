@@ -6,8 +6,9 @@ class bullet {
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX;
   int bulletHitY;
+  int bulletPower;
 
-bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, int bulletPowertemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -15,6 +16,7 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
   bulletType = bulletTypetemp;
   bulletHitX = bulletHitXtemp;
   bulletHitY = bulletHitYtemp;
+  bulletPower = bulletPowertemp;
 }
 
 void update() {
@@ -33,6 +35,7 @@ public void reset() {
   bulletType = 255;
   bulletHitX = 0;
   bulletHitY = 0;
+  bulletPower = 0;
 }
 
 void explode() {
