@@ -56,17 +56,39 @@ void keyReleased() {
 void playerShoot() {
   if (playerWeapon == 0) { //machine gun
     if (timing > 10) {
-    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
-    playerBulletIndex++;
-    if (playerBulletIndex == playerBulletCount) playerBulletIndex = 0;
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (blts[i].bulletType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > bulletCount) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
     timing = 0;
     }
   }
   if (playerWeapon == 4) { //sniper shot
     if (timing > 30) {
-    blts[playerBulletIndex] = new bullet(playerX + 55, playerY + 9, 30, 0, playerWeapon, 100, 5);
-    playerBulletIndex++;
-    if (playerBulletIndex == playerBulletCount) playerBulletIndex = 0;
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (blts[i].bulletType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > bulletCount) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10);
     timing = 0;
     }
   }

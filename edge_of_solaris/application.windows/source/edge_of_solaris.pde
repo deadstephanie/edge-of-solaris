@@ -4,7 +4,7 @@ starsBG[] stars;
 
 void setup() {
   size(1280, 720);
-  blts = new bullet[playerBulletCount];
+  blts = new bullet[bulletCount];
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
   initObjects();
@@ -16,8 +16,45 @@ void draw() {
   drawFrame();
   drawUI();
   if (screenIndex == 0) {
-    basicE[0] = new enemy(500, 200, 0, 0, 0, 25, 25);
-    basicE[1] = new enemy(400, 300, 0, 0, 0, 25, 25);
+    basicE[0].enemyX = 500;
+    basicE[0].enemyY = 200;
+    basicE[0].enemySpeedX = 0;
+    basicE[0].enemySpeedY = 0;
+    basicE[0].enemyType = 0;
+    basicE[0].enemyHitX = 25;
+    basicE[0].enemyHitY = 25;
+        
+    basicE[1].enemyX = 300;
+    basicE[1].enemyY = 400;
+    basicE[1].enemySpeedX = 0;
+    basicE[1].enemySpeedY = 0;
+    basicE[1].enemyType = 0;
+    basicE[1].enemyHitX = 25;
+    basicE[1].enemyHitY = 25;
+    
+    basicE[2].enemyX = 20;
+    basicE[2].enemyY = 400;
+    basicE[2].enemySpeedX = 0;
+    basicE[2].enemySpeedY = 0;
+    basicE[2].enemyType = 0;
+    basicE[2].enemyHitX = 25;
+    basicE[2].enemyHitY = 25;
+    
+    basicE[3].enemyX = 20;
+    basicE[3].enemyY = 20;
+    basicE[3].enemySpeedX = 0;
+    basicE[3].enemySpeedY = 0;
+    basicE[3].enemyType = 0;
+    basicE[3].enemyHitX = 25;
+    basicE[3].enemyHitY = 25;
+    
+    basicE[4].enemyX = 400;
+    basicE[4].enemyY = 20;
+    basicE[4].enemySpeedX = 0;
+    basicE[4].enemySpeedY = 0;
+    basicE[4].enemyType = 0;
+    basicE[4].enemyHitX = 25;
+    basicE[4].enemyHitY = 25;
   }
   if (timing < 255) timing++;
 }
@@ -30,6 +67,7 @@ void drawFrame() {
     }
     for (enemy basicE : basicE) {
       basicE.collision();
+      basicE.shoot();
       basicE.update();
       basicE.display();
     }
@@ -99,14 +137,14 @@ void setRect(int colorIndex) {
 }
 
 void initObjects() {
-  for (int i = 0; i < playerBulletCount; i++) {
-    blts[i] = new bullet(-20, -20, 0, 0, 0, 0, 0);
+  for (int i = 0; i < bulletCount; i++) {
+    blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0);
   }
   for (int i = 0; i < basicECount; i++) {
-    basicE[i] = new enemy(-200, -200, 0, 0, 0, 0, 0);
+    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 1, 0);
   }
   for (int i = 0; i < starCount; i++) {
-    stars[i] = new starsBG(int(random(1300)), int(random(720)), int(-1 * (random(10) + 1)), 0);
+    stars[i] = new starsBG(int(random(screenX + 20)), int(random(screenY)), int(-1 * (random(10) + 1)), 0);
   }
 }
 

@@ -1,13 +1,13 @@
 class bullet {
   int bulletX;
   int bulletY;
-  int bulletSpeedX;
-  int bulletSpeedY;
-  int bulletType;
+  float bulletSpeedX;
+  float bulletSpeedY;
+  int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX;
   int bulletHitY;
 
-bullet(int bulletXtemp, int bulletYtemp, int bulletSpeedXtemp, int bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
+bullet(int bulletXtemp, int bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -18,16 +18,18 @@ bullet(int bulletXtemp, int bulletYtemp, int bulletSpeedXtemp, int bulletSpeedYt
 }
 
 void update() {
-  bulletX = bulletX + bulletSpeedX;
-  bulletY = bulletY + bulletSpeedY;
+  if (bulletX > (screenX + 100) || bulletX < -100) bulletType = 255;
+  else bulletX = int(bulletX + bulletSpeedX);
+  if (bulletY > (screenY + 100) || bulletY < -100) bulletType = 255;
+  else bulletY = int(bulletY + bulletSpeedY);
 }
 
-void reset() {
+public void reset() {
   bulletX = -20;
   bulletY = -20;
   bulletSpeedX = 0;
   bulletSpeedY = 0;
-  bulletType = 0;
+  bulletType = 255;
   bulletHitX = 0;
   bulletHitY = 0;
 }
@@ -42,9 +44,15 @@ void display() {
     fill(20, 20, 200);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
-  if (bulletType == 4) {
+  else if (bulletType == 4) {
     stroke(255, 120);
     strokeWeight(10);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  }
+  else if (bulletType == 200) {
+    stroke(255, 20, 20, 120);
+    strokeWeight(2);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
