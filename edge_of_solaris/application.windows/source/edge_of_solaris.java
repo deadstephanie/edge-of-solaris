@@ -4,6 +4,8 @@ import processing.data.*;
 import processing.event.*;
 import processing.opengl.*;
 
+import java.io.*;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.io.File;
@@ -19,12 +21,15 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 
- public void setup() {
+
+
+ public void setup(){
   /* size commented out by preprocessor */;
   blts = new bullet[bulletCount];
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
-  initObjects();
+  initObjects(); //initializes all objects to "default" values
+  loadText(); //load the text file for visual novel text
 }
 
  public void draw() {
@@ -100,23 +105,25 @@ starsBG[] stars;
     
     //draw player
     playerCollision();
-    if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen;
-    if (playerShield > playerShieldMax) playerShield = playerShieldMax;
-    if (playerState == 0) setRect(1);
-    else if (playerState == 1) setRect(2);
-    rect(playerX, playerY, 60, 20);
+    if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen; //regen shield if depleted
+    if (playerShield > playerShieldMax) playerShield = playerShieldMax; //ensure shield does not increase past max
+    if (playerState == 0) setRect(1); //if player not being hurt
+    else if (playerState == 1) setRect(2); //if player being hurt
+    rect(playerX, playerY, 60, 20); //render player model
     playerState = 0; // reset player state after hit/render
   } else if (screenIndex == 1) {
-    resetObjects();
-    
+    resetObjects(); //reset objects on non game screens 
+  } else if (screenIndex == 3) {
+    drawVN();
   }
 }
 
  public void drawUI() {
-  if (screenIndex == 0) {
+  if (screenIndex == 0) { //in game
     textSize(64);
     fill(255);
     text("Q and E switch weapons", 50, 600);
+    //render hp and shield bars
     setRect(3);
     rect(20, 650, 200, 50);
     rect(235, 650, 200, 50);
@@ -124,7 +131,7 @@ starsBG[] stars;
     rect(23, 653, (194 * (playerHP / playerHPMax)), 44);
     setRect(5);
     rect(238, 653, (194 * (playerShield / playerShieldMax)), 44);
-  } else if (screenIndex == 1) {
+  } else if (screenIndex == 1) { //title page
     fill(200, 200, 255, 120);
     textSize(130);
     text("Edge Of Solaris", 240, 120);
@@ -139,7 +146,7 @@ starsBG[] stars;
     text("new game", 500, 400);
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
-  } else if (screenIndex == 2) {
+  } else if (screenIndex == 2) { //level select
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
@@ -184,7 +191,7 @@ starsBG[] stars;
   }
 }
 
- public void initObjects() {
+ public void initObjects() { //set all objects to default (meant to be run in setup)
   for (int i = 0; i < bulletCount; i++) {
     blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
   }
@@ -196,7 +203,7 @@ starsBG[] stars;
   }
 }
 
- public void resetObjects() {
+ public void resetObjects() { //resets objects (similar to init but meant to be run in main loop)
     for (starsBG stars : stars) {
       stars.reset();
     }
@@ -208,9 +215,9 @@ starsBG[] stars;
     }
 }
 
- public void playerCollision() {
+ public void playerCollision() { //check to see if an enemy bullet 
     for (int i = 0; i < bulletCount; i++) {
-   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
+   if (blts[i].bulletType == 200 || blts[i].bulletType == 201) { //check to ensure bullet is an enemy bullet
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
@@ -218,7 +225,11 @@ starsBG[] stars;
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
               playerState = 1;
-              if (playerShield > 0) playerShield = playerShield - blts[i].bulletPower;
+              playerShield = playerShield - blts[i].bulletPower;
+              if (playerShield < 0) { //if shield goes negative
+                playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
+                playerShield = 0; //make sure player shield does not go negative
+              }
             }
             if (blts[i].bulletType == 200) blts[i].reset();
           }
@@ -229,14 +240,14 @@ starsBG[] stars;
   }
 }
 class bullet {
-  float bulletX;
-  float bulletY;
-  float bulletSpeedX;
-  float bulletSpeedY;
+  float bulletX; //bullet x pos
+  float bulletY; //bullet y pos
+  float bulletSpeedX; //bullet x speed
+  float bulletSpeedY; //bullet y speed
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
-  int bulletHitX;
-  int bulletHitY;
-  int bulletPower;
+  int bulletHitX; //bullet hitbox x
+  int bulletHitY; //bullet hitbox y
+  int bulletPower; //bullet impact damage (defined on bullet gen)
 
 bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, int bulletPowertemp) {
   bulletX = bulletXtemp;
@@ -250,10 +261,10 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
 }
 
  public void update() {
-  if (bulletX > (screenX + 100) || bulletX < -100 || bulletY > (screenY + 100) || bulletY < -100) bulletType = 255;
-  else {
-    bulletX = bulletX + bulletSpeedX;
-    bulletY = bulletY + bulletSpeedY;
+  if (bulletX > (screenX + 100) || bulletX < -100 || bulletY > (screenY + 100) || bulletY < -100) bulletType = 255; //destroy bullet if off screen
+  else { //if bullet is not off screen, update bullet position
+    bulletX = bulletX + bulletSpeedX; //update bullet x according to x speed
+    bulletY = bulletY + bulletSpeedY; //update bullet y according to y speed
   }
 }
 
@@ -272,19 +283,19 @@ public void reset() {
 }
 
  public void display() {
-  if (bulletType == 0) {
+  if (bulletType == 0) { //machine gun
     stroke(20, 20, 200, 120);
     strokeWeight(2);
     fill(20, 20, 200);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
-  else if (bulletType == 4) {
+  else if (bulletType == 4) { //snipe shot
     stroke(255, 120);
     strokeWeight(10);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
-  else if (bulletType == 200) {
+  else if (bulletType == 200) { //basic enemy shot
     stroke(255, 20, 20, 120);
     strokeWeight(2);
     fill(255);
@@ -365,8 +376,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void shoot() {
-    if (enemyType == 0) {
-    if (enemyTiming > 40) {
+    if (enemyType == 0 && enemyState != 2) { //check to see if enemy is basic and not dead
+    if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -405,9 +416,18 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   fill(255, 0, 0);
   if (enemyState == 1) {
     fill(0, 255, 0);
+  } else if (enemyState == 2) {
+    fill(255, 255, 0);
   }
   ellipse(enemyX, enemyY, 25, 25);
 }
+}
+ public void loadText() {
+  String[] lines = loadStrings("text.txt");
+  for (int i = 0 ; i < lines.length; i++) {
+    println(lines[i]);
+    textLines[i] = lines[i];
+  }
 }
  public void processInput() {
   if (screenIndex == 0) {
@@ -540,7 +560,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int screenIndex = 0; //0 = game, 1 = title, 2 = level select
+int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;
@@ -566,6 +586,29 @@ float playerHPMax = 100;
 
 //input vars
 boolean keyInput[] = new boolean [15];
+
+//visual novel vars
+int eventIndex = 0; //index value for events
+int textIndex = 0; //index value for which line of dialogue should be displayed
+int bgIndex = 0; //background index
+int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
+String[] textLines = new String[99]; //used for each line of dialogue
+ public void drawVN() {
+  strokeWeight(2);
+  stroke(255);
+  fill(20, 20, 255);
+  rect(20, 450, 1240, 250, 20);
+  rect(1150, 650, 100, 40, 5);
+  rect(1040, 650, 100, 40, 5);
+  textSize(48);
+  fill(255);
+  noStroke();
+  text(textLines[textIndex], 35, 460, 1230, 250);
+  textSize(32);
+  text("SKIP", 1050, 680);
+  text("NEXT", 1160, 680);
+  
+}
 
 
   public void settings() { size(1280, 720); }

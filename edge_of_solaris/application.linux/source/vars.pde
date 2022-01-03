@@ -1,5 +1,5 @@
 //game vars
-int screenIndex = 0; //0 = game, 1 = title, 2 = level select
+int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;
@@ -25,3 +25,10 @@ float playerHPMax = 100;
 
 //input vars
 boolean keyInput[] = new boolean [15];
+
+//visual novel vars
+int eventIndex = 0; //index value for events
+int textIndex = 0; //index value for which line of dialogue should be displayed
+int bgIndex = 0; //background index
+int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
+String[] textLines = new String[99]; //used for each line of dialogue

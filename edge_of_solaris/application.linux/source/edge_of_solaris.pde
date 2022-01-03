@@ -2,12 +2,15 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 
-void setup() {
+import java.io.*;
+
+void setup(){
   size(1280, 720);
   blts = new bullet[bulletCount];
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
-  initObjects();
+  initObjects(); //initializes all objects to "default" values
+  loadText(); //load the text file for visual novel text
 }
 
 void draw() {
@@ -83,23 +86,25 @@ void drawFrame() {
     
     //draw player
     playerCollision();
-    if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen;
-    if (playerShield > playerShieldMax) playerShield = playerShieldMax;
-    if (playerState == 0) setRect(1);
-    else if (playerState == 1) setRect(2);
-    rect(playerX, playerY, 60, 20);
+    if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen; //regen shield if depleted
+    if (playerShield > playerShieldMax) playerShield = playerShieldMax; //ensure shield does not increase past max
+    if (playerState == 0) setRect(1); //if player not being hurt
+    else if (playerState == 1) setRect(2); //if player being hurt
+    rect(playerX, playerY, 60, 20); //render player model
     playerState = 0; // reset player state after hit/render
   } else if (screenIndex == 1) {
-    resetObjects();
-    
+    resetObjects(); //reset objects on non game screens 
+  } else if (screenIndex == 3) {
+    drawVN();
   }
 }
 
 void drawUI() {
-  if (screenIndex == 0) {
+  if (screenIndex == 0) { //in game
     textSize(64);
     fill(255);
     text("Q and E switch weapons", 50, 600);
+    //render hp and shield bars
     setRect(3);
     rect(20, 650, 200, 50);
     rect(235, 650, 200, 50);
@@ -107,7 +112,7 @@ void drawUI() {
     rect(23, 653, (194 * (playerHP / playerHPMax)), 44);
     setRect(5);
     rect(238, 653, (194 * (playerShield / playerShieldMax)), 44);
-  } else if (screenIndex == 1) {
+  } else if (screenIndex == 1) { //title page
     fill(200, 200, 255, 120);
     textSize(130);
     text("Edge Of Solaris", 240, 120);
@@ -122,7 +127,7 @@ void drawUI() {
     text("new game", 500, 400);
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
-  } else if (screenIndex == 2) {
+  } else if (screenIndex == 2) { //level select
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
@@ -167,7 +172,7 @@ void setRect(int colorIndex) {
   }
 }
 
-void initObjects() {
+void initObjects() { //set all objects to default (meant to be run in setup)
   for (int i = 0; i < bulletCount; i++) {
     blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
   }
@@ -179,7 +184,7 @@ void initObjects() {
   }
 }
 
-void resetObjects() {
+void resetObjects() { //resets objects (similar to init but meant to be run in main loop)
     for (starsBG stars : stars) {
       stars.reset();
     }
@@ -191,9 +196,9 @@ void resetObjects() {
     }
 }
 
-void playerCollision() {
+void playerCollision() { //check to see if an enemy bullet 
     for (int i = 0; i < bulletCount; i++) {
-   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
+   if (blts[i].bulletType == 200 || blts[i].bulletType == 201) { //check to ensure bullet is an enemy bullet
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
@@ -201,7 +206,11 @@ void playerCollision() {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
               playerState = 1;
-              if (playerShield > 0) playerShield = playerShield - blts[i].bulletPower;
+              playerShield = playerShield - blts[i].bulletPower;
+              if (playerShield < 0) { //if shield goes negative
+                playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
+                playerShield = 0; //make sure player shield does not go negative
+              }
             }
             if (blts[i].bulletType == 200) blts[i].reset();
           }

@@ -71,8 +71,8 @@ void hit(int bulletType) {
 }
 
 void shoot() {
-    if (enemyType == 0) {
-    if (enemyTiming > 40) {
+    if (enemyType == 0 && enemyState != 2) { //check to see if enemy is basic and not dead
+    if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -111,6 +111,8 @@ void display() {
   fill(255, 0, 0);
   if (enemyState == 1) {
     fill(0, 255, 0);
+  } else if (enemyState == 2) {
+    fill(255, 255, 0);
   }
   ellipse(enemyX, enemyY, 25, 25);
 }
