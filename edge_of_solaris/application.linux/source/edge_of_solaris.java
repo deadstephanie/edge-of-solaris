@@ -75,7 +75,7 @@ PImage player1;
     else {
       setRect(2); //if player being hurt
       playerState--;  
-      rect(playerX, playerY, playerHitX, playerHitY); //render player hurt state
+      rect(playerX, playerY, playerHitX, playerHitY, 10); //render player hurt state
     }
     noStroke();
     fill(0, 127, 255, 100);
@@ -592,7 +592,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 10, 10, 5);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 7, 7, 5);
     timing = 0;
     }
   }
@@ -611,7 +611,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 25, 0, playerWeapon, 100, 10, 10);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 25, 0, playerWeapon, 100, 5, 10);
     timing = 0;
     }
   }
@@ -647,7 +647,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 
  public void display() {
-  fill(255);
+  fill(255, 150);
   ellipse(starX, starY, 5, 5);
 }
 }

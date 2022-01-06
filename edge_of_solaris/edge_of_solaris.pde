@@ -56,7 +56,7 @@ void drawFrame() {
     else {
       setRect(2); //if player being hurt
       playerState--;  
-      rect(playerX, playerY, playerHitX, playerHitY); //render player hurt state
+      rect(playerX, playerY, playerHitX, playerHitY, 10); //render player hurt state
     }
     noStroke();
     fill(0, 127, 255, 100);
