@@ -30,6 +30,7 @@ void update() {
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
   if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
+  else enemyState = 0; //set enemy as alive if not dead
 }
 
 void collision() {
@@ -96,6 +97,24 @@ void shoot() {
     speedX = speedX / (c);
     speedY = speedY / (c);
     blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
+    enemyTiming = 0;
+    }
+  } else if (enemyType == 1 && enemyState != 2) { //check to see if enemy is basic2 and not dead
+    if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (blts[i].bulletType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (bulletCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+    blts[bulletIndex] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 5, 10);
     enemyTiming = 0;
     }
   }

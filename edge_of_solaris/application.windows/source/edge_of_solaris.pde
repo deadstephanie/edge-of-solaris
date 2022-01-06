@@ -26,7 +26,6 @@ void draw() {
     basicE[0].enemyType = 0;
     basicE[0].enemyHitX = 25;
     basicE[0].enemyHitY = 25;
-    basicE[0].enemyState = 0;
         
     basicE[1].enemyX = 300;
     basicE[1].enemyY = 400;
@@ -35,7 +34,6 @@ void draw() {
     basicE[1].enemyType = 0;
     basicE[1].enemyHitX = 25;
     basicE[1].enemyHitY = 25;
-    basicE[1].enemyState = 0;
     
     basicE[2].enemyX = 700;
     basicE[2].enemyY = 400;
@@ -44,7 +42,6 @@ void draw() {
     basicE[2].enemyType = 0;
     basicE[2].enemyHitX = 25;
     basicE[2].enemyHitY = 25;
-    basicE[2].enemyState = 0;
     
     basicE[3].enemyX = 9000;
     basicE[3].enemyY = 20;
@@ -53,7 +50,6 @@ void draw() {
     basicE[3].enemyType = 0;
     basicE[3].enemyHitX = 25;
     basicE[3].enemyHitY = 25;
-    basicE[3].enemyState = 0;
     
     basicE[4].enemyX = 600;
     basicE[4].enemyY = 20;
@@ -62,7 +58,22 @@ void draw() {
     basicE[4].enemyType = 0;
     basicE[4].enemyHitX = 25;
     basicE[4].enemyHitY = 25;
-    basicE[4].enemyState = 0;
+    
+    basicE[5].enemyX = 900;
+    basicE[5].enemyY = 200;
+    basicE[5].enemySpeedX = 0;
+    basicE[5].enemySpeedY = 0;
+    basicE[5].enemyType = 1;
+    basicE[5].enemyHitX = 25;
+    basicE[5].enemyHitY = 25;
+    
+    basicE[6].enemyX = 1100;
+    basicE[6].enemyY = 550;
+    basicE[6].enemySpeedX = 0;
+    basicE[6].enemySpeedY = 0;
+    basicE[6].enemyType = 1;
+    basicE[6].enemyHitX = 25;
+    basicE[6].enemyHitY = 25;
   }
   if (timing < 255) timing++;
 }
@@ -74,9 +85,9 @@ void drawFrame() {
       stars.display();
     }
     for (enemy basicE : basicE) {
+      basicE.update();
       basicE.collision();
       basicE.shoot();
-      basicE.update();
       basicE.display();
     }
     for (bullet blts : blts) {
@@ -90,7 +101,7 @@ void drawFrame() {
     if (playerShield > playerShieldMax) playerShield = playerShieldMax; //ensure shield does not increase past max
     if (playerState == 0) setRect(1); //if player not being hurt
     else if (playerState == 1) setRect(2); //if player being hurt
-    rect(playerX, playerY, 60, 20); //render player model
+    rect(playerX, playerY, playerHitX, playerHitY); //render player model
     playerState = 0; // reset player state after hit/render
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 

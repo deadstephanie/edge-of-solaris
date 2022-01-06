@@ -1,5 +1,5 @@
 //game vars
-int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;
@@ -10,8 +10,8 @@ int screenY = 720;
 //player vars
 int playerX = 200;
 int playerY = 250;
-int playerHitX = 60;
-int playerHitY = 20;
+int playerHitX = 40;
+int playerHitY = 15;
 int playerMoveX = 2;
 int playerMoveY = 2;
 int playerWeapon = 0;
