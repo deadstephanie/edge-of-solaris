@@ -2,6 +2,9 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 
+PImage enemy1;
+PImage player1;
+
 import java.io.*;
 
 void setup(){
@@ -11,6 +14,7 @@ void setup(){
   stars = new starsBG[starCount];
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
+  loadSprites(); //load in png images for sprites
 }
 
 void draw() {
@@ -52,8 +56,10 @@ void drawFrame() {
     else {
       setRect(2); //if player being hurt
       playerState--;  
+      rect(playerX, playerY, playerHitX, playerHitY); //render player hurt state
     }
-    rect(playerX, playerY, playerHitX, playerHitY); //render player model
+    
+    image(player1, playerX - 5, playerY - 5); //player sprite
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
@@ -118,7 +124,7 @@ void setRect(int colorIndex) {
     noStroke();
     fill(255);
   } else if (colorIndex == 2) { //used for player hurt rendering
-    strokeWeight(5);
+    strokeWeight(10);
     stroke(200, 0, 0, 100);
     fill(255, 200, 200);
   } else if (colorIndex == 3) { //used for hp surround

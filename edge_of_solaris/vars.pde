@@ -12,10 +12,10 @@ int screenY = 720;
 //player vars
 int playerX = 200;
 int playerY = 250;
-int playerHitX = 40;
-int playerHitY = 15;
-int playerMoveX = 2;
-int playerMoveY = 2;
+int playerHitX = 30;
+int playerHitY = 7;
+int playerMoveX = 3;
+int playerMoveY = 3;
 int playerWeapon = 0;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;

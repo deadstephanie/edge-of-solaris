@@ -1,11 +1,11 @@
 class enemy {
-  int enemyX; //enemy x pos
-  int enemyY; //enemy y pos
-  int enemySpeedX; //enemy x speed
-  int enemySpeedY; //enemy y speed
-  int enemyType; //type of enemy, 0 = basic
-  int enemyHitX; //enemy hitbox x
-  int enemyHitY; //enemy hitbox y
+  float enemyX; //enemy x pos
+  float enemyY; //enemy y pos
+  float enemySpeedX; //enemy x speed
+  float enemySpeedY; //enemy y speed
+  int enemyType; //type of enemy, 0 = basic, 1 = big
+  float enemyHitX; //enemy hitbox x
+  float enemyHitY; //enemy hitbox y
   float enemyHP; //enemy current hp
   float enemyHPMax; //enemy max hp
   int enemyTiming; //enemy timing, used for projectile shot timing
@@ -146,6 +146,9 @@ void display() {
     fill(255, 240, 60, 150);
     ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 1), enemyHitY + (enemyTiming * 1));
     enemyTiming--;
+  }
+  if (enemyType == 0 && enemyState != 2) {
+    image(enemy1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
   }
 }
 }

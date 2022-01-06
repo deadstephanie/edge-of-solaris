@@ -5,3 +5,8 @@ void loadText() {
     textLines[i] = lines[i];
   }
 }
+
+void loadSprites() {
+  enemy1 = loadImage("assets/png/enemy/1.png");
+  player1 = loadImage("assets/png/player/1.png");
+}

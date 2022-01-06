@@ -21,6 +21,9 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 
+PImage enemy1;
+PImage player1;
+
 
 
  public void setup(){
@@ -30,6 +33,7 @@ starsBG[] stars;
   stars = new starsBG[starCount];
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
+  loadSprites(); //load in png images for sprites
 }
 
  public void draw() {
@@ -71,8 +75,10 @@ starsBG[] stars;
     else {
       setRect(2); //if player being hurt
       playerState--;  
+      rect(playerX, playerY, playerHitX, playerHitY); //render player hurt state
     }
-    rect(playerX, playerY, playerHitX, playerHitY); //render player model
+    
+    image(player1, playerX - 5, playerY - 5); //player sprite
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
@@ -137,7 +143,7 @@ starsBG[] stars;
     noStroke();
     fill(255);
   } else if (colorIndex == 2) { //used for player hurt rendering
-    strokeWeight(5);
+    strokeWeight(10);
     stroke(200, 0, 0, 100);
     fill(255, 200, 200);
   } else if (colorIndex == 3) { //used for hp surround
@@ -266,13 +272,13 @@ public void reset() {
 }
 }
 class enemy {
-  int enemyX; //enemy x pos
-  int enemyY; //enemy y pos
-  int enemySpeedX; //enemy x speed
-  int enemySpeedY; //enemy y speed
-  int enemyType; //type of enemy, 0 = basic
-  int enemyHitX; //enemy hitbox x
-  int enemyHitY; //enemy hitbox y
+  float enemyX; //enemy x pos
+  float enemyY; //enemy y pos
+  float enemySpeedX; //enemy x speed
+  float enemySpeedY; //enemy y speed
+  int enemyType; //type of enemy, 0 = basic, 1 = big
+  float enemyHitX; //enemy hitbox x
+  float enemyHitY; //enemy hitbox y
   float enemyHP; //enemy current hp
   float enemyHPMax; //enemy max hp
   int enemyTiming; //enemy timing, used for projectile shot timing
@@ -414,6 +420,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 1), enemyHitY + (enemyTiming * 1));
     enemyTiming--;
   }
+  if (enemyType == 0 && enemyState != 2) {
+    image(enemy1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+  }
 }
 }
  public void loadText() {
@@ -422,6 +431,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     println(lines[i]);
     textLines[i] = lines[i];
   }
+}
+
+ public void loadSprites() {
+  enemy1 = loadImage("assets/png/enemy/1.png");
+  player1 = loadImage("assets/png/player/1.png");
 }
  public void placeEnemies() {
   if (levelIndex == 0) {
@@ -567,7 +581,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 5, 0, playerWeapon, 10, 10, 5);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 10, 10, 5);
     timing = 0;
     }
   }
@@ -586,7 +600,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10, 10);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 25, 0, playerWeapon, 100, 10, 10);
     timing = 0;
     }
   }
@@ -640,10 +654,10 @@ int screenY = 720;
 //player vars
 int playerX = 200;
 int playerY = 250;
-int playerHitX = 40;
-int playerHitY = 15;
-int playerMoveX = 2;
-int playerMoveY = 2;
+int playerHitX = 30;
+int playerHitY = 7;
+int playerMoveX = 3;
+int playerMoveY = 3;
 int playerWeapon = 0;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
