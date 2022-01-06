@@ -1,5 +1,7 @@
 //game vars
 int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int levelIndex = 0; //what level the player is playing, 0 is test level
+boolean enemiesPlaced = false; //used to only place enemies once per level load
 int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;

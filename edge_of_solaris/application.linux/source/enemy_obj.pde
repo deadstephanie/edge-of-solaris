@@ -35,7 +35,7 @@ void update() {
 
 void collision() {
   for (int i = 0; i < bulletCount; i++) { //run for every bullet instance
-   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
+   if (blts[i].bulletType != 255 && enemyState != 2) { //check to ensure bullet is not inactive (for efficiency) and enemy is not dead
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
@@ -125,7 +125,7 @@ void display() {
   noStroke();
   if (enemyState != 2) { //do not display hp bar if enemy is dead
     fill(20, 255, 20, 100);
-    rect(enemyX - 10, enemyY - 20, (20 * (enemyHP / enemyHPMax)), 5);
+    rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
   }
   fill(255, 0, 0);
   if (enemyState == 1) {
@@ -133,6 +133,6 @@ void display() {
   } else if (enemyState == 2) {
     fill(255, 255, 0);
   }
-  ellipse(enemyX, enemyY, 25, 25);
+  ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
 }
 }

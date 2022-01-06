@@ -38,61 +38,10 @@ starsBG[] stars;
   drawFrame();
   drawUI();
   if (screenIndex == 0) {
-    basicE[0].enemyX = 500;
-    basicE[0].enemyY = 200;
-    basicE[0].enemySpeedX = 0;
-    basicE[0].enemySpeedY = 0;
-    basicE[0].enemyType = 0;
-    basicE[0].enemyHitX = 25;
-    basicE[0].enemyHitY = 25;
-        
-    basicE[1].enemyX = 300;
-    basicE[1].enemyY = 400;
-    basicE[1].enemySpeedX = 0;
-    basicE[1].enemySpeedY = 0;
-    basicE[1].enemyType = 0;
-    basicE[1].enemyHitX = 25;
-    basicE[1].enemyHitY = 25;
-    
-    basicE[2].enemyX = 700;
-    basicE[2].enemyY = 400;
-    basicE[2].enemySpeedX = 0;
-    basicE[2].enemySpeedY = 0;
-    basicE[2].enemyType = 0;
-    basicE[2].enemyHitX = 25;
-    basicE[2].enemyHitY = 25;
-    
-    basicE[3].enemyX = 9000;
-    basicE[3].enemyY = 20;
-    basicE[3].enemySpeedX = 0;
-    basicE[3].enemySpeedY = 0;
-    basicE[3].enemyType = 0;
-    basicE[3].enemyHitX = 25;
-    basicE[3].enemyHitY = 25;
-    
-    basicE[4].enemyX = 600;
-    basicE[4].enemyY = 20;
-    basicE[4].enemySpeedX = 0;
-    basicE[4].enemySpeedY = 0;
-    basicE[4].enemyType = 0;
-    basicE[4].enemyHitX = 25;
-    basicE[4].enemyHitY = 25;
-    
-    basicE[5].enemyX = 900;
-    basicE[5].enemyY = 200;
-    basicE[5].enemySpeedX = 0;
-    basicE[5].enemySpeedY = 0;
-    basicE[5].enemyType = 1;
-    basicE[5].enemyHitX = 25;
-    basicE[5].enemyHitY = 25;
-    
-    basicE[6].enemyX = 1100;
-    basicE[6].enemyY = 550;
-    basicE[6].enemySpeedX = 0;
-    basicE[6].enemySpeedY = 0;
-    basicE[6].enemyType = 1;
-    basicE[6].enemyHitX = 25;
-    basicE[6].enemyHitY = 25;
+    if (enemiesPlaced == false) {
+      placeEnemies();
+      enemiesPlaced = true;
+    }
   }
   if (timing < 255) timing++;
 }
@@ -351,7 +300,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void collision() {
   for (int i = 0; i < bulletCount; i++) { //run for every bullet instance
-   if (blts[i].bulletType != 255) { //check to ensure bullet is not inactive (for efficiency)
+   if (blts[i].bulletType != 255 && enemyState != 2) { //check to ensure bullet is not inactive (for efficiency) and enemy is not dead
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
@@ -441,7 +390,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   noStroke();
   if (enemyState != 2) { //do not display hp bar if enemy is dead
     fill(20, 255, 20, 100);
-    rect(enemyX - 10, enemyY - 20, (20 * (enemyHP / enemyHPMax)), 5);
+    rect(enemyX - (enemyHitX * 0.45f), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
   }
   fill(255, 0, 0);
   if (enemyState == 1) {
@@ -449,7 +398,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (enemyState == 2) {
     fill(255, 255, 0);
   }
-  ellipse(enemyX, enemyY, 25, 25);
+  ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
 }
 }
  public void loadText() {
@@ -457,6 +406,79 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   for (int i = 0 ; i < lines.length; i++) {
     println(lines[i]);
     textLines[i] = lines[i];
+  }
+}
+ public void placeEnemies() {
+  if (levelIndex == 0) {
+    basicE[0].enemyX = 500;
+    basicE[0].enemyY = 200;
+    basicE[0].enemySpeedX = 0;
+    basicE[0].enemySpeedY = 0;
+    basicE[0].enemyType = 0;
+    basicE[0].enemyHitX = 25;
+    basicE[0].enemyHitY = 25;
+    basicE[0].enemyHP = 10;
+    basicE[0].enemyHPMax = 10;
+        
+    basicE[1].enemyX = 300;
+    basicE[1].enemyY = 400;
+    basicE[1].enemySpeedX = 0;
+    basicE[1].enemySpeedY = 0;
+    basicE[1].enemyType = 0;
+    basicE[1].enemyHitX = 25;
+    basicE[1].enemyHitY = 25;
+    basicE[1].enemyHP = 10;
+    basicE[1].enemyHPMax = 10;
+    
+    basicE[2].enemyX = 700;
+    basicE[2].enemyY = 400;
+    basicE[2].enemySpeedX = 0;
+    basicE[2].enemySpeedY = 0;
+    basicE[2].enemyType = 0;
+    basicE[2].enemyHitX = 25;
+    basicE[2].enemyHitY = 25;
+    basicE[2].enemyHP = 10;
+    basicE[2].enemyHPMax = 10;
+    
+    basicE[3].enemyX = 9000;
+    basicE[3].enemyY = 20;
+    basicE[3].enemySpeedX = 0;
+    basicE[3].enemySpeedY = 0;
+    basicE[3].enemyType = 0;
+    basicE[3].enemyHitX = 25;
+    basicE[3].enemyHitY = 25;
+    basicE[3].enemyHP = 10;
+    basicE[3].enemyHPMax = 10;
+    
+    basicE[4].enemyX = 600;
+    basicE[4].enemyY = 20;
+    basicE[4].enemySpeedX = 0;
+    basicE[4].enemySpeedY = 0;
+    basicE[4].enemyType = 0;
+    basicE[4].enemyHitX = 25;
+    basicE[4].enemyHitY = 25;
+    basicE[4].enemyHP = 10;
+    basicE[4].enemyHPMax = 10;
+    
+    basicE[5].enemyX = 900;
+    basicE[5].enemyY = 200;
+    basicE[5].enemySpeedX = 0;
+    basicE[5].enemySpeedY = 0;
+    basicE[5].enemyType = 1;
+    basicE[5].enemyHitX = 40;
+    basicE[5].enemyHitY = 40;
+    basicE[5].enemyHP = 30;
+    basicE[5].enemyHPMax = 30;
+    
+    basicE[6].enemyX = 1100;
+    basicE[6].enemyY = 550;
+    basicE[6].enemySpeedX = 0;
+    basicE[6].enemySpeedY = 0;
+    basicE[6].enemyType = 1;
+    basicE[6].enemyHitX = 40;
+    basicE[6].enemyHitY = 40;
+    basicE[6].enemyHP = 30;
+    basicE[6].enemyHPMax = 30;
   }
 }
  public void processInput() {
@@ -549,7 +571,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10, 5);
+    blts[bulletIndex] = new bullet(playerX + 55, playerY + 9, 25, 0, playerWeapon, 100, 10, 10);
     timing = 0;
     }
   }
@@ -591,6 +613,8 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 //game vars
 int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int levelIndex = 0; //what level the player is playing, 0 is test level
+boolean enemiesPlaced = false; //used to only place enemies once per level load
 int bulletCount = 500;
 int basicECount = 20;
 int starCount = 300;
