@@ -68,9 +68,11 @@ starsBG[] stars;
     if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen; //regen shield if depleted
     if (playerShield > playerShieldMax) playerShield = playerShieldMax; //ensure shield does not increase past max
     if (playerState == 0) setRect(1); //if player not being hurt
-    else if (playerState == 1) setRect(2); //if player being hurt
+    else {
+      setRect(2); //if player being hurt
+      playerState--;  
+    }
     rect(playerX, playerY, playerHitX, playerHitY); //render player model
-    playerState = 0; // reset player state after hit/render
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
@@ -184,7 +186,7 @@ starsBG[] stars;
         if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
-              playerState = 1;
+              playerState = 10;
               playerShield = playerShield - blts[i].bulletPower;
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
@@ -293,7 +295,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void update() {
   enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
-  if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+  if (enemyTiming < 255 && enemyState != 2) enemyTiming++; //increment enemy timer (used for timing enemy firing
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
   else enemyState = 0; //set enemy as alive if not dead
 }
@@ -309,6 +311,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
             if (blts[i].bulletType == 0 || blts[i].bulletType == 4) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
+              if (enemyHP <= 0) {
+                enemyTiming = 30; //start timer over for death anim
+                enemyState = 2; //set enemy to dead
+              }
             }
             if (blts[i].bulletType == 0) blts[i].reset(); //reset bullet on impact if not snipe shot
           }
@@ -393,12 +399,21 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     rect(enemyX - (enemyHitX * 0.45f), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
   }
   fill(255, 0, 0);
-  if (enemyState == 1) {
-    fill(0, 255, 0);
-  } else if (enemyState == 2) {
+  if (enemyState == 0) {
+    fill(255, 0, 0);
+    ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+  } else if (enemyState == 1) {
     fill(255, 255, 0);
+    ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+  } else if (enemyState == 2 && enemyTiming !=0) { //death anim
+    fill(255, 127, 0, 100);
+    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 3), enemyHitY + (enemyTiming * 3));
+    fill(255, 165, 0, 120);
+    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 2), enemyHitY + (enemyTiming * 2));
+    fill(255, 240, 60, 150);
+    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 1), enemyHitY + (enemyTiming * 1));
+    enemyTiming--;
   }
-  ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
 }
 }
  public void loadText() {
@@ -612,7 +627,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int levelIndex = 0; //what level the player is playing, 0 is test level
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int bulletCount = 500;
@@ -647,6 +662,9 @@ int textIndex = 0; //index value for which line of dialogue should be displayed
 int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
 String[] textLines = new String[99]; //used for each line of dialogue
+
+//animation timing vars
+int playerHurtTimer = 0;
  public void drawVN() {
   strokeWeight(2);
   stroke(255);

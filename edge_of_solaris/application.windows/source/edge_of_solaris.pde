@@ -49,9 +49,11 @@ void drawFrame() {
     if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen; //regen shield if depleted
     if (playerShield > playerShieldMax) playerShield = playerShieldMax; //ensure shield does not increase past max
     if (playerState == 0) setRect(1); //if player not being hurt
-    else if (playerState == 1) setRect(2); //if player being hurt
+    else {
+      setRect(2); //if player being hurt
+      playerState--;  
+    }
     rect(playerX, playerY, playerHitX, playerHitY); //render player model
-    playerState = 0; // reset player state after hit/render
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
@@ -165,7 +167,7 @@ void playerCollision() { //check to see if an enemy bullet
         if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
-              playerState = 1;
+              playerState = 10;
               playerShield = playerShield - blts[i].bulletPower;
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is

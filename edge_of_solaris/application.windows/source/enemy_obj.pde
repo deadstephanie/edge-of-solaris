@@ -28,7 +28,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 void update() {
   enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
-  if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+  if (enemyTiming < 255 && enemyState != 2) enemyTiming++; //increment enemy timer (used for timing enemy firing
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
   else enemyState = 0; //set enemy as alive if not dead
 }
@@ -44,6 +44,10 @@ void collision() {
             if (blts[i].bulletType == 0 || blts[i].bulletType == 4) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
+              if (enemyHP <= 0) {
+                enemyTiming = 30; //start timer over for death anim
+                enemyState = 2; //set enemy to dead
+              }
             }
             if (blts[i].bulletType == 0) blts[i].reset(); //reset bullet on impact if not snipe shot
           }
@@ -128,11 +132,20 @@ void display() {
     rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
   }
   fill(255, 0, 0);
-  if (enemyState == 1) {
-    fill(0, 255, 0);
-  } else if (enemyState == 2) {
+  if (enemyState == 0) {
+    fill(255, 0, 0);
+    ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+  } else if (enemyState == 1) {
     fill(255, 255, 0);
+    ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+  } else if (enemyState == 2 && enemyTiming !=0) { //death anim
+    fill(255, 127, 0, 100);
+    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 3), enemyHitY + (enemyTiming * 3));
+    fill(255, 165, 0, 120);
+    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 2), enemyHitY + (enemyTiming * 2));
+    fill(255, 240, 60, 150);
+    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 1), enemyHitY + (enemyTiming * 1));
+    enemyTiming--;
   }
-  ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
 }
 }
