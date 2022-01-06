@@ -10,8 +10,8 @@ int screenX = 1280;
 int screenY = 720;
 
 //player vars
-int playerX = 200;
-int playerY = 250;
+float playerX = 200;
+float playerY = 250;
 int playerHitX = 30;
 int playerHitY = 7;
 int playerMoveX = 3;
@@ -36,4 +36,4 @@ int textTiming = 0; //used for rendering each letter individually, ie it looks l
 String[] textLines = new String[99]; //used for each line of dialogue
 
 //animation timing vars
-int playerHurtTimer = 0;
+int playerEngineTimer = 0;

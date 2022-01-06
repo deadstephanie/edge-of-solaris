@@ -77,6 +77,17 @@ PImage player1;
       playerState--;  
       rect(playerX, playerY, playerHitX, playerHitY); //render player hurt state
     }
+    noStroke();
+    fill(0, 127, 255, 100);
+    ellipse(playerX - 10, playerY + 2.5f, 30 + abs(playerEngineTimer / 3), 10);
+    fill(0, 165, 255, 120);
+    ellipse(playerX - 7, playerY + 2.5f, 20 + abs(playerEngineTimer / 3), 10);
+    fill(60, 240, 255, 150);
+    ellipse(playerX - 5, playerY + 2.5f, 15 + abs(playerEngineTimer / 3), 8);
+    fill(100, 240, 255, 200);
+    ellipse(playerX - 5, playerY + 2.5f, 10 + abs(playerEngineTimer / 3), 6);
+    playerEngineTimer++;
+    if (playerEngineTimer == 15) playerEngineTimer = -15;
     
     image(player1, playerX - 5, playerY - 5); //player sprite
   } else if (screenIndex == 1) {
@@ -652,8 +663,8 @@ int screenX = 1280;
 int screenY = 720;
 
 //player vars
-int playerX = 200;
-int playerY = 250;
+float playerX = 200;
+float playerY = 250;
 int playerHitX = 30;
 int playerHitY = 7;
 int playerMoveX = 3;
@@ -678,7 +689,7 @@ int textTiming = 0; //used for rendering each letter individually, ie it looks l
 String[] textLines = new String[99]; //used for each line of dialogue
 
 //animation timing vars
-int playerHurtTimer = 0;
+int playerEngineTimer = 0;
  public void drawVN() {
   strokeWeight(2);
   stroke(255);

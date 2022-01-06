@@ -58,6 +58,17 @@ void drawFrame() {
       playerState--;  
       rect(playerX, playerY, playerHitX, playerHitY); //render player hurt state
     }
+    noStroke();
+    fill(0, 127, 255, 100);
+    ellipse(playerX - 10, playerY + 2.5, 30 + abs(playerEngineTimer / 3), 10);
+    fill(0, 165, 255, 120);
+    ellipse(playerX - 7, playerY + 2.5, 20 + abs(playerEngineTimer / 3), 10);
+    fill(60, 240, 255, 150);
+    ellipse(playerX - 5, playerY + 2.5, 15 + abs(playerEngineTimer / 3), 8);
+    fill(100, 240, 255, 200);
+    ellipse(playerX - 5, playerY + 2.5, 10 + abs(playerEngineTimer / 3), 6);
+    playerEngineTimer++;
+    if (playerEngineTimer == 15) playerEngineTimer = -15;
     
     image(player1, playerX - 5, playerY - 5); //player sprite
   } else if (screenIndex == 1) {
