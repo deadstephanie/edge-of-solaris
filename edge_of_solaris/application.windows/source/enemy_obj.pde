@@ -3,7 +3,7 @@ class enemy {
   float enemyY; //enemy y pos
   float enemySpeedX; //enemy x speed
   float enemySpeedY; //enemy y speed
-  int enemyType; //type of enemy, 0 = basic, 1 = big
+  int enemyType; //type of enemy, 0 = basic, 1 = big, 2 = modema ship
   float enemyHitX; //enemy hitbox x
   float enemyHitY; //enemy hitbox y
   float enemyHP; //enemy current hp
@@ -76,21 +76,9 @@ void hit(int bulletType) {
 }
 
 void shoot() {
-    if (enemyType == 0 && enemyState != 2) { //check to see if enemy is basic and not dead
+   if (enemyState != 2) {
+    if (enemyType == 0) { //check to see if enemy is basic and not dead
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > (bulletCount - 1)) {
-        bulletIndex = 0;
-        exit = true;
-      }
-    }
     float speed = 10; //higher numbers are slower
     int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
@@ -100,28 +88,25 @@ void shoot() {
     float speedY = (playerY - enemyY + offsetY);
     speedX = speedX / (c);
     speedY = speedY / (c);
-    blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
     enemyTiming = 0;
     }
-  } else if (enemyType == 1 && enemyState != 2) { //check to see if enemy is basic2 and not dead
+  } else if (enemyType == 1) { //check to see if enemy is basic2 and not dead
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > (bulletCount - 1)) {
-        bulletIndex = 0;
-        exit = true;
-      }
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 5, 10);
+    enemyTiming = 0;
     }
-    blts[bulletIndex] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 5, 10);
+  } else if (enemyType == 2) { //check to see if enemy is basic2 and not dead
+    if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +2, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -2, 200, 10, 10, 10);
     enemyTiming = 0;
     }
   }
+   }
 }
 
 void display() {
@@ -149,6 +134,8 @@ void display() {
   }
   if (enemyType == 0 && enemyState != 2) {
     image(enemy1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+  } else if (enemyType == 2 && enemyState != 2) {
+    image(enemy2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
   }
 }
 }

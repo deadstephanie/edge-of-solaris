@@ -8,5 +8,6 @@ void loadText() {
 
 void loadSprites() {
   enemy1 = loadImage("assets/png/enemy/1.png");
+  enemy2 = loadImage("assets/png/enemy/2-r.png");
   player1 = loadImage("assets/png/player/2.png");
 }

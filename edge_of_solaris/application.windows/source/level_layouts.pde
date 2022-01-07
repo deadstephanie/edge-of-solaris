@@ -61,7 +61,7 @@ void placeEnemies() {
     basicE[5].enemyHPMax = 30;
     
     basicE[6].enemyX = 1100;
-    basicE[6].enemyY = 550;
+    basicE[6].enemyY = 650;
     basicE[6].enemySpeedX = 0;
     basicE[6].enemySpeedY = 0;
     basicE[6].enemyType = 1;
@@ -69,5 +69,15 @@ void placeEnemies() {
     basicE[6].enemyHitY = 40;
     basicE[6].enemyHP = 30;
     basicE[6].enemyHPMax = 30;
+    
+    basicE[7].enemyX = 800;
+    basicE[7].enemyY = 500;
+    basicE[7].enemySpeedX = 0;
+    basicE[7].enemySpeedY = 0;
+    basicE[7].enemyType = 2;
+    basicE[7].enemyHitX = 40;
+    basicE[7].enemyHitY = 15;
+    basicE[7].enemyHP = 30;
+    basicE[7].enemyHPMax = 30;
   }
 }

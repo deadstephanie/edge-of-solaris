@@ -3,6 +3,7 @@ enemy[] basicE;
 starsBG[] stars;
 
 PImage enemy1;
+PImage enemy2;
 PImage player1;
 
 import java.io.*;
@@ -198,4 +199,21 @@ void playerCollision() { //check to see if an enemy bullet
     }
   }
   }
+}
+
+int findBullet () {
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (blts[i].bulletType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (bulletCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
 }

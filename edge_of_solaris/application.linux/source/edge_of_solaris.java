@@ -22,6 +22,7 @@ enemy[] basicE;
 starsBG[] stars;
 
 PImage enemy1;
+PImage enemy2;
 PImage player1;
 
 
@@ -218,6 +219,23 @@ PImage player1;
   }
   }
 }
+
+ public int findBullet () {
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (blts[i].bulletType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (bulletCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
+}
 class bullet {
   float bulletX; //bullet x pos
   float bulletY; //bullet y pos
@@ -287,7 +305,7 @@ class enemy {
   float enemyY; //enemy y pos
   float enemySpeedX; //enemy x speed
   float enemySpeedY; //enemy y speed
-  int enemyType; //type of enemy, 0 = basic, 1 = big
+  int enemyType; //type of enemy, 0 = basic, 1 = big, 2 = modema ship
   float enemyHitX; //enemy hitbox x
   float enemyHitY; //enemy hitbox y
   float enemyHP; //enemy current hp
@@ -360,21 +378,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void shoot() {
-    if (enemyType == 0 && enemyState != 2) { //check to see if enemy is basic and not dead
+   if (enemyState != 2) {
+    if (enemyType == 0) { //check to see if enemy is basic and not dead
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > (bulletCount - 1)) {
-        bulletIndex = 0;
-        exit = true;
-      }
-    }
     float speed = 10; //higher numbers are slower
     int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
@@ -384,28 +390,25 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     float speedY = (playerY - enemyY + offsetY);
     speedX = speedX / (c);
     speedY = speedY / (c);
-    blts[bulletIndex] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
     enemyTiming = 0;
     }
-  } else if (enemyType == 1 && enemyState != 2) { //check to see if enemy is basic2 and not dead
+  } else if (enemyType == 1) { //check to see if enemy is basic2 and not dead
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > (bulletCount - 1)) {
-        bulletIndex = 0;
-        exit = true;
-      }
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 5, 10);
+    enemyTiming = 0;
     }
-    blts[bulletIndex] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 5, 10);
+  } else if (enemyType == 2) { //check to see if enemy is basic2 and not dead
+    if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +2, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, 0, 200, 50, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -2, 200, 10, 10, 10);
     enemyTiming = 0;
     }
   }
+   }
 }
 
  public void display() {
@@ -433,6 +436,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   }
   if (enemyType == 0 && enemyState != 2) {
     image(enemy1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+  } else if (enemyType == 2 && enemyState != 2) {
+    image(enemy2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
   }
 }
 }
@@ -446,6 +451,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void loadSprites() {
   enemy1 = loadImage("assets/png/enemy/1.png");
+  enemy2 = loadImage("assets/png/enemy/2-r.png");
   player1 = loadImage("assets/png/player/2.png");
 }
  public void placeEnemies() {
@@ -511,7 +517,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[5].enemyHPMax = 30;
     
     basicE[6].enemyX = 1100;
-    basicE[6].enemyY = 550;
+    basicE[6].enemyY = 650;
     basicE[6].enemySpeedX = 0;
     basicE[6].enemySpeedY = 0;
     basicE[6].enemyType = 1;
@@ -519,6 +525,16 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[6].enemyHitY = 40;
     basicE[6].enemyHP = 30;
     basicE[6].enemyHPMax = 30;
+    
+    basicE[7].enemyX = 800;
+    basicE[7].enemyY = 500;
+    basicE[7].enemySpeedX = 0;
+    basicE[7].enemySpeedY = 0;
+    basicE[7].enemyType = 2;
+    basicE[7].enemyHitX = 40;
+    basicE[7].enemyHitY = 15;
+    basicE[7].enemyHP = 30;
+    basicE[7].enemyHPMax = 30;
   }
 }
  public void processInput() {
@@ -592,7 +608,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 7, 7, 5);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 10, 10, 5);
     timing = 0;
     }
   }

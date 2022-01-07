@@ -69,7 +69,7 @@ void playerShoot() {
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 7, 7, 5);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 10, 10, 5);
     timing = 0;
     }
   }
