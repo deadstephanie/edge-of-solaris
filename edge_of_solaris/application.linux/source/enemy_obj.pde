@@ -10,8 +10,9 @@ class enemy {
   float enemyHPMax; //enemy max hp
   int enemyTiming; //enemy timing, used for projectile shot timing
   int enemyState; //0 = normal, 1 = hurt, 2 = dead
+  float enemyMoveTiming; //used to move enemies in various ways
 
-enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, int enemyTypetemp, int enemyHitXtemp, int enemyHitYtemp, float enemyHPtemp, float enemyHPMaxtemp, int enemyTimingtemp, int enemyStatetemp) {
+enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, int enemyTypetemp, int enemyHitXtemp, int enemyHitYtemp, float enemyHPtemp, float enemyHPMaxtemp, int enemyTimingtemp, int enemyStatetemp, int enemyMoveTimingtemp) {
   enemyX = enemyXtemp;
   enemyY = enemyYtemp;
   enemySpeedX = enemySpeedXtemp;
@@ -23,6 +24,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   enemyHPMax = enemyHPMaxtemp;
   enemyTiming = enemyTimingtemp;
   enemyState = enemyStatetemp;
+  enemyMoveTiming = enemyMoveTimingtemp;
 }
 
 void update() {
@@ -31,6 +33,10 @@ void update() {
   if (enemyTiming < 255 && enemyState != 2) enemyTiming++; //increment enemy timer (used for timing enemy firing
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
   else enemyState = 0; //set enemy as alive if not dead
+  if (enemyType == 0 && enemyState != 2) {
+    enemySpeedY = (sin((enemyMoveTiming / 1)) * 1);
+    enemyMoveTiming = enemyMoveTiming + 0.025;
+  }
 }
 
 void collision() {
@@ -76,7 +82,7 @@ void hit(int bulletType) {
 }
 
 void shoot() {
-   if (enemyState != 2) {
+   if (enemyState != 2 && enemyX > 0 && enemyX < 1250) {
     if (enemyType == 0) { //check to see if enemy is basic and not dead
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     float speed = 10; //higher numbers are slower

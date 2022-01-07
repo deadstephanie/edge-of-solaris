@@ -29,7 +29,7 @@ void reset() {
 }
 
 void display() {
-  fill(255, 150);
+  fill(255, (175 - (starSpeedX * 10)));
   ellipse(starX, starY, 5, 5);
 }
 }

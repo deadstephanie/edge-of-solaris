@@ -157,7 +157,7 @@ void initObjects() { //set all objects to default (meant to be run in setup)
     blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
   }
   for (int i = 0; i < basicECount; i++) {
-    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 10, 10, 0, 2);
+    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 10, 10, 0, 2, 0);
   }
   for (int i = 0; i < starCount; i++) {
     stars[i] = new starsBG(int(random(screenX + 20)), int(random(screenY)), int(-1 * (random(10) + 1)), 0);
