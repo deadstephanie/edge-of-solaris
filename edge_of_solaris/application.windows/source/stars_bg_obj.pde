@@ -29,7 +29,9 @@ void reset() {
 }
 
 void display() {
-  fill(255, (175 - (starSpeedX * 10)));
+  strokeWeight(10);
+  stroke(255, 25);
+  fill(255, (175 - (starSpeedX * 20)));
   ellipse(starX, starY, 5, 5);
 }
 }

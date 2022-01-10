@@ -2,8 +2,9 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 
-PImage enemy1;
-PImage enemy2;
+PImage naturals1;
+PImage naturals2;
+PImage naturals3;
 PImage player1;
 
 import java.io.*;
@@ -59,6 +60,8 @@ void drawFrame() {
       playerState--;  
       rect(playerX, playerY, playerHitX, playerHitY, 10); //render player hurt state
     }
+    
+    //render the engine glow effect
     noStroke();
     fill(0, 127, 255, 100);
     ellipse(playerX - 10, playerY + 2.5, 30 + abs(playerEngineTimer / 3), 10);
@@ -83,15 +86,26 @@ void drawUI() {
   if (screenIndex == 0) { //in game
     textSize(64);
     fill(255);
-    text("Q and E switch weapons", 50, 600);
+    //text("Q and E switch weapons", 50, 600);
+    
     //render hp and shield bars
-    setRect(3);
-    rect(20, 650, 200, 50);
-    rect(235, 650, 200, 50);
     setRect(4);
-    rect(23, 653, (194 * (playerHP / playerHPMax)), 44);
+    rect(23, 653.5, (194 * (playerHP / playerHPMax)), 44);
     setRect(5);
-    rect(238, 653, (194 * (playerShield / playerShieldMax)), 44);
+    rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
+    setRect(3); //render surrounds
+    noFill();
+    rect(20, 650, 200, 50, 10);
+    rect(235, 650, 200, 50, 10);
+    fill(0);
+    
+    //render weapon selector
+    stroke(255);
+    strokeWeight(2);
+    rect(450, 653, 30, 20, 5);
+    rect(450, 678, 30, 20, 5);
+    rect(485, 653, 30, 20, 5);
+    rect(485, 678, 30, 20, 5);
   } else if (screenIndex == 1) { //title page
     fill(200, 200, 255, 120);
     textSize(130);

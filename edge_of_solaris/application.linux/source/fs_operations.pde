@@ -7,7 +7,8 @@ void loadText() {
 }
 
 void loadSprites() {
-  enemy1 = loadImage("assets/png/enemy/1.png");
-  enemy2 = loadImage("assets/png/enemy/2-r.png");
-  player1 = loadImage("assets/png/player/2.png");
+  naturals1 = loadImage("assets/png/naturals/3-x.png");
+  naturals2 = loadImage("assets/png/naturals/2-x.png");
+  naturals3 = loadImage("assets/png/naturals/1-x.png");
+  player1 = loadImage("assets/png/player/3.png");
 }

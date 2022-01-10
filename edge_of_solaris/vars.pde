@@ -5,10 +5,11 @@ boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500;
 int basicECount = 20;
-int starCount = 300;
-int timing = 0;
+int starCount = 300; //how many stars to display
+int timing = 0; //used for various timings, namely the players weapon firing timer
 int screenX = 1280;
 int screenY = 720;
+float autoScroll = -2; //controls how fast the 
 
 //player vars
 float playerX = 200;
