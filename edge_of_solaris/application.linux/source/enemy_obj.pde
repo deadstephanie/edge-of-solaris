@@ -104,11 +104,11 @@ void shoot() {
     }
   } else if (enemyType == 2) { //check to see if enemy is basic2 and not dead
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +2, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +1, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, 0, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -1, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -2, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, 0, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10);
     enemyTiming = 0;
     }
   }

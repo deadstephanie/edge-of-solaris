@@ -420,11 +420,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   } else if (enemyType == 2) { //check to see if enemy is basic2 and not dead
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +2, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, +1, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, 0, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -1, 200, 10, 10, 10);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -10, -2, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, 0, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10);
     enemyTiming = 0;
     }
   }
@@ -524,7 +524,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (type == 0) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
     basicE[enemyIndex].enemyHitX = 50;
@@ -534,7 +534,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (type == 1) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 100;
@@ -544,7 +544,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (type == 2) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 80;
@@ -554,7 +554,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (type == 3) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 25;
@@ -635,7 +635,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         exit = true;
       }
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 5, 0, playerWeapon, 10, 10, 5);
+    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 10, 0, playerWeapon, 10, 10, 5);
     timing = 0;
     }
   }

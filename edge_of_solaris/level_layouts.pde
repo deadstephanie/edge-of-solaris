@@ -35,7 +35,7 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
   if (type == 0) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
     basicE[enemyIndex].enemyHitX = 50;
@@ -45,7 +45,7 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
   } else if (type == 1) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 100;
@@ -55,7 +55,7 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
   } else if (type == 2) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 80;
@@ -65,7 +65,7 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
   } else if (type == 3) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
-    basicE[enemyIndex].enemySpeedX = -2;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 25;
