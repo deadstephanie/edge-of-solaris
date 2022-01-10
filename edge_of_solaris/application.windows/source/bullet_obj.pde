@@ -6,9 +6,9 @@ class bullet {
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX; //bullet hitbox x
   int bulletHitY; //bullet hitbox y
-  int bulletPower; //bullet impact damage (defined on bullet gen)
+  float bulletPower; //bullet impact damage (defined on bullet gen)
 
-bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, int bulletPowertemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, float bulletPowertemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -47,14 +47,17 @@ void display() {
     strokeWeight(2);
     fill(20, 20, 200);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
-  }
-  else if (bulletType == 4) { //snipe shot
+  } else if (bulletType == 1) { //spread shot
+    stroke(255, 120);
+    strokeWeight(2);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  } else if (bulletType == 4) { //snipe shot
     stroke(255, 120);
     strokeWeight(10);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
-  }
-  else if (bulletType == 200) { //basic enemy shot
+  } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 120);
     strokeWeight(2);
     fill(255);

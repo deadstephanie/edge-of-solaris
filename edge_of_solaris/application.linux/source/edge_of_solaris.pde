@@ -84,9 +84,9 @@ void drawFrame() {
 
 void drawUI() {
   if (screenIndex == 0) { //in game
-    textSize(64);
+    textSize(25);
     fill(255);
-    //text("Q and E switch weapons", 50, 600);
+    text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
     setRect(4);

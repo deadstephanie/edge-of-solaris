@@ -47,7 +47,7 @@ void collision() {
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType == 0 || blts[i].bulletType == 4) { //check if bullet type is player projectile
+            if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
               if (enemyHP <= 0) {
@@ -55,7 +55,7 @@ void collision() {
                 enemyState = 2; //set enemy to dead
               }
             }
-            if (blts[i].bulletType == 0) blts[i].reset(); //reset bullet on impact if not snipe shot
+            if (blts[i].bulletType != 4) blts[i].reset(); //reset bullet on impact if not snipe shot
           }
         }
       }

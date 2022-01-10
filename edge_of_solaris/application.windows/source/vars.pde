@@ -16,16 +16,31 @@ float playerX = 200;
 float playerY = 250;
 int playerHitX = 30;
 int playerHitY = 7;
+int playerBulletOffsetX = 45; //offset for where bullet is generated relative to player model
+int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
 int playerMoveX = 3;
 int playerMoveY = 3;
-int playerWeapon = 0;
+int playerWeapon = 1;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
 float playerShield = 20;
 float playerShieldMax = 100;
 float playerShieldRegen = 0.5;
-float playerHP = 50;
+float playerHP = 100;
 float playerHPMax = 100;
+
+//player weapon vars
+//machine gun
+int playerWeaponCooldown0 = 10;
+float playerWeaponPower0 = 5;
+int playerWeaponHitX0 = 10;
+int playerWeaponHitY0 = 10;
+//spread shot
+int playerWeaponCooldown1 = 40;
+float playerWeaponPower1 = 3.5;
+//snipe shot
+int playerWeaponCooldown4 = 30;
+float playerWeaponPower4 = 10;
 
 //input vars
 boolean keyInput[] = new boolean [15];

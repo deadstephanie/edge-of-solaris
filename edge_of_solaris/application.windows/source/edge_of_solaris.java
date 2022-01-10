@@ -103,9 +103,9 @@ PImage player1;
 
  public void drawUI() {
   if (screenIndex == 0) { //in game
-    textSize(64);
+    textSize(25);
     fill(255);
-    //text("Q and E switch weapons", 50, 600);
+    text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
     setRect(4);
@@ -258,9 +258,9 @@ class bullet {
   int bulletType; //255 = dead/inactive bullet, 0-199 = player bullets, 200-254 = enemy bullets
   int bulletHitX; //bullet hitbox x
   int bulletHitY; //bullet hitbox y
-  int bulletPower; //bullet impact damage (defined on bullet gen)
+  float bulletPower; //bullet impact damage (defined on bullet gen)
 
-bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, int bulletPowertemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, float bulletPowertemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -299,14 +299,17 @@ public void reset() {
     strokeWeight(2);
     fill(20, 20, 200);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
-  }
-  else if (bulletType == 4) { //snipe shot
+  } else if (bulletType == 1) { //spread shot
+    stroke(255, 120);
+    strokeWeight(2);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  } else if (bulletType == 4) { //snipe shot
     stroke(255, 120);
     strokeWeight(10);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
-  }
-  else if (bulletType == 200) { //basic enemy shot
+  } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 120);
     strokeWeight(2);
     fill(255);
@@ -363,7 +366,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType == 0 || blts[i].bulletType == 4) { //check if bullet type is player projectile
+            if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
               if (enemyHP <= 0) {
@@ -371,7 +374,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
                 enemyState = 2; //set enemy to dead
               }
             }
-            if (blts[i].bulletType == 0) blts[i].reset(); //reset bullet on impact if not snipe shot
+            if (blts[i].bulletType != 4) blts[i].reset(); //reset bullet on impact if not snipe shot
           }
         }
       }
@@ -587,6 +590,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (keyInput[6] == true) { //q, next weapon
         playerWeapon = 4;
       }
+      if (keyInput[7] == true) { //q, next weapon
+        playerWeapon = 1;
+      }
   }
   if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
@@ -607,6 +613,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == ' ') keyInput[4] = true;
   if (key == 'q' || key == 'Q')  keyInput[5] = true;
   if (key == 'e' || key == 'E')  keyInput[6] = true;
+  if (key == 'r' || key == 'R')  keyInput[7] = true;
 }
 
  public void keyReleased() {
@@ -617,45 +624,28 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == ' ') keyInput[4] = false;
   if (key == 'q' || key == 'Q')  keyInput[5] = false;
   if (key == 'e' || key == 'E')  keyInput[6] = false;
+  if (key == 'r' || key == 'R')  keyInput[7] = false;
 }
 
  public void playerShoot() {
   if (playerWeapon == 0) { //machine gun
-    if (timing > 10) {
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > bulletCount) {
-        bulletIndex = 0;
-        exit = true;
-      }
+    if (timing > playerWeaponCooldown0) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower0);
+      timing = 0;
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 10, 0, playerWeapon, 10, 10, 5);
-    timing = 0;
+  } else if (playerWeapon == 1) { //spread shot
+    if (timing > playerWeaponCooldown1) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 1, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 2, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -2, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -1, playerWeapon, 10, 10, playerWeaponPower1);
+      timing = 0;
     }
-  }
-  if (playerWeapon == 4) { //sniper shot
-    if (timing > 30) {
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > bulletCount) {
-        bulletIndex = 0;
-        exit = true;
-      }
-    }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 25, 0, playerWeapon, 100, 5, 10);
-    timing = 0;
+  } else if (playerWeapon == 4) { //sniper shot
+      if (timing > playerWeaponCooldown4) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 25, 0, playerWeapon, 100, 5, playerWeaponPower4);
+      timing = 0;
     }
   }
 }
@@ -714,16 +704,31 @@ float playerX = 200;
 float playerY = 250;
 int playerHitX = 30;
 int playerHitY = 7;
+int playerBulletOffsetX = 45; //offset for where bullet is generated relative to player model
+int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
 int playerMoveX = 3;
 int playerMoveY = 3;
-int playerWeapon = 0;
+int playerWeapon = 1;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
 float playerShield = 20;
 float playerShieldMax = 100;
 float playerShieldRegen = 0.5f;
-float playerHP = 50;
+float playerHP = 100;
 float playerHPMax = 100;
+
+//player weapon vars
+//machine gun
+int playerWeaponCooldown0 = 10;
+float playerWeaponPower0 = 5;
+int playerWeaponHitX0 = 10;
+int playerWeaponHitY0 = 10;
+//spread shot
+int playerWeaponCooldown1 = 40;
+float playerWeaponPower1 = 3.5f;
+//snipe shot
+int playerWeaponCooldown4 = 30;
+float playerWeaponPower4 = 10;
 
 //input vars
 boolean keyInput[] = new boolean [15];

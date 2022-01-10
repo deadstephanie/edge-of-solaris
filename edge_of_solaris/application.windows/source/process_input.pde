@@ -21,6 +21,9 @@ void processInput() {
       if (keyInput[6] == true) { //q, next weapon
         playerWeapon = 4;
       }
+      if (keyInput[7] == true) { //q, next weapon
+        playerWeapon = 1;
+      }
   }
   if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
@@ -41,6 +44,7 @@ void keyPressed() {
   if (key == ' ') keyInput[4] = true;
   if (key == 'q' || key == 'Q')  keyInput[5] = true;
   if (key == 'e' || key == 'E')  keyInput[6] = true;
+  if (key == 'r' || key == 'R')  keyInput[7] = true;
 }
 
 void keyReleased() {
@@ -51,45 +55,28 @@ void keyReleased() {
   if (key == ' ') keyInput[4] = false;
   if (key == 'q' || key == 'Q')  keyInput[5] = false;
   if (key == 'e' || key == 'E')  keyInput[6] = false;
+  if (key == 'r' || key == 'R')  keyInput[7] = false;
 }
 
 void playerShoot() {
   if (playerWeapon == 0) { //machine gun
-    if (timing > 10) {
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > bulletCount) {
-        bulletIndex = 0;
-        exit = true;
-      }
+    if (timing > playerWeaponCooldown0) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower0);
+      timing = 0;
     }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 10, 0, playerWeapon, 10, 10, 5);
-    timing = 0;
+  } else if (playerWeapon == 1) { //spread shot
+    if (timing > playerWeaponCooldown1) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 1, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 2, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -2, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -1, playerWeapon, 10, 10, playerWeaponPower1);
+      timing = 0;
     }
-  }
-  if (playerWeapon == 4) { //sniper shot
-    if (timing > 30) {
-    bulletIndex = 0;
-    int i = 0;
-    boolean exit = false;
-    while (exit == false) {
-      if (blts[i].bulletType == 255) {
-        bulletIndex = i;
-        exit = true;
-      } else i++;
-      if (i > bulletCount) {
-        bulletIndex = 0;
-        exit = true;
-      }
-    }
-    blts[bulletIndex] = new bullet(playerX + 45, playerY + 5, 25, 0, playerWeapon, 100, 5, 10);
-    timing = 0;
+  } else if (playerWeapon == 4) { //sniper shot
+      if (timing > playerWeaponCooldown4) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 25, 0, playerWeapon, 100, 5, playerWeaponPower4);
+      timing = 0;
     }
   }
 }
