@@ -10,5 +10,7 @@ void loadSprites() {
   naturals1 = loadImage("assets/png/naturals/3-x.png");
   naturals2 = loadImage("assets/png/naturals/2-x.png");
   naturals3 = loadImage("assets/png/naturals/1-x.png");
+  naturals4 = loadImage("assets/png/naturals/4-x.png");
+  naturals5 = loadImage("assets/png/naturals/5-x.png");
   player1 = loadImage("assets/png/player/3.png");
 }

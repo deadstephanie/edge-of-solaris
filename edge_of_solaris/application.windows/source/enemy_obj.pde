@@ -36,6 +36,9 @@ void update() {
   if (enemyType == 0 && enemyState != 2) {
     enemySpeedY = (sin((enemyMoveTiming / 1)) * 1);
     enemyMoveTiming = enemyMoveTiming + 0.025;
+  } else if (enemyType == 4 && enemyState != 2) {
+    if (enemyX <= 1000) enemyX = 1000;
+    else enemyTiming = 0;
   }
 }
 
@@ -70,7 +73,7 @@ void reset() {
   enemyY = -250;
   enemySpeedX = 0;
   enemySpeedY = 0;
-  enemyType = 0;
+  enemyType = 255;
   enemyHitX = 0;
   enemyHitY = 0;
   enemyHP = 0;
@@ -98,12 +101,12 @@ void shoot() {
     blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
     enemyTiming = 0;
     }
-  } else if (enemyType == 1) { //check to see if enemy is basic2 and not dead
+  } else if (enemyType == 1) { //check for enemy type
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -10, 0, 200, 50, 5, 10);
     enemyTiming = 0;
     }
-  } else if (enemyType == 2) { //check to see if enemy is basic2 and not dead
+  } else if (enemyType == 2) { //check for enemy type
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10);
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10);
@@ -111,6 +114,42 @@ void shoot() {
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10);
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10);
     enemyTiming = 0;
+    }
+    } else if (enemyType == 3) { //check for enemy type
+    if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
+      blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5);
+      enemyTiming = 0;
+    }
+  } else if (enemyType == 4) { //check for enemy type
+    if (enemyTiming > 240) { //check to make sure enough time has passed since last shot
+    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+      enemyTiming = 0;
+    }
+  } else if (enemyType == 5) { //check for enemy type, this is the bomb
+    if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
+      blts[findBullet()] = new bullet(enemyX, enemyY, 0, -4, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, 0, +4, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +4, 0, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -4, 0, 200, 10, 10, 10);
+      
+      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, +2.828, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, -2.828, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, +2.828, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, -2.828, 200, 10, 10, 10);
+      
+      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, +3.695, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, +3.695, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, -3.695, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, -3.695, 200, 10, 10, 10);
+      
+      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, +1.53, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, +1.53, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, -1.53, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, -1.53, 200, 10, 10, 10);
+      //destroy bomb
+      enemyTiming = 30;
+      enemyState = 2;
+      enemyHP = 0;
     }
   }
    }
@@ -122,30 +161,24 @@ void display() {
   if (enemyState != 2) { //do not display hp bar if enemy is dead
     fill(20, 255, 20, 100);
     rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
-  }
-  fill(255, 0, 0);
-  if (enemyState == 0) { //normal state
+    
+    if (enemyState == 1) tint(255, 100, 100);
+    
     if (enemyType == 0 && enemyState != 2) {
       image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else if (enemyType == 1 && enemyState != 2) {
       image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else if (enemyType == 2 && enemyState != 2) {
       image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+    } else if (enemyType == 3 && enemyState != 2) {
+      image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+    } else if (enemyType == 4 && enemyState != 2) {
+      image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else {
       fill(255, 0, 0);
       ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
     }
-  } else if (enemyState == 1) { //hurt state
-    if (enemyType == 0 && enemyState != 2) {
-      image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 1 && enemyState != 2) {
-      image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 2 && enemyState != 2) {
-      image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else {
-      fill(255, 0, 0);
-      ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
-    }
+    tint(255, 255, 255); //reset tint
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
     ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 3), enemyHitY + (enemyTiming * 3));

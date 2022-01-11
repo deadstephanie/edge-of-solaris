@@ -4,7 +4,7 @@ int levelIndex = 0; //what level the player is playing, 0 is test level
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500;
-int basicECount = 20;
+int basicECount = 100;
 int starCount = 300; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
 int screenX = 1280;
@@ -20,7 +20,7 @@ int playerBulletOffsetX = 45; //offset for where bullet is generated relative to
 int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
 int playerMoveX = 3;
 int playerMoveY = 3;
-int playerWeapon = 1;
+int playerWeapon = 0;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
 float playerShield = 20;

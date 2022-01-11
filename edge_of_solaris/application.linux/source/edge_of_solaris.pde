@@ -5,6 +5,8 @@ starsBG[] stars;
 PImage naturals1;
 PImage naturals2;
 PImage naturals3;
+PImage naturals4;
+PImage naturals5;
 PImage player1;
 
 import java.io.*;
@@ -171,7 +173,7 @@ void initObjects() { //set all objects to default (meant to be run in setup)
     blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
   }
   for (int i = 0; i < basicECount; i++) {
-    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 10, 10, 0, 2, 0);
+    basicE[i] = new enemy(-200, -200, 0, 0, 255, 0, 0, 10, 10, 0, 2, 0);
   }
   for (int i = 0; i < starCount; i++) {
     stars[i] = new starsBG(int(random(screenX + 20)), int(random(screenY)), int(-1 * (random(10) + 1)), 0);
@@ -215,7 +217,7 @@ void playerCollision() { //check to see if an enemy bullet
   }
 }
 
-int findBullet () {
+int findBullet () { //finds next unused bullet and returns its index value as an int
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -225,6 +227,23 @@ int findBullet () {
         exit = true;
       } else i++;
       if (i > (bulletCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
+}
+
+int findEnemy () { //finds next unused enemy and returns its index value as an int
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (basicE[i].enemyType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (basicECount - 1)) {
         bulletIndex = 0;
         exit = true;
       }

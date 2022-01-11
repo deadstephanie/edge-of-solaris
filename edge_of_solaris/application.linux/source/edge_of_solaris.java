@@ -24,6 +24,8 @@ starsBG[] stars;
 PImage naturals1;
 PImage naturals2;
 PImage naturals3;
+PImage naturals4;
+PImage naturals5;
 PImage player1;
 
 
@@ -190,7 +192,7 @@ PImage player1;
     blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
   }
   for (int i = 0; i < basicECount; i++) {
-    basicE[i] = new enemy(-200, -200, 0, 0, 99, 0, 0, 10, 10, 0, 2, 0);
+    basicE[i] = new enemy(-200, -200, 0, 0, 255, 0, 0, 10, 10, 0, 2, 0);
   }
   for (int i = 0; i < starCount; i++) {
     stars[i] = new starsBG(PApplet.parseInt(random(screenX + 20)), PApplet.parseInt(random(screenY)), PApplet.parseInt(-1 * (random(10) + 1)), 0);
@@ -234,7 +236,7 @@ PImage player1;
   }
 }
 
- public int findBullet () {
+ public int findBullet () { //finds next unused bullet and returns its index value as an int
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -244,6 +246,23 @@ PImage player1;
         exit = true;
       } else i++;
       if (i > (bulletCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
+}
+
+ public int findEnemy () { //finds next unused enemy and returns its index value as an int
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (basicE[i].enemyType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (basicECount - 1)) {
         bulletIndex = 0;
         exit = true;
       }
@@ -355,6 +374,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (enemyType == 0 && enemyState != 2) {
     enemySpeedY = (sin((enemyMoveTiming / 1)) * 1);
     enemyMoveTiming = enemyMoveTiming + 0.025f;
+  } else if (enemyType == 4 && enemyState != 2) {
+    if (enemyX <= 1000) enemyX = 1000;
+    else enemyTiming = 0;
   }
 }
 
@@ -389,7 +411,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   enemyY = -250;
   enemySpeedX = 0;
   enemySpeedY = 0;
-  enemyType = 0;
+  enemyType = 255;
   enemyHitX = 0;
   enemyHitY = 0;
   enemyHP = 0;
@@ -417,12 +439,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
     enemyTiming = 0;
     }
-  } else if (enemyType == 1) { //check to see if enemy is basic2 and not dead
+  } else if (enemyType == 1) { //check for enemy type
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -10, 0, 200, 50, 5, 10);
     enemyTiming = 0;
     }
-  } else if (enemyType == 2) { //check to see if enemy is basic2 and not dead
+  } else if (enemyType == 2) { //check for enemy type
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10);
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10);
@@ -430,6 +452,42 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10);
     blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10);
     enemyTiming = 0;
+    }
+    } else if (enemyType == 3) { //check for enemy type
+    if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
+      blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5);
+      enemyTiming = 0;
+    }
+  } else if (enemyType == 4) { //check for enemy type
+    if (enemyTiming > 240) { //check to make sure enough time has passed since last shot
+    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+      enemyTiming = 0;
+    }
+  } else if (enemyType == 5) { //check for enemy type, this is the bomb
+    if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
+      blts[findBullet()] = new bullet(enemyX, enemyY, 0, -4, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, 0, +4, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +4, 0, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -4, 0, 200, 10, 10, 10);
+      
+      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828f, +2.828f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828f, -2.828f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828f, +2.828f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828f, -2.828f, 200, 10, 10, 10);
+      
+      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53f, +3.695f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53f, +3.695f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53f, -3.695f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53f, -3.695f, 200, 10, 10, 10);
+      
+      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695f, +1.53f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695f, +1.53f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695f, -1.53f, 200, 10, 10, 10);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695f, -1.53f, 200, 10, 10, 10);
+      //destroy bomb
+      enemyTiming = 30;
+      enemyState = 2;
+      enemyHP = 0;
     }
   }
    }
@@ -441,30 +499,24 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (enemyState != 2) { //do not display hp bar if enemy is dead
     fill(20, 255, 20, 100);
     rect(enemyX - (enemyHitX * 0.45f), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
-  }
-  fill(255, 0, 0);
-  if (enemyState == 0) { //normal state
+    
+    if (enemyState == 1) tint(255, 100, 100);
+    
     if (enemyType == 0 && enemyState != 2) {
       image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else if (enemyType == 1 && enemyState != 2) {
       image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else if (enemyType == 2 && enemyState != 2) {
       image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+    } else if (enemyType == 3 && enemyState != 2) {
+      image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+    } else if (enemyType == 4 && enemyState != 2) {
+      image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else {
       fill(255, 0, 0);
       ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
     }
-  } else if (enemyState == 1) { //hurt state
-    if (enemyType == 0 && enemyState != 2) {
-      image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 1 && enemyState != 2) {
-      image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 2 && enemyState != 2) {
-      image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else {
-      fill(255, 0, 0);
-      ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
-    }
+    tint(255, 255, 255); //reset tint
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
     ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 3), enemyHitY + (enemyTiming * 3));
@@ -489,6 +541,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   naturals1 = loadImage("assets/png/naturals/3-x.png");
   naturals2 = loadImage("assets/png/naturals/2-x.png");
   naturals3 = loadImage("assets/png/naturals/1-x.png");
+  naturals4 = loadImage("assets/png/naturals/4-x.png");
+  naturals5 = loadImage("assets/png/naturals/5-x.png");
   player1 = loadImage("assets/png/player/3.png");
 }
  public void placeEnemies() {
@@ -521,10 +575,24 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(1, 2000, 225);
     genEnemy(1, 2000, 400);
     genEnemy(1, 2000, 575);
+    
+    genEnemy(0, 2200, 100);
+    genEnemy(0, 2200, 300);
+    genEnemy(0, 2200, 500);
+    
+    genEnemy(3, 2400, 50);
+    genEnemy(3, 2400, 225);
+    genEnemy(3, 2400, 400);
+    genEnemy(3, 2400, 575);
+    
+    genEnemy(4, 3800, 300);
+  } else if (levelIndex == 1) {
+    genEnemy(4, 1000, 300);
   }
 }
 
  public void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass in enemy type and position x/y
+  enemyIndex = findEnemy();
   if (type == 0) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
@@ -553,20 +621,29 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 80;
     basicE[enemyIndex].enemyHitY = 30;
-    basicE[enemyIndex].enemyHP = 30;
-    basicE[enemyIndex].enemyHPMax = 30;
+    basicE[enemyIndex].enemyHP = 40;
+    basicE[enemyIndex].enemyHPMax = 40;
   } else if (type == 3) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 25;
-    basicE[enemyIndex].enemyHitY = 25;
+    basicE[enemyIndex].enemyHitX = 90;
+    basicE[enemyIndex].enemyHitY = 24;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
+  } else if (type == 4) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 121;
+    basicE[enemyIndex].enemyHitY = 46;
+    basicE[enemyIndex].enemyHP = 100;
+    basicE[enemyIndex].enemyHPMax = 100;
   }
-  enemyIndex++;
 }
  public void processInput() {
   if (screenIndex == 0) {
@@ -693,7 +770,7 @@ int levelIndex = 0; //what level the player is playing, 0 is test level
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500;
-int basicECount = 20;
+int basicECount = 100;
 int starCount = 300; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
 int screenX = 1280;
@@ -709,7 +786,7 @@ int playerBulletOffsetX = 45; //offset for where bullet is generated relative to
 int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
 int playerMoveX = 3;
 int playerMoveY = 3;
-int playerWeapon = 1;
+int playerWeapon = 0;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
 float playerShield = 20;

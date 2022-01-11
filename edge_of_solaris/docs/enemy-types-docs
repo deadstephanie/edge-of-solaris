@@ -1,4 +1,7 @@
 enemy types by index number
 0: a drone like ship that shoots a projectile aimed at the player
 1. a medium sized gunship that shoots a slow long shot that is not aimed
-2. a smaller interceptor ship that shoots a spread shot
+2. a small interceptor ship that shoots a spread shot
+3. a smaller intercepter ship that shoots a basic mg shot
+4. a large cargo ship that shoots bombs that explode into bullets if they are not destroyed quick enough
+5. the bombs that the ships shoot
