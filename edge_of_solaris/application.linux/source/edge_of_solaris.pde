@@ -22,7 +22,7 @@ void setup(){
 }
 
 void draw() {
-  background(0);
+  background(15);
   processInput();
   drawFrame();
   drawUI();

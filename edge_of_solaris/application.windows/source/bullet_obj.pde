@@ -60,7 +60,7 @@ void display() {
   } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 150);
     strokeWeight(2);
-    fill(200, 255, 200);
+    fill(175, 255, 175);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
 }
