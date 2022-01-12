@@ -123,6 +123,8 @@ void shoot() {
   } else if (enemyType == 4) { //check for enemy type
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
     basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, -1, 5, 50, 50, 30, 30, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 1, 5, 50, 50, 30, 30, 0, 0, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 5) { //check for enemy type, this is the bomb

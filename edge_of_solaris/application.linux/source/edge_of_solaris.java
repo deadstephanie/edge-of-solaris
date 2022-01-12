@@ -493,6 +493,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (enemyType == 4) { //check for enemy type
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
     basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, -1, 5, 50, 50, 30, 30, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 1, 5, 50, 50, 30, 30, 0, 0, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 5) { //check for enemy type, this is the bomb
@@ -610,25 +612,25 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(2, 1600, 400);
     genEnemy(2, 1600, 575);
     
-    genEnemy(0, 1800, 100);
-    genEnemy(0, 1800, 300);
-    genEnemy(0, 1800, 500);
+    genEnemy(0, 2000, 100);
+    genEnemy(0, 2000, 300);
+    genEnemy(0, 2000, 500);
     
-    genEnemy(1, 2000, 50);
-    genEnemy(1, 2000, 225);
-    genEnemy(1, 2000, 400);
-    genEnemy(1, 2000, 575);
+    genEnemy(1, 2400, 50);
+    genEnemy(1, 2400, 225);
+    genEnemy(1, 2400, 400);
+    genEnemy(1, 2400, 575);
     
-    genEnemy(0, 2200, 100);
-    genEnemy(0, 2200, 300);
-    genEnemy(0, 2200, 500);
+    genEnemy(0, 2800, 100);
+    genEnemy(0, 2800, 300);
+    genEnemy(0, 2800, 500);
     
-    genEnemy(3, 2400, 50);
-    genEnemy(3, 2400, 225);
-    genEnemy(3, 2400, 400);
-    genEnemy(3, 2400, 575);
+    genEnemy(3, 3200, 50);
+    genEnemy(3, 3200, 225);
+    genEnemy(3, 3200, 400);
+    genEnemy(3, 3200, 575);
     
-    genEnemy(4, 3800, 300);
+    genEnemy(4, 4600, 300);
   } else if (levelIndex == 1) {
     genEnemy(4, 1000, 300);
   }
