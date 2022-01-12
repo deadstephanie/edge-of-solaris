@@ -38,7 +38,7 @@ void update() {
     enemyMoveTiming = enemyMoveTiming + 0.025;
   } else if (enemyType == 4 && enemyState != 2) {
     if (enemyX <= 1000) enemyX = 1000;
-    else enemyTiming = 0;
+    else enemyTiming = 199;
   }
 }
 
@@ -121,7 +121,7 @@ void shoot() {
       enemyTiming = 0;
     }
   } else if (enemyType == 4) { //check for enemy type
-    if (enemyTiming > 240) { //check to make sure enough time has passed since last shot
+    if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
     basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
       enemyTiming = 0;
     }
@@ -146,6 +146,7 @@ void shoot() {
       blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, +1.53, 200, 10, 10, 10);
       blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, -1.53, 200, 10, 10, 10);
       blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, -1.53, 200, 10, 10, 10);
+      
       //destroy bomb
       enemyTiming = 30;
       enemyState = 2;

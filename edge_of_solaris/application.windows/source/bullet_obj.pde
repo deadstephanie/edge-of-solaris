@@ -57,6 +57,11 @@ void display() {
     strokeWeight(10);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  } else if (bulletType == 2) { //dual beam cannon
+    stroke(20, 20, 200, 150);
+    strokeWeight(2);
+    fill(100, 100, 255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 150);
     strokeWeight(2);

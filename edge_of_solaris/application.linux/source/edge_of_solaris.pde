@@ -8,6 +8,33 @@ PImage naturals3;
 PImage naturals4;
 PImage naturals5;
 PImage player1;
+PImage vnPlayer1;
+PImage vnPlayer2;
+PImage vnPlayer1r;
+PImage vnPlayer2r;
+PImage vnSol1;
+PImage vnSol2;
+PImage vnSol3;
+PImage vnSol1r;
+PImage vnSol2r;
+PImage vnSol3r;
+PImage vnEsence1;
+PImage vnEsence2;
+PImage vnEsence3;
+PImage vnEsence4;
+PImage vnEsence1r;
+PImage vnEsence2r;
+PImage vnEsence3r;
+PImage vnEsence4r;
+PImage vnVeda1;
+PImage vnVeda2;
+PImage vnVeda3;
+PImage vnVeda4;
+PImage vnVeda1r;
+PImage vnVeda2r;
+PImage vnVeda3r;
+PImage vnVeda4r;
+
 
 import java.io.*;
 
@@ -88,7 +115,7 @@ void drawUI() {
   if (screenIndex == 0) { //in game
     textSize(25);
     fill(255);
-    text("Q, E, R switch weapons", 50, 640);
+    //text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
     setRect(4);

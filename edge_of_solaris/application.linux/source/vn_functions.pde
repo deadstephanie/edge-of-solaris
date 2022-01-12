@@ -1,4 +1,6 @@
 void drawVN() {
+  image(vnPlayer1r, 0, 0, 500, 500);
+  image(vnEsence1, 800, 0, 500, 500);
   strokeWeight(2);
   stroke(255);
   fill(20, 20, 255);
@@ -12,5 +14,4 @@ void drawVN() {
   textSize(32);
   text("SKIP", 1050, 680);
   text("NEXT", 1160, 680);
-  
 }

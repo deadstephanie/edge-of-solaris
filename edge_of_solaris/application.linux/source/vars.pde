@@ -1,5 +1,5 @@
 //game vars
-int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 3; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int levelIndex = 0; //what level the player is playing, 0 is test level
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
@@ -20,7 +20,7 @@ int playerBulletOffsetX = 45; //offset for where bullet is generated relative to
 int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
 int playerMoveX = 3;
 int playerMoveY = 3;
-int playerWeapon = 0;
+int playerWeapon = 2;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
 float playerShield = 20;
@@ -38,6 +38,9 @@ int playerWeaponHitY0 = 10;
 //spread shot
 int playerWeaponCooldown1 = 40;
 float playerWeaponPower1 = 3.5;
+//dual beam cannon
+int playerWeaponCooldown2 = 20;
+float playerWeaponPower2 = 3.5;
 //snipe shot
 int playerWeaponCooldown4 = 30;
 float playerWeaponPower4 = 10;

@@ -24,15 +24,22 @@ void processInput() {
       if (keyInput[7] == true) { //q, next weapon
         playerWeapon = 1;
       }
-  }
-  if (screenIndex == 1) {
+  } else if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
-  }
-  if (screenIndex == 2) {
+  } else if (screenIndex == 2) {
     if (keyInput[0] == true) {
       screenIndex = 0;
       initObjects();
     }  
+  } else if (screenIndex == 3) {
+    if (keyInput[4] == true) {
+      textIndex++;
+      if (textIndex == 9) {
+        screenIndex = 0;
+        initObjects();
+      }
+      keyInput[4] = false;
+    }
   }
 }
 
@@ -71,6 +78,12 @@ void playerShoot() {
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 2, playerWeapon, 10, 10, playerWeaponPower1);
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -2, playerWeapon, 10, 10, playerWeaponPower1);
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -1, playerWeapon, 10, 10, playerWeaponPower1);
+      timing = 0;
+    }
+  } else if (playerWeapon == 2) { //dual beam cannon
+      if (timing > playerWeaponCooldown2) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 5, 20, 0, playerWeapon, 50, 7, playerWeaponPower2);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 5, 20, 0, playerWeapon, 50, 7, playerWeaponPower2);
       timing = 0;
     }
   } else if (playerWeapon == 4) { //sniper shot
