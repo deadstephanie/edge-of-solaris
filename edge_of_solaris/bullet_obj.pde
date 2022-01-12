@@ -25,6 +25,11 @@ void update() {
     bulletX = bulletX + bulletSpeedX; //update bullet x according to x speed
     bulletY = bulletY + bulletSpeedY; //update bullet y according to y speed
   }
+  if (bulletType == 100) {
+    if (bulletSpeedY > 0) bulletSpeedY--;
+    if (bulletSpeedY < 0) bulletSpeedY++;
+    if (bulletSpeedX < 5) bulletSpeedX++;
+  }
 }
 
 public void reset() {
@@ -55,6 +60,11 @@ void display() {
   } else if (bulletType == 4) { //snipe shot
     stroke(255, 120);
     strokeWeight(10);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  } else if (bulletType == 100) { //basic secondary missile
+    stroke(255, 200);
+    strokeWeight(3);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 2) { //dual beam cannon

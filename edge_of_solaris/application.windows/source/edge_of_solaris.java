@@ -79,6 +79,7 @@ PImage vnVeda4r;
     }
   }
   if (timing < 255) timing++;
+  if (secondTiming < 255) secondTiming++;
 }
 
  public void drawFrame() {
@@ -323,6 +324,11 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
     bulletX = bulletX + bulletSpeedX; //update bullet x according to x speed
     bulletY = bulletY + bulletSpeedY; //update bullet y according to y speed
   }
+  if (bulletType == 100) {
+    if (bulletSpeedY > 0) bulletSpeedY--;
+    if (bulletSpeedY < 0) bulletSpeedY++;
+    if (bulletSpeedX < 5) bulletSpeedX++;
+  }
 }
 
 public void reset() {
@@ -353,6 +359,11 @@ public void reset() {
   } else if (bulletType == 4) { //snipe shot
     stroke(255, 120);
     strokeWeight(10);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  } else if (bulletType == 100) { //basic secondary missile
+    stroke(255, 200);
+    strokeWeight(3);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 2) { //dual beam cannon
@@ -420,7 +431,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType < 5) { //check if bullet type is player projectile
+            if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
               if (enemyHP <= 0) {
@@ -473,7 +484,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   } else if (enemyType == 1) { //check for enemy type
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -10, 0, 200, 50, 5, 10);
+    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10);
     enemyTiming = 0;
     }
   } else if (enemyType == 2) { //check for enemy type
@@ -492,9 +503,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   } else if (enemyType == 4) { //check for enemy type
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
-    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
-    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, -1, 5, 50, 50, 30, 30, 0, 0, 0);
-    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 1, 5, 50, 50, 30, 30, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 0, 5, 50, 50, 50, 50, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, -1, 5, 50, 50, 50, 50, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 1, 5, 50, 50, 50, 50, 0, 0, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 5) { //check for enemy type, this is the bomb
@@ -607,10 +618,13 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     
     genEnemy(0, 1000, 300);
     
-    genEnemy(2, 1600, 50);
-    genEnemy(2, 1600, 225);
-    genEnemy(2, 1600, 400);
-    genEnemy(2, 1600, 575);
+    genEnemy(0, 1300, 200);
+    genEnemy(0, 1300, 400);
+    
+    genEnemy(3, 1600, 50);
+    genEnemy(3, 1600, 225);
+    genEnemy(3, 1600, 400);
+    genEnemy(3, 1600, 575);
     
     genEnemy(0, 2000, 100);
     genEnemy(0, 2000, 300);
@@ -630,7 +644,16 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(3, 3200, 400);
     genEnemy(3, 3200, 575);
     
-    genEnemy(4, 4600, 300);
+    genEnemy(1, 3600, 100);
+    genEnemy(2, 3600, 300);
+    genEnemy(1, 3600, 500);
+    
+    genEnemy(0, 4000, 50);
+    genEnemy(0, 4000, 225);
+    genEnemy(0, 4000, 400);
+    genEnemy(0, 4000, 575);
+    
+    genEnemy(4, 5400, 300);
   } else if (levelIndex == 1) {
     genEnemy(4, 1000, 300);
   }
@@ -644,8 +667,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
-    basicE[enemyIndex].enemyHitX = 50;
-    basicE[enemyIndex].enemyHitY = 50;
+    basicE[enemyIndex].enemyHitX = 55;
+    basicE[enemyIndex].enemyHitY = 55;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 1) {
@@ -654,8 +677,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 100;
-    basicE[enemyIndex].enemyHitY = 38;
+    basicE[enemyIndex].enemyHitX = 105;
+    basicE[enemyIndex].enemyHitY = 43;
     basicE[enemyIndex].enemyHP = 30;
     basicE[enemyIndex].enemyHPMax = 30;
   } else if (type == 2) {
@@ -664,8 +687,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 80;
-    basicE[enemyIndex].enemyHitY = 30;
+    basicE[enemyIndex].enemyHitX = 85;
+    basicE[enemyIndex].enemyHitY = 35;
     basicE[enemyIndex].enemyHP = 40;
     basicE[enemyIndex].enemyHPMax = 40;
   } else if (type == 3) {
@@ -674,8 +697,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 90;
-    basicE[enemyIndex].enemyHitY = 24;
+    basicE[enemyIndex].enemyHitX = 95;
+    basicE[enemyIndex].enemyHitY = 29;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 4) {
@@ -684,8 +707,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 121;
-    basicE[enemyIndex].enemyHitY = 46;
+    basicE[enemyIndex].enemyHitX = 126;
+    basicE[enemyIndex].enemyHitY = 51;
     basicE[enemyIndex].enemyHP = 100;
     basicE[enemyIndex].enemyHPMax = 100;
   }
@@ -784,6 +807,14 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       timing = 0;
     }
   }
+  if (playerSecondWeapon == 0) { //basic secondary missile
+    if (secondTiming > playerWeaponCooldown100) {
+      println("test");
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
+      secondTiming = 0;
+    }
+  }
 }
 class starsBG {
   int starX;
@@ -831,9 +862,10 @@ int bulletCount = 500;
 int basicECount = 100;
 int starCount = 300; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
+int secondTiming = 0; //used for timing secondary weapons
 int screenX = 1280;
 int screenY = 720;
-float autoScroll = -2; //controls how fast the 
+float autoScroll = -2; //controls how fast the enemies move to the left
 
 //player vars
 float playerX = 200;
@@ -845,6 +877,7 @@ int playerBulletOffsetY = 5; //offset for where bullet is generated relative to 
 int playerMoveX = 3;
 int playerMoveY = 3;
 int playerWeapon = 2;
+int playerSecondWeapon = 0;
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
 float playerShield = 20;
@@ -867,7 +900,10 @@ int playerWeaponCooldown2 = 20;
 float playerWeaponPower2 = 3.5f;
 //snipe shot
 int playerWeaponCooldown4 = 30;
-float playerWeaponPower4 = 10;
+float playerWeaponPower4 = 5;
+//basic secondary missile
+int playerWeaponCooldown100 = 40;
+float playerWeaponPower100 = 10;
 
 //input vars
 boolean keyInput[] = new boolean [15];

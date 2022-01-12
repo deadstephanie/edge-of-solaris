@@ -50,7 +50,7 @@ void collision() {
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType < 5) { //check if bullet type is player projectile
+            if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
               if (enemyHP <= 0) {
@@ -103,7 +103,7 @@ void shoot() {
     }
   } else if (enemyType == 1) { //check for enemy type
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -10, 0, 200, 50, 5, 10);
+    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10);
     enemyTiming = 0;
     }
   } else if (enemyType == 2) { //check for enemy type
@@ -122,9 +122,9 @@ void shoot() {
     }
   } else if (enemyType == 4) { //check for enemy type
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
-    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 30, 30, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
-    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, -1, 5, 50, 50, 30, 30, 0, 0, 0);
-    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 1, 5, 50, 50, 30, 30, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 50, 50, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, -1, 5, 50, 50, 50, 50, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 1, 5, 50, 50, 50, 50, 0, 0, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 5) { //check for enemy type, this is the bomb

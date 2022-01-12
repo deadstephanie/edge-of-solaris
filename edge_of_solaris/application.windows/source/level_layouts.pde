@@ -15,10 +15,13 @@ void placeEnemies() {
     
     genEnemy(0, 1000, 300);
     
-    genEnemy(2, 1600, 50);
-    genEnemy(2, 1600, 225);
-    genEnemy(2, 1600, 400);
-    genEnemy(2, 1600, 575);
+    genEnemy(0, 1300, 200);
+    genEnemy(0, 1300, 400);
+    
+    genEnemy(3, 1600, 50);
+    genEnemy(3, 1600, 225);
+    genEnemy(3, 1600, 400);
+    genEnemy(3, 1600, 575);
     
     genEnemy(0, 2000, 100);
     genEnemy(0, 2000, 300);
@@ -38,7 +41,16 @@ void placeEnemies() {
     genEnemy(3, 3200, 400);
     genEnemy(3, 3200, 575);
     
-    genEnemy(4, 4600, 300);
+    genEnemy(1, 3600, 100);
+    genEnemy(2, 3600, 300);
+    genEnemy(1, 3600, 500);
+    
+    genEnemy(0, 4000, 50);
+    genEnemy(0, 4000, 225);
+    genEnemy(0, 4000, 400);
+    genEnemy(0, 4000, 575);
+    
+    genEnemy(4, 5400, 300);
   } else if (levelIndex == 1) {
     genEnemy(4, 1000, 300);
   }
@@ -52,8 +64,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
-    basicE[enemyIndex].enemyHitX = 50;
-    basicE[enemyIndex].enemyHitY = 50;
+    basicE[enemyIndex].enemyHitX = 55;
+    basicE[enemyIndex].enemyHitY = 55;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 1) {
@@ -62,8 +74,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 100;
-    basicE[enemyIndex].enemyHitY = 38;
+    basicE[enemyIndex].enemyHitX = 105;
+    basicE[enemyIndex].enemyHitY = 43;
     basicE[enemyIndex].enemyHP = 30;
     basicE[enemyIndex].enemyHPMax = 30;
   } else if (type == 2) {
@@ -72,8 +84,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 80;
-    basicE[enemyIndex].enemyHitY = 30;
+    basicE[enemyIndex].enemyHitX = 85;
+    basicE[enemyIndex].enemyHitY = 35;
     basicE[enemyIndex].enemyHP = 40;
     basicE[enemyIndex].enemyHPMax = 40;
   } else if (type == 3) {
@@ -82,8 +94,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 90;
-    basicE[enemyIndex].enemyHitY = 24;
+    basicE[enemyIndex].enemyHitX = 95;
+    basicE[enemyIndex].enemyHitY = 29;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 4) {
@@ -92,8 +104,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 121;
-    basicE[enemyIndex].enemyHitY = 46;
+    basicE[enemyIndex].enemyHitX = 126;
+    basicE[enemyIndex].enemyHitY = 51;
     basicE[enemyIndex].enemyHP = 100;
     basicE[enemyIndex].enemyHPMax = 100;
   }

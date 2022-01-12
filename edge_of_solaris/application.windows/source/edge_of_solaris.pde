@@ -60,6 +60,7 @@ void draw() {
     }
   }
   if (timing < 255) timing++;
+  if (secondTiming < 255) secondTiming++;
 }
 
 void drawFrame() {
