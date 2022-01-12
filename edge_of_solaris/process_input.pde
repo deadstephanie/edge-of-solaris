@@ -37,6 +37,7 @@ void processInput() {
       if (textIndex == 9) {
         screenIndex = 0;
         initObjects();
+        enemiesPlaced = false;
       }
       keyInput[4] = false;
     }
@@ -94,7 +95,6 @@ void playerShoot() {
   }
   if (playerSecondWeapon == 0) { //basic secondary missile
     if (secondTiming > playerWeaponCooldown100) {
-      println("test");
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
       secondTiming = 0;

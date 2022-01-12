@@ -58,7 +58,8 @@ int eventIndex = 0; //index value for events
 int textIndex = 0; //index value for which line of dialogue should be displayed
 int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
-String[] textLines = new String[99]; //used for each line of dialogue
+String[] textLines = new String[999]; //used for each line of dialogue
+int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
 
 //animation timing vars
 int playerEngineTimer = 0;

@@ -65,6 +65,7 @@ PImage vnVeda4r;
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
+  fillvnInfo(); //defines vninfo
 }
 
  public void draw() {
@@ -600,6 +601,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   vnSol3 = loadImage("assets/vn/sol/3.png");
   
   vnEsence1 = loadImage("assets/vn/esence/1.png");
+  vnEsence2 = loadImage("assets/vn/esence/2.png");
 }
  public void placeEnemies() {
   if (levelIndex == 0) {
@@ -752,6 +754,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (textIndex == 9) {
         screenIndex = 0;
         initObjects();
+        enemiesPlaced = false;
       }
       keyInput[4] = false;
     }
@@ -809,7 +812,6 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   }
   if (playerSecondWeapon == 0) { //basic secondary missile
     if (secondTiming > playerWeaponCooldown100) {
-      println("test");
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
       secondTiming = 0;
@@ -913,13 +915,64 @@ int eventIndex = 0; //index value for events
 int textIndex = 0; //index value for which line of dialogue should be displayed
 int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
-String[] textLines = new String[99]; //used for each line of dialogue
+String[] textLines = new String[999]; //used for each line of dialogue
+int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
 
 //animation timing vars
 int playerEngineTimer = 0;
  public void drawVN() {
-  image(vnPlayer1r, 0, 0, 500, 500);
-  image(vnEsence1, 800, 0, 500, 500);
+  switch(vnInfo[textIndex + 1][2]) { //left side vn portrait tint
+    case 0:
+    tint(255, 255, 255, 255);
+    break;
+    case 1:
+    tint(255, 100);
+    break;
+  }
+  switch(vnInfo[textIndex + 1][0]) { //left side vn portrait image
+    case 0:
+    image(vnPlayer1r, 0, 0, 500, 500);
+    break;
+    case 1:
+    image(vnPlayer2r, 0, 0, 500, 500);
+    break;
+    case 5:
+    //image(vnSol1r, 0, 0, 500, 500);
+    break;
+    default:
+    break;
+  }
+  switch(vnInfo[textIndex + 1][3]) { //right side vn portrait tint
+    case 0:
+    tint(255, 255, 255, 255);
+    break;
+    case 1:
+    tint(255, 100);
+    break;
+    default:
+    break;
+  }
+  switch(vnInfo[textIndex + 1][1]) { //right side vn portrait image
+    case 0:
+    image(vnPlayer1, 800, 0, 500, 500);
+    break;
+    case 1:
+    image(vnPlayer2, 800, 0, 500, 500);
+    break;
+    case 5:
+    image(vnSol1, 800, 0, 500, 500);
+    break;
+    case 10:
+    image(vnEsence1, 800, 0, 500, 500);
+    break;
+    case 11:
+    image(vnEsence2, 800, 0, 500, 500);
+    break;
+    default:
+    break;
+  }
+  tint(255, 255, 255, 255); //reset image tint
+  
   strokeWeight(2);
   stroke(255);
   fill(20, 20, 255);
@@ -933,6 +986,53 @@ int playerEngineTimer = 0;
   textSize(32);
   text("SKIP", 1050, 680);
   text("NEXT", 1160, 680);
+}
+
+ public void fillvnInfo() {
+  vnInfo[1][0] = 0;
+  vnInfo[1][1] = 10;
+  vnInfo[1][2] = 1;
+  vnInfo[1][3] = 0;
+  
+  vnInfo[2][0] = 0;
+  vnInfo[2][1] = 10;
+  vnInfo[2][2] = 0;
+  vnInfo[2][3] = 1;
+  
+  vnInfo[3][0] = 0;
+  vnInfo[3][1] = 11;
+  vnInfo[3][2] = 1;
+  vnInfo[3][3] = 0;
+  
+  vnInfo[4][0] = 0;
+  vnInfo[4][1] = 10;
+  vnInfo[4][2] = 1;
+  vnInfo[4][3] = 0;
+  
+  vnInfo[5][0] = -1;
+  vnInfo[5][1] = -1;
+  vnInfo[5][2] = 0;
+  vnInfo[5][3] = 0;
+  
+  vnInfo[6][0] = 1;
+  vnInfo[6][1] = 10;
+  vnInfo[6][2] = 0;
+  vnInfo[6][3] = 1;
+  
+  vnInfo[7][0] = 0;
+  vnInfo[7][1] = 11;
+  vnInfo[7][2] = 1;
+  vnInfo[7][3] = 0;
+  
+  vnInfo[8][0] = 0;
+  vnInfo[8][1] = 10;
+  vnInfo[8][2] = 1;
+  vnInfo[8][3] = 0;
+  
+  vnInfo[9][0] = 1;
+  vnInfo[9][1] = -1;
+  vnInfo[9][2] = 0;
+  vnInfo[9][3] = 0;
 }
 
 

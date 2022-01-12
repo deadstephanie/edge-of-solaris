@@ -46,6 +46,7 @@ void setup(){
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
+  fillvnInfo(); //defines vninfo
 }
 
 void draw() {
