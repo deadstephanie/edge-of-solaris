@@ -29,6 +29,13 @@ class damage {
         textSize(24);
         fill(255, 20, 20, fade);
         text(damage, damageX, damageY);
+      } else if (damageType == 1) {
+        int fade = damageTimer * 8;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(24);
+        fill(200, 20, 255, fade);
+        text(damage, damageX, damageY);
       }
     }
   }
