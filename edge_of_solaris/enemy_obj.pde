@@ -53,6 +53,7 @@ void collision() {
             if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
               enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
+              dmg[findDamage()] = new damage(enemyX, enemyY, blts[i].bulletPower, 0, 30);
               if (enemyHP <= 0) {
                 enemyTiming = 30; //start timer over for death anim
                 enemyState = 2; //set enemy to dead

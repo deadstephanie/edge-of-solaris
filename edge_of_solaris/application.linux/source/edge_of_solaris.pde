@@ -1,6 +1,7 @@
 bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
+damage[] dmg;
 
 PImage naturals1;
 PImage naturals2;
@@ -43,6 +44,7 @@ void setup(){
   blts = new bullet[bulletCount];
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
+  dmg = new damage[dmgCount];
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
@@ -79,6 +81,10 @@ void drawFrame() {
     for (bullet blts : blts) {
       blts.update();
       blts.display();
+    }
+    for (damage dmg : dmg) {
+      dmg.update();
+      dmg.display();
     }
     
     //draw player
@@ -207,6 +213,9 @@ void initObjects() { //set all objects to default (meant to be run in setup)
   for (int i = 0; i < starCount; i++) {
     stars[i] = new starsBG(int(random(screenX + 20)), int(random(screenY)), int(-1 * (random(10) + 1)), 0);
   }
+  for (int i = 0; i < dmgCount; i++) {
+    dmg[i] = new damage(-200, -200, 0, 0, 0);
+  }
 }
 
 void resetObjects() { //resets objects (similar to init but meant to be run in main loop)
@@ -218,6 +227,9 @@ void resetObjects() { //resets objects (similar to init but meant to be run in m
     }
     for (bullet blts : blts) {
       blts.reset();
+    }
+    for (damage dmg : dmg) {
+      dmg.reset();
     }
 }
 
@@ -273,6 +285,23 @@ int findEnemy () { //finds next unused enemy and returns its index value as an i
         exit = true;
       } else i++;
       if (i > (basicECount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
+}
+
+int findDamage () { //finds next unused enemy and returns its index value as an int
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (dmg[i].damageTimer == 0) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (dmgCount - 1)) {
         bulletIndex = 0;
         exit = true;
       }
