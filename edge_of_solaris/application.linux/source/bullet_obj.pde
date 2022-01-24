@@ -53,11 +53,17 @@ void display() {
     fill(20, 20, 200);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 1) { //spread shot
+    noStroke();
+    fill(20, 20, 255, 200);
+    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
     stroke(255, 120);
     strokeWeight(2);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 4) { //snipe shot
+    noStroke();
+    fill(20, 20, 255, 200);
+    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
     stroke(255, 120);
     strokeWeight(10);
     fill(255);

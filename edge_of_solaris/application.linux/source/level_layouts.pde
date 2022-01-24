@@ -1,18 +1,6 @@
 void placeEnemies() {
-  if (levelIndex == 0) {
+  if (levelIndex == 2) {
     //temp layout
-    /*genEnemy(0, 700, 200);
-    genEnemy(0, 500, 400);
-    genEnemy(0, 900, 400);
-    genEnemy(0, 1100, 20);
-    genEnemy(0, 1000, 20);
-    genEnemy(1, 900, 200);
-    genEnemy(1, 1100, 650);
-    genEnemy(2, 800, 500);
-    genEnemy(0, 1700, 100);
-    genEnemy(0, 1500, 400);
-    genEnemy(0, 1400, 600);*/
-    
     genEnemy(0, 1000, 300);
     
     genEnemy(0, 1300, 200);
@@ -53,6 +41,45 @@ void placeEnemies() {
     genEnemy(4, 5400, 300);
   } else if (levelIndex == 1) {
     genEnemy(4, 1000, 300);
+  } else if (levelIndex == 0) {
+    genEnemy(6, 1000, 400);
+    genEnemy(6, 1100, 500);
+    genEnemy(6, 1200, 600);
+    genEnemy(6, 1500, 300);
+    genEnemy(6, 1600, 200);
+    genEnemy(6, 1700, 100);
+    
+    genEnemy(6, 2100, 350);
+    genEnemy(6, 2200, 450);
+    genEnemy(6, 2200, 250);
+    genEnemy(6, 2300, 550);
+    genEnemy(6, 2300, 150);
+    
+    genEnemy(6, 2800, 350);
+    genEnemy(6, 2850, 400);
+    genEnemy(6, 2850, 300);
+    genEnemy(6, 2900, 450);
+    genEnemy(6, 2900, 250);
+    genEnemy(6, 2950, 500);
+    genEnemy(6, 2950, 200);
+    genEnemy(6, 3000, 550);
+    genEnemy(6, 3000, 150);
+    
+    genEnemy(6, 3200, 350);
+    genEnemy(6, 3300, 450);
+    genEnemy(6, 3300, 250);
+    genEnemy(6, 3400, 550);
+    genEnemy(6, 3400, 150);
+    
+    genEnemy(6, 3600, 350);
+    genEnemy(6, 3650, 400);
+    genEnemy(6, 3650, 300);
+    genEnemy(6, 3700, 450);
+    genEnemy(6, 3700, 250);
+    genEnemy(6, 3750, 500);
+    genEnemy(6, 3750, 200);
+    genEnemy(6, 3800, 550);
+    genEnemy(6, 3800, 150);
   }
 }
 
@@ -108,5 +135,15 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyHitY = 51;
     basicE[enemyIndex].enemyHP = 100;
     basicE[enemyIndex].enemyHPMax = 100;
+  } else if (type == 6) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 85;
+    basicE[enemyIndex].enemyHitY = 35;
+    basicE[enemyIndex].enemyHP = 40;
+    basicE[enemyIndex].enemyHPMax = 40;
   }
 }

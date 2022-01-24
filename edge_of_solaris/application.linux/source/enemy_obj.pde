@@ -155,6 +155,20 @@ void shoot() {
       enemyState = 2;
       enemyHP = 0;
     }
+  } else if (enemyType == 6) {
+    if (enemyTiming > 20 && enemyX < 200) {
+      float speed = 10; //higher numbers are slower
+      int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
+      int offsetY = 10; //account for incorrect aim
+      float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
+      c = c * speed; //scale c (distance hypotenuse) to speed
+      float speedX = (playerX - enemyX + offsetX);
+      float speedY = (playerY - enemyY + offsetY);
+      speedX = speedX / (c);
+      speedY = speedY / (c);
+      blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
+      enemyTiming = 0;
+    }
   }
    }
 }
@@ -170,16 +184,18 @@ void display() {
     
     if (enemyState == 1) tint(255, 100, 100);
     
-    if (enemyType == 0 && enemyState != 2) {
+    if (enemyType == 0 && enemyState != 2) { //drone that fires a homing shot
       image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 1 && enemyState != 2) {
+    } else if (enemyType == 1 && enemyState != 2) { //small gunship
       image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 2 && enemyState != 2) {
+    } else if (enemyType == 2 && enemyState != 2) { //small interceptor (spread shot)
       image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 3 && enemyState != 2) {
+    } else if (enemyType == 3 && enemyState != 2) { //medium interceptor
       image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 4 && enemyState != 2) {
+    } else if (enemyType == 4 && enemyState != 2) { //cargo ship
       image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+    } else if(enemyType == 6 && enemyState != 2) { //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
+      image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else {
       noStroke();
       fill(255, 0, 0);
@@ -188,11 +204,11 @@ void display() {
     tint(255, 255, 255); //reset tint
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
-    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 3), enemyHitY + (enemyTiming * 3));
+    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 5), (enemyHitY / 2) + (enemyTiming * 3));
     fill(255, 165, 0, 120);
-    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 2), enemyHitY + (enemyTiming * 2));
+    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 4), (enemyHitY / 2) + (enemyTiming * 2));
     fill(255, 240, 60, 150);
-    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 1), enemyHitY + (enemyTiming * 1));
+    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
     enemyTiming--;
   }
   

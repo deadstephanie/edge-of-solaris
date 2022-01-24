@@ -10,28 +10,30 @@ int dmgCount = 200; //total damage (readout) objects
 int starCount = 300; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
 int secondTiming = 0; //used for timing secondary weapons
-int screenX = 1280;
-int screenY = 720;
+int screenX = 1280; //screen size x
+int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
+float enemyBalanceHP = 1; //multiplier for enemy hp
+float enemyBalanceDMG = 1; //multiplier for enemy shot power
 
 //player vars
-float playerX = 200;
-float playerY = 250;
-int playerHitX = 30;
-int playerHitY = 7;
+float playerX = 200; //player x pos
+float playerY = 250; //player y pos
+int playerHitX = 30; //player x hitbox
+int playerHitY = 7; //player y hitbox
 int playerBulletOffsetX = 45; //offset for where bullet is generated relative to player model
 int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
-int playerMoveX = 3;
-int playerMoveY = 3;
-int playerWeapon = 2;
-int playerSecondWeapon = 0;
+int playerMoveX = 3; //player move speed x
+int playerMoveY = 3; //player move speed y
+int playerWeapon = 2; //player weapon selected
+int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
-float playerShield = 20;
-float playerShieldMax = 100;
-float playerShieldRegen = 0.5;
-float playerHP = 100;
-float playerHPMax = 100;
+float playerShield = 0; //current shield
+float playerShieldMax = 500; //max shield
+float playerShieldRegen = 0.5; //shield regen per frame
+float playerHP = 100; //current hp
+float playerHPMax = 100; //max hp
 
 //player weapon vars
 //machine gun
@@ -44,7 +46,7 @@ int playerWeaponCooldown1 = 40;
 float playerWeaponPower1 = 3.5;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
-float playerWeaponPower2 = 3.5;
+float playerWeaponPower2 = 5;
 //snipe shot
 int playerWeaponCooldown4 = 30;
 float playerWeaponPower4 = 5;

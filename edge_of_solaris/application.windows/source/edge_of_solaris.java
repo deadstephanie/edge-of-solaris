@@ -163,8 +163,13 @@ PImage vnVeda4r;
     //text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
+    stroke(0);
+    strokeWeight(15);
+    fill(0);
+    rect(20, 650, 200, 50, 10);
+    rect(235, 650, 200, 50, 10);
     setRect(4);
-    rect(23, 653.5f, (194 * (playerHP / playerHPMax)), 44);
+    rect(23, 653.5f, (195 * (playerHP / playerHPMax)), 44);
     setRect(5);
     rect(238, 653.5f, (194 * (playerShield / playerShieldMax)), 44);
     setRect(3); //render surrounds
@@ -270,7 +275,7 @@ PImage vnVeda4r;
     }
 }
 
- public void playerCollision() { //check to see if an enemy bullet 
+ public void playerCollision() { //check collision with enemy bullets/ships
     for (int i = 0; i < bulletCount; i++) {
    if (blts[i].bulletType == 200 || blts[i].bulletType == 201) { //check to ensure bullet is an enemy bullet
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
@@ -278,7 +283,6 @@ PImage vnVeda4r;
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
               playerState = 10;
               playerShield = playerShield - blts[i].bulletPower;
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, blts[i].bulletPower, 1, 30);
@@ -286,8 +290,31 @@ PImage vnVeda4r;
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
                 playerShield = 0; //make sure player shield does not go negative
               }
-            }
+            
             if (blts[i].bulletType == 200) blts[i].reset();
+          }
+        }
+      }
+    }
+  }
+  }
+  for (int i = 0; i < basicECount; i++) { //check collision with enemy planes
+   if (basicE[i].enemyState != 2) { //check to ensure ship is not dead
+    if (playerX <= basicE[i].enemyX + (basicE[i].enemyHitX / 2)) {
+      if ((playerX + (playerHitX / 1)) >= (basicE[i].enemyX - (basicE[i].enemyHitX / 2))) {
+        if (playerY <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
+          if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
+              playerState = 10;
+              playerShield = playerShield - basicE[i].enemyHP;
+              dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
+              if (playerShield < 0) { //if shield goes negative
+                playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
+                playerShield = 0; //make sure player shield does not go negative
+              }
+            //kill enemy
+            basicE[i].enemyHP = 0;
+            basicE[i].enemyState = 2;
+            basicE[i].enemyTiming = 30;
           }
         }
       }
@@ -401,11 +428,17 @@ public void reset() {
     fill(20, 20, 200);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 1) { //spread shot
+    noStroke();
+    fill(20, 20, 255, 200);
+    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
     stroke(255, 120);
     strokeWeight(2);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 4) { //snipe shot
+    noStroke();
+    fill(20, 20, 255, 200);
+    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
     stroke(255, 120);
     strokeWeight(10);
     fill(255);
@@ -637,6 +670,20 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       enemyState = 2;
       enemyHP = 0;
     }
+  } else if (enemyType == 6) {
+    if (enemyTiming > 20 && enemyX < 200) {
+      float speed = 10; //higher numbers are slower
+      int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
+      int offsetY = 10; //account for incorrect aim
+      float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
+      c = c * speed; //scale c (distance hypotenuse) to speed
+      float speedX = (playerX - enemyX + offsetX);
+      float speedY = (playerY - enemyY + offsetY);
+      speedX = speedX / (c);
+      speedY = speedY / (c);
+      blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10);
+      enemyTiming = 0;
+    }
   }
    }
 }
@@ -652,16 +699,18 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     
     if (enemyState == 1) tint(255, 100, 100);
     
-    if (enemyType == 0 && enemyState != 2) {
+    if (enemyType == 0 && enemyState != 2) { //drone that fires a homing shot
       image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 1 && enemyState != 2) {
+    } else if (enemyType == 1 && enemyState != 2) { //small gunship
       image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 2 && enemyState != 2) {
+    } else if (enemyType == 2 && enemyState != 2) { //small interceptor (spread shot)
       image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 3 && enemyState != 2) {
+    } else if (enemyType == 3 && enemyState != 2) { //medium interceptor
       image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 4 && enemyState != 2) {
+    } else if (enemyType == 4 && enemyState != 2) { //cargo ship
       image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+    } else if(enemyType == 6 && enemyState != 2) { //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
+      image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else {
       noStroke();
       fill(255, 0, 0);
@@ -670,11 +719,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     tint(255, 255, 255); //reset tint
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
-    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 3), enemyHitY + (enemyTiming * 3));
+    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 5), (enemyHitY / 2) + (enemyTiming * 3));
     fill(255, 165, 0, 120);
-    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 2), enemyHitY + (enemyTiming * 2));
+    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 4), (enemyHitY / 2) + (enemyTiming * 2));
     fill(255, 240, 60, 150);
-    ellipse(enemyX, enemyY, enemyHitX + (enemyTiming * 1), enemyHitY + (enemyTiming * 1));
+    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
     enemyTiming--;
   }
   
@@ -708,20 +757,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   vnEsence2 = loadImage("assets/vn/esence/2.png");
 }
  public void placeEnemies() {
-  if (levelIndex == 0) {
+  if (levelIndex == 2) {
     //temp layout
-    /*genEnemy(0, 700, 200);
-    genEnemy(0, 500, 400);
-    genEnemy(0, 900, 400);
-    genEnemy(0, 1100, 20);
-    genEnemy(0, 1000, 20);
-    genEnemy(1, 900, 200);
-    genEnemy(1, 1100, 650);
-    genEnemy(2, 800, 500);
-    genEnemy(0, 1700, 100);
-    genEnemy(0, 1500, 400);
-    genEnemy(0, 1400, 600);*/
-    
     genEnemy(0, 1000, 300);
     
     genEnemy(0, 1300, 200);
@@ -762,6 +799,45 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(4, 5400, 300);
   } else if (levelIndex == 1) {
     genEnemy(4, 1000, 300);
+  } else if (levelIndex == 0) {
+    genEnemy(6, 1000, 400);
+    genEnemy(6, 1100, 500);
+    genEnemy(6, 1200, 600);
+    genEnemy(6, 1500, 300);
+    genEnemy(6, 1600, 200);
+    genEnemy(6, 1700, 100);
+    
+    genEnemy(6, 2100, 350);
+    genEnemy(6, 2200, 450);
+    genEnemy(6, 2200, 250);
+    genEnemy(6, 2300, 550);
+    genEnemy(6, 2300, 150);
+    
+    genEnemy(6, 2800, 350);
+    genEnemy(6, 2850, 400);
+    genEnemy(6, 2850, 300);
+    genEnemy(6, 2900, 450);
+    genEnemy(6, 2900, 250);
+    genEnemy(6, 2950, 500);
+    genEnemy(6, 2950, 200);
+    genEnemy(6, 3000, 550);
+    genEnemy(6, 3000, 150);
+    
+    genEnemy(6, 3200, 350);
+    genEnemy(6, 3300, 450);
+    genEnemy(6, 3300, 250);
+    genEnemy(6, 3400, 550);
+    genEnemy(6, 3400, 150);
+    
+    genEnemy(6, 3600, 350);
+    genEnemy(6, 3650, 400);
+    genEnemy(6, 3650, 300);
+    genEnemy(6, 3700, 450);
+    genEnemy(6, 3700, 250);
+    genEnemy(6, 3750, 500);
+    genEnemy(6, 3750, 200);
+    genEnemy(6, 3800, 550);
+    genEnemy(6, 3800, 150);
   }
 }
 
@@ -817,6 +893,16 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemyHitY = 51;
     basicE[enemyIndex].enemyHP = 100;
     basicE[enemyIndex].enemyHPMax = 100;
+  } else if (type == 6) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 85;
+    basicE[enemyIndex].enemyHitY = 35;
+    basicE[enemyIndex].enemyHP = 40;
+    basicE[enemyIndex].enemyHPMax = 40;
   }
 }
  public void processInput() {
@@ -979,28 +1065,30 @@ int dmgCount = 200; //total damage (readout) objects
 int starCount = 300; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
 int secondTiming = 0; //used for timing secondary weapons
-int screenX = 1280;
-int screenY = 720;
+int screenX = 1280; //screen size x
+int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
+float enemyBalanceHP = 1; //multiplier for enemy hp
+float enemyBalanceDMG = 1; //multiplier for enemy shot power
 
 //player vars
-float playerX = 200;
-float playerY = 250;
-int playerHitX = 30;
-int playerHitY = 7;
+float playerX = 200; //player x pos
+float playerY = 250; //player y pos
+int playerHitX = 30; //player x hitbox
+int playerHitY = 7; //player y hitbox
 int playerBulletOffsetX = 45; //offset for where bullet is generated relative to player model
 int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
-int playerMoveX = 3;
-int playerMoveY = 3;
-int playerWeapon = 2;
-int playerSecondWeapon = 0;
+int playerMoveX = 3; //player move speed x
+int playerMoveY = 3; //player move speed y
+int playerWeapon = 2; //player weapon selected
+int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1 = hurt
 int bulletIndex = 0;
-float playerShield = 20;
-float playerShieldMax = 100;
-float playerShieldRegen = 0.5f;
-float playerHP = 100;
-float playerHPMax = 100;
+float playerShield = 0; //current shield
+float playerShieldMax = 500; //max shield
+float playerShieldRegen = 0.5f; //shield regen per frame
+float playerHP = 100; //current hp
+float playerHPMax = 100; //max hp
 
 //player weapon vars
 //machine gun
@@ -1013,7 +1101,7 @@ int playerWeaponCooldown1 = 40;
 float playerWeaponPower1 = 3.5f;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
-float playerWeaponPower2 = 3.5f;
+float playerWeaponPower2 = 5;
 //snipe shot
 int playerWeaponCooldown4 = 30;
 float playerWeaponPower4 = 5;

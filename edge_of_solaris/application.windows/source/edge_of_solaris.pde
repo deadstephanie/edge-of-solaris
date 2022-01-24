@@ -144,8 +144,13 @@ void drawUI() {
     //text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
+    stroke(0);
+    strokeWeight(15);
+    fill(0);
+    rect(20, 650, 200, 50, 10);
+    rect(235, 650, 200, 50, 10);
     setRect(4);
-    rect(23, 653.5, (194 * (playerHP / playerHPMax)), 44);
+    rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
     setRect(5);
     rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
     setRect(3); //render surrounds
@@ -251,7 +256,7 @@ void resetObjects() { //resets objects (similar to init but meant to be run in m
     }
 }
 
-void playerCollision() { //check to see if an enemy bullet 
+void playerCollision() { //check collision with enemy bullets/ships
     for (int i = 0; i < bulletCount; i++) {
    if (blts[i].bulletType == 200 || blts[i].bulletType == 201) { //check to ensure bullet is an enemy bullet
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
@@ -259,7 +264,6 @@ void playerCollision() { //check to see if an enemy bullet
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
-            if (blts[i].bulletType == 200 || blts[i].bulletType == 201) {
               playerState = 10;
               playerShield = playerShield - blts[i].bulletPower;
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, blts[i].bulletPower, 1, 30);
@@ -267,8 +271,31 @@ void playerCollision() { //check to see if an enemy bullet
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
                 playerShield = 0; //make sure player shield does not go negative
               }
-            }
+            
             if (blts[i].bulletType == 200) blts[i].reset();
+          }
+        }
+      }
+    }
+  }
+  }
+  for (int i = 0; i < basicECount; i++) { //check collision with enemy planes
+   if (basicE[i].enemyState != 2) { //check to ensure ship is not dead
+    if (playerX <= basicE[i].enemyX + (basicE[i].enemyHitX / 2)) {
+      if ((playerX + (playerHitX / 1)) >= (basicE[i].enemyX - (basicE[i].enemyHitX / 2))) {
+        if (playerY <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
+          if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
+              playerState = 10;
+              playerShield = playerShield - basicE[i].enemyHP;
+              dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
+              if (playerShield < 0) { //if shield goes negative
+                playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
+                playerShield = 0; //make sure player shield does not go negative
+              }
+            //kill enemy
+            basicE[i].enemyHP = 0;
+            basicE[i].enemyState = 2;
+            basicE[i].enemyTiming = 30;
           }
         }
       }
