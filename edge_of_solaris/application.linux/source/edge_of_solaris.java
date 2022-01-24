@@ -223,6 +223,9 @@ PImage vnVeda4r;
   if (levelIndex == 0) {
     screenIndex = 3; //set to vn section
     textIndex = 11; //set text index to next vn section
+  } else if (levelIndex == 1) {
+    screenIndex = 3;
+    textIndex = 16;
   }
 }
 
@@ -735,6 +738,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     fill(255, 240, 60, 150);
     ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
     enemyTiming--;
+    if (enemyType == 4 && enemyTiming == 0) { //cargo ship both death action
+      if (levelIndex == 1) {
+        levelEnd();
+      }
+    }
   }
   
 }
@@ -810,7 +818,29 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     
     genEnemy(4, 5400, 300);
   } else if (levelIndex == 1) {
-    genEnemy(4, 1000, 300);
+    genEnemy(6, 1000, 350);
+    genEnemy(6, 800, 150);
+    genEnemy(6, 800, 550);
+    
+    genEnemy(0, 1400, 350);
+    genEnemy(0, 1400, 450);
+    genEnemy(0, 1400, 250);
+    
+    genEnemy(3, 1700, 350);
+    genEnemy(3, 1750, 400);
+    genEnemy(3, 1750, 300);
+    genEnemy(3, 1800, 450);
+    genEnemy(3, 1800, 250);
+    
+    genEnemy(6, 2000, 450);
+    genEnemy(6, 2050, 500);
+    genEnemy(6, 2100, 550);
+    
+    genEnemy(6, 2200, 250);
+    genEnemy(6, 2250, 200);
+    genEnemy(6, 2300, 150);
+    
+    genEnemy(4, 2500, 300);
   } else if (levelIndex == 0) {
     genEnemy(6, 1000, 400);
     genEnemy(6, 1100, 500);
@@ -1291,6 +1321,26 @@ int playerEngineTimer = 0;
   vnInfo[14][1] = -1;
   vnInfo[14][2] = 0;
   vnInfo[14][3] = 0;
+  
+  vnInfo[16][0] = 0;
+  vnInfo[16][1] = 11;
+  vnInfo[16][2] = 0;
+  vnInfo[16][3] = 1;
+  
+  vnInfo[17][0] = 0;
+  vnInfo[17][1] = 12;
+  vnInfo[17][2] = 1;
+  vnInfo[17][3] = 0;
+  
+  vnInfo[18][0] = 1;
+  vnInfo[18][1] = 11;
+  vnInfo[18][2] = 0;
+  vnInfo[18][3] = 1;
+  
+  vnInfo[19][0] = 0;
+  vnInfo[19][1] = 10;
+  vnInfo[19][2] = 1;
+  vnInfo[19][3] = 0;
 }
 
 

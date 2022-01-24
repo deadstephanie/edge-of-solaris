@@ -1,15 +1,19 @@
 Esence: I heard back from engineering, your nebulon is finally operational Zerina. Good timing too, your first mission is set for 1400 hours.
-Zerina: The Nova Wasp... Does this nebulon have enough power to finally end the war
+Zerina: The Nova Wasp... Does this nebulon have enough power to finally end the war with Faun?
 Esence: Chill out, just focus on the mission. This will give us good data regardless of the outcome.
-Esence: The mission today is to test your new nebulon, we found some stragglers, take them out.
+Esence: The mission today is to test your new nebulon, we found some natural stragglers, take them out.
 -- 4 hours later --
 Zerina: I'm taking off. It is time to see if the performance simulations of this nebulon are accurate.
 Esence: For this mission your nebulon has been equipped with dual Gen 17 beam cannons.
-Esence: Your secondaries are unguided missiles, they explode on impact.
+Esence: Your secondaries are unguided missiles, they are more powerful than your beam cannons but harder to aim.
 Zerina: Nova Wasp MDN-49, launching
 [level 0]
 Esence: How do you like those beam cannons? They are multiple generations ahead of anything the naturals have.
-Esence: I'm picking up a large cluster of enemy vessels in front of you, looks like like there's a bomber at the end of the fleet. Take it out.
+Esence: I'm picking up a large cluster of Faun vessels in front of you, looks like like there's a bomber at the end of the fleet. Take it out.
 Zerina: My nebulon...
 Zerina: Nova Wasp launching
 [level 1]
+Zerina: What power. With this nebulon, I can finally bring victory to the Aegis Alliance.
+Esence: Is that why you joined the Aegis Airforce?
+Zerina: I didn't join. I am a designer baby created specifically to pilot this nebulon.
+Esence: That explains it, the acceleration on this nebu is insane. I don't know anyone else who could pilot such a machine without puking.

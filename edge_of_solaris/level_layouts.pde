@@ -40,7 +40,29 @@ void placeEnemies() {
     
     genEnemy(4, 5400, 300);
   } else if (levelIndex == 1) {
-    genEnemy(4, 1000, 300);
+    genEnemy(6, 1000, 350);
+    genEnemy(6, 800, 150);
+    genEnemy(6, 800, 550);
+    
+    genEnemy(0, 1400, 350);
+    genEnemy(0, 1400, 450);
+    genEnemy(0, 1400, 250);
+    
+    genEnemy(3, 1700, 350);
+    genEnemy(3, 1750, 400);
+    genEnemy(3, 1750, 300);
+    genEnemy(3, 1800, 450);
+    genEnemy(3, 1800, 250);
+    
+    genEnemy(6, 2000, 450);
+    genEnemy(6, 2050, 500);
+    genEnemy(6, 2100, 550);
+    
+    genEnemy(6, 2200, 250);
+    genEnemy(6, 2250, 200);
+    genEnemy(6, 2300, 150);
+    
+    genEnemy(4, 2500, 300);
   } else if (levelIndex == 0) {
     genEnemy(6, 1000, 400);
     genEnemy(6, 1100, 500);

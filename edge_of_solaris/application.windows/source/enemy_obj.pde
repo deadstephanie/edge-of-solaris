@@ -213,6 +213,11 @@ void display() {
     fill(255, 240, 60, 150);
     ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
     enemyTiming--;
+    if (enemyType == 4 && enemyTiming == 0) { //cargo ship both death action
+      if (levelIndex == 1) {
+        levelEnd();
+      }
+    }
   }
   
 }

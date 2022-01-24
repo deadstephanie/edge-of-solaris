@@ -137,4 +137,24 @@ void fillvnInfo() {
   vnInfo[14][1] = -1;
   vnInfo[14][2] = 0;
   vnInfo[14][3] = 0;
+  
+  vnInfo[16][0] = 0;
+  vnInfo[16][1] = 11;
+  vnInfo[16][2] = 0;
+  vnInfo[16][3] = 1;
+  
+  vnInfo[17][0] = 0;
+  vnInfo[17][1] = 12;
+  vnInfo[17][2] = 1;
+  vnInfo[17][3] = 0;
+  
+  vnInfo[18][0] = 1;
+  vnInfo[18][1] = 11;
+  vnInfo[18][2] = 0;
+  vnInfo[18][3] = 1;
+  
+  vnInfo[19][0] = 0;
+  vnInfo[19][1] = 10;
+  vnInfo[19][2] = 1;
+  vnInfo[19][3] = 0;
 }
