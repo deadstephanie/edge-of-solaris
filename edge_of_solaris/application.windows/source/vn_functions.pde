@@ -1,5 +1,5 @@
 void drawVN() {
-  switch(vnInfo[textIndex + 1][2]) { //left side vn portrait tint
+  switch(vnInfo[textIndex][2]) { //left side vn portrait tint
     case 0:
     tint(255, 255, 255, 255);
     break;
@@ -7,7 +7,7 @@ void drawVN() {
     tint(255, 100);
     break;
   }
-  switch(vnInfo[textIndex + 1][0]) { //left side vn portrait image
+  switch(vnInfo[textIndex][0]) { //left side vn portrait image
     case 0:
     image(vnPlayer1r, 0, 0, 500, 500);
     break;
@@ -20,7 +20,7 @@ void drawVN() {
     default:
     break;
   }
-  switch(vnInfo[textIndex + 1][3]) { //right side vn portrait tint
+  switch(vnInfo[textIndex][3]) { //right side vn portrait tint
     case 0:
     tint(255, 255, 255, 255);
     break;
@@ -30,7 +30,7 @@ void drawVN() {
     default:
     break;
   }
-  switch(vnInfo[textIndex + 1][1]) { //right side vn portrait image
+  switch(vnInfo[textIndex][1]) { //right side vn portrait image
     case 0:
     image(vnPlayer1, 800, 0, 500, 500);
     break;
@@ -46,6 +46,12 @@ void drawVN() {
     case 11:
     image(vnEsence2, 800, 0, 500, 500);
     break;
+    case 12:
+    image(vnEsence3, 800, 0, 500, 500);
+    break;
+    case 13:
+    image(vnEsence4, 800, 0, 500, 500);
+    break;
     default:
     break;
   }
@@ -60,7 +66,7 @@ void drawVN() {
   textSize(48);
   fill(255);
   noStroke();
-  text(textLines[textIndex], 35, 460, 1230, 250);
+  text(textLines[textIndex - 1], 35, 460, 1230, 250);
   textSize(32);
   text("SKIP", 1050, 680);
   text("NEXT", 1160, 680);
@@ -111,4 +117,24 @@ void fillvnInfo() {
   vnInfo[9][1] = -1;
   vnInfo[9][2] = 0;
   vnInfo[9][3] = 0;
+  
+  vnInfo[11][0] = 0;
+  vnInfo[11][1] = 10;
+  vnInfo[11][2] = 1;
+  vnInfo[11][3] = 0;
+  
+  vnInfo[12][0] = 0;
+  vnInfo[12][1] = 13;
+  vnInfo[12][2] = 1;
+  vnInfo[12][3] = 0;
+  
+  vnInfo[13][0] = 1;
+  vnInfo[13][1] = -1;
+  vnInfo[13][2] = 0;
+  vnInfo[13][3] = 0;
+  
+  vnInfo[14][0] = 1;
+  vnInfo[14][1] = -1;
+  vnInfo[14][2] = 0;
+  vnInfo[14][3] = 0;
 }

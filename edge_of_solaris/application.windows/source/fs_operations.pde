@@ -24,4 +24,6 @@ void loadSprites() {
   
   vnEsence1 = loadImage("assets/vn/esence/1.png");
   vnEsence2 = loadImage("assets/vn/esence/2.png");
+  vnEsence3 = loadImage("assets/vn/esence/3.png");
+  vnEsence4 = loadImage("assets/vn/esence/4.png");
 }

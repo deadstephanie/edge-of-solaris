@@ -40,6 +40,9 @@ void update() {
     if (enemyX <= 1000) enemyX = 1000;
     else enemyTiming = 199;
   }
+  if (enemyType == 999 && enemyX < 0){
+    levelEnd();
+  }
 }
 
 void collision() {

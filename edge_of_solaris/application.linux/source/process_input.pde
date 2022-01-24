@@ -34,7 +34,13 @@ void processInput() {
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
       textIndex++;
-      if (textIndex == 9) {
+      if (textIndex == 10) { //when to switch to level 0
+        levelIndex = 0;
+        screenIndex = 0;
+        initObjects();
+        enemiesPlaced = false;
+      } else if (textIndex == 15) { //when to switch to level 1
+        levelIndex = 1;
         screenIndex = 0;
         initObjects();
         enemiesPlaced = false;

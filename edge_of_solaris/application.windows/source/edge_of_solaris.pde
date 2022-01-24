@@ -200,6 +200,13 @@ void drawUI() {
   }
 }
 
+void levelEnd() { //called when the level should end
+  if (levelIndex == 0) {
+    screenIndex = 3; //set to vn section
+    textIndex = 11; //set text index to next vn section
+  }
+}
+
 void setRect(int colorIndex) {
   if (colorIndex == 0) {
     strokeWeight(1);

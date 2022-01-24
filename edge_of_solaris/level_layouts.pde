@@ -80,6 +80,8 @@ void placeEnemies() {
     genEnemy(6, 3750, 200);
     genEnemy(6, 3800, 550);
     genEnemy(6, 3800, 150);
+    
+    genEnemy(999, 4000, -500); //level complete enemy
   }
 }
 
@@ -143,7 +145,17 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 85;
     basicE[enemyIndex].enemyHitY = 35;
-    basicE[enemyIndex].enemyHP = 40;
-    basicE[enemyIndex].enemyHPMax = 40;
+    basicE[enemyIndex].enemyHP = 10;
+    basicE[enemyIndex].enemyHPMax = 10;
+  } else if (type == 999) { //level end enemy
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 0;
+    basicE[enemyIndex].enemyHitY = 0;
+    basicE[enemyIndex].enemyHP = 9999;
+    basicE[enemyIndex].enemyHPMax = 9999;
   }
 }

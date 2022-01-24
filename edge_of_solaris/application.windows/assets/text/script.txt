@@ -1,9 +1,15 @@
-Esence: I heard back from engineering, your ship is finally operational Zerina. Good timing too, your first mission is set for 1400 hours.
-Zerina: The [ship code name]... Does this ship have enough power to finally end the war
+Esence: I heard back from engineering, your nebulon is finally operational Zerina. Good timing too, your first mission is set for 1400 hours.
+Zerina: The Nova Wasp... Does this nebulon have enough power to finally end the war
 Esence: Chill out, just focus on the mission. This will give us good data regardless of the outcome.
-Esence: The mission today is cut through a naturals fleet and destroy their bombers.
+Esence: The mission today is to test your new nebulon, we found some stragglers, take them out.
 -- 4 hours later --
-Zerina: I'm taking off. It is time to see if the performance simulations of this ship are accurate.
-Esence: For this mission your ship has been equipped with dual Gen 17 beam cannons.
-Esence: Your secondaries are unguided missiles, the explode on impact.
-Zerina: [ship code name] launching.
+Zerina: I'm taking off. It is time to see if the performance simulations of this nebulon are accurate.
+Esence: For this mission your nebulon has been equipped with dual Gen 17 beam cannons.
+Esence: Your secondaries are unguided missiles, they explode on impact.
+Zerina: Nova Wasp MDN-49, launching
+[level 0]
+Esence: How do you like those beam cannons? They are multiple generations ahead of anything the naturals have.
+Esence: I'm picking up a large cluster of enemy vessels in front of you, looks like like there's a bomber at the end of the fleet. Take it out.
+Zerina: My nebulon...
+Zerina: Nova Wasp launching
+[level 1]
