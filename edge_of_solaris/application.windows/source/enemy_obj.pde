@@ -181,6 +181,7 @@ void display() {
     } else if (enemyType == 4 && enemyState != 2) {
       image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else {
+      noStroke();
       fill(255, 0, 0);
       ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
     }

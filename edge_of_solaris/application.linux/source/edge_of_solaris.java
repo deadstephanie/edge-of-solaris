@@ -98,15 +98,6 @@ PImage vnVeda4r;
       }
     }
     
-    if (levelType == 0) { //over land
-      
-    } else if (levelType == 1) { //over water
-      noStroke();
-      fill(50, 50, 255);
-      ellipse(640, 750, 2000, 200);
-    } 
-    
-    
     for (enemy basicE : basicE) {
       basicE.update();
       basicE.collision();
@@ -121,6 +112,17 @@ PImage vnVeda4r;
       dmg.update();
       dmg.display();
     }
+    
+    if (levelType == 0) { //over land
+      
+    } else if (levelType == 1) { //over water
+      noStroke();
+      fill(50, 50, 255);
+      ellipse(640, 750, 2000, 200);
+    } 
+    
+    
+    
     
     //draw player
     playerCollision();
@@ -421,6 +423,8 @@ public void reset() {
   } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 150);
     strokeWeight(2);
+    fill(20, 255, 20, 150);
+    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
     fill(175, 255, 175);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
@@ -659,6 +663,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     } else if (enemyType == 4 && enemyState != 2) {
       image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
     } else {
+      noStroke();
       fill(255, 0, 0);
       ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
     }

@@ -79,15 +79,6 @@ void drawFrame() {
       }
     }
     
-    if (levelType == 0) { //over land
-      
-    } else if (levelType == 1) { //over water
-      noStroke();
-      fill(50, 50, 255);
-      ellipse(640, 750, 2000, 200);
-    } 
-    
-    
     for (enemy basicE : basicE) {
       basicE.update();
       basicE.collision();
@@ -102,6 +93,17 @@ void drawFrame() {
       dmg.update();
       dmg.display();
     }
+    
+    if (levelType == 0) { //over land
+      
+    } else if (levelType == 1) { //over water
+      noStroke();
+      fill(50, 50, 255);
+      ellipse(640, 750, 2000, 200);
+    } 
+    
+    
+    
     
     //draw player
     playerCollision();

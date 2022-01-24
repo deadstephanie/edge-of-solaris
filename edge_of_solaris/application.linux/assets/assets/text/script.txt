@@ -1,0 +1,9 @@
+Esence: I heard back from engineering, your ship is finally operational Zerina. Good timing too, your first mission is set for 1400 hours.
+Zerina: The [ship code name]... Does this ship have enough power to finally end the war
+Esence: Chill out, just focus on the mission. This will give us good data regardless of the outcome.
+Esence: The mission today is cut through a naturals fleet and destroy their bombers.
+-- 4 hours later --
+Zerina: I'm taking off. It is time to see if the performance simulations of this ship are accurate.
+Esence: For this mission your ship has been equipped with dual Gen 17 beam cannons.
+Esence: Your secondaries are unguided missiles, the explode on impact.
+Zerina: [ship code name] launching.
