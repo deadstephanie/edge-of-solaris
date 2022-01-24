@@ -29,9 +29,17 @@ void reset() {
 }
 
 void display() {
-  strokeWeight(5);
-  stroke(255, 25);
-  fill(255, (150 - (starSpeedX * 20)));
-  ellipse(starX, starY, 5, 5);
+  if (levelType == 0) {
+  } else if (levelType == 1) {
+    strokeWeight(5);
+    stroke(255, 25);
+    fill(255, (150 + (starSpeedX * 10)));
+    ellipse(starX, starY, 60, 25);
+  } else if (levelType == 2) {
+    strokeWeight(5);
+    stroke(255, 25);
+    fill(255, (150 + (starSpeedX * 10)));
+    ellipse(starX, starY, 5, 5);
+  }
 }
 }

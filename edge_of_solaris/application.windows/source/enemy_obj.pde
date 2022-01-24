@@ -163,6 +163,8 @@ void display() {
   strokeWeight(1);
   noStroke();
   if (enemyState != 2) { //do not display hp bar if enemy is dead
+    strokeWeight(1);
+    stroke(0);
     fill(20, 255, 20, 100);
     rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
     

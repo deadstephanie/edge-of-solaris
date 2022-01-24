@@ -63,7 +63,7 @@ void display() {
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 100) { //basic secondary missile
-    stroke(255, 200);
+    stroke(255, 20, 20, 200);
     strokeWeight(3);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);

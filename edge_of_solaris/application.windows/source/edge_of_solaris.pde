@@ -68,10 +68,26 @@ void draw() {
 
 void drawFrame() {
   if (screenIndex == 0) {
-    for (starsBG stars : stars) {
-      stars.update();
-      stars.display();
+     //render background
+     if (levelType == 1) background(180, 248, 255);
+     else if (levelType == 2) background(0);
+      
+    if (levelType == 2 || levelType == 1) {
+      for (starsBG stars : stars) {
+        stars.update();
+        stars.display();
+      }
     }
+    
+    if (levelType == 0) { //over land
+      
+    } else if (levelType == 1) { //over water
+      noStroke();
+      fill(50, 50, 255);
+      ellipse(640, 750, 2000, 200);
+    } 
+    
+    
     for (enemy basicE : basicE) {
       basicE.update();
       basicE.collision();
