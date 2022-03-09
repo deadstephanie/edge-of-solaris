@@ -89,8 +89,8 @@ void playerShoot() {
     }
   } else if (playerWeapon == 2) { //dual beam cannon
       if (timing > playerWeaponCooldown2) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 5, 20, 0, playerWeapon, 50, 7, playerWeaponPower2);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 5, 20, 0, playerWeapon, 50, 7, playerWeaponPower2);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2);
       timing = 0;
     }
   } else if (playerWeapon == 4) { //sniper shot
@@ -101,8 +101,8 @@ void playerShoot() {
   }
   if (playerSecondWeapon == 0) { //basic secondary missile
     if (secondTiming > playerWeaponCooldown100) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
       secondTiming = 0;
     }
   }

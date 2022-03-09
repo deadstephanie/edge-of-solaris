@@ -7,12 +7,12 @@ void loadText() {
 }
 
 void loadSprites() {
-  naturals1 = loadImage("assets/png/naturals/3-x.png");
-  naturals2 = loadImage("assets/png/naturals/2-x.png");
-  naturals3 = loadImage("assets/png/naturals/1-x.png");
-  naturals4 = loadImage("assets/png/naturals/4-x.png");
-  naturals5 = loadImage("assets/png/naturals/5-x.png");
-  player1 = loadImage("assets/png/player/3.png");
+  naturals1 = loadImage("assets/png/naturals/3-xx.png");
+  naturals2 = loadImage("assets/png/naturals/2-xx.png");
+  naturals3 = loadImage("assets/png/naturals/1-xx.png");
+  naturals4 = loadImage("assets/png/naturals/4-xx.png");
+  naturals5 = loadImage("assets/png/naturals/5-xx.png");
+  player1 = loadImage("assets/png/player/3-x.png");
   
   vnPlayer1 = loadImage("assets/vn/player/1.png");
   vnPlayer2 = loadImage("assets/vn/player/2.png");

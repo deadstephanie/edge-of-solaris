@@ -132,19 +132,19 @@ PImage vnVeda4r;
     else { //if player being hurt
       setRect(2); 
       playerState--;  //reset player state
-      rect(playerX, playerY, playerHitX, playerHitY, 10); //render player hurt state
+      rect(playerX, playerY + 10, playerHitX, playerHitY - 10, 10); //render player hurt state
     }
     
     //render the engine glow effect
     noStroke();
     fill(0, 127, 255, 100);
-    ellipse(playerX - 10, playerY + 2.5f, 30 + abs(playerEngineTimer / 3), 10);
+    ellipse(playerX - 7, playerY + 12.5f, 30 + abs(playerEngineTimer / 3), 10);
     fill(0, 165, 255, 120);
-    ellipse(playerX - 7, playerY + 2.5f, 20 + abs(playerEngineTimer / 3), 10);
+    ellipse(playerX - 4, playerY + 12.5f, 20 + abs(playerEngineTimer / 3), 10);
     fill(60, 240, 255, 150);
-    ellipse(playerX - 5, playerY + 2.5f, 15 + abs(playerEngineTimer / 3), 8);
+    ellipse(playerX - 2, playerY + 12.5f, 15 + abs(playerEngineTimer / 3), 8);
     fill(100, 240, 255, 200);
-    ellipse(playerX - 5, playerY + 2.5f, 10 + abs(playerEngineTimer / 3), 6);
+    ellipse(playerX - 2, playerY + 12.5f, 10 + abs(playerEngineTimer / 3), 6);
     playerEngineTimer++;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
@@ -293,7 +293,7 @@ PImage vnVeda4r;
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
-        if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
+        if (playerY + 10 <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
               playerState = 10;
               playerShield = playerShield - blts[i].bulletPower;
@@ -314,7 +314,7 @@ PImage vnVeda4r;
    if (basicE[i].enemyState != 2) { //check to ensure ship is not dead
     if (playerX <= basicE[i].enemyX + (basicE[i].enemyHitX / 2)) {
       if ((playerX + (playerHitX / 1)) >= (basicE[i].enemyX - (basicE[i].enemyHitX / 2))) {
-        if (playerY <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
+        if (playerY + 10 <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
               playerShield = playerShield - basicE[i].enemyHP;
@@ -758,12 +758,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void loadSprites() {
-  naturals1 = loadImage("assets/png/naturals/3-x.png");
-  naturals2 = loadImage("assets/png/naturals/2-x.png");
-  naturals3 = loadImage("assets/png/naturals/1-x.png");
-  naturals4 = loadImage("assets/png/naturals/4-x.png");
-  naturals5 = loadImage("assets/png/naturals/5-x.png");
-  player1 = loadImage("assets/png/player/3.png");
+  naturals1 = loadImage("assets/png/naturals/3-xx.png");
+  naturals2 = loadImage("assets/png/naturals/2-xx.png");
+  naturals3 = loadImage("assets/png/naturals/1-xx.png");
+  naturals4 = loadImage("assets/png/naturals/4-xx.png");
+  naturals5 = loadImage("assets/png/naturals/5-xx.png");
+  player1 = loadImage("assets/png/player/3-x.png");
   
   vnPlayer1 = loadImage("assets/vn/player/1.png");
   vnPlayer2 = loadImage("assets/vn/player/2.png");
@@ -825,8 +825,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(6, 800, 550);
     
     genEnemy(0, 1400, 350);
-    genEnemy(0, 1400, 450);
-    genEnemy(0, 1400, 250);
+    genEnemy(0, 1400, 500);
+    genEnemy(0, 1400, 200);
     
     genEnemy(3, 1700, 350);
     genEnemy(3, 1750, 400);
@@ -895,8 +895,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
-    basicE[enemyIndex].enemyHitX = 55;
-    basicE[enemyIndex].enemyHitY = 55;
+    basicE[enemyIndex].enemyHitX = 110;
+    basicE[enemyIndex].enemyHitY = 110;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 1) {
@@ -905,8 +905,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 105;
-    basicE[enemyIndex].enemyHitY = 43;
+    basicE[enemyIndex].enemyHitX = 210;
+    basicE[enemyIndex].enemyHitY = 86;
     basicE[enemyIndex].enemyHP = 30;
     basicE[enemyIndex].enemyHPMax = 30;
   } else if (type == 2) {
@@ -915,8 +915,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 85;
-    basicE[enemyIndex].enemyHitY = 35;
+    basicE[enemyIndex].enemyHitX = 170;
+    basicE[enemyIndex].enemyHitY = 70;
     basicE[enemyIndex].enemyHP = 40;
     basicE[enemyIndex].enemyHPMax = 40;
   } else if (type == 3) {
@@ -925,8 +925,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 95;
-    basicE[enemyIndex].enemyHitY = 29;
+    basicE[enemyIndex].enemyHitX = 190;
+    basicE[enemyIndex].enemyHitY = 58;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 4) {
@@ -935,8 +935,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 126;
-    basicE[enemyIndex].enemyHitY = 51;
+    basicE[enemyIndex].enemyHitX = 252;
+    basicE[enemyIndex].enemyHitY = 102;
     basicE[enemyIndex].enemyHP = 100;
     basicE[enemyIndex].enemyHPMax = 100;
   } else if (type == 6) {
@@ -945,8 +945,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 85;
-    basicE[enemyIndex].enemyHitY = 35;
+    basicE[enemyIndex].enemyHitX = 170;
+    basicE[enemyIndex].enemyHitY = 70;
     basicE[enemyIndex].enemyHP = 10;
     basicE[enemyIndex].enemyHPMax = 10;
   } else if (type == 999) { //level end enemy
@@ -1052,8 +1052,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   } else if (playerWeapon == 2) { //dual beam cannon
       if (timing > playerWeaponCooldown2) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 5, 20, 0, playerWeapon, 50, 7, playerWeaponPower2);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 5, 20, 0, playerWeapon, 50, 7, playerWeaponPower2);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2);
       timing = 0;
     }
   } else if (playerWeapon == 4) { //sniper shot
@@ -1064,8 +1064,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   }
   if (playerSecondWeapon == 0) { //basic secondary missile
     if (secondTiming > playerWeaponCooldown100) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 10, 5, playerWeaponPower100);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
       secondTiming = 0;
     }
   }
@@ -1136,12 +1136,12 @@ float enemyBalanceDMG = 1; //multiplier for enemy shot power
 //player vars
 float playerX = 200; //player x pos
 float playerY = 250; //player y pos
-int playerHitX = 30; //player x hitbox
-int playerHitY = 7; //player y hitbox
+int playerHitX = 60; //player x hitbox
+int playerHitY = 14; //player y hitbox
 int playerBulletOffsetX = 45; //offset for where bullet is generated relative to player model
-int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
-int playerMoveX = 3; //player move speed x
-int playerMoveY = 3; //player move speed y
+int playerBulletOffsetY = 13; //offset for where bullet is generated relative to player model
+int playerMoveX = 4; //player move speed x
+int playerMoveY = 4; //player move speed y
 int playerWeapon = 2; //player weapon selected
 int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1 = hurt

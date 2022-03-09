@@ -113,19 +113,19 @@ void drawFrame() {
     else { //if player being hurt
       setRect(2); 
       playerState--;  //reset player state
-      rect(playerX, playerY, playerHitX, playerHitY, 10); //render player hurt state
+      rect(playerX, playerY + 10, playerHitX, playerHitY - 10, 10); //render player hurt state
     }
     
     //render the engine glow effect
     noStroke();
     fill(0, 127, 255, 100);
-    ellipse(playerX - 10, playerY + 2.5, 30 + abs(playerEngineTimer / 3), 10);
+    ellipse(playerX - 7, playerY + 12.5, 30 + abs(playerEngineTimer / 3), 10);
     fill(0, 165, 255, 120);
-    ellipse(playerX - 7, playerY + 2.5, 20 + abs(playerEngineTimer / 3), 10);
+    ellipse(playerX - 4, playerY + 12.5, 20 + abs(playerEngineTimer / 3), 10);
     fill(60, 240, 255, 150);
-    ellipse(playerX - 5, playerY + 2.5, 15 + abs(playerEngineTimer / 3), 8);
+    ellipse(playerX - 2, playerY + 12.5, 15 + abs(playerEngineTimer / 3), 8);
     fill(100, 240, 255, 200);
-    ellipse(playerX - 5, playerY + 2.5, 10 + abs(playerEngineTimer / 3), 6);
+    ellipse(playerX - 2, playerY + 12.5, 10 + abs(playerEngineTimer / 3), 6);
     playerEngineTimer++;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
@@ -274,7 +274,7 @@ void playerCollision() { //check collision with enemy bullets/ships
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
       //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
-        if (playerY <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
+        if (playerY + 10 <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
               playerState = 10;
               playerShield = playerShield - blts[i].bulletPower;
@@ -295,7 +295,7 @@ void playerCollision() { //check collision with enemy bullets/ships
    if (basicE[i].enemyState != 2) { //check to ensure ship is not dead
     if (playerX <= basicE[i].enemyX + (basicE[i].enemyHitX / 2)) {
       if ((playerX + (playerHitX / 1)) >= (basicE[i].enemyX - (basicE[i].enemyHitX / 2))) {
-        if (playerY <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
+        if (playerY + 10 <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
               playerShield = playerShield - basicE[i].enemyHP;

@@ -19,12 +19,12 @@ float enemyBalanceDMG = 1; //multiplier for enemy shot power
 //player vars
 float playerX = 200; //player x pos
 float playerY = 250; //player y pos
-int playerHitX = 30; //player x hitbox
-int playerHitY = 7; //player y hitbox
+int playerHitX = 60; //player x hitbox
+int playerHitY = 14; //player y hitbox
 int playerBulletOffsetX = 45; //offset for where bullet is generated relative to player model
-int playerBulletOffsetY = 5; //offset for where bullet is generated relative to player model
-int playerMoveX = 3; //player move speed x
-int playerMoveY = 3; //player move speed y
+int playerBulletOffsetY = 13; //offset for where bullet is generated relative to player model
+int playerMoveX = 4; //player move speed x
+int playerMoveY = 4; //player move speed y
 int playerWeapon = 2; //player weapon selected
 int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1 = hurt
