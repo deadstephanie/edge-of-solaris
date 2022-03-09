@@ -202,9 +202,11 @@ void drawUI() {
 
 void levelEnd() { //called when the level should end
   if (levelIndex == 0) {
+    keyInput[4] = false;
     screenIndex = 3; //set to vn section
     textIndex = 11; //set text index to next vn section
   } else if (levelIndex == 1) {
+    keyInput[4] = false;
     screenIndex = 3;
     textIndex = 16;
   }
