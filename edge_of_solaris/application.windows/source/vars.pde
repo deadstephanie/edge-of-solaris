@@ -1,6 +1,6 @@
 //game vars
-int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
-int levelIndex = 1; //what level the player is playing, 0 is test level
+int screenIndex = 3; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int levelIndex = 0; //what level the player is playing, 0 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
@@ -15,6 +15,7 @@ int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
 float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
+boolean paused = false; //if gameplay is paused this is true
 
 //player vars
 float playerX = 200; //player x pos

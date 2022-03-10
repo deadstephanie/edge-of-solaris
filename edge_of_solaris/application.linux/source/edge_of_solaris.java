@@ -84,12 +84,15 @@ PImage vnCyana4;
       enemiesPlaced = true;
     }
   }
-  if (timing < 255) timing++;
-  if (secondTiming < 255) secondTiming++;
+  if (paused == false) {
+    if (timing < 255) timing++;
+    if (secondTiming < 255) secondTiming++;
+  }
 }
 
  public void drawFrame() {
   if (screenIndex == 0) {
+    if (paused == false) {
      //render background
      if (levelType == 1) background(180, 248, 255);
      else if (levelType == 2) background(0);
@@ -152,6 +155,39 @@ PImage vnCyana4;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
     image(player1, playerX - 5, playerY - 5); //player sprite
+    } else if (paused == true) { //if game is paused
+           //render background
+     if (levelType == 1) background(180, 248, 255);
+     else if (levelType == 2) background(0);
+      
+    if (levelType == 2 || levelType == 1) {
+      for (starsBG stars : stars) {
+        stars.display();
+      }
+    }
+    
+    for (enemy basicE : basicE) {
+      basicE.display();
+    }
+    for (bullet blts : blts) {
+      blts.display();
+    }
+    for (damage dmg : dmg) {
+      dmg.display();
+    }
+    
+    if (levelType == 0) { //over land
+      
+    } else if (levelType == 1) { //over water
+      noStroke();
+      fill(50, 50, 255);
+      ellipse(640, 750, 2000, 200);
+    }
+    image(player1, playerX - 5, playerY - 5); //player sprite
+    textSize(60);
+    fill(255, 50, 50);
+    text("PAUSED", 550, 350);
+    }
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
@@ -232,6 +268,17 @@ PImage vnCyana4;
     screenIndex = 3;
     textIndex = 16;
   }
+}
+
+ public void levelStart() {
+  levelIndex = commandIndex;
+  screenIndex = 0;
+  playerX = 200;
+  playerY = 250;
+  playerHP = playerHPMax;
+  playerShield = playerShieldMax;
+  initObjects();
+  enemiesPlaced = false;
 }
 
  public void setRect(int colorIndex) {
@@ -970,7 +1017,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   }
 }
  public void processInput() {
-  if (screenIndex == 0) {
+  if (screenIndex == 0 && paused == false) {
       if (keyInput[0] == true) { //w
         playerY = playerY - playerMoveY;
       }
@@ -995,6 +1042,15 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (keyInput[7] == true) { //q, next weapon
         playerWeapon = 1;
       }
+      if (keyInput[8] == true) { //p, pause game
+        paused = true;
+        keyInput[8] = false;
+      }
+  } else if (screenIndex == 0 && paused == true) { //if game is paused
+        if (keyInput[8] == true) { //p, unpause game
+          paused = false;
+          keyInput[8] = false;
+        }
   } else if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
@@ -1006,10 +1062,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (keyInput[4] == true) {
       textIndex++;
       if (scanVNCommands() == 0) {//load level
-        levelIndex = commandIndex;
-        screenIndex = 0;
-        initObjects();
-        enemiesPlaced = false;
+          levelStart(); //load a level
       }
       /*
       if (textIndex == 10) { //when to switch to level 0
@@ -1038,6 +1091,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == 'q' || key == 'Q')  keyInput[5] = true;
   if (key == 'e' || key == 'E')  keyInput[6] = true;
   if (key == 'r' || key == 'R')  keyInput[7] = true;
+  if (key == 'p' || key == 'P')  keyInput[8] = true;
 }
 
  public void keyReleased() {
@@ -1049,6 +1103,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == 'q' || key == 'Q')  keyInput[5] = false;
   if (key == 'e' || key == 'E')  keyInput[6] = false;
   if (key == 'r' || key == 'R')  keyInput[7] = false;
+  if (key == 'p' || key == 'P')  keyInput[8] = false;
 }
 
  public void playerShoot() {
@@ -1132,8 +1187,8 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
-int levelIndex = 1; //what level the player is playing, 0 is test level
+int screenIndex = 3; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int levelIndex = 0; //what level the player is playing, 0 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
@@ -1148,6 +1203,7 @@ int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
 float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
+boolean paused = false; //if gameplay is paused this is true
 
 //player vars
 float playerX = 200; //player x pos

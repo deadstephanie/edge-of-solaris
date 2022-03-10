@@ -1,5 +1,5 @@
 void processInput() {
-  if (screenIndex == 0) {
+  if (screenIndex == 0 && paused == false) {
       if (keyInput[0] == true) { //w
         playerY = playerY - playerMoveY;
       }
@@ -24,6 +24,15 @@ void processInput() {
       if (keyInput[7] == true) { //q, next weapon
         playerWeapon = 1;
       }
+      if (keyInput[8] == true) { //p, pause game
+        paused = true;
+        keyInput[8] = false;
+      }
+  } else if (screenIndex == 0 && paused == true) { //if game is paused
+        if (keyInput[8] == true) { //p, unpause game
+          paused = false;
+          keyInput[8] = false;
+        }
   } else if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
@@ -35,10 +44,7 @@ void processInput() {
     if (keyInput[4] == true) {
       textIndex++;
       if (scanVNCommands() == 0) {//load level
-        levelIndex = commandIndex;
-        screenIndex = 0;
-        initObjects();
-        enemiesPlaced = false;
+          levelStart(); //load a level
       }
       /*
       if (textIndex == 10) { //when to switch to level 0
@@ -67,6 +73,7 @@ void keyPressed() {
   if (key == 'q' || key == 'Q')  keyInput[5] = true;
   if (key == 'e' || key == 'E')  keyInput[6] = true;
   if (key == 'r' || key == 'R')  keyInput[7] = true;
+  if (key == 'p' || key == 'P')  keyInput[8] = true;
 }
 
 void keyReleased() {
@@ -78,6 +85,7 @@ void keyReleased() {
   if (key == 'q' || key == 'Q')  keyInput[5] = false;
   if (key == 'e' || key == 'E')  keyInput[6] = false;
   if (key == 'r' || key == 'R')  keyInput[7] = false;
+  if (key == 'p' || key == 'P')  keyInput[8] = false;
 }
 
 void playerShoot() {

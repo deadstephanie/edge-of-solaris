@@ -65,12 +65,15 @@ void draw() {
       enemiesPlaced = true;
     }
   }
-  if (timing < 255) timing++;
-  if (secondTiming < 255) secondTiming++;
+  if (paused == false) {
+    if (timing < 255) timing++;
+    if (secondTiming < 255) secondTiming++;
+  }
 }
 
 void drawFrame() {
   if (screenIndex == 0) {
+    if (paused == false) {
      //render background
      if (levelType == 1) background(180, 248, 255);
      else if (levelType == 2) background(0);
@@ -133,6 +136,39 @@ void drawFrame() {
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
     image(player1, playerX - 5, playerY - 5); //player sprite
+    } else if (paused == true) { //if game is paused
+           //render background
+     if (levelType == 1) background(180, 248, 255);
+     else if (levelType == 2) background(0);
+      
+    if (levelType == 2 || levelType == 1) {
+      for (starsBG stars : stars) {
+        stars.display();
+      }
+    }
+    
+    for (enemy basicE : basicE) {
+      basicE.display();
+    }
+    for (bullet blts : blts) {
+      blts.display();
+    }
+    for (damage dmg : dmg) {
+      dmg.display();
+    }
+    
+    if (levelType == 0) { //over land
+      
+    } else if (levelType == 1) { //over water
+      noStroke();
+      fill(50, 50, 255);
+      ellipse(640, 750, 2000, 200);
+    }
+    image(player1, playerX - 5, playerY - 5); //player sprite
+    textSize(60);
+    fill(255, 50, 50);
+    text("PAUSED", 550, 350);
+    }
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
@@ -213,6 +249,17 @@ void levelEnd() { //called when the level should end
     screenIndex = 3;
     textIndex = 16;
   }
+}
+
+void levelStart() {
+  levelIndex = commandIndex;
+  screenIndex = 0;
+  playerX = 200;
+  playerY = 250;
+  playerHP = playerHPMax;
+  playerShield = playerShieldMax;
+  initObjects();
+  enemiesPlaced = false;
 }
 
 void setRect(int colorIndex) {
