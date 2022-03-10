@@ -78,12 +78,6 @@ PImage vnCyana4;
   processInput();
   drawFrame();
   drawUI();
-  if (screenIndex == 0) {
-    if (enemiesPlaced == false) {
-      placeEnemies();
-      enemiesPlaced = true;
-    }
-  }
   if (paused == false) {
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
@@ -234,7 +228,7 @@ PImage vnCyana4;
     text("Edge Of Solaris", 250, 120);
     fill(200, 200, 255);
     textSize(90);
-    text("random bullshit in space", 200, 240);
+    text("random tagline in space", 200, 240);
     textSize(64);
     text("new game", 500, 400);
     text("continue", 500, 500);
@@ -243,10 +237,15 @@ PImage vnCyana4;
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
+    //draw menu rects
     rect(950, 25, 300, 75);
     rect(950, 125, 300, 75);
     rect(950, 225, 300, 75);
     rect(950, 325, 300, 75);
+    //draw level select rects
+    rect(50, 25, 400, 75);
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
     noStroke();
     fill(255);
     textSize(48);
@@ -254,7 +253,9 @@ PImage vnCyana4;
     text("mess hall", 975, 175);
     text("hanger", 975, 275);
     text("engineering", 975, 375);
-    text("press w to continue (temp)", 50, 650);
+    text("launch story", 75, 75);
+    text("level 00", 75, 175);
+    text("level 01", 75, 275);
   }
 }
 
@@ -270,15 +271,15 @@ PImage vnCyana4;
   }
 }
 
- public void levelStart() {
-  levelIndex = commandIndex;
+ public void levelStart(int cmdIndex) {
+  levelIndex = cmdIndex;
   screenIndex = 0;
   playerX = 200;
   playerY = 250;
   playerHP = playerHPMax;
   playerShield = playerShieldMax;
   initObjects();
-  enemiesPlaced = false;
+  placeEnemies();
 }
 
  public void setRect(int colorIndex) {
@@ -1054,29 +1055,13 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
-    if (keyInput[0] == true) {
-      screenIndex = 0;
-      initObjects();
-    }  
+  
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
       textIndex++;
       if (scanVNCommands() == 0) {//load level
-          levelStart(); //load a level
+          levelStart(commandIndex); //load a level
       }
-      /*
-      if (textIndex == 10) { //when to switch to level 0
-        levelIndex = 0;
-        screenIndex = 0;
-        initObjects();
-        enemiesPlaced = false;
-      } else if (textIndex == 15) { //when to switch to level 1
-        levelIndex = 1;
-        screenIndex = 0;
-        initObjects();
-        enemiesPlaced = false;
-      }
-      */
       keyInput[4] = false;
     }
   }
@@ -1141,6 +1126,20 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   }
 }
+
+ public void mousePressed() {
+  if (screenIndex == 2) {//menu screen
+    if (areaIndex == 0) {
+      if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100); //status button
+      else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
+      else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
+      else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400); //engineering buttton
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+    }
+  }
+}
 class starsBG {
   int starX;
   int starY;
@@ -1187,10 +1186,10 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int screenIndex = 3; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int levelIndex = 0; //what level the player is playing, 0 is test level
+int areaIndex = 0; //index for what area the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
-boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
 int basicECount = 100; //total enemy objects

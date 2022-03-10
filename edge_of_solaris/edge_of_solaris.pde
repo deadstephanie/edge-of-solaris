@@ -59,12 +59,6 @@ void draw() {
   processInput();
   drawFrame();
   drawUI();
-  if (screenIndex == 0) {
-    if (enemiesPlaced == false) {
-      placeEnemies();
-      enemiesPlaced = true;
-    }
-  }
   if (paused == false) {
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
@@ -215,7 +209,7 @@ void drawUI() {
     text("Edge Of Solaris", 250, 120);
     fill(200, 200, 255);
     textSize(90);
-    text("random bullshit in space", 200, 240);
+    text("random tagline in space", 200, 240);
     textSize(64);
     text("new game", 500, 400);
     text("continue", 500, 500);
@@ -224,10 +218,15 @@ void drawUI() {
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
+    //draw menu rects
     rect(950, 25, 300, 75);
     rect(950, 125, 300, 75);
     rect(950, 225, 300, 75);
     rect(950, 325, 300, 75);
+    //draw level select rects
+    rect(50, 25, 400, 75);
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
     noStroke();
     fill(255);
     textSize(48);
@@ -235,7 +234,9 @@ void drawUI() {
     text("mess hall", 975, 175);
     text("hanger", 975, 275);
     text("engineering", 975, 375);
-    text("press w to continue (temp)", 50, 650);
+    text("launch story", 75, 75);
+    text("level 00", 75, 175);
+    text("level 01", 75, 275);
   }
 }
 
@@ -251,15 +252,15 @@ void levelEnd() { //called when the level should end
   }
 }
 
-void levelStart() {
-  levelIndex = commandIndex;
+void levelStart(int cmdIndex) {
+  levelIndex = cmdIndex;
   screenIndex = 0;
   playerX = 200;
   playerY = 250;
   playerHP = playerHPMax;
   playerShield = playerShieldMax;
   initObjects();
-  enemiesPlaced = false;
+  placeEnemies();
 }
 
 void setRect(int colorIndex) {

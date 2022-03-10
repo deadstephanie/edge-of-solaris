@@ -1,8 +1,8 @@
 //game vars
-int screenIndex = 3; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
 int levelIndex = 0; //what level the player is playing, 0 is test level
+int areaIndex = 0; //index for what area the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
-boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
 int basicECount = 100; //total enemy objects

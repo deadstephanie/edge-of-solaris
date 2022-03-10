@@ -36,29 +36,13 @@ void processInput() {
   } else if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
-    if (keyInput[0] == true) {
-      screenIndex = 0;
-      initObjects();
-    }  
+  
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
       textIndex++;
       if (scanVNCommands() == 0) {//load level
-          levelStart(); //load a level
+          levelStart(commandIndex); //load a level
       }
-      /*
-      if (textIndex == 10) { //when to switch to level 0
-        levelIndex = 0;
-        screenIndex = 0;
-        initObjects();
-        enemiesPlaced = false;
-      } else if (textIndex == 15) { //when to switch to level 1
-        levelIndex = 1;
-        screenIndex = 0;
-        initObjects();
-        enemiesPlaced = false;
-      }
-      */
       keyInput[4] = false;
     }
   }
@@ -120,6 +104,20 @@ void playerShoot() {
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
       secondTiming = 0;
+    }
+  }
+}
+
+void mousePressed() {
+  if (screenIndex == 2) {//menu screen
+    if (areaIndex == 0) {
+      if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100); //status button
+      else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
+      else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
+      else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400); //engineering buttton
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
     }
   }
 }
