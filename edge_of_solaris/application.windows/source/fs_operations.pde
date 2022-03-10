@@ -1,9 +1,13 @@
 void loadText() {
-  String[] lines = loadStrings("assets/text/script.txt");
-  for (int i = 0 ; i < lines.length; i++) {
-    //println(lines[i]);
-    textLines[i] = lines[i];
+  String[] loadScript = loadStrings("assets/text/script.txt");
+  String[] loadSettings = loadStrings("config.ini");
+  for (int i = 0 ; i < loadScript.length; i++) {
+    textLines[i] = loadScript[i];
   }
+  char[] settingsChar = loadSettings[0].toCharArray();
+  if (settingsChar[16] == '0') pauseOnRestart = false;
+  else pauseOnRestart = true;
+  println(settingsChar[16]);
 }
 
 void loadSprites() {
