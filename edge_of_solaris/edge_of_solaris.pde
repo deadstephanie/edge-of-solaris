@@ -39,6 +39,10 @@ PImage vnCyana1;
 PImage vnCyana2;
 PImage vnCyana3;
 PImage vnCyana4;
+PImage settingsBtn;
+PImage shadow;
+PImage shadow2;
+PImage shadow3;
 
 
 import java.io.*;
@@ -115,6 +119,11 @@ void drawFrame() {
       playerState--;  //reset player state
       rect(playerX, playerY + 10, playerHitX, playerHitY - 10, 10); //render player hurt state
     }
+    
+    if (playerHP <= 0) {levelStart(
+      levelIndex); 
+      if (pauseOnRestart == true) paused = true;
+    } //when player dies
     
     //render the engine glow effect
     noStroke();
@@ -215,6 +224,7 @@ void drawUI() {
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
   } else if (screenIndex == 2) { //level select
+    background(0);
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
@@ -227,6 +237,8 @@ void drawUI() {
     rect(50, 25, 400, 75);
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
+    //draw options button
+    image(settingsBtn, 1000, 450, 200, 200);
     noStroke();
     fill(255);
     textSize(48);
@@ -237,6 +249,29 @@ void drawUI() {
     text("launch story", 75, 75);
     text("level 00", 75, 175);
     text("level 01", 75, 275);
+  } else if (screenIndex == 4) { //settings menu
+    background(0);
+    stroke(255);
+    strokeWeight(10);
+    fill(50, 0, 50);
+    //draw menu rects
+    rect(950, 25, 300, 75);
+    rect(50, 25, 400, 75);
+    if (pauseOnRestart == true) {
+      fill(0, 150, 0);
+    }
+    rect(500, 25, 75, 75);
+    fill(50, 0, 50); // reset color
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
+    //draw options button
+    noStroke();
+    fill(255);
+    textSize(48);
+    text("Back", 975, 75);
+    text("pause on restart", 75, 75);
+    text("placeholder", 75, 175);
+    text("shadow", 75, 275);
   }
 }
 

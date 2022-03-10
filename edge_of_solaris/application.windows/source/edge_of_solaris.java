@@ -58,6 +58,10 @@ PImage vnCyana1;
 PImage vnCyana2;
 PImage vnCyana3;
 PImage vnCyana4;
+PImage settingsBtn;
+PImage shadow;
+PImage shadow2;
+PImage shadow3;
 
 
 
@@ -134,6 +138,11 @@ PImage vnCyana4;
       playerState--;  //reset player state
       rect(playerX, playerY + 10, playerHitX, playerHitY - 10, 10); //render player hurt state
     }
+    
+    if (playerHP <= 0) {levelStart(
+      levelIndex); 
+      if (pauseOnRestart == true) paused = true;
+    } //when player dies
     
     //render the engine glow effect
     noStroke();
@@ -234,6 +243,7 @@ PImage vnCyana4;
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
   } else if (screenIndex == 2) { //level select
+    background(0);
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
@@ -246,6 +256,8 @@ PImage vnCyana4;
     rect(50, 25, 400, 75);
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
+    //draw options button
+    image(settingsBtn, 1000, 450, 200, 200);
     noStroke();
     fill(255);
     textSize(48);
@@ -256,6 +268,29 @@ PImage vnCyana4;
     text("launch story", 75, 75);
     text("level 00", 75, 175);
     text("level 01", 75, 275);
+  } else if (screenIndex == 4) { //settings menu
+    background(0);
+    stroke(255);
+    strokeWeight(10);
+    fill(50, 0, 50);
+    //draw menu rects
+    rect(950, 25, 300, 75);
+    rect(50, 25, 400, 75);
+    if (pauseOnRestart == true) {
+      fill(0, 150, 0);
+    }
+    rect(500, 25, 75, 75);
+    fill(50, 0, 50); // reset color
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
+    //draw options button
+    noStroke();
+    fill(255);
+    textSize(48);
+    text("Back", 975, 75);
+    text("pause on restart", 75, 75);
+    text("placeholder", 75, 175);
+    text("shadow", 75, 275);
   }
 }
 
@@ -833,6 +868,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   vnCyana2 = loadImage("assets/vn/cyana/2.png");
   vnCyana3 = loadImage("assets/vn/cyana/3.png");
   vnCyana4 = loadImage("assets/vn/cyana/4.png");
+  
+  settingsBtn = loadImage("assets/ui/settings.png");
+  shadow = loadImage("assets/ui/shadow.png");
+  shadow2 = loadImage("assets/ui/shadow2.png");
+  shadow3 = loadImage("assets/ui/shadow3.gif");
 }
  public void placeEnemies() {
   if (levelIndex == 2) {
@@ -1141,7 +1181,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
       else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
       else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //level 01
     }
+  } else if (screenIndex == 4) {
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) pauseOnRestart = !pauseOnRestart; //pause on restart button
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
   }
 }
 class starsBG {
@@ -1190,7 +1235,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -1261,6 +1306,9 @@ int commandIndex = 0; //used by the vn command handler to define which level sho
 
 //animation timing vars
 int playerEngineTimer = 0;
+
+//settings vars
+boolean pauseOnRestart = true; //whether to set game to paused when player dies
  public void drawVN() {
   scanVNInfo();
   if (vnInfo[textIndex][4] == 0) { //left side talking

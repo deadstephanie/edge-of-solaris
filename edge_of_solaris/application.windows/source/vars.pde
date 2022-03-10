@@ -1,5 +1,5 @@
 //game vars
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -70,3 +70,6 @@ int commandIndex = 0; //used by the vn command handler to define which level sho
 
 //animation timing vars
 int playerEngineTimer = 0;
+
+//settings vars
+boolean pauseOnRestart = true; //whether to set game to paused when player dies

@@ -31,4 +31,9 @@ void loadSprites() {
   vnCyana2 = loadImage("assets/vn/cyana/2.png");
   vnCyana3 = loadImage("assets/vn/cyana/3.png");
   vnCyana4 = loadImage("assets/vn/cyana/4.png");
+  
+  settingsBtn = loadImage("assets/ui/settings.png");
+  shadow = loadImage("assets/ui/shadow.png");
+  shadow2 = loadImage("assets/ui/shadow2.png");
+  shadow3 = loadImage("assets/ui/shadow3.gif");
 }
