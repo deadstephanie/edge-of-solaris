@@ -114,7 +114,11 @@ PImage shadow3;
     }
     for (damage dmg : dmg) {
       dmg.update();
-      dmg.display();
+    }
+    if (damageOnTop ==false) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
     }
     
     if (levelType == 0) { //over land
@@ -158,6 +162,12 @@ PImage shadow3;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
     image(player1, playerX - 5, playerY - 5); //player sprite
+    
+    if (damageOnTop == true) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
+    }
     } else if (paused == true) { //if game is paused
            //render background
      if (levelType == 1) background(180, 248, 255);
@@ -175,10 +185,11 @@ PImage shadow3;
     for (bullet blts : blts) {
       blts.display();
     }
-    for (damage dmg : dmg) {
-      dmg.display();
+    if (damageOnTop == false) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
     }
-    
     if (levelType == 0) { //over land
       
     } else if (levelType == 1) { //over water
@@ -187,6 +198,13 @@ PImage shadow3;
       ellipse(640, 750, 2000, 200);
     }
     image(player1, playerX - 5, playerY - 5); //player sprite
+    
+    if (damageOnTop == true) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
+    }
+    
     textSize(60);
     fill(255, 50, 50);
     text("PAUSED", 550, 350);
@@ -279,7 +297,12 @@ PImage shadow3;
     if (pauseOnRestart == true) {
       fill(0, 150, 0);
     }
-    rect(500, 25, 75, 75);
+    rect(475, 25, 75, 75);
+    fill(50, 0, 50); // reset color
+    if (damageOnTop == true) {
+      fill(0, 150, 0);
+    }
+    rect(475, 125, 75, 75);
     fill(50, 0, 50); // reset color
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
@@ -289,7 +312,7 @@ PImage shadow3;
     textSize(48);
     text("Back", 975, 75);
     text("pause on restart", 75, 75);
-    text("placeholder", 75, 175);
+    text("damage on top", 75, 175);
     text("shadow", 75, 275);
   }
 }
@@ -403,7 +426,7 @@ PImage shadow3;
         if (playerY + 10 <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
-              playerShield = playerShield - basicE[i].enemyHP;
+              playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump);
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
@@ -844,7 +867,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   char[] settingsChar = loadSettings[0].toCharArray();
   if (settingsChar[16] == '0') pauseOnRestart = false;
   else pauseOnRestart = true;
-  println(settingsChar[16]);
+  
+  settingsChar = loadSettings[1].toCharArray();
+  if (settingsChar[13] == '0') damageOnTop = false;
+  else damageOnTop = true;
 }
 
  public void loadSprites() {
@@ -1185,12 +1211,13 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
       else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
       else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //level 01
+      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
   } else if (screenIndex == 4) {
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) pauseOnRestart = !pauseOnRestart; //pause on restart button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
   }
 }
 class starsBG {
@@ -1255,6 +1282,7 @@ int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
 float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
+float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
 boolean paused = false; //if gameplay is paused this is true
 
 //player vars
@@ -1313,6 +1341,7 @@ int playerEngineTimer = 0;
 
 //settings vars
 boolean pauseOnRestart = true; //whether to set game to paused when player dies
+boolean damageOnTop = false; //whether or not to render to damage on top of the player
  public void drawVN() {
   scanVNInfo();
   if (vnInfo[textIndex][4] == 0) { //left side talking

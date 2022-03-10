@@ -15,6 +15,7 @@ int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
 float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
+float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
 boolean paused = false; //if gameplay is paused this is true
 
 //player vars
@@ -73,3 +74,4 @@ int playerEngineTimer = 0;
 
 //settings vars
 boolean pauseOnRestart = true; //whether to set game to paused when player dies
+boolean damageOnTop = false; //whether or not to render to damage on top of the player

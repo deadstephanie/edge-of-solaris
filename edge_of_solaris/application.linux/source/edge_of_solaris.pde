@@ -95,7 +95,11 @@ void drawFrame() {
     }
     for (damage dmg : dmg) {
       dmg.update();
-      dmg.display();
+    }
+    if (damageOnTop ==false) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
     }
     
     if (levelType == 0) { //over land
@@ -139,6 +143,12 @@ void drawFrame() {
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
     image(player1, playerX - 5, playerY - 5); //player sprite
+    
+    if (damageOnTop == true) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
+    }
     } else if (paused == true) { //if game is paused
            //render background
      if (levelType == 1) background(180, 248, 255);
@@ -156,10 +166,11 @@ void drawFrame() {
     for (bullet blts : blts) {
       blts.display();
     }
-    for (damage dmg : dmg) {
-      dmg.display();
+    if (damageOnTop == false) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
     }
-    
     if (levelType == 0) { //over land
       
     } else if (levelType == 1) { //over water
@@ -168,6 +179,13 @@ void drawFrame() {
       ellipse(640, 750, 2000, 200);
     }
     image(player1, playerX - 5, playerY - 5); //player sprite
+    
+    if (damageOnTop == true) {
+      for (damage dmg : dmg) {
+        dmg.display();
+      }
+    }
+    
     textSize(60);
     fill(255, 50, 50);
     text("PAUSED", 550, 350);
@@ -260,7 +278,12 @@ void drawUI() {
     if (pauseOnRestart == true) {
       fill(0, 150, 0);
     }
-    rect(500, 25, 75, 75);
+    rect(475, 25, 75, 75);
+    fill(50, 0, 50); // reset color
+    if (damageOnTop == true) {
+      fill(0, 150, 0);
+    }
+    rect(475, 125, 75, 75);
     fill(50, 0, 50); // reset color
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
@@ -270,7 +293,7 @@ void drawUI() {
     textSize(48);
     text("Back", 975, 75);
     text("pause on restart", 75, 75);
-    text("placeholder", 75, 175);
+    text("damage on top", 75, 175);
     text("shadow", 75, 275);
   }
 }
@@ -384,7 +407,7 @@ void playerCollision() { //check collision with enemy bullets/ships
         if (playerY + 10 <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
-              playerShield = playerShield - basicE[i].enemyHP;
+              playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump);
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is

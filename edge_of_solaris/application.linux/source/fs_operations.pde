@@ -7,7 +7,10 @@ void loadText() {
   char[] settingsChar = loadSettings[0].toCharArray();
   if (settingsChar[16] == '0') pauseOnRestart = false;
   else pauseOnRestart = true;
-  println(settingsChar[16]);
+  
+  settingsChar = loadSettings[1].toCharArray();
+  if (settingsChar[13] == '0') damageOnTop = false;
+  else damageOnTop = true;
 }
 
 void loadSprites() {

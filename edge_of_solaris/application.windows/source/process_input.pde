@@ -122,11 +122,12 @@ void mousePressed() {
       else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
       else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
       else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //level 01
+      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
   } else if (screenIndex == 4) {
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) pauseOnRestart = !pauseOnRestart; //pause on restart button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
   }
 }
