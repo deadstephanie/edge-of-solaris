@@ -34,6 +34,13 @@ void processInput() {
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
       textIndex++;
+      if (scanVNCommands() == 0) {//load level
+        levelIndex = commandIndex;
+        screenIndex = 0;
+        initObjects();
+        enemiesPlaced = false;
+      }
+      /*
       if (textIndex == 10) { //when to switch to level 0
         levelIndex = 0;
         screenIndex = 0;
@@ -45,6 +52,7 @@ void processInput() {
         initObjects();
         enemiesPlaced = false;
       }
+      */
       keyInput[4] = false;
     }
   }

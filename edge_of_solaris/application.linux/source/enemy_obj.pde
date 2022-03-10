@@ -41,7 +41,7 @@ void update() {
     else enemyTiming = 199;
   }
   if (enemyType == 999 && enemyX < 0){
-    levelEnd();
+    levelEnd(); //when enemy 999 (the invisible end enemy) gets to 0, end the level
   }
 }
 
@@ -215,7 +215,7 @@ void display() {
     enemyTiming--;
     if (enemyType == 4 && enemyTiming == 0) { //cargo ship both death action
       if (levelIndex == 1) {
-        levelEnd();
+        levelEnd(); //on level 1, proceed to next level when boss dies
       }
     }
   }

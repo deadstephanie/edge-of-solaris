@@ -1,4 +1,15 @@
 void drawVN() {
+  scanVNInfo();
+  if (vnInfo[textIndex][4] == 0) { //left side talking
+    vnInfo[textIndex][2] = 0;
+    vnInfo[textIndex][3] = 1;
+  } else if (vnInfo[textIndex][4] == 1) { //right side talking
+    vnInfo[textIndex][2] = 1;
+    vnInfo[textIndex][3] = 0;
+  } else if (vnInfo[textIndex][4] == 2) { //no one talking
+    vnInfo[textIndex][2] = 1;
+    vnInfo[textIndex][3] = 1;
+  }
   switch(vnInfo[textIndex][2]) { //left side vn portrait tint
     case 0:
     tint(255, 255, 255, 255);
@@ -52,6 +63,18 @@ void drawVN() {
     case 13:
     image(vnEsence4, 800, 0, 500, 500);
     break;
+    case 20:
+    image(vnCyana1, 800, 0, 500, 500);
+    break;
+    case 21:
+    image(vnCyana2, 800, 0, 500, 500);
+    break;
+    case 22:
+    image(vnCyana3, 800, 0, 500, 500);
+    break;
+    case 23:
+    image(vnCyana4, 800, 0, 500, 500);
+    break;
     default:
     break;
   }
@@ -66,95 +89,32 @@ void drawVN() {
   textSize(48);
   fill(255);
   noStroke();
-  text(textLines[textIndex - 1], 35, 460, 1230, 250);
+  text(textLinesO[textIndex - 1], 35, 460, 1230, 250);
   textSize(32);
   text("SKIP", 1050, 680);
   text("NEXT", 1160, 680);
 }
 
-void fillvnInfo() {
-  vnInfo[1][0] = 0;
-  vnInfo[1][1] = 10;
-  vnInfo[1][2] = 1;
-  vnInfo[1][3] = 0;
-  
-  vnInfo[2][0] = 0;
-  vnInfo[2][1] = 10;
-  vnInfo[2][2] = 0;
-  vnInfo[2][3] = 1;
-  
-  vnInfo[3][0] = 0;
-  vnInfo[3][1] = 11;
-  vnInfo[3][2] = 1;
-  vnInfo[3][3] = 0;
-  
-  vnInfo[4][0] = 0;
-  vnInfo[4][1] = 10;
-  vnInfo[4][2] = 1;
-  vnInfo[4][3] = 0;
-  
-  vnInfo[5][0] = -1;
-  vnInfo[5][1] = -1;
-  vnInfo[5][2] = 0;
-  vnInfo[5][3] = 0;
-  
-  vnInfo[6][0] = 1;
-  vnInfo[6][1] = 10;
-  vnInfo[6][2] = 0;
-  vnInfo[6][3] = 1;
-  
-  vnInfo[7][0] = 0;
-  vnInfo[7][1] = 11;
-  vnInfo[7][2] = 1;
-  vnInfo[7][3] = 0;
-  
-  vnInfo[8][0] = 0;
-  vnInfo[8][1] = 10;
-  vnInfo[8][2] = 1;
-  vnInfo[8][3] = 0;
-  
-  vnInfo[9][0] = 1;
-  vnInfo[9][1] = -1;
-  vnInfo[9][2] = 0;
-  vnInfo[9][3] = 0;
-  
-  vnInfo[11][0] = 0;
-  vnInfo[11][1] = 10;
-  vnInfo[11][2] = 1;
-  vnInfo[11][3] = 0;
-  
-  vnInfo[12][0] = 0;
-  vnInfo[12][1] = 13;
-  vnInfo[12][2] = 1;
-  vnInfo[12][3] = 0;
-  
-  vnInfo[13][0] = 1;
-  vnInfo[13][1] = -1;
-  vnInfo[13][2] = 0;
-  vnInfo[13][3] = 0;
-  
-  vnInfo[14][0] = 1;
-  vnInfo[14][1] = -1;
-  vnInfo[14][2] = 0;
-  vnInfo[14][3] = 0;
-  
-  vnInfo[16][0] = 0;
-  vnInfo[16][1] = 11;
-  vnInfo[16][2] = 0;
-  vnInfo[16][3] = 1;
-  
-  vnInfo[17][0] = 0;
-  vnInfo[17][1] = 12;
-  vnInfo[17][2] = 1;
-  vnInfo[17][3] = 0;
-  
-  vnInfo[18][0] = 1;
-  vnInfo[18][1] = 11;
-  vnInfo[18][2] = 0;
-  vnInfo[18][3] = 1;
-  
-  vnInfo[19][0] = 0;
-  vnInfo[19][1] = 10;
-  vnInfo[19][2] = 1;
-  vnInfo[19][3] = 0;
+int scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
+  char[] ch = textLines[textIndex-1].toCharArray();
+  if (ch[0] == '-' && ch[1] == 'l') { //load level
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0');
+    println(commandIndex);
+    return 0; //the command to load a level
+  }
+  return 255;
+}
+
+void scanVNInfo() { //scans the script text for the vn portrait info
+  char[] ch = textLines[textIndex-1].toCharArray();
+  if (ch[0] != '-') { //ensure line is not a command
+    vnInfo[textIndex][0] = (ch[0] - '0') * 10 + (ch[1] - '0'); //left vn portrait
+    vnInfo[textIndex][1] = (ch[3] - '0') * 10 + (ch[4] - '0'); //right vn portrait
+    vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is talking
+  }
+  char[] chStripped = new char[ch.length-7]; //makes a new char array for text stripping
+  for(int i = 7; i < ch.length; i++) { //strips the first 7 chars
+    chStripped[i-7] = ch[i];
+  }
+  textLinesO[textIndex-1] = String.valueOf(chStripped); //dumps the char into a string
 }

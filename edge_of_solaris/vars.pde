@@ -1,6 +1,6 @@
 //game vars
-int screenIndex = 3; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
-int levelIndex = 0; //what level the player is playing, 0 is test level
+int screenIndex = 0; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff
+int levelIndex = 1; //what level the player is playing, 0 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 boolean enemiesPlaced = false; //used to only place enemies once per level load
 int enemyIndex = 0; //used for enemy gen
@@ -59,11 +59,13 @@ boolean keyInput[] = new boolean [15];
 
 //visual novel vars
 int eventIndex = 0; //index value for events (1 indexed for ease of text editor use)
-int textIndex = 1; //index value for which line of dialogue should be displayed
+int textIndex = 1; //index value for which line of dialogue should be displayed, this is 1 indexed
 int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
-String[] textLines = new String[999]; //used for each line of dialogue
+String[] textLines = new String[999]; //used for each line of dialogue, this is the raw text in
+String[] textLinesO = new String[999]; //used for each line of dialogue, this is after the commands are stripped
 int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
+int commandIndex = 0; //used by the vn command handler to define which level should be skipped to
 
 //animation timing vars
 int playerEngineTimer = 0;

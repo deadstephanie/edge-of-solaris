@@ -1,22 +1,24 @@
-Esence: I heard back from engineering, your nebulon is finally operational Zerina. Good timing too, your first mission is set for 1400 hours.
-Zerina: The Nova Wasp... Does this nebulon have enough power to finally end the war with Faun?
-Esence: Chill out, just focus on the mission. This will give us good data regardless of the outcome.
-Esence: The mission today is to test your new nebulon, we found some natural stragglers, take them out.
--- 4 hours later --
-Zerina: I'm taking off. It is time to see if the performance simulations of this nebulon are accurate.
-Esence: For this mission your nebulon has been equipped with dual Gen 17 beam cannons.
-Esence: Your secondaries are unguided missiles, they are more powerful than your beam cannons but harder to aim.
-Zerina: Nova Wasp MDN-49, launching
-[level 0]
-Esence: How do you like those beam cannons? They are multiple generations ahead of anything the naturals have.
-Esence: I'm picking up a large cluster of Faun vessels in front of you, looks like like there's a bomber at the end of the fleet. Take it out.
-Zerina: My nebulon...
-Zerina: Nova Wasp launching
-[level 1]
-Zerina: What power. With this nebulon, I can finally bring victory to the Aegis Alliance.
-Esence: Is that why you joined the Aegis Airforce?
-Zerina: I didn't join. I am a designer baby created specifically to pilot this nebulon.
-Esence: That explains it, the acceleration on this nebu is insane. I don't know anyone else who could pilot such a machine without passing out.
-Esence: Lets go back to the Oreillana.
-- Back at the Oreillana -
-Cyana: Welcome back
+00 10 1 Esence: I heard back from engineering, your nebulon is finally operational Zerina. Good timing too, your first mission is set for 1400 hours.
+00 10 0 Zerina: The Nova Wasp... Does this nebulon have enough power to finally end the war with Faun?
+00 11 1 Esence: Chill out, just focus on the mission. This will give us good data regardless of the outcome.
+00 10 0 Esence: The mission today is to test your new nebulon, we found some natural stragglers, take them out.
+99 99 2-- 4 hours later --
+01 10 0 Zerina: I'm taking off. It is time to see if the performance simulations of this nebulon are accurate.
+00 11 1 Esence: For this mission your nebulon has been equipped with dual Gen 17 beam cannons.
+00 10 1 Esence: Your secondaries are unguided missiles, they are more powerful than your beam cannons but harder to aim.
+01 99 0 Zerina: Nova Wasp MDN-49, launching
+-l 00
+00 10 1 Esence: How do you like those beam cannons? They are multiple generations ahead of anything the naturals have.
+00 13 1 Esence: I'm picking up a large cluster of Faun vessels in front of you, looks like like there's a bomber at the end of the fleet. Take it out.
+01 99 0 Zerina: My nebulon...
+01 99 0 Zerina: Nova Wasp launching
+-l 01
+00 11 0 Zerina: What power. With this nebulon, I can finally bring victory to the Aegis Alliance.
+00 12 1 Esence: Is that why you joined the Aegis Airforce?
+01 11 0 Zerina: I didn't join. I am a designer baby created specifically to pilot this nebulon.
+00 10 1 Esence: That explains it, the acceleration on this nebu is insane. I don't know anyone else who could pilot such a machine without passing out.
+01 10 1 Esence: Lets go back to the Oreillana.
+99 99 0 - Back at the Oreillana -
+00 21 1 Cyana: How did the mission go?
+01 20 0 Zerina: It went well, all thanks to your training
+00 22 1 Cyana: Uh I think it was mostly due to the new ship and its pilot.

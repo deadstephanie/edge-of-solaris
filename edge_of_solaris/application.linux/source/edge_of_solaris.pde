@@ -35,6 +35,10 @@ PImage vnVeda1r;
 PImage vnVeda2r;
 PImage vnVeda3r;
 PImage vnVeda4r;
+PImage vnCyana1;
+PImage vnCyana2;
+PImage vnCyana3;
+PImage vnCyana4;
 
 
 import java.io.*;
@@ -48,7 +52,6 @@ void setup(){
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
-  fillvnInfo(); //defines vninfo
 }
 
 void draw() {
