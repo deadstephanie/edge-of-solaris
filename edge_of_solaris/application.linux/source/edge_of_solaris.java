@@ -1020,15 +1020,19 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void processInput() {
   if (screenIndex == 0 && paused == false) {
       if (keyInput[0] == true) { //w
+      if (playerY > 10)
         playerY = playerY - playerMoveY;
       }
       if (keyInput[1] == true) { //s
+      if (playerY < 600)
         playerY = playerY + playerMoveY;
       }
       if (keyInput[2] == true) { //d
+      if (playerX < 1200)
         playerX = playerX + playerMoveX;
       }
       if (keyInput[3] == true) { //a
+      if (playerX > 20)
         playerX = playerX - playerMoveX;
       }
       if (keyInput[4] == true) { //space
