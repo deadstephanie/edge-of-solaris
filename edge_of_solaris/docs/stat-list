@@ -1,0 +1,16 @@
+:defensive:
+player hp max
+player shield max
+player shield regen
+defense (player takes less damage overall)
+
+:offensive:
+atk% boost (universal)
+cooldown% reduction (universal)
+weapon0 atk, for all wpns
+weapon0 cooldown, for all wpn
+
+:other:
+enemy drop%
+money value drop% boost
+player speed% boost

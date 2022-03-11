@@ -2,19 +2,19 @@ void processInput() {
   if (screenIndex == 0 && paused == false) {
       if (keyInput[0] == true) { //w
       if (playerY > 10)
-        playerY = playerY - playerMoveY;
+        playerY = playerY - (playerMoveY * playerMoveBoost);
       }
       if (keyInput[1] == true) { //s
       if (playerY < 600)
-        playerY = playerY + playerMoveY;
+        playerY = playerY + (playerMoveY * playerMoveBoost);
       }
       if (keyInput[2] == true) { //d
       if (playerX < 1200)
-        playerX = playerX + playerMoveX;
+        playerX = playerX + (playerMoveX * playerMoveBoost);
       }
       if (keyInput[3] == true) { //a
       if (playerX > 20)
-        playerX = playerX - playerMoveX;
+        playerX = playerX - (playerMoveX * playerMoveBoost);
       }
       if (keyInput[4] == true) { //space
         playerShoot();
@@ -90,34 +90,34 @@ void keyReleased() {
 void playerShoot() {
   if (playerWeapon == 0) { //machine gun
     if (timing > playerWeaponCooldown0) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower0);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower0 * playerAttack);
       timing = 0;
     }
   } else if (playerWeapon == 1) { //spread shot
     if (timing > playerWeaponCooldown1) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower1);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 1, playerWeapon, 10, 10, playerWeaponPower1);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 2, playerWeapon, 10, 10, playerWeaponPower1);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -2, playerWeapon, 10, 10, playerWeaponPower1);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -1, playerWeapon, 10, 10, playerWeaponPower1);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower1 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 1, playerWeapon, 10, 10, playerWeaponPower1 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 2, playerWeapon, 10, 10, playerWeaponPower1 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -2, playerWeapon, 10, 10, playerWeaponPower1 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, -1, playerWeapon, 10, 10, playerWeaponPower1 * playerAttack);
       timing = 0;
     }
   } else if (playerWeapon == 2) { //dual beam cannon
       if (timing > playerWeaponCooldown2) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY + 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY - 7, 20, 0, playerWeapon, 80, 10, playerWeaponPower2 * playerAttack);
       timing = 0;
     }
   } else if (playerWeapon == 4) { //sniper shot
       if (timing > playerWeaponCooldown4) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 25, 0, playerWeapon, 100, 5, playerWeaponPower4);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 25, 0, playerWeapon, 100, 5, playerWeaponPower4 * playerAttack);
       timing = 0;
     }
   }
   if (playerSecondWeapon == 0) { //basic secondary missile
     if (secondTiming > playerWeaponCooldown100) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100 * playerAttack);
       secondTiming = 0;
     }
   }
@@ -126,7 +126,7 @@ void playerShoot() {
 void mousePressed() {
   if (screenIndex == 2) {//menu screen
     if (areaIndex == 0) {
-      if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100); //status button
+      if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
       else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
       else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
       else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400); //engineering buttton
@@ -136,9 +136,15 @@ void mousePressed() {
       else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
   } else if (screenIndex == 4) {
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) oneHitMode = !oneHitMode; //pause on restart button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
+  } else if (screenIndex == 5) {
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
+    else if (mouseX > 625 && mouseX < 700 && mouseY > 125 && mouseY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05; playerStatPoints--;}
+    if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05; playerStatPoints--;}
+    if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05; playerStatPoints--;}
+    if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05; playerStatPoints--;}
   }
 }

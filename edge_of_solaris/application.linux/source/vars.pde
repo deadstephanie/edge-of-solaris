@@ -1,5 +1,5 @@
 //game vars
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu
+int screenIndex = 5; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -32,11 +32,27 @@ int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1-10 = hurt anim, 255 = dead
 int playerAnimTiming = 0; //used for the death anim
 int bulletIndex = 0;
+
 float playerShield = 0; //current shield
 float playerShieldMax = 50; //max shield
 float playerShieldRegen = 0.5; //shield regen per frame
+float playerShieldRegenBoost = 1;//percentage boost for regen
 float playerHP = 100; //current hp
 float playerHPMax = 100; //max hp
+float playerDefense = 1.1; //percentage damage reduction, goes down
+float playerDMGReduction = 1; //calculated from playerDefense
+float playerAttack = 1; //percentage boost to all player wpn dmg
+float playerCooldown = 1; //percentage boost to defense (reduces damage taken)
+float enemyDrop = 1; //percentage of time enemies drop items
+float moneyValueDrop = 1; //percentage boost of money dropped
+float hpValueDrop = 1; //percentage boost of hp dropped
+float xpValueDrop = 1; //percentage boost of xp dropped
+float playerMoveBoost = 1; //boost to player speed
+float playerXP = 0; //amount of xp player has
+int playerLevel = 1; //level of player
+float playerMoney = 0; //amount of money player has
+int playerStatPoints = 100; //stat points to allocate
+
 
 //player weapon vars
 //machine gun

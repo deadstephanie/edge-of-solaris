@@ -44,6 +44,7 @@ PImage shadow;
 PImage shadow2;
 PImage shadow3;
 
+PrintWriter settingsOut;
 
 import java.io.*;
 
@@ -68,7 +69,10 @@ void draw() {
     if (secondTiming < 255) secondTiming++;
   }
   
+  //calculate stats
   if (oneHitMode == true) enemyBalanceDMG = 9000;
+  playerDMGReduction = 1 - (playerDefense - 1);
+  playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
 }
 
 void drawFrame() {
@@ -319,6 +323,50 @@ void drawUI() {
     text("one hit mode", 75, 75);
     text("damage on top", 75, 175);
     text("shadow", 75, 275);
+  } else if (screenIndex == 5) { //status window
+    background(0);
+    stroke(255);
+    strokeWeight(10);
+    fill(50, 0, 50);
+    //draw menu rects
+    rect(950, 25, 300, 75);
+    rect(50, 25, 400, 75);
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
+    rect(50, 325, 400, 75);
+    rect(50, 425, 400, 75);
+    
+    rect(475, 25, 125, 75);
+    rect(475, 125, 125, 75);
+    rect(475, 225, 125, 75);
+    rect(475, 325, 125, 75);
+    rect(475, 425, 125, 75);
+    
+    rect(625, 125, 75, 75);
+    rect(625, 225, 75, 75);
+    rect(625, 325, 75, 75);
+    rect(625, 425, 75, 75);
+    //draw options button
+    noStroke();
+    fill(255);
+    textSize(48);
+    text("Back", 975, 75);
+    text("total stat points", 75, 75);
+    text("hp", 75, 175);
+    text("shield", 75, 275);
+    text("attack", 75, 375);
+    text("defense", 75, 475);
+    
+    text("+", 650, 175);
+    text("+", 650, 275);
+    text("+", 650, 375);
+    text("+", 650, 475);
+    
+    text(playerStatPoints, 490, 75);
+    text((int)playerHPMax, 490, 175);
+    text((int)playerShieldMax, 490, 275);
+    text((int)(playerAttack * 100), 490, 375);
+    text((int)(playerDefense * 100), 490, 475);
   }
 }
 
@@ -411,7 +459,7 @@ void playerCollision() { //check collision with enemy bullets/ships
         if (playerY + 10 <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
               playerState = 10;
-              playerShield = playerShield - blts[i].bulletPower;
+              playerShield = playerShield - (blts[i].bulletPower * playerDMGReduction);
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, blts[i].bulletPower, 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
@@ -432,7 +480,7 @@ void playerCollision() { //check collision with enemy bullets/ships
         if (playerY + 10 <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
-              playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump * enemyBalanceDMG);
+              playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump * enemyBalanceDMG * playerDMGReduction);
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is

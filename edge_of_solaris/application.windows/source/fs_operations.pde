@@ -13,6 +13,17 @@ void loadText() {
   else damageOnTop = true;
 }
 
+void saveSettings() {
+  settingsOut = createWriter("config.ini");
+  int tempOut;
+  if (oneHitMode == true) tempOut = 1; else tempOut = 0;
+  settingsOut.println("OneHitMode: " + tempOut);
+  if (damageOnTop == true) tempOut = 1; else tempOut = 0;
+  settingsOut.println("DamageOnTop: " + tempOut);
+  settingsOut.flush();
+  settingsOut.close();
+}
+
 void loadSprites() {
   naturals1 = loadImage("assets/png/naturals/3-xx.png");
   naturals2 = loadImage("assets/png/naturals/2-xx.png");
