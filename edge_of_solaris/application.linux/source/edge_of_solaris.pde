@@ -67,6 +67,8 @@ void draw() {
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
   }
+  
+  if (oneHitMode == true) enemyBalanceDMG = 9000;
 }
 
 void drawFrame() {
@@ -124,21 +126,23 @@ void drawFrame() {
       rect(playerX, playerY + 10, playerHitX, playerHitY - 10, 10); //render player hurt state
     }
     
-    if (playerHP <= 0) {levelStart(
-      levelIndex); 
-      if (pauseOnRestart == true) paused = true;
-    } //when player dies
+    if (playerHP <= 0) { //if player dies
+      paused = true; //pause game
+      playerState = 255; //set player as dead
+      playerAnimTiming = 30; //set timer for death anim
+      keyInput[4] = false; //unset space key
+    }
     
     //render the engine glow effect
     noStroke();
     fill(0, 127, 255, 100);
-    ellipse(playerX - 7, playerY + 12.5, 30 + abs(playerEngineTimer / 3), 10);
+    ellipse(playerX - 6, playerY + 12.5, 30 + abs(playerEngineTimer / 3), 10);
     fill(0, 165, 255, 120);
-    ellipse(playerX - 4, playerY + 12.5, 20 + abs(playerEngineTimer / 3), 10);
+    ellipse(playerX - 3, playerY + 12.5, 20 + abs(playerEngineTimer / 3), 10);
     fill(60, 240, 255, 150);
-    ellipse(playerX - 2, playerY + 12.5, 15 + abs(playerEngineTimer / 3), 8);
+    ellipse(playerX - 1, playerY + 12.5, 15 + abs(playerEngineTimer / 3), 8);
     fill(100, 240, 255, 200);
-    ellipse(playerX - 2, playerY + 12.5, 10 + abs(playerEngineTimer / 3), 6);
+    ellipse(playerX - 1, playerY + 12.5, 10 + abs(playerEngineTimer / 3), 6);
     playerEngineTimer++;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
@@ -178,17 +182,35 @@ void drawFrame() {
       fill(50, 50, 255);
       ellipse(640, 750, 2000, 200);
     }
-    image(player1, playerX - 5, playerY - 5); //player sprite
-    
+    if (playerState == 255) { //if player dead
+      if (playerAnimTiming != 0) {
+        fill(255, 127, 0, 100);
+        ellipse(playerX + 30, playerY + 7, (playerHitX / 3) + (playerAnimTiming * 5), (playerHitY / 2) + (playerAnimTiming * 3));
+        fill(255, 165, 0, 120);
+        ellipse(playerX + 30, playerY + 7, (playerHitX / 3) + (playerAnimTiming * 4), (playerHitY / 2) + (playerAnimTiming * 2));
+        fill(255, 240, 60, 150);
+        ellipse(playerX + 30, playerY + 7, (playerHitX / 3) + (playerAnimTiming * 3), (playerHitY / 2) + (playerAnimTiming * 1));
+        playerAnimTiming--;
+      }
+      textSize(60);
+      fill(255, 50, 50);
+      text("YOU DIED", 550, 350);
+      textSize(48);
+      text("Press R or Space to restart", 400, 450);
+      
+    } else {
+      image(player1, playerX - 5, playerY - 5); //player sprite if player is not dead
+      textSize(60);
+      fill(255, 50, 50);
+      text("PAUSED", 550, 350);
+    }
     if (damageOnTop == true) {
       for (damage dmg : dmg) {
         dmg.display();
       }
     }
     
-    textSize(60);
-    fill(255, 50, 50);
-    text("PAUSED", 550, 350);
+    
     }
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
@@ -204,20 +226,22 @@ void drawUI() {
     //text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
-    stroke(0);
-    strokeWeight(15);
-    fill(0);
-    rect(20, 650, 200, 50, 10);
-    rect(235, 650, 200, 50, 10);
-    setRect(4);
-    rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
-    setRect(5);
-    rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
-    setRect(3); //render surrounds
-    noFill();
-    rect(20, 650, 200, 50, 10);
-    rect(235, 650, 200, 50, 10);
-    fill(0);
+    if (oneHitMode == false) {
+      stroke(0);
+      strokeWeight(15);
+      fill(0);
+      rect(20, 650, 200, 50, 10);
+      rect(235, 650, 200, 50, 10);
+      setRect(4);
+      rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
+      setRect(5);
+      rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
+      setRect(3); //render surrounds
+      noFill();
+      rect(20, 650, 200, 50, 10);
+      rect(235, 650, 200, 50, 10);
+      fill(0);
+    }
     
     //render weapon selector
     stroke(255);
@@ -275,7 +299,7 @@ void drawUI() {
     //draw menu rects
     rect(950, 25, 300, 75);
     rect(50, 25, 400, 75);
-    if (pauseOnRestart == true) {
+    if (oneHitMode == true) {
       fill(0, 150, 0);
     }
     rect(475, 25, 75, 75);
@@ -292,7 +316,7 @@ void drawUI() {
     fill(255);
     textSize(48);
     text("Back", 975, 75);
-    text("pause on restart", 75, 75);
+    text("one hit mode", 75, 75);
     text("damage on top", 75, 175);
     text("shadow", 75, 275);
   }
@@ -317,6 +341,7 @@ void levelStart(int cmdIndex) {
   playerY = 250;
   playerHP = playerHPMax;
   playerShield = playerShieldMax;
+  playerState = 0;
   initObjects();
   placeEnemies();
 }
@@ -407,7 +432,7 @@ void playerCollision() { //check collision with enemy bullets/ships
         if (playerY + 10 <= basicE[i].enemyY + (basicE[i].enemyHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
-              playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump);
+              playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump * enemyBalanceDMG);
               dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is

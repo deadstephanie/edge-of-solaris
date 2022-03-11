@@ -33,10 +33,21 @@ void processInput() {
         keyInput[8] = false;
       }
   } else if (screenIndex == 0 && paused == true) { //if game is paused
-        if (keyInput[8] == true) { //p, unpause game
-          paused = false;
-          keyInput[8] = false;
+        if (playerState != 255) { //check to ensure player is not dead
+          if (keyInput[8] == true) { //p key
+            paused = false;
+            keyInput[8] = false;
+          } 
+        } else {
+          if (keyInput[7] == true || keyInput[4] == true) { //r key or space key
+            levelStart(levelIndex); //restart the current level
+            paused = false;
+            keyInput[4] = false; //unset space key
+          } else if (keyInput[5] == true) { //q key
+            //TODO LEVEL EXIT HERE
+          }
         }
+        
   } else if (screenIndex == 1) {
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
@@ -126,7 +137,7 @@ void mousePressed() {
     }
   } else if (screenIndex == 4) {
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) pauseOnRestart = !pauseOnRestart; //pause on restart button
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) oneHitMode = !oneHitMode; //pause on restart button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
   }

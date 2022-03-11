@@ -5,8 +5,8 @@ void loadText() {
     textLines[i] = loadScript[i];
   }
   char[] settingsChar = loadSettings[0].toCharArray();
-  if (settingsChar[16] == '0') pauseOnRestart = false;
-  else pauseOnRestart = true;
+  if (settingsChar[12] == '0') oneHitMode = false;
+  else oneHitMode = true;
   
   settingsChar = loadSettings[1].toCharArray();
   if (settingsChar[13] == '0') damageOnTop = false;
