@@ -13,6 +13,23 @@ void loadText() {
   else damageOnTop = true;
 }
 
+void loadSave() {
+  String[] loadSave = loadStrings("gamesave.sav");
+  char[] saveChar = loadSave[0].toCharArray();
+  playerHPMax = (saveChar[13] - '0') * 1000 + (saveChar[14] - '0') * 100 + (saveChar[15] - '0') * 10 + (saveChar[16] - '0');
+  
+  saveChar = loadSave[1].toCharArray();
+  playerShieldMax = (saveChar[17] - '0') * 1000 + (saveChar[18] - '0') * 100 + (saveChar[19] - '0') * 10 + (saveChar[20] - '0');
+  
+  saveChar = loadSave[2].toCharArray();
+  playerDefense = ((saveChar[15] - '0') * 1000 + (saveChar[16] - '0') * 100 + (saveChar[17] - '0') * 10 + (saveChar[18] - '0'));
+  playerDefense = playerDefense * 0.01;
+  
+  saveChar = loadSave[3].toCharArray();
+  playerAttack = ((saveChar[14] - '0') * 1000 + (saveChar[15] - '0') * 100 + (saveChar[16] - '0') * 10 + (saveChar[17] - '0'));
+  playerAttack = playerAttack * 0.01;
+}
+
 void saveSettings() {
   settingsOut = createWriter("config.ini");
   int tempOut;

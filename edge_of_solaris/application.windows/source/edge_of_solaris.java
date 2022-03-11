@@ -76,6 +76,7 @@ PrintWriter settingsOut;
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
+  loadSave(); //load the gamesave.sav file
 }
 
  public void draw() {
@@ -374,8 +375,8 @@ PrintWriter settingsOut;
     text("total stat points", 75, 75);
     text("hp", 75, 175);
     text("shield", 75, 275);
-    text("attack", 75, 375);
-    text("defense", 75, 475);
+    text("defense", 75, 375);
+    text("attack", 75, 475);
     
     text("+", 650, 175);
     text("+", 650, 275);
@@ -385,8 +386,8 @@ PrintWriter settingsOut;
     text(playerStatPoints, 490, 75);
     text((int)playerHPMax, 490, 175);
     text((int)playerShieldMax, 490, 275);
-    text((int)(playerAttack * 100), 490, 375);
-    text((int)(playerDefense * 100), 490, 475);
+    text((int)(playerDefense * 100), 490, 375);
+    text((int)(playerAttack * 100), 490, 475);
   }
 }
 
@@ -947,6 +948,23 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   else damageOnTop = true;
 }
 
+ public void loadSave() {
+  String[] loadSave = loadStrings("gamesave.sav");
+  char[] saveChar = loadSave[0].toCharArray();
+  playerHPMax = (saveChar[13] - '0') * 1000 + (saveChar[14] - '0') * 100 + (saveChar[15] - '0') * 10 + (saveChar[16] - '0');
+  
+  saveChar = loadSave[1].toCharArray();
+  playerShieldMax = (saveChar[17] - '0') * 1000 + (saveChar[18] - '0') * 100 + (saveChar[19] - '0') * 10 + (saveChar[20] - '0');
+  
+  saveChar = loadSave[2].toCharArray();
+  playerDefense = ((saveChar[15] - '0') * 1000 + (saveChar[16] - '0') * 100 + (saveChar[17] - '0') * 10 + (saveChar[18] - '0'));
+  playerDefense = playerDefense * 0.01f;
+  
+  saveChar = loadSave[3].toCharArray();
+  playerAttack = ((saveChar[14] - '0') * 1000 + (saveChar[15] - '0') * 100 + (saveChar[16] - '0') * 10 + (saveChar[17] - '0'));
+  playerAttack = playerAttack * 0.01f;
+}
+
  public void saveSettings() {
   settingsOut = createWriter("config.ini");
   int tempOut;
@@ -1318,8 +1336,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
     else if (mouseX > 625 && mouseX < 700 && mouseY > 125 && mouseY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05f; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05f; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05f; playerStatPoints--;}
+    if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05f; playerStatPoints--;}
+    if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
   }
 }
 class starsBG {

@@ -57,6 +57,7 @@ void setup(){
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
+  loadSave(); //load the gamesave.sav file
 }
 
 void draw() {
@@ -355,8 +356,8 @@ void drawUI() {
     text("total stat points", 75, 75);
     text("hp", 75, 175);
     text("shield", 75, 275);
-    text("attack", 75, 375);
-    text("defense", 75, 475);
+    text("defense", 75, 375);
+    text("attack", 75, 475);
     
     text("+", 650, 175);
     text("+", 650, 275);
@@ -366,8 +367,8 @@ void drawUI() {
     text(playerStatPoints, 490, 75);
     text((int)playerHPMax, 490, 175);
     text((int)playerShieldMax, 490, 275);
-    text((int)(playerAttack * 100), 490, 375);
-    text((int)(playerDefense * 100), 490, 475);
+    text((int)(playerDefense * 100), 490, 375);
+    text((int)(playerAttack * 100), 490, 475);
   }
 }
 
