@@ -71,7 +71,8 @@ void draw() {
   
   //calculate stats
   if (oneHitMode == true) enemyBalanceDMG = 9000;
-  playerDMGReduction = 1 - (playerDefense - 1);
+  playerDMGReduction = 1 - ((playerDefense - 1) * 0.1);
+  if (playerDMGReduction <= 0.30) playerDMGReduction = 0.30;
   playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
 }
 
@@ -460,7 +461,7 @@ void playerCollision() { //check collision with enemy bullets/ships
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
               playerState = 10;
               playerShield = playerShield - (blts[i].bulletPower * playerDMGReduction);
-              dmg[findDamage()] = new damage(playerX - 10, playerY - 20, blts[i].bulletPower, 1, 30);
+              dmg[findDamage()] = new damage(playerX - 10, playerY - 20, (blts[i].bulletPower * playerDMGReduction), 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
                 playerShield = 0; //make sure player shield does not go negative
@@ -481,7 +482,7 @@ void playerCollision() { //check collision with enemy bullets/ships
           if ((playerY + (playerHitY / 1)) >= (basicE[i].enemyY - (basicE[i].enemyHitY / 2))) {
               playerState = 10;
               playerShield = playerShield - (basicE[i].enemyHP * enemyBalanceBump * enemyBalanceDMG * playerDMGReduction);
-              dmg[findDamage()] = new damage(playerX - 10, playerY - 20, basicE[i].enemyHP, 1, 30);
+              dmg[findDamage()] = new damage(playerX - 10, playerY - 20, (basicE[i].enemyHP * enemyBalanceBump * enemyBalanceDMG * playerDMGReduction), 1, 30);
               if (playerShield < 0) { //if shield goes negative
                 playerHP = playerHP - abs(playerShield); //subtract the difference of how negative the shield is
                 playerShield = 0; //make sure player shield does not go negative
