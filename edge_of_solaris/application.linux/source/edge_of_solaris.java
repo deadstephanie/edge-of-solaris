@@ -252,7 +252,7 @@ PImage shadow3;
       rect(20, 650, 200, 50, 10);
       rect(235, 650, 200, 50, 10);
       setRect(4);
-      rect(23, 653.5f, (195 * (playerHP / playerHPMax)), 44);
+      if (playerHP >= 0) rect(23, 653.5f, (195 * (playerHP / playerHPMax)), 44);
       setRect(5);
       rect(238, 653.5f, (194 * (playerShield / playerShieldMax)), 44);
       setRect(3); //render surrounds
@@ -1332,7 +1332,7 @@ int playerMoveX = 4; //player move speed x
 int playerMoveY = 4; //player move speed y
 int playerWeapon = 2; //player weapon selected
 int playerSecondWeapon = 0; //0 = basic missiles
-int playerState = 0; //0 = normal, 1 = hurt, 2 = dead
+int playerState = 0; //0 = normal, 1-10 = hurt anim, 255 = dead
 int playerAnimTiming = 0; //used for the death anim
 int bulletIndex = 0;
 float playerShield = 0; //current shield

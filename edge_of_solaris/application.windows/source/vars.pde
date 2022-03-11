@@ -29,7 +29,7 @@ int playerMoveX = 4; //player move speed x
 int playerMoveY = 4; //player move speed y
 int playerWeapon = 2; //player weapon selected
 int playerSecondWeapon = 0; //0 = basic missiles
-int playerState = 0; //0 = normal, 1 = hurt, 2 = dead
+int playerState = 0; //0 = normal, 1-10 = hurt anim, 255 = dead
 int playerAnimTiming = 0; //used for the death anim
 int bulletIndex = 0;
 float playerShield = 0; //current shield

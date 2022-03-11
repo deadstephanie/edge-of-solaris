@@ -233,7 +233,7 @@ void drawUI() {
       rect(20, 650, 200, 50, 10);
       rect(235, 650, 200, 50, 10);
       setRect(4);
-      rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
+      if (playerHP >= 0) rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
       setRect(5);
       rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
       setRect(3); //render surrounds
