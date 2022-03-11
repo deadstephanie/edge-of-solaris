@@ -1,5 +1,4 @@
 # edge-of-solaris
 a spiritual sequel to RPG Shooter Starwish
 
-anything not created by me will be listed here
-sprites - aubrey twitter @straubrey2003 https://twitter.com/Straubrey2003
+in active development. if you find any bugs please check the known-bug-list in the docs, if it is not on that list, please let me know either view a bug report or on twitter @deadstephanietm
