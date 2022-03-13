@@ -30,18 +30,25 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 void update() {
   enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
-  if (enemyTiming < 255 && enemyState != 2) enemyTiming++; //increment enemy timer (used for timing enemy firing
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
-  else enemyState = 0; //set enemy as alive if not dead
-  if (enemyType == 0 && enemyState != 2) {
-    enemySpeedY = (sin((enemyMoveTiming / 1)) * 1);
-    enemyMoveTiming = enemyMoveTiming + 0.025;
-  } else if (enemyType == 4 && enemyState != 2) {
-    if (enemyX <= 1000) enemyX = 1000;
-    else enemyTiming = 199;
-  }
-  if (enemyType == 999 && enemyX < 0){
-    levelEnd(); //when enemy 999 (the invisible end enemy) gets to 0, end the level
+  if (enemyState != 2) { //only run if enemy is not dead
+    if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+    
+    switch(enemyType) {
+      case 0:
+      enemySpeedY = (sin((enemyMoveTiming / 1)) * 1);
+      enemyMoveTiming = enemyMoveTiming + 0.025;
+      break;
+      case 4:
+      if (enemyX <= 1000) enemyX = 1000;
+      else enemyTiming = 199;
+      break;
+      case 999:
+      if (enemyX < 0) levelEnd();
+      break;
+      default:
+      break;
+    }
   }
 }
 
@@ -179,32 +186,40 @@ void shoot() {
 void display() {
   strokeWeight(1);
   noStroke();
+  if (enemyState == 1) tint(255, 100, 100);
   if (enemyState != 2) { //do not display hp bar if enemy is dead
     strokeWeight(1);
     stroke(0);
     fill(20, 255, 20, 100);
     rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
     
-    if (enemyState == 1) tint(255, 100, 100);
-    
-    if (enemyType == 0 && enemyState != 2) { //drone that fires a homing shot
-      image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 1 && enemyState != 2) { //small gunship
-      image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 2 && enemyState != 2) { //small interceptor (spread shot)
-      image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 3 && enemyState != 2) { //medium interceptor
-      image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if (enemyType == 4 && enemyState != 2) { //cargo ship
-      image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else if(enemyType == 6 && enemyState != 2) { //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-      image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-    } else {
-      noStroke();
-      fill(255, 0, 0);
-      ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
-    }
+      switch (enemyType) {
+        case 0: //drone that fires a homing shot
+        image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 1: //small gunship
+        image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 2: //small interceptor (spread shot)
+        image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 3: //medium interceptor
+        image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 4: //cargo ship
+        image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
+        image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        default:
+        noStroke();
+        fill(255, 0, 0);
+        ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+        break;
+      }
     tint(255, 255, 255); //reset tint
+    enemyState = 0; //reset enemy state (so it untints after being shot)
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
     ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 5), (enemyHitY / 2) + (enemyTiming * 3));

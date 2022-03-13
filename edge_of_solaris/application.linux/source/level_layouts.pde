@@ -109,6 +109,7 @@ void placeEnemies() {
 
 void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass in enemy type and position x/y
   enemyIndex = findEnemy();
+  basicE[enemyIndex].enemyState = 0;
   if (type == 0) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;

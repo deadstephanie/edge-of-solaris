@@ -50,6 +50,7 @@ import java.io.*;
 
 void setup(){
   size(1280, 720);
+  frameRate(60);
   blts = new bullet[bulletCount];
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
