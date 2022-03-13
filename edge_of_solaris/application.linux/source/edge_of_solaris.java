@@ -289,6 +289,8 @@ PrintWriter settingsOut;
     text("new game", 500, 400);
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
+    textSize(24);
+    text("build 69", 1175, 700);
   } else if (screenIndex == 2) { //level select
     background(0);
     stroke(255);
@@ -1605,6 +1607,7 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
     vnInfo[textIndex][1] = (ch[3] - '0') * 10 + (ch[4] - '0'); //right vn portrait
     vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is 
     
+    //translate into vnInfo format that is used in drawVN
     if (vnInfo[textIndex][4] == 0) { //left side talking
     vnInfo[textIndex][2] = 0;
     vnInfo[textIndex][3] = 1;

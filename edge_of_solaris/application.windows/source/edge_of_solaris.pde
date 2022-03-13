@@ -270,6 +270,8 @@ void drawUI() {
     text("new game", 500, 400);
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
+    textSize(24);
+    text("build 69", 1175, 700);
   } else if (screenIndex == 2) { //level select
     background(0);
     stroke(255);

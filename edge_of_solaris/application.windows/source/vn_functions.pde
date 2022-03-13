@@ -103,6 +103,7 @@ void scanVNInfo() { //scans the script text for the vn portrait info
     vnInfo[textIndex][1] = (ch[3] - '0') * 10 + (ch[4] - '0'); //right vn portrait
     vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is 
     
+    //translate into vnInfo format that is used in drawVN
     if (vnInfo[textIndex][4] == 0) { //left side talking
     vnInfo[textIndex][2] = 0;
     vnInfo[textIndex][3] = 1;
