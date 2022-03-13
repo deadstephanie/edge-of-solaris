@@ -14,7 +14,7 @@ void loadText() {
 }
 
 void loadSave() {
-  String[] loadSave = loadStrings("gamesave.sav");
+  String[] loadSave = loadStrings("gamesave.save");
   char[] saveChar = loadSave[0].toCharArray();
   playerHPMax = (saveChar[13] - '0') * 1000 + (saveChar[14] - '0') * 100 + (saveChar[15] - '0') * 10 + (saveChar[16] - '0');
   
