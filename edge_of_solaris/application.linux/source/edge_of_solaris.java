@@ -81,7 +81,6 @@ PrintWriter settingsOut;
 }
 
  public void draw() {
-  background(15);
   processInput();
   drawFrame();
   drawUI();
@@ -92,12 +91,6 @@ PrintWriter settingsOut;
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
   }
-  
-  //calculate stats
-  if (oneHitMode == true) enemyBalanceDMG = 9000;
-  playerDMGReduction = 1 - ((playerDefense - 1) * 0.1f);
-  if (playerDMGReduction <= 0.30f) playerDMGReduction = 0.30f;
-  playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
 }
 
  public void drawFrame() {
@@ -244,6 +237,7 @@ PrintWriter settingsOut;
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
+    background(0);
     drawVN();
   }
 }
@@ -280,6 +274,7 @@ PrintWriter settingsOut;
     rect(485, 653, 30, 20, 5);
     rect(485, 678, 30, 20, 5);
   } else if (screenIndex == 1) { //title page
+    background(0);
     fill(200, 200, 255, 120);
     textSize(130);
     text("Edge Of Solaris", 240, 120);
@@ -417,6 +412,12 @@ PrintWriter settingsOut;
   playerState = 0;
   initObjects();
   placeEnemies();
+  
+  //calculate stats
+  if (oneHitMode == true) enemyBalanceDMG = 9000;
+  playerDMGReduction = 1 - ((playerDefense - 1) * 0.1f);
+  if (playerDMGReduction <= 0.30f) playerDMGReduction = 0.30f;
+  playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
 }
 
  public void setRect(int colorIndex) {
@@ -1501,16 +1502,7 @@ boolean oneHitMode = true; //whether to set game to paused when player dies
 boolean damageOnTop = false; //whether or not to render to damage on top of the player
  public void drawVN() {
   scanVNInfo();
-  if (vnInfo[textIndex][4] == 0) { //left side talking
-    vnInfo[textIndex][2] = 0;
-    vnInfo[textIndex][3] = 1;
-  } else if (vnInfo[textIndex][4] == 1) { //right side talking
-    vnInfo[textIndex][2] = 1;
-    vnInfo[textIndex][3] = 0;
-  } else if (vnInfo[textIndex][4] == 2) { //no one talking
-    vnInfo[textIndex][2] = 1;
-    vnInfo[textIndex][3] = 1;
-  }
+  
   switch(vnInfo[textIndex][2]) { //left side vn portrait tint
     case 0:
     tint(255, 255, 255, 255);
@@ -1611,7 +1603,18 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
   if (ch[0] != '-') { //ensure line is not a command
     vnInfo[textIndex][0] = (ch[0] - '0') * 10 + (ch[1] - '0'); //left vn portrait
     vnInfo[textIndex][1] = (ch[3] - '0') * 10 + (ch[4] - '0'); //right vn portrait
-    vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is talking
+    vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is 
+    
+    if (vnInfo[textIndex][4] == 0) { //left side talking
+    vnInfo[textIndex][2] = 0;
+    vnInfo[textIndex][3] = 1;
+  } else if (vnInfo[textIndex][4] == 1) { //right side talking
+    vnInfo[textIndex][2] = 1;
+    vnInfo[textIndex][3] = 0;
+  } else if (vnInfo[textIndex][4] == 2) { //no one talking
+    vnInfo[textIndex][2] = 1;
+    vnInfo[textIndex][3] = 1;
+  }
   }
   char[] chStripped = new char[ch.length-7]; //makes a new char array for text stripping
   for(int i = 7; i < ch.length; i++) { //strips the first 7 chars

@@ -1,15 +1,6 @@
 void drawVN() {
   scanVNInfo();
-  if (vnInfo[textIndex][4] == 0) { //left side talking
-    vnInfo[textIndex][2] = 0;
-    vnInfo[textIndex][3] = 1;
-  } else if (vnInfo[textIndex][4] == 1) { //right side talking
-    vnInfo[textIndex][2] = 1;
-    vnInfo[textIndex][3] = 0;
-  } else if (vnInfo[textIndex][4] == 2) { //no one talking
-    vnInfo[textIndex][2] = 1;
-    vnInfo[textIndex][3] = 1;
-  }
+  
   switch(vnInfo[textIndex][2]) { //left side vn portrait tint
     case 0:
     tint(255, 255, 255, 255);
@@ -110,7 +101,18 @@ void scanVNInfo() { //scans the script text for the vn portrait info
   if (ch[0] != '-') { //ensure line is not a command
     vnInfo[textIndex][0] = (ch[0] - '0') * 10 + (ch[1] - '0'); //left vn portrait
     vnInfo[textIndex][1] = (ch[3] - '0') * 10 + (ch[4] - '0'); //right vn portrait
-    vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is talking
+    vnInfo[textIndex][4] = (ch[6] - '0'); //tint, who is 
+    
+    if (vnInfo[textIndex][4] == 0) { //left side talking
+    vnInfo[textIndex][2] = 0;
+    vnInfo[textIndex][3] = 1;
+  } else if (vnInfo[textIndex][4] == 1) { //right side talking
+    vnInfo[textIndex][2] = 1;
+    vnInfo[textIndex][3] = 0;
+  } else if (vnInfo[textIndex][4] == 2) { //no one talking
+    vnInfo[textIndex][2] = 1;
+    vnInfo[textIndex][3] = 1;
+  }
   }
   char[] chStripped = new char[ch.length-7]; //makes a new char array for text stripping
   for(int i = 7; i < ch.length; i++) { //strips the first 7 chars

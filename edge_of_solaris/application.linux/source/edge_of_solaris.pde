@@ -62,7 +62,6 @@ void setup(){
 }
 
 void draw() {
-  background(15);
   processInput();
   drawFrame();
   drawUI();
@@ -73,12 +72,6 @@ void draw() {
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
   }
-  
-  //calculate stats
-  if (oneHitMode == true) enemyBalanceDMG = 9000;
-  playerDMGReduction = 1 - ((playerDefense - 1) * 0.1);
-  if (playerDMGReduction <= 0.30) playerDMGReduction = 0.30;
-  playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
 }
 
 void drawFrame() {
@@ -225,6 +218,7 @@ void drawFrame() {
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
+    background(0);
     drawVN();
   }
 }
@@ -261,6 +255,7 @@ void drawUI() {
     rect(485, 653, 30, 20, 5);
     rect(485, 678, 30, 20, 5);
   } else if (screenIndex == 1) { //title page
+    background(0);
     fill(200, 200, 255, 120);
     textSize(130);
     text("Edge Of Solaris", 240, 120);
@@ -398,6 +393,12 @@ void levelStart(int cmdIndex) {
   playerState = 0;
   initObjects();
   placeEnemies();
+  
+  //calculate stats
+  if (oneHitMode == true) enemyBalanceDMG = 9000;
+  playerDMGReduction = 1 - ((playerDefense - 1) * 0.1);
+  if (playerDMGReduction <= 0.30) playerDMGReduction = 0.30;
+  playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
 }
 
 void setRect(int colorIndex) {
