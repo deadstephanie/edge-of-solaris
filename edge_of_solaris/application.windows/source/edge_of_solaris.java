@@ -84,6 +84,9 @@ PrintWriter settingsOut;
   processInput();
   drawFrame();
   drawUI();
+  fill(200, 50, 50);
+  textSize(24);
+  text(frameRate, 20, 20);
   if (paused == false) {
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
