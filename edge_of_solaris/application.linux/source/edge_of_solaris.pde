@@ -116,8 +116,27 @@ void drawFrame() {
       fill(50, 50, 255);
       ellipse(640, 750, 2000, 200);
     } 
-    
-    
+    levelEndCheckTimer++;
+    if (levelEndCheckTimer > 60) { //check to see if all enemies are dead once a second
+      levelEndCheckTimer = 0;
+      for (int i = 0; i < basicECount; i++) {
+        if (basicE[i].enemyState != 2) {
+          break;
+        }else if (i == (basicECount - 1)) {
+          levelEndTimer = 60;
+          keyInput[4] = false;
+          break;
+        }
+      }
+    }
+    if (levelEndTimer > 0) {
+      textSize(60);
+      fill(255, 50, 50);
+      text("Level Complete", 550, 350);
+      textSize(48);
+      text("Press Space to continue", 480, 450);
+      if (keyInput[4] == true) levelEnd();
+    }
     
     
     //draw player

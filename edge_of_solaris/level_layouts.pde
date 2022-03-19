@@ -103,7 +103,7 @@ void placeEnemies() {
     genEnemy(6, 3800, 550);
     genEnemy(6, 3800, 150);
     
-    genEnemy(999, 4000, -500); //level complete enemy
+    //genEnemy(999, 4000, -500); //level complete enemy
   }
 }
 

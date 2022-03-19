@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 78; //the current build number, should be incremented manually each commit
+int buildNumber = 79; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
@@ -18,6 +18,10 @@ float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
 float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
 boolean paused = false; //if gameplay is paused this is true
+File file; //file used for loading files
+boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
+int levelEndCheckTimer = 0; //timer to check periodically to see if all enemies are dead
+int levelEndTimer = 0; //time to wait after all enemies are dead
 
 //player vars
 float playerX = 200; //player x pos

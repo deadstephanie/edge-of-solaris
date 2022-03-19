@@ -43,12 +43,11 @@ void update() {
       if (enemyX <= 1000) enemyX = 1000;
       else enemyTiming = 199;
       break;
-      case 999:
-      if (enemyX < 0) levelEnd();
-      break;
       default:
       break;
     }
+    
+    if (enemyX < -200) enemyState = 2; //kill enemy if off screen
   }
 }
 
@@ -97,7 +96,7 @@ void hit(int bulletType) {
 }
 
 void shoot() {
-   if (enemyState != 2 && enemyX > 0 && enemyX < 1250) {
+   if (enemyState != 2 && enemyX < 1250) {
     if (enemyType == 0) { //check to see if enemy is basic and not dead
     if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
     float speed = 10; //higher numbers are slower
@@ -228,11 +227,6 @@ void display() {
     fill(255, 240, 60, 150);
     ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
     enemyTiming--;
-    if (enemyType == 4 && enemyTiming == 0) { //cargo ship both death action
-      if (levelIndex == 1) {
-        levelEnd(); //on level 1, proceed to next level when boss dies
-      }
-    }
   }
   
 }

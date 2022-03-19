@@ -1,8 +1,8 @@
 void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
   //String[] loadSettings = loadUserDataFile("config.ini");
-    File file = new File(userDataDir(), "settings.json");
-    if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
+  file = new File(userDataDir(), "settings.json");
+  if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
   int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
@@ -62,6 +62,7 @@ void loadSave() {
 void saveSettings() {
   if (oneHitMode == true) settingsJSON.setInt("oneHitMode", 1); else settingsJSON.setInt("oneHitMode", 0);
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
+  
   saveJSONObject(settingsJSON, "settings.json");
   /*
   settingsOut = createWriter(new File(userDataDir(), "config.ini"));

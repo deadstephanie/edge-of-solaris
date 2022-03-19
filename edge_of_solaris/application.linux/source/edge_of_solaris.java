@@ -135,8 +135,27 @@ JSONObject settingsJSON;
       fill(50, 50, 255);
       ellipse(640, 750, 2000, 200);
     } 
-    
-    
+    levelEndCheckTimer++;
+    if (levelEndCheckTimer > 60) { //check to see if all enemies are dead once a second
+      levelEndCheckTimer = 0;
+      for (int i = 0; i < basicECount; i++) {
+        if (basicE[i].enemyState != 2) {
+          break;
+        }else if (i == (basicECount - 1)) {
+          levelEndTimer = 60;
+          keyInput[4] = false;
+          break;
+        }
+      }
+    }
+    if (levelEndTimer > 0) {
+      textSize(60);
+      fill(255, 50, 50);
+      text("Level Complete", 550, 350);
+      textSize(48);
+      text("Press Space to continue", 480, 450);
+      if (keyInput[4] == true) levelEnd();
+    }
     
     
     //draw player
@@ -763,12 +782,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (enemyX <= 1000) enemyX = 1000;
       else enemyTiming = 199;
       break;
-      case 999:
-      if (enemyX < 0) levelEnd();
-      break;
       default:
       break;
     }
+    
+    if (enemyX < -200) enemyState = 2; //kill enemy if off screen
   }
 }
 
@@ -817,7 +835,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void shoot() {
-   if (enemyState != 2 && enemyX > 0 && enemyX < 1250) {
+   if (enemyState != 2 && enemyX < 1250) {
     if (enemyType == 0) { //check to see if enemy is basic and not dead
     if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
     float speed = 10; //higher numbers are slower
@@ -948,11 +966,6 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     fill(255, 240, 60, 150);
     ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
     enemyTiming--;
-    if (enemyType == 4 && enemyTiming == 0) { //cargo ship both death action
-      if (levelIndex == 1) {
-        levelEnd(); //on level 1, proceed to next level when boss dies
-      }
-    }
   }
   
 }
@@ -960,8 +973,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
   //String[] loadSettings = loadUserDataFile("config.ini");
-    File file = new File(userDataDir(), "settings.json");
-    if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
+  file = new File(userDataDir(), "settings.json");
+  if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
   int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
@@ -1021,6 +1034,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void saveSettings() {
   if (oneHitMode == true) settingsJSON.setInt("oneHitMode", 1); else settingsJSON.setInt("oneHitMode", 0);
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
+  
   saveJSONObject(settingsJSON, "settings.json");
   /*
   settingsOut = createWriter(new File(userDataDir(), "config.ini"));
@@ -1175,7 +1189,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(6, 3800, 550);
     genEnemy(6, 3800, 150);
     
-    genEnemy(999, 4000, -500); //level complete enemy
+    //genEnemy(999, 4000, -500); //level complete enemy
   }
 }
 
@@ -1450,7 +1464,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 78; //the current build number, should be incremented manually each commit
+int buildNumber = 79; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
@@ -1469,6 +1483,10 @@ float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
 float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
 boolean paused = false; //if gameplay is paused this is true
+File file; //file used for loading files
+boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
+int levelEndCheckTimer = 0; //timer to check periodically to see if all enemies are dead
+int levelEndTimer = 0; //time to wait after all enemies are dead
 
 //player vars
 float playerX = 200; //player x pos
