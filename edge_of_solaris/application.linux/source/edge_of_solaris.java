@@ -977,11 +977,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     settingsJSON = loadJSONObject("settings.json");
   }*/
   settingsJSON = loadJSONObject("settings.json");
-  int tempInt = settingsJSON.getInt("oneHitMode");
+  /*int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
-  
+  */
   for (int i = 0; i < loadScript.length; i++) {
     textLines[i] = loadScript[i];
   }/*
@@ -1464,7 +1464,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 75; //the current build number, should be incremented manually each commit
+int buildNumber = 76; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at

@@ -18,11 +18,11 @@ void loadText() {
     settingsJSON = loadJSONObject("settings.json");
   }*/
   settingsJSON = loadJSONObject("settings.json");
-  int tempInt = settingsJSON.getInt("oneHitMode");
+  /*int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
-  
+  */
   for (int i = 0; i < loadScript.length; i++) {
     textLines[i] = loadScript[i];
   }/*
