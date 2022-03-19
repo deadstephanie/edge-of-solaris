@@ -79,7 +79,7 @@ JSONObject settingsJSON;
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
-  //loadSave(); //load the gamesave.sav file
+  loadSave(); //load the gamesave.sav file
 }
 
  public void draw() {
@@ -960,14 +960,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
   //String[] loadSettings = loadUserDataFile("config.ini");
-  String OS = System.getProperty("os.name").toLowerCase();
-  println(OS);
-  if (OS.contains("win") == false) {
     File file = new File(userDataDir(), "settings.json");
     if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
-  } else {
-    settingsJSON = loadJSONObject("settings.json");
-  }
+  
   int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
@@ -1455,7 +1450,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 77; //the current build number, should be incremented manually each commit
+int buildNumber = 78; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at

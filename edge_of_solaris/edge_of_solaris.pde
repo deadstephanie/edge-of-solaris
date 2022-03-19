@@ -60,7 +60,7 @@ void setup(){
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
-  //loadSave(); //load the gamesave.sav file
+  loadSave(); //load the gamesave.sav file
 }
 
 void draw() {
