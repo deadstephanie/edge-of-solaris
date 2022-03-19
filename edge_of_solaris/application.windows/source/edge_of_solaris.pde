@@ -552,7 +552,7 @@ int findEnemy () { //finds next unused enemy and returns its index value as an i
     int i = 0;
     boolean exit = false;
     while (exit == false) {
-      if (basicE[i].enemyType == 255) {
+      if (basicE[i].enemyState == 2) {
         bulletIndex = i;
         exit = true;
       } else i++;

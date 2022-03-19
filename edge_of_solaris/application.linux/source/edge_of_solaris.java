@@ -571,7 +571,7 @@ JSONObject settingsJSON;
     int i = 0;
     boolean exit = false;
     while (exit == false) {
-      if (basicE[i].enemyType == 255) {
+      if (basicE[i].enemyState == 2) {
         bulletIndex = i;
         exit = true;
       } else i++;
@@ -1096,6 +1096,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(0, 1200, 100);
     genEnemy(0, 1200, 500);
     genEnemy(0, 1200, 600);
+    genEnemy(0, 1200, 0);
     
     genEnemy(3, 1300, 50);
     genEnemy(3, 1300, 225);
@@ -1135,6 +1136,110 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(4, 3000, 350);
     genEnemy(4, 3000, 450);
     genEnemy(4, 3000, 550);
+    
+    genEnemy(0, 3600, 0);
+    genEnemy(0, 3600, 100);
+    genEnemy(0, 3600, 200);
+    genEnemy(0, 3600, 300);
+    genEnemy(0, 3600, 400);
+    genEnemy(0, 3600, 500);
+    genEnemy(0, 3600, 600);
+    
+    genEnemy(0, 3700, 0);
+    genEnemy(0, 3700, 100);
+    genEnemy(0, 3700, 200);
+    genEnemy(0, 3700, 300);
+    genEnemy(0, 3700, 400);
+    genEnemy(0, 3700, 500);
+    genEnemy(0, 3700, 600);
+    
+    genEnemy(0, 3800, 0);
+    genEnemy(0, 3800, 100);
+    genEnemy(0, 3800, 200);
+    genEnemy(0, 3800, 300);
+    genEnemy(0, 3800, 400);
+    genEnemy(0, 3800, 500);
+    genEnemy(0, 3800, 600);
+    
+    genEnemy(0, 3900, 0);
+    genEnemy(0, 3900, 100);
+    genEnemy(0, 3900, 200);
+    genEnemy(0, 3900, 300);
+    genEnemy(0, 3900, 400);
+    genEnemy(0, 3900, 500);
+    genEnemy(0, 3900, 600);
+    
+    genEnemy(0, 4000, 0);
+    genEnemy(0, 4000, 100);
+    genEnemy(0, 4000, 200);
+    genEnemy(0, 4000, 300);
+    genEnemy(0, 4000, 400);
+    genEnemy(0, 4000, 500);
+    genEnemy(0, 4000, 600);
+    
+    genEnemy(0, 4100, 0);
+    genEnemy(0, 4100, 100);
+    genEnemy(0, 4100, 200);
+    genEnemy(0, 4100, 300);
+    genEnemy(0, 4100, 400);
+    genEnemy(0, 4100, 500);
+    genEnemy(0, 4100, 600);
+    
+    genEnemy(0, 4200, 0);
+    genEnemy(0, 4200, 100);
+    genEnemy(0, 4200, 200);
+    genEnemy(0, 4200, 300);
+    genEnemy(0, 4200, 400);
+    genEnemy(0, 4200, 500);
+    genEnemy(0, 4200, 600);
+    
+    genEnemy(0, 4300, 0);
+    genEnemy(0, 4300, 100);
+    genEnemy(0, 4300, 200);
+    genEnemy(0, 4300, 300);
+    genEnemy(0, 4300, 400);
+    genEnemy(0, 4300, 500);
+    genEnemy(0, 4300, 600);
+    
+    genEnemy(0, 4400, 0);
+    genEnemy(0, 4400, 100);
+    genEnemy(0, 4400, 200);
+    genEnemy(0, 4400, 300);
+    genEnemy(0, 4400, 400);
+    genEnemy(0, 4400, 500);
+    genEnemy(0, 4400, 600);
+    
+    genEnemy(0, 4500, 0);
+    genEnemy(0, 4500, 100);
+    genEnemy(0, 4500, 200);
+    genEnemy(0, 4500, 300);
+    genEnemy(0, 4500, 400);
+    genEnemy(0, 4500, 500);
+    genEnemy(0, 4500, 600);
+    
+    genEnemy(0, 4600, 0);
+    genEnemy(0, 4600, 100);
+    genEnemy(0, 4600, 200);
+    genEnemy(0, 4600, 300);
+    genEnemy(0, 4600, 400);
+    genEnemy(0, 4600, 500);
+    genEnemy(0, 4600, 600);
+    
+    genEnemy(0, 4700, 0);
+    genEnemy(0, 4700, 100);
+    genEnemy(0, 4700, 200);
+    genEnemy(0, 4700, 300);
+    genEnemy(0, 4700, 400);
+    genEnemy(0, 4700, 500);
+    genEnemy(0, 4700, 600);
+    
+    genEnemy(0, 4800, 0);
+    genEnemy(0, 4800, 100);
+    genEnemy(0, 4800, 200);
+    genEnemy(0, 4800, 300);
+    genEnemy(0, 4800, 400);
+    genEnemy(0, 4800, 500);
+    genEnemy(0, 4800, 600);
   } else if (levelIndex == 1) {
     genEnemy(6, 1000, 350);
     genEnemy(6, 800, 150);
@@ -1475,14 +1580,14 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 80; //the current build number, should be incremented manually each commit
+int buildNumber = 81; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
-int basicECount = 100; //total enemy objects
+int basicECount = 300; //total enemy objects
 int dmgCount = 200; //total damage (readout) objects
 int starCount = 100; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
