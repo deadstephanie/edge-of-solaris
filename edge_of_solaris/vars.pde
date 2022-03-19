@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 73;
+int buildNumber = 74;
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at

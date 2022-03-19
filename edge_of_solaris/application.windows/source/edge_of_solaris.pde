@@ -45,6 +45,7 @@ PImage shadow2;
 PImage shadow3;
 
 PrintWriter settingsOut;
+PrintWriter OSver;
 JSONObject settingsJSON;
 
 import java.io.*;

@@ -64,6 +64,7 @@ PImage shadow2;
 PImage shadow3;
 
 PrintWriter settingsOut;
+PrintWriter OSver;
 JSONObject settingsJSON;
 
 
@@ -962,10 +963,19 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   String OS = System.getProperty("os.name").toLowerCase();
   println(OS);
   if (OS.contains("win") == false) {
-  File file = new File(userDataDir(), "settings.json");
-  if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
-  } else settingsJSON = loadJSONObject("settings.json");
-  
+    OSver = createWriter(new File("osversion-not-win.txt"));
+    OSver.println("detected not windows");
+    OSver.flush();
+    OSver.close();
+    File file = new File(userDataDir(), "settings.json");
+    if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
+  } else {
+    OSver = createWriter(new File("osversion-win.txt"));
+    OSver.println("detected windows");
+    OSver.flush();
+    OSver.close();
+    settingsJSON = loadJSONObject("settings.json");
+  }
   int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
@@ -1453,7 +1463,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 73;
+int buildNumber = 74;
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
