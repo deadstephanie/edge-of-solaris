@@ -2,6 +2,7 @@ void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
   //String[] loadSettings = loadUserDataFile("config.ini");
   String OS = System.getProperty("os.name").toLowerCase();
+  println(OS);
   if (OS.contains("win") == false) {
   File file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");

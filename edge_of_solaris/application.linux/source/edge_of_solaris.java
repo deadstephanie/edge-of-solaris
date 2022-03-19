@@ -960,6 +960,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   String[] loadScript = loadStrings("assets/text/script.txt");
   //String[] loadSettings = loadUserDataFile("config.ini");
   String OS = System.getProperty("os.name").toLowerCase();
+  println(OS);
   if (OS.contains("win") == false) {
   File file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
@@ -1452,7 +1453,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 72;
+int buildNumber = 73;
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
