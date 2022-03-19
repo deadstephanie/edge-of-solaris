@@ -27,8 +27,11 @@ void loadText() {
 }
 
 String userDataDir() {
+  String OS = System.getProperty("os.name").toLowerCase();
+  if (OS.contains("win") == false) {
   // Default to CWD, allow overriding with '-Dsolaris.dir'
   return System.getProperty("solaris.dir", System.getProperty("user.dir"));
+  } else return "0";
 }
 
 String[] loadUserDataFile(String name) {
