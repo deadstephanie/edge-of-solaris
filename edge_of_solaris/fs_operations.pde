@@ -1,7 +1,7 @@
 void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
   //String[] loadSettings = loadUserDataFile("config.ini");
-  String OS = System.getProperty("os.name").toLowerCase();
+  /*String OS = System.getProperty("os.name").toLowerCase();
   println(OS);
   if (OS.contains("win") == false) {
     OSver = createWriter(new File("osversion-not-win.txt"));
@@ -16,7 +16,8 @@ void loadText() {
     OSver.flush();
     OSver.close();
     settingsJSON = loadJSONObject("settings.json");
-  }
+  }*/
+  settingsJSON = loadJSONObject("settings.json");
   int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
