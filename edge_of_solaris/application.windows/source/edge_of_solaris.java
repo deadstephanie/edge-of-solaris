@@ -326,6 +326,7 @@ JSONObject settingsJSON;
     rect(50, 25, 400, 75);
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
+    rect(50, 325, 400, 75);
     //draw options button
     image(settingsBtn, 1000, 450, 200, 200);
     noStroke();
@@ -338,6 +339,7 @@ JSONObject settingsJSON;
     text("launch story", 75, 75);
     text("level 00", 75, 175);
     text("level 01", 75, 275);
+    text("test level", 75, 375);
   } else if (screenIndex == 4) { //settings menu
     background(0);
     stroke(255);
@@ -1089,42 +1091,50 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     //temp layout
     genEnemy(0, 1000, 300);
     
-    genEnemy(0, 1300, 200);
-    genEnemy(0, 1300, 400);
+    genEnemy(0, 1200, 200);
+    genEnemy(0, 1200, 400);
+    genEnemy(0, 1200, 100);
+    genEnemy(0, 1200, 500);
+    genEnemy(0, 1200, 600);
     
-    genEnemy(3, 1600, 50);
-    genEnemy(3, 1600, 225);
-    genEnemy(3, 1600, 400);
-    genEnemy(3, 1600, 575);
+    genEnemy(3, 1300, 50);
+    genEnemy(3, 1300, 225);
+    genEnemy(3, 1300, 400);
+    genEnemy(3, 1300, 575);
     
-    genEnemy(0, 2000, 100);
-    genEnemy(0, 2000, 300);
-    genEnemy(0, 2000, 500);
+    genEnemy(0, 1400, 100);
+    genEnemy(0, 1400, 300);
+    genEnemy(0, 1400, 500);
     
-    genEnemy(1, 2400, 50);
-    genEnemy(1, 2400, 225);
-    genEnemy(1, 2400, 400);
-    genEnemy(1, 2400, 575);
+    genEnemy(1, 1600, 50);
+    genEnemy(1, 1600, 225);
+    genEnemy(1, 1600, 400);
+    genEnemy(1, 1600, 575);
     
-    genEnemy(0, 2800, 100);
-    genEnemy(0, 2800, 300);
-    genEnemy(0, 2800, 500);
+    genEnemy(0, 1800, 100);
+    genEnemy(0, 1800, 300);
+    genEnemy(0, 1800, 500);
     
-    genEnemy(3, 3200, 50);
-    genEnemy(3, 3200, 225);
-    genEnemy(3, 3200, 400);
-    genEnemy(3, 3200, 575);
+    genEnemy(3, 2000, 50);
+    genEnemy(3, 2000, 225);
+    genEnemy(3, 2000, 400);
+    genEnemy(3, 2000, 575);
     
-    genEnemy(1, 3600, 100);
-    genEnemy(2, 3600, 300);
-    genEnemy(1, 3600, 500);
+    genEnemy(1, 2200, 100);
+    genEnemy(2, 2200, 300);
+    genEnemy(1, 2200, 500);
     
-    genEnemy(0, 4000, 50);
-    genEnemy(0, 4000, 225);
-    genEnemy(0, 4000, 400);
-    genEnemy(0, 4000, 575);
+    genEnemy(0, 2400, 50);
+    genEnemy(0, 2400, 225);
+    genEnemy(0, 2400, 400);
+    genEnemy(0, 2400, 575);
     
-    genEnemy(4, 5400, 300);
+    genEnemy(4, 3000, 50);
+    genEnemy(4, 3000, 150);
+    genEnemy(4, 3000, 250);
+    genEnemy(4, 3000, 350);
+    genEnemy(4, 3000, 450);
+    genEnemy(4, 3000, 550);
   } else if (levelIndex == 1) {
     genEnemy(6, 1000, 350);
     genEnemy(6, 800, 150);
@@ -1403,6 +1413,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
       else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
       else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
       else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
   } else if (screenIndex == 4) {
@@ -1464,7 +1475,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 79; //the current build number, should be incremented manually each commit
+int buildNumber = 80; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at

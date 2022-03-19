@@ -307,6 +307,7 @@ void drawUI() {
     rect(50, 25, 400, 75);
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
+    rect(50, 325, 400, 75);
     //draw options button
     image(settingsBtn, 1000, 450, 200, 200);
     noStroke();
@@ -319,6 +320,7 @@ void drawUI() {
     text("launch story", 75, 75);
     text("level 00", 75, 175);
     text("level 01", 75, 275);
+    text("test level", 75, 375);
   } else if (screenIndex == 4) { //settings menu
     background(0);
     stroke(255);
