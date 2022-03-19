@@ -1,18 +1,20 @@
 void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
-  String[] loadSettings = loadUserDataFile("config.ini");
-  
+  //String[] loadSettings = loadUserDataFile("config.ini");
+  String OS = System.getProperty("os.name").toLowerCase();
+  if (OS.contains("win") == false) {
   File file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json");
+  } else settingsJSON = loadJSONObject("settings.json");
   
   int tempInt = settingsJSON.getInt("oneHitMode");
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
   
-  /*for (int i = 0; i < loadScript.length; i++) {
+  for (int i = 0; i < loadScript.length; i++) {
     textLines[i] = loadScript[i];
-  }
+  }/*
   char[] settingsChar = loadSettings[0].toCharArray();
   if (settingsChar[12] == '0')
     oneHitMode = false;
@@ -27,11 +29,8 @@ void loadText() {
 }
 
 String userDataDir() {
-  String OS = System.getProperty("os.name").toLowerCase();
-  if (OS.contains("win") == false) {
   // Default to CWD, allow overriding with '-Dsolaris.dir'
   return System.getProperty("solaris.dir", System.getProperty("user.dir"));
-  } else return "0";
 }
 
 String[] loadUserDataFile(String name) {

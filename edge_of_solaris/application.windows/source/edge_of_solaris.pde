@@ -59,7 +59,7 @@ void setup(){
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
-  loadSave(); //load the gamesave.sav file
+  //loadSave(); //load the gamesave.sav file
 }
 
 void draw() {
@@ -272,7 +272,7 @@ void drawUI() {
     text("continue", 500, 500);
     text("press space to continue (temp)", 50, 650);
     textSize(24);
-    text("build 69", 1175, 700);
+    text("build " + buildNumber, 1175, 700);
   } else if (screenIndex == 2) { //level select
     background(0);
     stroke(255);
