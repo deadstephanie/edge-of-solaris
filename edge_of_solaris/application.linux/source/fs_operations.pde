@@ -11,18 +11,7 @@ void loadText() {
   
   for (int i = 0; i < loadScript.length; i++) {
     textLines[i] = loadScript[i];
-  }/*
-  char[] settingsChar = loadSettings[0].toCharArray();
-  if (settingsChar[12] == '0')
-    oneHitMode = false;
-  else
-    oneHitMode = true;
-
-  settingsChar = loadSettings[1].toCharArray();
-  if (settingsChar[13] == '0')
-    damageOnTop = false;
-  else
-    damageOnTop = true; */
+  }
 }
 
 String userDataDir() {

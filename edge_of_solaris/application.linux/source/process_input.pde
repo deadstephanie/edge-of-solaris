@@ -32,7 +32,7 @@ void processInput() {
         paused = true;
         keyInput[8] = false;
       }
-  } else if (screenIndex == 0 && paused == true) { //if game is paused
+  } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
         if (playerState != 255) { //check to ensure player is not dead
           if (keyInput[8] == true) { //p key
             paused = false;
@@ -54,11 +54,12 @@ void processInput() {
   
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
-      textIndex++;
+      textIndex++; //advance the text script
       if (scanVNCommands() == 0) {//load level
           levelStart(commandIndex); //load a level
       }
-      keyInput[4] = false;
+      keyInput[4] = false; //release space key
+      vnScreenChanges = true; //trigger a new vn frame rendering
     }
   }
 }

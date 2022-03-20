@@ -21,9 +21,9 @@ boolean paused = false; //if gameplay is paused this is true
 File file; //file used for loading files
 boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
 int levelEndCheckTimer = 0; //timer to check periodically to see if all enemies are dead
-int levelEndTimer = 0; //time to wait after all enemies are dead
+boolean levelEnd = false; //true when on the level end screen
 
-//player vars
+//player var
 float playerX = 200; //player x pos
 float playerY = 250; //player y pos
 int playerHitX = 60; //player x hitbox
@@ -90,6 +90,7 @@ String[] textLines = new String[999]; //used for each line of dialogue, this is 
 String[] textLinesO = new String[999]; //used for each line of dialogue, this is after the commands are stripped
 int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
 int commandIndex = 0; //used by the vn command handler to define which level should be skipped to
+boolean vnScreenChanges = true; //used to denote whether or not a screen update is needed on the vn segments as to not render frames when nothing has changed
 
 //animation timing vars
 int playerEngineTimer = 0;

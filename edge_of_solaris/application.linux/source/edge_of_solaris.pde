@@ -67,6 +67,10 @@ void draw() {
   processInput();
   drawFrame();
   drawUI();
+  if (screenIndex == 3) {
+    fill(0);
+    rect(0, 0, 100, 50);
+  }
   fill(200, 50, 50);
   textSize(24);
   text(frameRate, 20, 20);
@@ -121,23 +125,15 @@ void drawFrame() {
       levelEndCheckTimer = 0;
       for (int i = 0; i < basicECount; i++) {
         if (basicE[i].enemyState != 2) {
-          break;
+          break; //break out of loop for efficiency
         }else if (i == (basicECount - 1)) {
-          levelEndTimer = 60;
-          keyInput[4] = false;
-          break;
+          levelEnd = true; //switch to level end screen
+          keyInput[4] = false; //release space key
+          paused = true; //put game in paused state
+          break; //break out of loop for efficiency
         }
       }
     }
-    if (levelEndTimer > 0) {
-      textSize(60);
-      fill(255, 50, 50);
-      text("Level Complete", 550, 350);
-      textSize(48);
-      text("Press Space to continue", 480, 450);
-      if (keyInput[4] == true) levelEnd();
-    }
-    
     
     //draw player
     playerCollision();
@@ -224,9 +220,18 @@ void drawFrame() {
       
     } else {
       image(player1, playerX - 5, playerY - 5); //player sprite if player is not dead
+      if (levelEnd == true) { //if on level end screen
+      textSize(60);
+      fill(255, 50, 50);
+      text("Level Complete", 550, 350);
+      textSize(48);
+      text("Press Space to continue", 490, 450);
+      if (keyInput[4] == true) levelEnd();
+    } else { //if paused, player not dead and level not complete
       textSize(60);
       fill(255, 50, 50);
       text("PAUSED", 550, 350);
+    }
     }
     if (damageOnTop == true) {
       for (damage dmg : dmg) {
@@ -239,7 +244,6 @@ void drawFrame() {
   } else if (screenIndex == 1) {
     resetObjects(); //reset objects on non game screens 
   } else if (screenIndex == 3) {
-    background(0);
     drawVN();
   }
 }
@@ -397,12 +401,13 @@ void drawUI() {
 }
 
 void levelEnd() { //called when the level should end
+  keyInput[4] = false; //release space key
+  levelEnd = false; //turn off level end trigger
+  paused = false; //unpause game
   if (levelIndex == 0) {
-    keyInput[4] = false;
     screenIndex = 3; //set to vn section
     textIndex = 11; //set text index to next vn section
   } else if (levelIndex == 1) {
-    keyInput[4] = false;
     screenIndex = 3;
     textIndex = 16;
   }

@@ -1,4 +1,6 @@
 void drawVN() {
+  if (vnScreenChanges == true) {
+  background(0);
   scanVNInfo();
   
   switch(vnInfo[textIndex][2]) { //left side vn portrait tint
@@ -84,6 +86,9 @@ void drawVN() {
   textSize(32);
   text("SKIP", 1050, 680);
   text("NEXT", 1160, 680);
+  
+  vnScreenChanges = false; //finished rendering frame, do not render again unless changes to frame occur
+  }
 }
 
 int scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
