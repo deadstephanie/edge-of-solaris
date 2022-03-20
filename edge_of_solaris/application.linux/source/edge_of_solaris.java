@@ -1516,12 +1516,23 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
       else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
-  } else if (screenIndex == 4) {
+  } else if (screenIndex == 3) { //vn segments
+  println("waiting for mouse");
+    if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
+      println("mouse pressed");
+      textIndex++; //advance the text script
+      if (scanVNCommands() == 0) {//load level
+          levelStart(commandIndex); //load a level
+      }
+      vnScreenChanges = true; //trigger a new vn frame rendering
+    }
+    else if (mouseX > 1040 && mouseX < 1140 && mouseY > 650 && mouseY < 690); //skip button (currently doesnt do anything
+  } else if (screenIndex == 4) { //settings menu
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) oneHitMode = !oneHitMode; //pause on restart button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
-  } else if (screenIndex == 5) {
+  } else if (screenIndex == 5) { //stats menu
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
     else if (mouseX > 625 && mouseX < 700 && mouseY > 125 && mouseY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05f; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05f; playerStatPoints--;}
@@ -1575,7 +1586,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 81; //the current build number, should be incremented manually each commit
+int buildNumber = 83; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
