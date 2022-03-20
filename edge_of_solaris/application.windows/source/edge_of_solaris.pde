@@ -61,6 +61,7 @@ void setup(){
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
   loadSave(); //load the gamesave.sav file
+  scanForStartPoints();
 }
 
 void draw() {
@@ -404,13 +405,16 @@ void levelEnd() { //called when the level should end
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
+  screenIndex = 3;
+  textIndex = scriptStartPoints[levelIndex+1];
+  /*
   if (levelIndex == 0) {
     screenIndex = 3; //set to vn section
     textIndex = 11; //set text index to next vn section
   } else if (levelIndex == 1) {
     screenIndex = 3;
     textIndex = 16;
-  }
+  }*/
 }
 
 void levelStart(int cmdIndex) {

@@ -95,10 +95,33 @@ int scanVNCommands() { //looks for commands in the script text, this is run when
   char[] ch = textLines[textIndex-1].toCharArray();
   if (ch[0] == '-' && ch[1] == 'l') { //load level
     commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0');
-    println(commandIndex);
     return 0; //the command to load a level
+  } else if (ch[0] == '-' && ch[1] == 's') { //text start point
+    textIndex++; //advance text to skip past start point line
   }
   return 255;
+}
+
+void scanForStartPoints() {
+  int index = 0; //used to increment the start points array, ie 0 would be the first start point, note the text after -s does not matter only the order in the file they appear
+  for (int i = 0; i < scriptLength; i++) {
+    char[] ch = textLines[i].toCharArray();
+    if (ch[0] == '-' && ch[1] == 's') { //text blurb start point
+      scriptStartPoints[index] = i+1+1; //textLines is a 1 incremented array, add another 1 so it starts the line after the start point line
+      println(scriptStartPoints[index]);
+      index++;
+    }
+  }
+  println(scriptStartPoints[2]);
+}
+
+void advanceVNText() { //moves vn forward, reads commands, etc
+  textIndex++; //advance the text script
+  if (scanVNCommands() == 0) {//load level
+    levelStart(commandIndex); //load a level
+  }
+  vnScreenChanges = true; //trigger a new vn frame rendering
+  keyInput[4] = false; //release space key
 }
 
 void scanVNInfo() { //scans the script text for the vn portrait info
@@ -119,10 +142,11 @@ void scanVNInfo() { //scans the script text for the vn portrait info
     vnInfo[textIndex][2] = 1;
     vnInfo[textIndex][3] = 1;
   }
-  }
+  
   char[] chStripped = new char[ch.length-7]; //makes a new char array for text stripping
   for(int i = 7; i < ch.length; i++) { //strips the first 7 chars
     chStripped[i-7] = ch[i];
   }
   textLinesO[textIndex-1] = String.valueOf(chStripped); //dumps the char into a string
+} else textLinesO[textIndex-1] = "this line is a command [error]";
 }

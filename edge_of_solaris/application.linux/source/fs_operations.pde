@@ -1,6 +1,5 @@
 void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
-  //String[] loadSettings = loadUserDataFile("config.ini");
   file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
@@ -9,8 +8,9 @@ void loadText() {
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
   
-  for (int i = 0; i < loadScript.length; i++) {
-    textLines[i] = loadScript[i];
+  for(int i = 0; i < loadScript.length; i++) {
+    textLines[i] = loadScript[i]; //this is necessary trust me
+    scriptLength++;
   }
 }
 

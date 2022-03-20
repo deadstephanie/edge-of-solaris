@@ -54,12 +54,7 @@ void processInput() {
   
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
-      textIndex++; //advance the text script
-      if (scanVNCommands() == 0) {//load level
-          levelStart(commandIndex); //load a level
-      }
-      keyInput[4] = false; //release space key
-      vnScreenChanges = true; //trigger a new vn frame rendering
+      advanceVNText();
     }
   }
 }
@@ -138,14 +133,8 @@ void mousePressed() {
       else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
   } else if (screenIndex == 3) { //vn segments
-  println("waiting for mouse");
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
-      println("mouse pressed");
-      textIndex++; //advance the text script
-      if (scanVNCommands() == 0) {//load level
-          levelStart(commandIndex); //load a level
-      }
-      vnScreenChanges = true; //trigger a new vn frame rendering
+      advanceVNText();
     }
     else if (mouseX > 1040 && mouseX < 1140 && mouseY > 650 && mouseY < 690); //skip button (currently doesnt do anything
   } else if (screenIndex == 4) { //settings menu

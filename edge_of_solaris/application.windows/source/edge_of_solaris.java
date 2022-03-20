@@ -80,6 +80,7 @@ JSONObject settingsJSON;
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
   loadSave(); //load the gamesave.sav file
+  scanForStartPoints();
 }
 
  public void draw() {
@@ -423,13 +424,16 @@ JSONObject settingsJSON;
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
+  screenIndex = 3;
+  textIndex = scriptStartPoints[levelIndex+1];
+  /*
   if (levelIndex == 0) {
     screenIndex = 3; //set to vn section
     textIndex = 11; //set text index to next vn section
   } else if (levelIndex == 1) {
     screenIndex = 3;
     textIndex = 16;
-  }
+  }*/
 }
 
  public void levelStart(int cmdIndex) {
@@ -979,7 +983,6 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
  public void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
-  //String[] loadSettings = loadUserDataFile("config.ini");
   file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
@@ -988,8 +991,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
   
-  for (int i = 0; i < loadScript.length; i++) {
-    textLines[i] = loadScript[i];
+  for(int i = 0; i < loadScript.length; i++) {
+    textLines[i] = loadScript[i]; //this is necessary trust me
+    scriptLength++;
   }
 }
 
@@ -1433,12 +1437,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   
   } else if (screenIndex == 3) {
     if (keyInput[4] == true) {
-      textIndex++; //advance the text script
-      if (scanVNCommands() == 0) {//load level
-          levelStart(commandIndex); //load a level
-      }
-      keyInput[4] = false; //release space key
-      vnScreenChanges = true; //trigger a new vn frame rendering
+      advanceVNText();
     }
   }
 }
@@ -1517,14 +1516,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
     }
   } else if (screenIndex == 3) { //vn segments
-  println("waiting for mouse");
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
-      println("mouse pressed");
-      textIndex++; //advance the text script
-      if (scanVNCommands() == 0) {//load level
-          levelStart(commandIndex); //load a level
-      }
-      vnScreenChanges = true; //trigger a new vn frame rendering
+      advanceVNText();
     }
     else if (mouseX > 1040 && mouseX < 1140 && mouseY > 650 && mouseY < 690); //skip button (currently doesnt do anything
   } else if (screenIndex == 4) { //settings menu
@@ -1670,7 +1663,7 @@ boolean keyInput[] = new boolean [15];
 
 //visual novel vars
 int eventIndex = 0; //index value for events (1 indexed for ease of text editor use)
-int textIndex = 1; //index value for which line of dialogue should be displayed, this is 1 indexed
+int textIndex = 2; //index value for which line of dialogue should be displayed, this is 1 indexed, first line is the first start point so start after that
 int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
 String[] textLines = new String[999]; //used for each line of dialogue, this is the raw text in
@@ -1678,6 +1671,8 @@ String[] textLinesO = new String[999]; //used for each line of dialogue, this is
 int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
 int commandIndex = 0; //used by the vn command handler to define which level should be skipped to
 boolean vnScreenChanges = true; //used to denote whether or not a screen update is needed on the vn segments as to not render frames when nothing has changed
+int scriptLength = 0; //used to determine length of script file when its loaded
+int[] scriptStartPoints = new int[999]; //used to determine the start point of each script
 
 //animation timing vars
 int playerEngineTimer = 0;
@@ -1782,10 +1777,33 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
   char[] ch = textLines[textIndex-1].toCharArray();
   if (ch[0] == '-' && ch[1] == 'l') { //load level
     commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0');
-    println(commandIndex);
     return 0; //the command to load a level
+  } else if (ch[0] == '-' && ch[1] == 's') { //text start point
+    textIndex++; //advance text to skip past start point line
   }
   return 255;
+}
+
+ public void scanForStartPoints() {
+  int index = 0; //used to increment the start points array, ie 0 would be the first start point, note the text after -s does not matter only the order in the file they appear
+  for (int i = 0; i < scriptLength; i++) {
+    char[] ch = textLines[i].toCharArray();
+    if (ch[0] == '-' && ch[1] == 's') { //text blurb start point
+      scriptStartPoints[index] = i+1+1; //textLines is a 1 incremented array, add another 1 so it starts the line after the start point line
+      println(scriptStartPoints[index]);
+      index++;
+    }
+  }
+  println(scriptStartPoints[2]);
+}
+
+ public void advanceVNText() { //moves vn forward, reads commands, etc
+  textIndex++; //advance the text script
+  if (scanVNCommands() == 0) {//load level
+    levelStart(commandIndex); //load a level
+  }
+  vnScreenChanges = true; //trigger a new vn frame rendering
+  keyInput[4] = false; //release space key
 }
 
  public void scanVNInfo() { //scans the script text for the vn portrait info
@@ -1806,12 +1824,13 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
     vnInfo[textIndex][2] = 1;
     vnInfo[textIndex][3] = 1;
   }
-  }
+  
   char[] chStripped = new char[ch.length-7]; //makes a new char array for text stripping
   for(int i = 7; i < ch.length; i++) { //strips the first 7 chars
     chStripped[i-7] = ch[i];
   }
   textLinesO[textIndex-1] = String.valueOf(chStripped); //dumps the char into a string
+} else textLinesO[textIndex-1] = "this line is a command [error]";
 }
 
 
