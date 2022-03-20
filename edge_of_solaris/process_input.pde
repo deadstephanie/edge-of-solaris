@@ -86,7 +86,8 @@ void keyReleased() {
 void playerShoot() {
   if (playerWeapon == 0) { //machine gun
     if (timing > playerWeaponCooldown0) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower0 * playerAttack);
+      playerWeaponMove0 = random(2) - 1;
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, playerWeaponMove0, playerWeapon, 10, 10, playerWeaponPower0 * playerAttack);
       timing = 0;
     }
   } else if (playerWeapon == 1) { //spread shot
@@ -106,7 +107,7 @@ void playerShoot() {
     }
   } else if (playerWeapon == 4) { //sniper shot
       if (timing > playerWeaponCooldown4) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 25, 0, playerWeapon, 100, 5, playerWeaponPower4 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 50, 0, playerWeapon, 200, 10, playerWeaponPower4 * playerAttack);
       timing = 0;
     }
   }

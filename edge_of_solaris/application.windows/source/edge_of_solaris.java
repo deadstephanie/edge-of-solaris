@@ -1469,7 +1469,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void playerShoot() {
   if (playerWeapon == 0) { //machine gun
     if (timing > playerWeaponCooldown0) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, 0, playerWeapon, 10, 10, playerWeaponPower0 * playerAttack);
+      playerWeaponMove0 = random(2) - 1;
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 10, playerWeaponMove0, playerWeapon, 10, 10, playerWeaponPower0 * playerAttack);
       timing = 0;
     }
   } else if (playerWeapon == 1) { //spread shot
@@ -1489,7 +1490,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   } else if (playerWeapon == 4) { //sniper shot
       if (timing > playerWeaponCooldown4) {
-      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 25, 0, playerWeapon, 100, 5, playerWeaponPower4 * playerAttack);
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 50, 0, playerWeapon, 200, 10, playerWeaponPower4 * playerAttack);
       timing = 0;
     }
   }
@@ -1579,7 +1580,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 83; //the current build number, should be incremented manually each commit
+int buildNumber = 85; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int areaIndex = 0; //index for what area the player is at
@@ -1641,13 +1642,14 @@ int playerStatPoints = 100; //stat points to allocate
 
 //player weapon vars
 //machine gun
-int playerWeaponCooldown0 = 10;
-float playerWeaponPower0 = 5;
+int playerWeaponCooldown0 = 2;
+float playerWeaponPower0 = 3.5f;
 int playerWeaponHitX0 = 10;
 int playerWeaponHitY0 = 10;
+float playerWeaponMove0 = 0;
 //spread shot
-int playerWeaponCooldown1 = 40;
-float playerWeaponPower1 = 3.5f;
+int playerWeaponCooldown1 = 20;
+float playerWeaponPower1 = 5;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
 float playerWeaponPower2 = 5;
