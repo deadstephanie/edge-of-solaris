@@ -38,6 +38,18 @@ void processInput() {
       if (keyInput[10] == true) { //x secondary weapon 2
         playerSecondWeapon = 1;
       }
+      if (keyInput[11] == true) { //1, beam cannon primary weapon
+        playerWeapon = 2;
+      }
+      if (keyInput[12] == true) { //2, mg primary weapon
+        playerWeapon = 0;
+      }
+      if (keyInput[13] == true) { //3, snipe primary weapon
+        playerWeapon = 4;
+      }
+      if (keyInput[14] == true) { //4, spread primary weapon
+        playerWeapon = 1;
+      }
   } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
         if (playerState != 255) { //check to ensure player is not dead
           if (keyInput[8] == true) { //p key
@@ -77,6 +89,12 @@ void keyPressed() {
   if (key == 'p' || key == 'P')  keyInput[8] = true;
   if (key == 'z' || key == 'Z')  keyInput[9] = true;
   if (key == 'x' || key == 'X')  keyInput[10] = true;
+  if (key == '1') keyInput[11] = true;
+  if (key == '2') keyInput[12] = true;
+  if (key == '3') keyInput[13] = true;
+  if (key == '4') keyInput[14] = true;
+  if (key == '5') keyInput[15] = true;
+  if (key == '6') keyInput[16] = true;
 }
 
 void keyReleased() {
@@ -91,6 +109,12 @@ void keyReleased() {
   if (key == 'p' || key == 'P')  keyInput[8] = false;
   if (key == 'z' || key == 'Z')  keyInput[9] = false;
   if (key == 'x' || key == 'X')  keyInput[10] = false;
+  if (key == '1') keyInput[11] = false;
+  if (key == '2') keyInput[12] = false;
+  if (key == '3') keyInput[13] = false;
+  if (key == '4') keyInput[14] = false;
+  if (key == '5') keyInput[15] = false;
+  if (key == '6') keyInput[16] = false;
 }
 
 void playerShoot() {
@@ -137,17 +161,15 @@ void playerShoot() {
 
 void mousePressed() {
   if (screenIndex == 2) {//menu screen
-    if (areaIndex == 0) {
-      if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
-      else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
-      else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
-      else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400); //engineering buttton
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
-      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
-    }
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
+    else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button 
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();
@@ -164,5 +186,7 @@ void mousePressed() {
     if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05; playerStatPoints--;}
+  } else if (screenIndex == 8) { //engineering menu
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
   }
 }

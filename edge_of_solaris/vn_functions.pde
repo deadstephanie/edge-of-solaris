@@ -68,6 +68,18 @@ void drawVN() {
     case 23:
     image(vnCyana4, 800, 0, 500, 500);
     break;
+    case 30:
+    image(vnVeda1, 800, 0, 500, 500);
+    break;
+    case 31:
+    image(vnVeda2, 800, 0, 500, 500);
+    break;
+    case 32:
+    image(vnVeda3, 800, 0, 500, 500);
+    break;
+    case 33:
+    image(vnVeda4, 800, 0, 500, 500);
+    break;
     default:
     break;
   }
@@ -123,8 +135,7 @@ void advanceVNText() { //moves vn forward, reads commands, etc
   if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
   } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = 2; //go to level select
-    areaIndex = 0; //set area index to main level select
+    screenIndex = commandIndex; //go to selected screen
   }
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key

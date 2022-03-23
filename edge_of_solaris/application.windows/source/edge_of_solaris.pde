@@ -398,6 +398,27 @@ void drawUI() {
     text((int)playerShieldMax, 490, 275);
     text((int)(playerDefense * 100), 490, 375);
     text((int)(playerAttack * 100), 490, 475);
+  } else if (screenIndex == 8) { //engineering
+    background(0);
+    stroke(255);
+    strokeWeight(10);
+    fill(50, 0, 50);
+    //draw menu rects
+    rect(950, 25, 300, 75);
+    //draw level select rects
+    rect(50, 25, 400, 75);
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
+    rect(50, 325, 400, 75);
+    noStroke();
+    fill(255);
+    textSize(48);
+    text("Back", 975, 75);
+    
+    text("engineering", 75, 75);
+    text("placeholder", 75, 175);
+    text("placeholder", 75, 275);
+    text("placeholder", 75, 375);
   }
 }
 
@@ -411,8 +432,7 @@ void levelEnd() { //called when the level should end
   if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
   } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = 2; //go to level select
-    areaIndex = 0; //set area index to main level select
+    screenIndex = commandIndex; //go to selected screen
   }
 }
 

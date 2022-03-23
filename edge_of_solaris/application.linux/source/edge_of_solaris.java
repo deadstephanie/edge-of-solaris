@@ -417,6 +417,27 @@ JSONObject settingsJSON;
     text((int)playerShieldMax, 490, 275);
     text((int)(playerDefense * 100), 490, 375);
     text((int)(playerAttack * 100), 490, 475);
+  } else if (screenIndex == 8) { //engineering
+    background(0);
+    stroke(255);
+    strokeWeight(10);
+    fill(50, 0, 50);
+    //draw menu rects
+    rect(950, 25, 300, 75);
+    //draw level select rects
+    rect(50, 25, 400, 75);
+    rect(50, 125, 400, 75);
+    rect(50, 225, 400, 75);
+    rect(50, 325, 400, 75);
+    noStroke();
+    fill(255);
+    textSize(48);
+    text("Back", 975, 75);
+    
+    text("engineering", 75, 75);
+    text("placeholder", 75, 175);
+    text("placeholder", 75, 275);
+    text("placeholder", 75, 375);
   }
 }
 
@@ -430,8 +451,7 @@ JSONObject settingsJSON;
   if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
   } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = 2; //go to level select
-    areaIndex = 0; //set area index to main level select
+    screenIndex = commandIndex; //go to selected screen
   }
 }
 
@@ -1089,21 +1109,6 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
   
   saveJSONObject(settingsJSON, "settings.json");
-  /*
-  settingsOut = createWriter(new File(userDataDir(), "config.ini"));
-  int tempOut;
-  if (oneHitMode == true)
-    tempOut = 1;
-  else
-    tempOut = 0;
-  settingsOut.println("OneHitMode: " + tempOut);
-  if (damageOnTop == true)
-    tempOut = 1;
-  else
-    tempOut = 0;
-  settingsOut.println("DamageOnTop: " + tempOut);
-  settingsOut.flush();
-  settingsOut.close(); */
 }
 
  public void loadSprites() {
@@ -1131,6 +1136,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   vnCyana2 = loadImage("assets/vn/cyana/2.png");
   vnCyana3 = loadImage("assets/vn/cyana/3.png");
   vnCyana4 = loadImage("assets/vn/cyana/4.png");
+  
+  vnVeda1 = loadImage("assets/vn/veda/1.png");
+  vnVeda2 = loadImage("assets/vn/veda/2.png");
+  vnVeda3 = loadImage("assets/vn/veda/3.png");
+  vnVeda4 = loadImage("assets/vn/veda/4.png");
 
   settingsBtn = loadImage("assets/ui/settings.png");
   shadow = loadImage("assets/ui/shadow.png");
@@ -1474,6 +1484,18 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (keyInput[10] == true) { //x secondary weapon 2
         playerSecondWeapon = 1;
       }
+      if (keyInput[11] == true) { //1, beam cannon primary weapon
+        playerWeapon = 2;
+      }
+      if (keyInput[12] == true) { //2, mg primary weapon
+        playerWeapon = 0;
+      }
+      if (keyInput[13] == true) { //3, snipe primary weapon
+        playerWeapon = 4;
+      }
+      if (keyInput[14] == true) { //4, spread primary weapon
+        playerWeapon = 1;
+      }
   } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
         if (playerState != 255) { //check to ensure player is not dead
           if (keyInput[8] == true) { //p key
@@ -1513,6 +1535,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == 'p' || key == 'P')  keyInput[8] = true;
   if (key == 'z' || key == 'Z')  keyInput[9] = true;
   if (key == 'x' || key == 'X')  keyInput[10] = true;
+  if (key == '1') keyInput[11] = true;
+  if (key == '2') keyInput[12] = true;
+  if (key == '3') keyInput[13] = true;
+  if (key == '4') keyInput[14] = true;
+  if (key == '5') keyInput[15] = true;
+  if (key == '6') keyInput[16] = true;
 }
 
  public void keyReleased() {
@@ -1527,6 +1555,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (key == 'p' || key == 'P')  keyInput[8] = false;
   if (key == 'z' || key == 'Z')  keyInput[9] = false;
   if (key == 'x' || key == 'X')  keyInput[10] = false;
+  if (key == '1') keyInput[11] = false;
+  if (key == '2') keyInput[12] = false;
+  if (key == '3') keyInput[13] = false;
+  if (key == '4') keyInput[14] = false;
+  if (key == '5') keyInput[15] = false;
+  if (key == '6') keyInput[16] = false;
 }
 
  public void playerShoot() {
@@ -1573,17 +1607,15 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void mousePressed() {
   if (screenIndex == 2) {//menu screen
-    if (areaIndex == 0) {
-      if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
-      else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
-      else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
-      else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400); //engineering buttton
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
-      else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button
-    }
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
+    else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button 
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();
@@ -1600,6 +1632,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05f; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05f; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
+  } else if (screenIndex == 8) { //engineering menu
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
   }
 }
 class starsBG {
@@ -1649,9 +1683,9 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 //game vars
 int buildNumber = 85; //the current build number, should be incremented manually each commit
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+//7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
-int areaIndex = 0; //index for what area of the menu the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
@@ -1732,7 +1766,7 @@ int playerWeaponCooldown101 = 40;
 float playerWeaponPower101 = 10;
 
 //input vars
-boolean keyInput[] = new boolean [15];
+boolean keyInput[] = new boolean [45];
 
 //visual novel vars
 int eventIndex = 0; //index value for events (1 indexed for ease of text editor use)
@@ -1823,6 +1857,18 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
     case 23:
     image(vnCyana4, 800, 0, 500, 500);
     break;
+    case 30:
+    image(vnVeda1, 800, 0, 500, 500);
+    break;
+    case 31:
+    image(vnVeda2, 800, 0, 500, 500);
+    break;
+    case 32:
+    image(vnVeda3, 800, 0, 500, 500);
+    break;
+    case 33:
+    image(vnVeda4, 800, 0, 500, 500);
+    break;
     default:
     break;
   }
@@ -1878,8 +1924,7 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
   if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
   } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = 2; //go to level select
-    areaIndex = 0; //set area index to main level select
+    screenIndex = commandIndex; //go to selected screen
   }
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key

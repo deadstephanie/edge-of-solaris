@@ -1,8 +1,8 @@
 //game vars
 int buildNumber = 85; //the current build number, should be incremented manually each commit
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+//7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
-int areaIndex = 0; //index for what area of the menu the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
@@ -83,7 +83,7 @@ int playerWeaponCooldown101 = 40;
 float playerWeaponPower101 = 10;
 
 //input vars
-boolean keyInput[] = new boolean [15];
+boolean keyInput[] = new boolean [45];
 
 //visual novel vars
 int eventIndex = 0; //index value for events (1 indexed for ease of text editor use)

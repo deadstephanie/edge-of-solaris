@@ -20,12 +20,17 @@
 00 12 1 Esence: Is that why you joined the Aegis Airforce?
 01 11 0 Zerina: I didn't join. I am a designer baby created specifically to pilot this nebulon.
 00 10 1 Esence: That explains it, the acceleration on this nebu is insane. I don't know anyone else who could pilot such a machine without passing out.
-01 10 1 Esence: Lets go back to the Oreillana.
+00 10 1 Esence: Lets go back to the Oreillana.
 99 99 0 - Back at the Oreillana -
 00 21 1 Cyana: How did the mission go?
 01 20 0 Zerina: It went well, all thanks to your training
 00 22 1 Cyana: Uh I think it was mostly due to the new ship and its pilot.
-00 21 1 Cyana: Why don't you try this simulation I made [PERFORMANCE TEST LEVEL]
--l 02
--s 03
--c 00
+00 20 0 Zerina: This nebulon, this is probably the most technologically advanced ship ever made
+00 10 1 Esence: It really is something isn't it. None of the Faun craft even have shield systems.
+00 11 1 Esence: This war will be over before you know it
+00 10 0 Zerina: I certainly hope so. The sooner the bloodshed ends the better.
+00 12 1 Esence: Why are you always so serious? Go talk to Veda in engineering she has a new weapon for you.
+01 30 0 Zerina: Hey Veda, what have you been working on?
+00 32 1 Veda: Oh, hey Zeri! I have a a sweet new weapon for you. Its a machine gun.
+00 33 1 Veda: The rate of fire is insane but the accuracy kinda sucks. You can switch weapons with the number keys.
+-c 08

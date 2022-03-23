@@ -53,21 +53,6 @@ void saveSettings() {
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
   
   saveJSONObject(settingsJSON, "settings.json");
-  /*
-  settingsOut = createWriter(new File(userDataDir(), "config.ini"));
-  int tempOut;
-  if (oneHitMode == true)
-    tempOut = 1;
-  else
-    tempOut = 0;
-  settingsOut.println("OneHitMode: " + tempOut);
-  if (damageOnTop == true)
-    tempOut = 1;
-  else
-    tempOut = 0;
-  settingsOut.println("DamageOnTop: " + tempOut);
-  settingsOut.flush();
-  settingsOut.close(); */
 }
 
 void loadSprites() {
@@ -95,6 +80,11 @@ void loadSprites() {
   vnCyana2 = loadImage("assets/vn/cyana/2.png");
   vnCyana3 = loadImage("assets/vn/cyana/3.png");
   vnCyana4 = loadImage("assets/vn/cyana/4.png");
+  
+  vnVeda1 = loadImage("assets/vn/veda/1.png");
+  vnVeda2 = loadImage("assets/vn/veda/2.png");
+  vnVeda3 = loadImage("assets/vn/veda/3.png");
+  vnVeda4 = loadImage("assets/vn/veda/4.png");
 
   settingsBtn = loadImage("assets/ui/settings.png");
   shadow = loadImage("assets/ui/shadow.png");
