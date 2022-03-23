@@ -426,14 +426,13 @@ JSONObject settingsJSON;
   paused = false; //unpause game
   screenIndex = 3;
   textIndex = scriptStartPoints[levelIndex+1];
-  /*
-  if (levelIndex == 0) {
-    screenIndex = 3; //set to vn section
-    textIndex = 11; //set text index to next vn section
-  } else if (levelIndex == 1) {
-    screenIndex = 3;
-    textIndex = 16;
-  }*/
+  //if next line is a command, do the command
+  if (scanVNCommands() == 0) {//load level command
+    levelStart(commandIndex); //load a level
+  } else if (scanVNCommands() == 1) { //load menu command
+    screenIndex = 2; //go to level select
+    areaIndex = 0; //set area index to main level select
+  }
 }
 
  public void levelStart(int cmdIndex) {
@@ -1652,7 +1651,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 int buildNumber = 85; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status
 int levelIndex = 0; //what level the player is playing, 0 is test level
-int areaIndex = 0; //index for what area the player is at
+int areaIndex = 0; //index for what area of the menu the player is at
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
@@ -1850,10 +1849,13 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
  public int scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
   char[] ch = textLines[textIndex-1].toCharArray();
   if (ch[0] == '-' && ch[1] == 'l') { //load level
-    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0');
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //read the level index to load
     return 0; //the command to load a level
   } else if (ch[0] == '-' && ch[1] == 's') { //text start point
     textIndex++; //advance text to skip past start point line
+  } else if (ch[0] == '-' && ch[1] == 'c') { //text start point
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //menu special commands (TODO)
+    return 1; //the command to go to menu
   }
   return 255;
 }
@@ -1873,8 +1875,11 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
 
  public void advanceVNText() { //moves vn forward, reads commands, etc
   textIndex++; //advance the text script
-  if (scanVNCommands() == 0) {//load level
+  if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
+  } else if (scanVNCommands() == 1) { //load menu command
+    screenIndex = 2; //go to level select
+    areaIndex = 0; //set area index to main level select
   }
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key

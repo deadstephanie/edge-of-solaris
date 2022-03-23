@@ -94,10 +94,13 @@ void drawVN() {
 int scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
   char[] ch = textLines[textIndex-1].toCharArray();
   if (ch[0] == '-' && ch[1] == 'l') { //load level
-    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0');
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //read the level index to load
     return 0; //the command to load a level
   } else if (ch[0] == '-' && ch[1] == 's') { //text start point
     textIndex++; //advance text to skip past start point line
+  } else if (ch[0] == '-' && ch[1] == 'c') { //text start point
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //menu special commands (TODO)
+    return 1; //the command to go to menu
   }
   return 255;
 }
@@ -117,8 +120,11 @@ void scanForStartPoints() {
 
 void advanceVNText() { //moves vn forward, reads commands, etc
   textIndex++; //advance the text script
-  if (scanVNCommands() == 0) {//load level
+  if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
+  } else if (scanVNCommands() == 1) { //load menu command
+    screenIndex = 2; //go to level select
+    areaIndex = 0; //set area index to main level select
   }
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key

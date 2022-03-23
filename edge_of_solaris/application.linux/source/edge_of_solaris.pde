@@ -407,14 +407,13 @@ void levelEnd() { //called when the level should end
   paused = false; //unpause game
   screenIndex = 3;
   textIndex = scriptStartPoints[levelIndex+1];
-  /*
-  if (levelIndex == 0) {
-    screenIndex = 3; //set to vn section
-    textIndex = 11; //set text index to next vn section
-  } else if (levelIndex == 1) {
-    screenIndex = 3;
-    textIndex = 16;
-  }*/
+  //if next line is a command, do the command
+  if (scanVNCommands() == 0) {//load level command
+    levelStart(commandIndex); //load a level
+  } else if (scanVNCommands() == 1) { //load menu command
+    screenIndex = 2; //go to level select
+    areaIndex = 0; //set area index to main level select
+  }
 }
 
 void levelStart(int cmdIndex) {

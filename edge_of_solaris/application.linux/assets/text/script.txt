@@ -27,3 +27,5 @@
 00 22 1 Cyana: Uh I think it was mostly due to the new ship and its pilot.
 00 21 1 Cyana: Why don't you try this simulation I made [PERFORMANCE TEST LEVEL]
 -l 02
+-s 03
+-c 00
