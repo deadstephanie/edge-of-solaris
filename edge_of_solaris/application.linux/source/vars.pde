@@ -75,9 +75,12 @@ float playerWeaponPower2 = 5;
 //snipe shot
 int playerWeaponCooldown4 = 30;
 float playerWeaponPower4 = 5;
-//basic secondary missile
+//basic secondary rocket
 int playerWeaponCooldown100 = 40;
 float playerWeaponPower100 = 10;
+//tracking missile
+int playerWeaponCooldown101 = 40;
+float playerWeaponPower101 = 10;
 
 //input vars
 boolean keyInput[] = new boolean [15];

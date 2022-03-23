@@ -19,18 +19,24 @@ void processInput() {
       if (keyInput[4] == true) { //space
         playerShoot();
       }
-      if (keyInput[5] == true) { //q, prev weapon
+      if (keyInput[5] == true) { //q, mg weapon
         playerWeapon = 0;
       }
-      if (keyInput[6] == true) { //q, next weapon
+      if (keyInput[6] == true) { //e, snipe weapon
         playerWeapon = 4;
       }
-      if (keyInput[7] == true) { //q, next weapon
+      if (keyInput[7] == true) { //r, spread weapon
         playerWeapon = 1;
       }
       if (keyInput[8] == true) { //p, pause game
         paused = true;
         keyInput[8] = false;
+      }
+      if (keyInput[9] == true) { //z, secondary weapon 1
+        playerSecondWeapon = 0;
+      }
+      if (keyInput[10] == true) { //x secondary weapon 2
+        playerSecondWeapon = 1;
       }
   } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
         if (playerState != 255) { //check to ensure player is not dead
@@ -69,6 +75,8 @@ void keyPressed() {
   if (key == 'e' || key == 'E')  keyInput[6] = true;
   if (key == 'r' || key == 'R')  keyInput[7] = true;
   if (key == 'p' || key == 'P')  keyInput[8] = true;
+  if (key == 'z' || key == 'Z')  keyInput[9] = true;
+  if (key == 'x' || key == 'X')  keyInput[10] = true;
 }
 
 void keyReleased() {
@@ -81,6 +89,8 @@ void keyReleased() {
   if (key == 'e' || key == 'E')  keyInput[6] = false;
   if (key == 'r' || key == 'R')  keyInput[7] = false;
   if (key == 'p' || key == 'P')  keyInput[8] = false;
+  if (key == 'z' || key == 'Z')  keyInput[9] = false;
+  if (key == 'x' || key == 'X')  keyInput[10] = false;
 }
 
 void playerShoot() {
@@ -111,10 +121,15 @@ void playerShoot() {
       timing = 0;
     }
   }
-  if (playerSecondWeapon == 0) { //basic secondary missile
+  if (playerSecondWeapon == 0) { //basic secondary rockets
     if (secondTiming > playerWeaponCooldown100) {
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, +10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100 * playerAttack);
       blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, -10, -10, playerSecondWeapon + 100, 20, 10, playerWeaponPower100 * playerAttack);
+      secondTiming = 0;
+    }
+  } else if (playerSecondWeapon == 1) { //tracking missile
+    if (secondTiming > playerWeaponCooldown101) {
+      blts[findBullet()] = new bullet(playerX + playerBulletOffsetX, playerY + playerBulletOffsetY, 5, 0, playerSecondWeapon + 100, 10, 10, playerWeaponPower101 * playerAttack);
       secondTiming = 0;
     }
   }

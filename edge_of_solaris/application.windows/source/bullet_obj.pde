@@ -25,10 +25,43 @@ void update() {
     bulletX = bulletX + bulletSpeedX; //update bullet x according to x speed
     bulletY = bulletY + bulletSpeedY; //update bullet y according to y speed
   }
-  if (bulletType == 100) {
+  if (bulletType == 100) { //basic secondary rockets
     if (bulletSpeedY > 0) bulletSpeedY--;
     if (bulletSpeedY < 0) bulletSpeedY++;
     if (bulletSpeedX < 5) bulletSpeedX++;
+  } else if (bulletType == 101) { //tracking secondary missiles
+    float enemyDistance = 999999999; //how far away is the enemy
+    float enemyDistanceX; //distance from enemy x
+    float enemyDistanceY; //distance from enemy y
+    int enemyTargetIndex = 9999; //which enemy is being targeted
+    for (int i = 0; i < basicECount; i++) {
+      if (basicE[i].enemyState != 2) { //confirm enemy is not dead
+        float enemyDistanceNew;
+        enemyDistanceX = abs(basicE[i].enemyX - bulletX); //find difference on x axis
+        enemyDistanceY = abs(basicE[i].enemyY - bulletY); //find difference on y axis
+        enemyDistanceNew = sqrt(pow(enemyDistanceX, 2) + pow(enemyDistanceY, 2));
+        if (enemyDistanceNew < enemyDistance) { //if current enemy distance is less than previous enemy distance
+          enemyDistance = enemyDistanceNew; //set current closest distance to current distance
+          enemyTargetIndex = i; //set the current targeted enemy to be this enemy
+        }
+      }
+    }
+    if (enemyDistance != 999999999 && enemyTargetIndex != 9999) { //basically just checks if the above loop actually found an enemy
+      if (basicE[enemyTargetIndex].enemyX < 1250) {
+        float speed = 0.1; //higher numbers are slower
+        int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
+        int offsetY = 10; //account for incorrect aim
+        enemyDistance = enemyDistance * speed; //scale c (distance hypotenuse) to speed
+        float speedX = (basicE[enemyTargetIndex].enemyX - bulletX + offsetX);
+        float speedY = (basicE[enemyTargetIndex].enemyY - bulletY + offsetY);
+        float bulletSpeedXNew = speedX / (enemyDistance);
+        float bulletSpeedYNew = speedY / (enemyDistance);
+        if (bulletSpeedXNew < bulletSpeedX) bulletSpeedX = bulletSpeedX - 0.1;
+        if (bulletSpeedXNew > bulletSpeedX) bulletSpeedX = bulletSpeedX + 0.1;
+        if (bulletSpeedYNew < bulletSpeedY) bulletSpeedY = bulletSpeedY - 0.1;
+        if (bulletSpeedYNew > bulletSpeedY) bulletSpeedY = bulletSpeedY + 0.1;
+      }
+    }
   }
 }
 
@@ -69,6 +102,11 @@ void display() {
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 100) { //basic secondary missile
+    stroke(255, 20, 20, 200);
+    strokeWeight(3);
+    fill(255);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  }else if (bulletType == 101) {
     stroke(255, 20, 20, 200);
     strokeWeight(3);
     fill(255);
