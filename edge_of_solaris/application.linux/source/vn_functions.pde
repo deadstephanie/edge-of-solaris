@@ -110,8 +110,8 @@ int scanVNCommands() { //looks for commands in the script text, this is run when
     return 0; //the command to load a level
   } else if (ch[0] == '-' && ch[1] == 's') { //text start point
     textIndex++; //advance text to skip past start point line
-  } else if (ch[0] == '-' && ch[1] == 'c') { //text start point
-    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //menu special commands (TODO)
+  } else if (ch[0] == '-' && ch[1] == 'c') { //load a menu screen command
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //jump to menu screen
     return 1; //the command to go to menu
   }
   return 255;

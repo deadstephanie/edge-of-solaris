@@ -445,14 +445,15 @@ JSONObject settingsJSON;
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
-  screenIndex = 3;
+  scanLevelEndCommands();
+  /*screenIndex = 3;
   textIndex = scriptStartPoints[levelIndex+1];
   //if next line is a command, do the command
   if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
   } else if (scanVNCommands() == 1) { //load menu command
     screenIndex = commandIndex; //go to selected screen
-  }
+  }*/
 }
 
  public void levelStart(int cmdIndex) {
@@ -1056,6 +1057,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
  public void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
+  levelEndCommands = loadStrings("assets/text/level-end-commands.txt");
   file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
@@ -1109,6 +1111,23 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
   
   saveJSONObject(settingsJSON, "settings.json");
+}
+
+ public void scanLevelEndCommands() {
+  char[] ch = levelEndCommands[levelIndex].toCharArray();
+  if (ch[3] == '-' && ch[4] == 'l') { //load level
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //read the level index to load
+    levelStart(commandIndex); //load the level
+  } else if (ch[3] == '-' && ch[4] == 'c') { //load a menu screen
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //load the index of the screen
+    screenIndex = commandIndex; //jump to that screen
+  } else if (ch[3] == '-' && ch[4] == 's') { //load a 
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
+    screenIndex = 3; //set screen to vn
+    textIndex = scriptStartPoints[commandIndex]; //set the text index to the selected start point
+  } else { //fallback
+    screenIndex = 2;
+  }
 }
 
  public void loadSprites() {
@@ -1775,6 +1794,7 @@ int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
 String[] textLines = new String[999]; //used for each line of dialogue, this is the raw text in
 String[] textLinesO = new String[999]; //used for each line of dialogue, this is after the commands are stripped
+String[] levelEndCommands = new String[999]; //used for commands be ran at the end of each level
 int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
 int commandIndex = 0; //used by the vn command handler to define which level should be skipped to
 boolean vnScreenChanges = true; //used to denote whether or not a screen update is needed on the vn segments as to not render frames when nothing has changed
@@ -1899,8 +1919,8 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
     return 0; //the command to load a level
   } else if (ch[0] == '-' && ch[1] == 's') { //text start point
     textIndex++; //advance text to skip past start point line
-  } else if (ch[0] == '-' && ch[1] == 'c') { //text start point
-    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //menu special commands (TODO)
+  } else if (ch[0] == '-' && ch[1] == 'c') { //load a menu screen command
+    commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //jump to menu screen
     return 1; //the command to go to menu
   }
   return 255;

@@ -92,6 +92,7 @@ int bgIndex = 0; //background index
 int textTiming = 0; //used for rendering each letter individually, ie it looks like its being typed out
 String[] textLines = new String[999]; //used for each line of dialogue, this is the raw text in
 String[] textLinesO = new String[999]; //used for each line of dialogue, this is after the commands are stripped
+String[] levelEndCommands = new String[999]; //used for commands be ran at the end of each level
 int[][] vnInfo = new int[999][5]; //used for stuff like who should be rendered, tint, etc
 int commandIndex = 0; //used by the vn command handler to define which level should be skipped to
 boolean vnScreenChanges = true; //used to denote whether or not a screen update is needed on the vn segments as to not render frames when nothing has changed

@@ -426,14 +426,15 @@ void levelEnd() { //called when the level should end
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
-  screenIndex = 3;
+  scanLevelEndCommands();
+  /*screenIndex = 3;
   textIndex = scriptStartPoints[levelIndex+1];
   //if next line is a command, do the command
   if (scanVNCommands() == 0) {//load level command
     levelStart(commandIndex); //load a level
   } else if (scanVNCommands() == 1) { //load menu command
     screenIndex = commandIndex; //go to selected screen
-  }
+  }*/
 }
 
 void levelStart(int cmdIndex) {

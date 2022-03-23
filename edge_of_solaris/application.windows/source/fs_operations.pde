@@ -1,5 +1,6 @@
 void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
+  levelEndCommands = loadStrings("assets/text/level-end-commands.txt");
   file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
@@ -53,6 +54,23 @@ void saveSettings() {
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
   
   saveJSONObject(settingsJSON, "settings.json");
+}
+
+void scanLevelEndCommands() {
+  char[] ch = levelEndCommands[levelIndex].toCharArray();
+  if (ch[3] == '-' && ch[4] == 'l') { //load level
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //read the level index to load
+    levelStart(commandIndex); //load the level
+  } else if (ch[3] == '-' && ch[4] == 'c') { //load a menu screen
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //load the index of the screen
+    screenIndex = commandIndex; //jump to that screen
+  } else if (ch[3] == '-' && ch[4] == 's') { //load a 
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
+    screenIndex = 3; //set screen to vn
+    textIndex = scriptStartPoints[commandIndex]; //set the text index to the selected start point
+  } else { //fallback
+    screenIndex = 2;
+  }
 }
 
 void loadSprites() {
