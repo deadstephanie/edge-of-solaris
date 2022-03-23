@@ -22,6 +22,7 @@ File file; //file used for loading files
 boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
 int levelEndCheckTimer = 0; //timer to check periodically to see if all enemies are dead
 boolean levelEnd = false; //true when on the level end screen
+int shadowFactor = 0; //don't ask
 
 //player var
 float playerX = 200; //player x pos

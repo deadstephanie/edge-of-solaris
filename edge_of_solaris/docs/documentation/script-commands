@@ -1,5 +1,5 @@
 IMPORTANT: all commands that have an index input are two digit only (except from tint which is single digit), it is important you use for example 05 instead of 5.
 -s indicates the start of a vn segment, these are scanned top to bottom and zero indexed, I put the index value next to the command but this is not necessary (such as -s 00)
-For each dialogue section there are 3 inputs, in order of left to right it is left side vn portrait image, right side vn portrait image and tint. For the portraits: 0-9 are zerina, 10-19 are esence, 20-29 are cyana, 30-39 are veda, 99 is blank. For the tint: 0 is fade right side (left side talking) and 1 is fade left side (right side talking)
--c loads to any screen. the screen indexes are: 0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall, 7 = hanger, 8 = engineering
+For each dialogue section there are 3 inputs, in order of left to right it is left side vn portrait image, right side vn portrait image and tint. For the portraits: 00-09 are zerina, 10-19 are esence, 20-29 are cyana, 30-39 are veda, 99 is blank. For the tint: 0 is fade right side (left side talking) and 1 is fade left side (right side talking)
+-c loads to any screen. the screen indexes are: 00 = game, 01 = title, 02 = level select, 03 = visual novel story stuff, 04 = settings menu, 05 = status, 06 = mess hall, 07 = hanger, 08 = engineering
 -l loads any level, levels are 0 indexed and notable level 02 is the performance test level

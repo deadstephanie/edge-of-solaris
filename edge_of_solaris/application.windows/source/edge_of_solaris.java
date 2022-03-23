@@ -62,6 +62,7 @@ PImage settingsBtn;
 PImage shadow;
 PImage shadow2;
 PImage shadow3;
+PImage shadow4;
 
 PrintWriter settingsOut;
 PrintWriter OSver;
@@ -186,7 +187,8 @@ JSONObject settingsJSON;
     playerEngineTimer++;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
-    image(player1, playerX - 5, playerY - 5); //player sprite
+    if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
+    else image(player1, playerX - 5, playerY - 5); //player sprite
     
     if (damageOnTop == true) {
       for (damage dmg : dmg) {
@@ -239,7 +241,8 @@ JSONObject settingsJSON;
       text("Press R or Space to restart", 400, 450);
       
     } else {
-      image(player1, playerX - 5, playerY - 5); //player sprite if player is not dead
+      if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
+      else image(player1, playerX - 5, playerY - 5); //player sprite
       if (levelEnd == true) { //if on level end screen
       textSize(60);
       fill(255, 50, 50);
@@ -1165,6 +1168,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   shadow = loadImage("assets/ui/shadow.png");
   shadow2 = loadImage("assets/ui/shadow2.png");
   shadow3 = loadImage("assets/ui/shadow3.gif");
+  shadow4 = loadImage("assets/ui/shadow4.png");
 }
  public void placeEnemies() {
   if (levelIndex == 2) {
@@ -1643,7 +1647,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (screenIndex == 4) { //settings menu
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) oneHitMode = !oneHitMode; //pause on restart button
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200);} //shadow
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++;} //shadow
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
   } else if (screenIndex == 5) { //stats menu
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
@@ -1724,6 +1728,7 @@ File file; //file used for loading files
 boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
 int levelEndCheckTimer = 0; //timer to check periodically to see if all enemies are dead
 boolean levelEnd = false; //true when on the level end screen
+int shadowFactor = 0; //don't ask
 
 //player var
 float playerX = 200; //player x pos

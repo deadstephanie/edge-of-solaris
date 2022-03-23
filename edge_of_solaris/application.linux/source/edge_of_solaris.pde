@@ -43,6 +43,7 @@ PImage settingsBtn;
 PImage shadow;
 PImage shadow2;
 PImage shadow3;
+PImage shadow4;
 
 PrintWriter settingsOut;
 PrintWriter OSver;
@@ -167,7 +168,8 @@ void drawFrame() {
     playerEngineTimer++;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
-    image(player1, playerX - 5, playerY - 5); //player sprite
+    if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
+    else image(player1, playerX - 5, playerY - 5); //player sprite
     
     if (damageOnTop == true) {
       for (damage dmg : dmg) {
@@ -220,7 +222,8 @@ void drawFrame() {
       text("Press R or Space to restart", 400, 450);
       
     } else {
-      image(player1, playerX - 5, playerY - 5); //player sprite if player is not dead
+      if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
+      else image(player1, playerX - 5, playerY - 5); //player sprite
       if (levelEnd == true) { //if on level end screen
       textSize(60);
       fill(255, 50, 50);

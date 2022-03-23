@@ -108,4 +108,5 @@ void loadSprites() {
   shadow = loadImage("assets/ui/shadow.png");
   shadow2 = loadImage("assets/ui/shadow2.png");
   shadow3 = loadImage("assets/ui/shadow3.gif");
+  shadow4 = loadImage("assets/ui/shadow4.png");
 }
