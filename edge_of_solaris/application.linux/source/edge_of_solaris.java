@@ -716,10 +716,26 @@ public void reset() {
     strokeWeight(3);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
-  }else if (bulletType == 101) {
-    stroke(255, 20, 20, 200);
+  }else if (bulletType == 101) {   
+    stroke(255, 77, 0, 150);
     strokeWeight(3);
-    fill(255);
+    fill(255, 77, 0, 150);
+    ellipse(bulletX - (bulletSpeedX / 1), bulletY - (bulletSpeedY / 1), bulletHitX - 1, bulletHitY - 1);
+    
+    stroke(255, 77, 0, 100);
+    strokeWeight(3);
+    fill(255, 77, 0, 100);
+    ellipse(bulletX - (bulletSpeedX / 0.5f), bulletY - (bulletSpeedY / 0.5f), bulletHitX - 1   , bulletHitY - 1);
+    
+    stroke(155, 77, 0, 50);
+    strokeWeight(3);
+    fill(255, 77, 0, 50);
+    ellipse(bulletX - (bulletSpeedX / 0.35f), bulletY - (bulletSpeedY / 0.35f), bulletHitX - 1   , bulletHitY - 1);
+    
+    stroke(255, 2, 255, 200);
+    strokeWeight(3);
+    fill(255, 200, 220);
+    ellipse(bulletX - (bulletSpeedX / 2), bulletY - (bulletSpeedY / 2), bulletHitX, bulletHitY);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 2) { //dual beam cannon
     stroke(20, 20, 200, 150);
