@@ -7,8 +7,9 @@ class bullet {
   int bulletHitX; //bullet hitbox x
   int bulletHitY; //bullet hitbox y
   float bulletPower; //bullet impact damage (defined on bullet gen)
+  int bulletTimer; //used for timed bullet functions
 
-bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, float bulletPowertemp) {
+bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulletSpeedYtemp, int bulletTypetemp, int bulletHitXtemp, int bulletHitYtemp, float bulletPowertemp, int bulletTimertemp) {
   bulletX = bulletXtemp;
   bulletY = bulletYtemp;
   bulletSpeedX = bulletSpeedXtemp;
@@ -17,13 +18,15 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
   bulletHitX = bulletHitXtemp;
   bulletHitY = bulletHitYtemp;
   bulletPower = bulletPowertemp;
+  bulletTimer = bulletTimertemp;
 }
 
 void update() {
   if (bulletX > (screenX + 100) || bulletX < -100 || bulletY > (screenY + 100) || bulletY < -100) bulletType = 255; //destroy bullet if off screen
-  else { //if bullet is not off screen, update bullet position
+  else { //if bullet is not off screen, update bullet position and timer
     bulletX = bulletX + bulletSpeedX; //update bullet x according to x speed
     bulletY = bulletY + bulletSpeedY; //update bullet y according to y speed
+    bulletTimer++; //increment bullet's timer if bullet is alive
   }
   if (bulletType == 100) { //basic secondary rockets
     if (bulletSpeedY > 0) bulletSpeedY--;
@@ -62,6 +65,11 @@ void update() {
         if (bulletSpeedYNew > bulletSpeedY) bulletSpeedY = bulletSpeedY + 0.1;
       }
     }
+  } else if (bulletType == 1) { //shotgun/spread shot
+    bulletHitX = int(10 - pow(1.030, bulletTimer));
+    bulletHitY = int(10 - pow(1.030, bulletTimer));
+    bulletPower = (playerWeaponPower1 * playerAttack) - pow(1.030, bulletTimer);
+    if (bulletHitX < 1) bulletType = 255; //kill bullet if too small
   }
 }
 
@@ -74,6 +82,7 @@ public void reset() {
   bulletHitX = 0;
   bulletHitY = 0;
   bulletPower = 0;
+  bulletTimer = 0;
 }
 
 void explode() {
@@ -87,9 +96,9 @@ void display() {
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   } else if (bulletType == 1) { //spread shot
     noStroke();
-    fill(20, 20, 255, 200);
+    fill(139, 69, 19, 200);
     ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
-    stroke(255, 120);
+    stroke(220, 220, 20, 120);
     strokeWeight(2);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);

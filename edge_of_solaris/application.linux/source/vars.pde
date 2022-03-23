@@ -68,8 +68,8 @@ int playerWeaponHitX0 = 10;
 int playerWeaponHitY0 = 10;
 float playerWeaponMove0 = 0;
 //spread shot
-int playerWeaponCooldown1 = 20;
-float playerWeaponPower1 = 5;
+int playerWeaponCooldown1 = 30;
+float playerWeaponPower1 = 12;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
 float playerWeaponPower2 = 5;

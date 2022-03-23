@@ -486,7 +486,7 @@ void setRect(int colorIndex) {
 
 void initObjects() { //set all objects to default (meant to be run in setup)
   for (int i = 0; i < bulletCount; i++) {
-    blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0);
+    blts[i] = new bullet(-20, -20, 0, 0, 255, 0, 0, 0, 0);
   }
   for (int i = 0; i < basicECount; i++) {
     basicE[i] = new enemy(-200, -200, 0, 0, 255, 0, 0, 10, 10, 0, 2, 0);

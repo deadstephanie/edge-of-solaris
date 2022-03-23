@@ -91,10 +91,6 @@ void reset() {
   enemyState = 2; //dead
 }
 
-void hit(int bulletType) {
-  //TEMP
-}
-
 void shoot() {
    if (enemyState != 2 && enemyX < 1250) {
     if (enemyType == 0) { //check to see if enemy is basic and not dead
@@ -108,26 +104,26 @@ void shoot() {
     float speedY = (playerY - enemyY + offsetY);
     speedX = speedX / (c);
     speedY = speedY / (c);
-    blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG);
+    blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
   } else if (enemyType == 1) { //check for enemy type
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG);
+    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
   } else if (enemyType == 2) { //check for enemy type
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10 * enemyBalanceDMG);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10 * enemyBalanceDMG);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
     } else if (enemyType == 3) { //check for enemy type
     if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
-      blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG);
+      blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 4) { //check for enemy type
@@ -139,25 +135,25 @@ void shoot() {
     }
   } else if (enemyType == 5) { //check for enemy type, this is the bomb
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-      blts[findBullet()] = new bullet(enemyX, enemyY, 0, -4, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, 0, +4, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +4, 0, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -4, 0, 200, 10, 10, 10 * enemyBalanceDMG);
+      blts[findBullet()] = new bullet(enemyX, enemyY, 0, -4, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, 0, +4, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +4, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -4, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
-      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
-      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
-      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
       //destroy bomb
       enemyTiming = 30;
@@ -175,7 +171,7 @@ void shoot() {
       float speedY = (playerY - enemyY + offsetY);
       speedX = speedX / (c);
       speedY = speedY / (c);
-      blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG);
+      blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
   }
