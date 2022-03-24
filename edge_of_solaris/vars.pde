@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 101; //the current build number, should be incremented manually each commit
+int buildNumber = 102; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
@@ -14,8 +14,8 @@ int secondTiming = 0; //used for timing secondary weapons
 int screenX = 1280; //screen size x
 int screenY = 720; //screen size y
 float autoScroll = -2; //controls how fast the enemies move to the left
-float enemyBalanceHP = 1; //multiplier for enemy hp
-float enemyBalanceDMG = 1; //multiplier for enemy shot power
+float enemyBalanceHP = 2; //multiplier for enemy hp
+float enemyBalanceDMG = 2; //multiplier for enemy shot power
 float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
 float moneyBalance = 1; //multiplier for balancing money gained from enemies
 float xpBalance = 0.1; //multiplier for balancing xp gained from enemies
@@ -56,17 +56,17 @@ float moneyValueDrop = 1; //percentage boost of money dropped
 float hpValueDrop = 1; //percentage boost of hp dropped
 float xpValueDrop = 1; //percentage boost of xp dropped
 float playerMoveBoost = 1; //boost to player speed
-float playerXP = 0; //amount of xp player has
-int playerLevel = 1; //level of player
-float playerMoney = 0; //amount of money player has
-int playerStatPoints = 100; //stat points to allocate
+float playerXP; //amount of xp player has
+int playerLevel; //level of player
+float playerMoney; //amount of money player has
+int playerStatPoints; //stat points to allocate
 
 
 //player weapon vars
 //machine gun
 int playerWeaponCooldown0 = 2;
-float playerWeaponPower0 = 3.5;
-float playerWeaponBasePower0 = 3.5;
+float playerWeaponPower0;
+float playerWeaponBasePower0 = 0.5;
 int playerWeaponHitX0 = 10;
 int playerWeaponHitY0 = 10;
 float playerWeaponMove0 = 0;
@@ -74,19 +74,19 @@ int playerWeaponLevel0;
 int playerWeaponCost0;
 //spread shot
 int playerWeaponCooldown1 = 30;
-float playerWeaponPower1 = 12;
+float playerWeaponPower1;
 float playerWeaponBasePower1 = 12;
 int playerWeaponLevel1;
 int playerWeaponCost1;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
-float playerWeaponPower2 = 5;
+float playerWeaponPower2;
 float playerWeaponBasePower2 = 5;
 int playerWeaponLevel2;
 int playerWeaponCost2;
 //snipe shot
 int playerWeaponCooldown4 = 30;
-float playerWeaponPower4 = 5;
+float playerWeaponPower4;
 float playerWeaponBasePower4 = 5;
 int playerWeaponLevel4;
 int playerWeaponCost4;
