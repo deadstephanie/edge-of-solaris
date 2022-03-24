@@ -338,8 +338,13 @@ JSONObject gamesaveJSON;
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
     rect(50, 325, 400, 75);
-    //draw options button
-    //image(settingsBtn, 1000, 450, 200, 200);
+    
+    if (playerStatPoints > 0) { //check if stat points to spend
+      fill(255, 0, 0);
+      noStroke();
+      ellipse(1212.5f, 62.5f, 50, 50); //draw red circle to indicate stat points to spend
+    }
+    //draw text
     noStroke();
     fill(255);
     textSize(48);
@@ -415,7 +420,9 @@ JSONObject gamesaveJSON;
     text("defense", 75, 375);
     text("attack", 75, 475);
     
-    text("XP: " + playerXP, 75, 675);
+    text("XP: " + playerXP, 75, 575);
+    text("level: " + playerLevel, 75, 675);
+    text("xp next level: " + pow(playerLevel + 1, 3), 500, 575);
     
     text("+", 650, 175);
     text("+", 650, 275);
@@ -494,6 +501,10 @@ JSONObject gamesaveJSON;
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
+  if ((int)Math.cbrt(playerXP) > playerLevel) { //if player leveled up
+    playerLevel = (int)Math.cbrt(playerXP); //set the level to new level
+    playerStatPoints = playerStatPoints + 4; //add 4 stat points
+  }
   scanLevelEndCommands();
 }
 
@@ -1144,6 +1155,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   playerXP = gamesaveJSON.getFloat("playerXP");
   playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
   playerCooldown = gamesaveJSON.getFloat("playerCooldown");
+  
+  playerLevel = (int)Math.cbrt(playerXP);
 }
 
  public void saveSave() { //save the player data save file
@@ -1759,7 +1772,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 85; //the current build number, should be incremented manually each commit
+int buildNumber = 100; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
@@ -1778,7 +1791,7 @@ float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
 float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
 float moneyBalance = 1; //multiplier for balancing money gained from enemies
-float xpBalance = 1; //multiplier for balancing xp gained from enemies
+float xpBalance = 0.1f; //multiplier for balancing xp gained from enemies
 boolean paused = false; //if gameplay is paused this is true
 File file; //file used for loading files
 boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)

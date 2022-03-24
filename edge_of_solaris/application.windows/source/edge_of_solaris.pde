@@ -319,8 +319,13 @@ void drawUI() {
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
     rect(50, 325, 400, 75);
-    //draw options button
-    //image(settingsBtn, 1000, 450, 200, 200);
+    
+    if (playerStatPoints > 0) { //check if stat points to spend
+      fill(255, 0, 0);
+      noStroke();
+      ellipse(1212.5, 62.5, 50, 50); //draw red circle to indicate stat points to spend
+    }
+    //draw text
     noStroke();
     fill(255);
     textSize(48);
@@ -396,7 +401,9 @@ void drawUI() {
     text("defense", 75, 375);
     text("attack", 75, 475);
     
-    text("XP: " + playerXP, 75, 675);
+    text("XP: " + playerXP, 75, 575);
+    text("level: " + playerLevel, 75, 675);
+    text("xp next level: " + pow(playerLevel + 1, 3), 500, 575);
     
     text("+", 650, 175);
     text("+", 650, 275);
@@ -475,6 +482,10 @@ void levelEnd() { //called when the level should end
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
+  if ((int)Math.cbrt(playerXP) > playerLevel) { //if player leveled up
+    playerLevel = (int)Math.cbrt(playerXP); //set the level to new level
+    playerStatPoints = playerStatPoints + 4; //add 4 stat points
+  }
   scanLevelEndCommands();
 }
 

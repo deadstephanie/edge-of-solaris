@@ -39,6 +39,8 @@ void loadSave() { //load the player data save file
   playerXP = gamesaveJSON.getFloat("playerXP");
   playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
   playerCooldown = gamesaveJSON.getFloat("playerCooldown");
+  
+  playerLevel = (int)Math.cbrt(playerXP);
 }
 
 void saveSave() { //save the player data save file
