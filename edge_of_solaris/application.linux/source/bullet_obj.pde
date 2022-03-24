@@ -70,6 +70,8 @@ void update() {
     bulletHitY = int(10 - pow(1.030, bulletTimer));
     bulletPower = (playerWeaponPower1 * playerAttack) - pow(1.030, bulletTimer);
     if (bulletHitX < 1) bulletType = 255; //kill bullet if too small
+  } else if (bulletType == 200) { //basic enemy bullet
+    
   }
 }
 

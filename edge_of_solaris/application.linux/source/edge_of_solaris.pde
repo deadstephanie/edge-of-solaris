@@ -408,20 +408,32 @@ void drawUI() {
     fill(50, 0, 50);
     //draw menu rects
     rect(950, 25, 300, 75);
+    rect(950, 125, 300, 175);
     //draw level select rects
-    rect(50, 25, 400, 75);
-    rect(50, 125, 400, 75);
-    rect(50, 225, 400, 75);
-    rect(50, 325, 400, 75);
+    rect(50, 25, 400, 175);
+    rect(50, 225, 400, 175);
+    rect(50, 425, 400, 175);
+    
+    rect(475, 25, 400, 75);
+    rect(475, 125, 400, 75);
+    rect(475, 225, 400, 75);
+    
     noStroke();
     fill(255);
     textSize(48);
     text("Back", 975, 75);
+    text("Money:", 975, 175);
+    text("9910", 975, 275);
     
-    text("engineering", 75, 75);
-    text("placeholder", 75, 175);
-    text("placeholder", 75, 275);
-    text("placeholder", 75, 375);
+    textSize(16);
+    text("Dual Beam Cannon (per bullet stats)", 60, 45);
+    text("Bullet Count: 2", 60, 65);
+    text("Current Damage per Bullet: " + playerWeaponPower2, 60, 85);
+    text("Upgraded Damage per Bullet: " + (playerWeaponPower2 * 1.1), 60, 105);
+    text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
+    text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1 * (60/playerWeaponCooldown2)), 60, 145);
+    text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
+    text("Upgrade Weapon: $100", 60, 185); 
   }
 }
 
@@ -518,7 +530,6 @@ void playerCollision() { //check collision with enemy bullets/ships
     for (int i = 0; i < bulletCount; i++) {
    if (blts[i].bulletType == 200 || blts[i].bulletType == 201) { //check to ensure bullet is an enemy bullet
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
-      //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (playerY + 10 <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {

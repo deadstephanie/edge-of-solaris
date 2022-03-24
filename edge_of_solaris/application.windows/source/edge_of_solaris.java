@@ -427,20 +427,32 @@ JSONObject settingsJSON;
     fill(50, 0, 50);
     //draw menu rects
     rect(950, 25, 300, 75);
+    rect(950, 125, 300, 175);
     //draw level select rects
-    rect(50, 25, 400, 75);
-    rect(50, 125, 400, 75);
-    rect(50, 225, 400, 75);
-    rect(50, 325, 400, 75);
+    rect(50, 25, 400, 175);
+    rect(50, 225, 400, 175);
+    rect(50, 425, 400, 175);
+    
+    rect(475, 25, 400, 75);
+    rect(475, 125, 400, 75);
+    rect(475, 225, 400, 75);
+    
     noStroke();
     fill(255);
     textSize(48);
     text("Back", 975, 75);
+    text("Money:", 975, 175);
+    text("9910", 975, 275);
     
-    text("engineering", 75, 75);
-    text("placeholder", 75, 175);
-    text("placeholder", 75, 275);
-    text("placeholder", 75, 375);
+    textSize(16);
+    text("Dual Beam Cannon (per bullet stats)", 60, 45);
+    text("Bullet Count: 2", 60, 65);
+    text("Current Damage per Bullet: " + playerWeaponPower2, 60, 85);
+    text("Upgraded Damage per Bullet: " + (playerWeaponPower2 * 1.1f), 60, 105);
+    text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
+    text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1f * (60/playerWeaponCooldown2)), 60, 145);
+    text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
+    text("Upgrade Weapon: $100", 60, 185); 
   }
 }
 
@@ -537,7 +549,6 @@ JSONObject settingsJSON;
     for (int i = 0; i < bulletCount; i++) {
    if (blts[i].bulletType == 200 || blts[i].bulletType == 201) { //check to ensure bullet is an enemy bullet
     if (playerX <= blts[i].bulletX + (blts[i].bulletHitX / 2)) {
-      //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((playerX + (playerHitX / 1)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (playerY + 10 <= blts[i].bulletY + (blts[i].bulletHitY / 2)) {
           if ((playerY + (playerHitY / 1)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
@@ -703,6 +714,8 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
     bulletHitY = PApplet.parseInt(10 - pow(1.030f, bulletTimer));
     bulletPower = (playerWeaponPower1 * playerAttack) - pow(1.030f, bulletTimer);
     if (bulletHitX < 1) bulletType = 255; //kill bullet if too small
+  } else if (bulletType == 200) { //basic enemy bullet
+    
   }
 }
 
@@ -891,7 +904,6 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   for (int i = 0; i < bulletCount; i++) { //run for every bullet instance
    if (blts[i].bulletType != 255 && enemyState != 2) { //check to ensure bullet is not inactive (for efficiency) and enemy is not dead
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
-      //println(( enemyX + (enemyHitX / 2)) + " + " + (blts[i].bulletX +  (blts[i].bulletHitX / 2)));
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
@@ -1711,7 +1723,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 //game vars
 int buildNumber = 85; //the current build number, should be incremented manually each commit
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+int screenIndex = 8; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -1942,11 +1954,9 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
     char[] ch = textLines[i].toCharArray();
     if (ch[0] == '-' && ch[1] == 's') { //text blurb start point
       scriptStartPoints[index] = i+1+1; //textLines is a 1 incremented array, add another 1 so it starts the line after the start point line
-      println(scriptStartPoints[index]);
       index++;
     }
   }
-  println(scriptStartPoints[2]);
 }
 
  public void advanceVNText() { //moves vn forward, reads commands, etc

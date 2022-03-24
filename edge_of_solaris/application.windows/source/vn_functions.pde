@@ -123,11 +123,9 @@ void scanForStartPoints() {
     char[] ch = textLines[i].toCharArray();
     if (ch[0] == '-' && ch[1] == 's') { //text blurb start point
       scriptStartPoints[index] = i+1+1; //textLines is a 1 incremented array, add another 1 so it starts the line after the start point line
-      println(scriptStartPoints[index]);
       index++;
     }
   }
-  println(scriptStartPoints[2]);
 }
 
 void advanceVNText() { //moves vn forward, reads commands, etc
