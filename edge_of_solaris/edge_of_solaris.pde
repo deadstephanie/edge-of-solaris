@@ -414,9 +414,9 @@ void drawUI() {
     rect(50, 225, 400, 175);
     rect(50, 425, 400, 175);
     
-    rect(475, 25, 400, 75);
-    rect(475, 125, 400, 75);
-    rect(475, 225, 400, 75);
+    rect(475, 25, 400, 175);
+    rect(475, 225, 400, 175);
+    rect(475, 425, 400, 175);
     
     noStroke();
     fill(255);
@@ -433,7 +433,34 @@ void drawUI() {
     text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
     text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1 * (60/playerWeaponCooldown2)), 60, 145);
     text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
-    text("Upgrade Weapon: $100", 60, 185); 
+    text("Click here to Upgrade Weapon: $100", 60, 185); 
+    
+    text("Machine Gun (per bullet stats)", 60, 245);
+    text("Bullet Count: 1", 60, 265);
+    text("Current Damage per Bullet: " + playerWeaponPower0, 60, 285);
+    text("Upgraded Damage per Bullet: " + (playerWeaponPower0 * 1.1), 60, 305);
+    text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
+    text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1 * (60/playerWeaponCooldown0)), 60, 345);
+    text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
+    text("Click here to Upgrade Weapon: $100", 60, 385); 
+    
+    text("Heavy Laser (per bullet stats)", 60, 445);
+    text("Bullet Count: 1", 60, 465);
+    text("Current Damage per Bullet: " + playerWeaponPower4, 60, 485);
+    text("Upgraded Damage per Bullet: " + (playerWeaponPower4 * 1.1), 60, 505);
+    text("Current Damage per Second: " + (playerWeaponPower4 * (60/playerWeaponCooldown4)), 60, 525);
+    text("Upgraded Damage per Second: " + (playerWeaponPower4 * 1.1 * (60/playerWeaponCooldown4)), 60, 545);
+    text("Current Bullets per second: " + (60/playerWeaponCooldown4), 60, 565);
+    text("Click here to Upgrade Weapon: $100", 60, 585); 
+    
+    text("Shotgun (per bullet stats)", 485, 45);
+    text("Bullet Count: 5", 485, 65);
+    text("Current Damage per Bullet: " + playerWeaponPower1, 485, 85);
+    text("Upgraded Damage per Bullet: " + (playerWeaponPower1 * 1.1), 485, 105);
+    text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
+    text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1 * (60/playerWeaponCooldown1)), 485, 145);
+    text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
+    text("Click here to Upgrade Weapon: $100", 485, 185); 
   }
 }
 

@@ -188,5 +188,6 @@ void mousePressed() {
     if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05; playerStatPoints--;}
   } else if (screenIndex == 8) { //engineering menu
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
+    else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195) screenIndex = 2; //upgrade beam weapon
   }
 }
