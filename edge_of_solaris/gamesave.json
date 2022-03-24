@@ -1,7 +1,7 @@
 {
   "playerShieldMax": 50,
-  "playerAttack": 0.009999999776482582,
-  "playerDefense": 0.009999999776482582,
+  "playerAttack": 1,
+  "playerDefense": 1,
   "playerMoney": 500,
   "playerHPMax": 100
 }

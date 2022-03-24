@@ -1135,9 +1135,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   playerHPMax = gamesaveJSON.getFloat("playerHPMax");
   playerShieldMax = gamesaveJSON.getFloat("playerShieldMax");
   playerDefense = gamesaveJSON.getFloat("playerDefense");
-  playerDefense = playerDefense * 0.01f;
   playerAttack = gamesaveJSON.getFloat("playerAttack");
-  playerAttack = playerAttack * 0.01f;
   playerMoney = gamesaveJSON.getFloat("playerMoney");
 }
 

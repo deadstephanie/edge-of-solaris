@@ -34,9 +34,7 @@ void loadSave() { //load the player data save file
   playerHPMax = gamesaveJSON.getFloat("playerHPMax");
   playerShieldMax = gamesaveJSON.getFloat("playerShieldMax");
   playerDefense = gamesaveJSON.getFloat("playerDefense");
-  playerDefense = playerDefense * 0.01;
   playerAttack = gamesaveJSON.getFloat("playerAttack");
-  playerAttack = playerAttack * 0.01;
   playerMoney = gamesaveJSON.getFloat("playerMoney");
 }
 
