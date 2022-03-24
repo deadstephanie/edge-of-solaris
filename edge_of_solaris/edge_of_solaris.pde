@@ -48,6 +48,7 @@ PImage shadow4;
 PrintWriter settingsOut;
 PrintWriter OSver;
 JSONObject settingsJSON;
+JSONObject gamesaveJSON;
 
 import java.io.*;
 
@@ -311,13 +312,15 @@ void drawUI() {
     rect(950, 125, 300, 75);
     rect(950, 225, 300, 75);
     rect(950, 325, 300, 75);
+    rect(950, 425, 300, 75);
+    rect(950, 525, 300, 75);
     //draw level select rects
     rect(50, 25, 400, 75);
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
     rect(50, 325, 400, 75);
     //draw options button
-    image(settingsBtn, 1000, 450, 200, 200);
+    //image(settingsBtn, 1000, 450, 200, 200);
     noStroke();
     fill(255);
     textSize(48);
@@ -325,6 +328,8 @@ void drawUI() {
     text("mess hall", 975, 175);
     text("hanger", 975, 275);
     text("engineering", 975, 375);
+    text("settings", 975, 475);
+    text("save game", 975, 575);
     text("launch story", 75, 75);
     text("level 00", 75, 175);
     text("level 01", 75, 275);
@@ -423,7 +428,7 @@ void drawUI() {
     textSize(48);
     text("Back", 975, 75);
     text("Money:", 975, 175);
-    text("9910", 975, 275);
+    text("$" + playerMoney, 975, 275);
     
     textSize(16);
     text("Dual Beam Cannon (per bullet stats)", 60, 45);
@@ -469,14 +474,6 @@ void levelEnd() { //called when the level should end
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
   scanLevelEndCommands();
-  /*screenIndex = 3;
-  textIndex = scriptStartPoints[levelIndex+1];
-  //if next line is a command, do the command
-  if (scanVNCommands() == 0) {//load level command
-    levelStart(commandIndex); //load a level
-  } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = commandIndex; //go to selected screen
-  }*/
 }
 
 void levelStart(int cmdIndex) {

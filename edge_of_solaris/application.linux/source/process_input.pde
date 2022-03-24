@@ -165,11 +165,12 @@ void mousePressed() {
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
     else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
-    else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button 
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();

@@ -1,6 +1,6 @@
 //game vars
 int buildNumber = 85; //the current build number, should be incremented manually each commit
-int screenIndex = 8; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -37,7 +37,7 @@ int playerWeapon = 2; //player weapon selected
 int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1-10 = hurt anim, 255 = dead
 int playerAnimTiming = 0; //used for the death anim
-int bulletIndex = 0;
+int bulletIndex = 0; //used for indexing bullets
 
 float playerShield = 0; //current shield
 float playerShieldMax = 50; //max shield

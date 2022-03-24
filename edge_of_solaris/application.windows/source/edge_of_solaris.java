@@ -67,6 +67,7 @@ PImage shadow4;
 PrintWriter settingsOut;
 PrintWriter OSver;
 JSONObject settingsJSON;
+JSONObject gamesaveJSON;
 
 
 
@@ -330,13 +331,15 @@ JSONObject settingsJSON;
     rect(950, 125, 300, 75);
     rect(950, 225, 300, 75);
     rect(950, 325, 300, 75);
+    rect(950, 425, 300, 75);
+    rect(950, 525, 300, 75);
     //draw level select rects
     rect(50, 25, 400, 75);
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
     rect(50, 325, 400, 75);
     //draw options button
-    image(settingsBtn, 1000, 450, 200, 200);
+    //image(settingsBtn, 1000, 450, 200, 200);
     noStroke();
     fill(255);
     textSize(48);
@@ -344,6 +347,8 @@ JSONObject settingsJSON;
     text("mess hall", 975, 175);
     text("hanger", 975, 275);
     text("engineering", 975, 375);
+    text("settings", 975, 475);
+    text("save game", 975, 575);
     text("launch story", 75, 75);
     text("level 00", 75, 175);
     text("level 01", 75, 275);
@@ -442,7 +447,7 @@ JSONObject settingsJSON;
     textSize(48);
     text("Back", 975, 75);
     text("Money:", 975, 175);
-    text("9910", 975, 275);
+    text("$" + playerMoney, 975, 275);
     
     textSize(16);
     text("Dual Beam Cannon (per bullet stats)", 60, 45);
@@ -488,14 +493,6 @@ JSONObject settingsJSON;
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
   scanLevelEndCommands();
-  /*screenIndex = 3;
-  textIndex = scriptStartPoints[levelIndex+1];
-  //if next line is a command, do the command
-  if (scanVNCommands() == 0) {//load level command
-    levelStart(commandIndex); //load a level
-  } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = commandIndex; //go to selected screen
-  }*/
 }
 
  public void levelStart(int cmdIndex) {
@@ -1131,36 +1128,40 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   return file.isFile() ? loadStrings(file) : loadStrings("gamesave.save");
 }
 
- public void loadSave() {
-  String[] loadSave = loadUserDataFile("gamesave.save");
-
-  char[] saveChar = loadSave[0].toCharArray();
-  playerHPMax = (saveChar[13] - '0') * 1000 + (saveChar[14] - '0') * 100 +
-                (saveChar[15] - '0') * 10 + (saveChar[16] - '0');
-
-  saveChar = loadSave[1].toCharArray();
-  playerShieldMax = (saveChar[17] - '0') * 1000 + (saveChar[18] - '0') * 100 +
-                    (saveChar[19] - '0') * 10 + (saveChar[20] - '0');
-
-  saveChar = loadSave[2].toCharArray();
-  playerDefense = ((saveChar[15] - '0') * 1000 + (saveChar[16] - '0') * 100 +
-                   (saveChar[17] - '0') * 10 + (saveChar[18] - '0'));
+ public void loadSave() { //load the player data save file
+  file = new File(userDataDir(), "gamesave.json");
+  if (file.isFile() == true) {gamesaveJSON = loadJSONObject(file); useCWD = true;} else gamesaveJSON = loadJSONObject("gamesave.json");
+  
+  playerHPMax = gamesaveJSON.getFloat("playerHPMax");
+  playerShieldMax = gamesaveJSON.getFloat("playerShieldMax");
+  playerDefense = gamesaveJSON.getFloat("playerDefense");
   playerDefense = playerDefense * 0.01f;
-
-  saveChar = loadSave[3].toCharArray();
-  playerAttack = ((saveChar[14] - '0') * 1000 + (saveChar[15] - '0') * 100 +
-                  (saveChar[16] - '0') * 10 + (saveChar[17] - '0'));
+  playerAttack = gamesaveJSON.getFloat("playerAttack");
   playerAttack = playerAttack * 0.01f;
+  playerMoney = gamesaveJSON.getFloat("playerMoney");
 }
 
- public void saveSettings() {
+ public void saveSave() { //save the player data save file
+  gamesaveJSON.setFloat("playerHPMax", playerHPMax);
+  gamesaveJSON.setFloat("playerShieldMax", playerShieldMax);
+  gamesaveJSON.setFloat("playerDefense", playerDefense);
+  gamesaveJSON.setFloat("playerAttack", playerAttack);
+  gamesaveJSON.setFloat("playerMoney", playerMoney);
+  
+  saveJSONObject(gamesaveJSON, "gamesave.json");
+  fill(255);
+  textSize(36);
+  text("game saved", 975, 675);
+}
+
+ public void saveSettings() { //save the settings file
   if (oneHitMode == true) settingsJSON.setInt("oneHitMode", 1); else settingsJSON.setInt("oneHitMode", 0);
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
   
   saveJSONObject(settingsJSON, "settings.json");
 }
 
- public void scanLevelEndCommands() {
+ public void scanLevelEndCommands() { //scan the level end commands file
   char[] ch = levelEndCommands[levelIndex].toCharArray();
   if (ch[3] == '-' && ch[4] == 'l') { //load level
     commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //read the level index to load
@@ -1177,7 +1178,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   }
 }
 
- public void loadSprites() {
+ public void loadSprites() { //load png assets
   naturals1 = loadImage("assets/png/naturals/3-xx.png");
   naturals2 = loadImage("assets/png/naturals/2-xx.png");
   naturals3 = loadImage("assets/png/naturals/1-xx.png");
@@ -1678,11 +1679,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
+    else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
     else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
     else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
-    else if (mouseX > 1000 && mouseX < 1200 && mouseY > 450 && mouseY < 650) screenIndex = 4; //settings button 
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();
@@ -1751,7 +1753,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 //game vars
 int buildNumber = 85; //the current build number, should be incremented manually each commit
-int screenIndex = 8; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -1788,7 +1790,7 @@ int playerWeapon = 2; //player weapon selected
 int playerSecondWeapon = 0; //0 = basic missiles
 int playerState = 0; //0 = normal, 1-10 = hurt anim, 255 = dead
 int playerAnimTiming = 0; //used for the death anim
-int bulletIndex = 0;
+int bulletIndex = 0; //used for indexing bullets
 
 float playerShield = 0; //current shield
 float playerShieldMax = 50; //max shield

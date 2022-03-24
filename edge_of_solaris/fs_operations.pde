@@ -27,36 +27,40 @@ String[] loadUserDataFile(String name) {
   return file.isFile() ? loadStrings(file) : loadStrings("gamesave.save");
 }
 
-void loadSave() {
-  String[] loadSave = loadUserDataFile("gamesave.save");
-
-  char[] saveChar = loadSave[0].toCharArray();
-  playerHPMax = (saveChar[13] - '0') * 1000 + (saveChar[14] - '0') * 100 +
-                (saveChar[15] - '0') * 10 + (saveChar[16] - '0');
-
-  saveChar = loadSave[1].toCharArray();
-  playerShieldMax = (saveChar[17] - '0') * 1000 + (saveChar[18] - '0') * 100 +
-                    (saveChar[19] - '0') * 10 + (saveChar[20] - '0');
-
-  saveChar = loadSave[2].toCharArray();
-  playerDefense = ((saveChar[15] - '0') * 1000 + (saveChar[16] - '0') * 100 +
-                   (saveChar[17] - '0') * 10 + (saveChar[18] - '0'));
+void loadSave() { //load the player data save file
+  file = new File(userDataDir(), "gamesave.json");
+  if (file.isFile() == true) {gamesaveJSON = loadJSONObject(file); useCWD = true;} else gamesaveJSON = loadJSONObject("gamesave.json");
+  
+  playerHPMax = gamesaveJSON.getFloat("playerHPMax");
+  playerShieldMax = gamesaveJSON.getFloat("playerShieldMax");
+  playerDefense = gamesaveJSON.getFloat("playerDefense");
   playerDefense = playerDefense * 0.01;
-
-  saveChar = loadSave[3].toCharArray();
-  playerAttack = ((saveChar[14] - '0') * 1000 + (saveChar[15] - '0') * 100 +
-                  (saveChar[16] - '0') * 10 + (saveChar[17] - '0'));
+  playerAttack = gamesaveJSON.getFloat("playerAttack");
   playerAttack = playerAttack * 0.01;
+  playerMoney = gamesaveJSON.getFloat("playerMoney");
 }
 
-void saveSettings() {
+void saveSave() { //save the player data save file
+  gamesaveJSON.setFloat("playerHPMax", playerHPMax);
+  gamesaveJSON.setFloat("playerShieldMax", playerShieldMax);
+  gamesaveJSON.setFloat("playerDefense", playerDefense);
+  gamesaveJSON.setFloat("playerAttack", playerAttack);
+  gamesaveJSON.setFloat("playerMoney", playerMoney);
+  
+  saveJSONObject(gamesaveJSON, "gamesave.json");
+  fill(255);
+  textSize(36);
+  text("game saved", 975, 675);
+}
+
+void saveSettings() { //save the settings file
   if (oneHitMode == true) settingsJSON.setInt("oneHitMode", 1); else settingsJSON.setInt("oneHitMode", 0);
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
   
   saveJSONObject(settingsJSON, "settings.json");
 }
 
-void scanLevelEndCommands() {
+void scanLevelEndCommands() { //scan the level end commands file
   char[] ch = levelEndCommands[levelIndex].toCharArray();
   if (ch[3] == '-' && ch[4] == 'l') { //load level
     commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //read the level index to load
@@ -73,7 +77,7 @@ void scanLevelEndCommands() {
   }
 }
 
-void loadSprites() {
+void loadSprites() { //load png assets
   naturals1 = loadImage("assets/png/naturals/3-xx.png");
   naturals2 = loadImage("assets/png/naturals/2-xx.png");
   naturals3 = loadImage("assets/png/naturals/1-xx.png");
