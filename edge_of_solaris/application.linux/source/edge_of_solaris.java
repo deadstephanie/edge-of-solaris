@@ -82,7 +82,8 @@ JSONObject gamesaveJSON;
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
   loadSave(); //load the gamesave.sav file
-  scanForStartPoints();
+  scanForStartPoints(); //scan the script for the segment start points
+  calcWeaponStats(); //calculates weapon power from level and weapon upg cost
 }
 
  public void draw() {
@@ -274,9 +275,6 @@ JSONObject gamesaveJSON;
 
  public void drawUI() {
   if (screenIndex == 0) { //in game
-    textSize(25);
-    fill(255);
-    //text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
     if (oneHitMode == false) {
@@ -466,7 +464,7 @@ JSONObject gamesaveJSON;
     text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
     text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1f * (60/playerWeaponCooldown2)), 60, 145);
     text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
-    text("Click here to Upgrade Weapon: $100", 60, 185); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost2, 60, 185); 
     
     text("Machine Gun (per bullet stats)", 60, 245);
     text("Bullet Count: 1", 60, 265);
@@ -475,7 +473,7 @@ JSONObject gamesaveJSON;
     text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
     text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1f * (60/playerWeaponCooldown0)), 60, 345);
     text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
-    text("Click here to Upgrade Weapon: $100", 60, 385); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60, 385); 
     
     text("Heavy Laser (per bullet stats)", 60, 445);
     text("Bullet Count: 1", 60, 465);
@@ -484,7 +482,7 @@ JSONObject gamesaveJSON;
     text("Current Damage per Second: " + (playerWeaponPower4 * (60/playerWeaponCooldown4)), 60, 525);
     text("Upgraded Damage per Second: " + (playerWeaponPower4 * 1.1f * (60/playerWeaponCooldown4)), 60, 545);
     text("Current Bullets per second: " + (60/playerWeaponCooldown4), 60, 565);
-    text("Click here to Upgrade Weapon: $100", 60, 585); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost4, 60, 585); 
     
     text("Shotgun (per bullet stats)", 485, 45);
     text("Bullet Count: 5", 485, 65);
@@ -493,7 +491,7 @@ JSONObject gamesaveJSON;
     text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
     text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1f * (60/playerWeaponCooldown1)), 485, 145);
     text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
-    text("Click here to Upgrade Weapon: $100", 485, 185); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485, 185); 
   }
 }
 
@@ -501,10 +499,7 @@ JSONObject gamesaveJSON;
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
-  if ((int)Math.cbrt(playerXP) > playerLevel) { //if player leveled up
-    playerLevel = (int)Math.cbrt(playerXP); //set the level to new level
-    playerStatPoints = playerStatPoints + 4; //add 4 stat points
-  }
+  checkForLevelUp(); //check if player leveled up
   scanLevelEndCommands();
 }
 
@@ -524,6 +519,36 @@ JSONObject gamesaveJSON;
   playerDMGReduction = 1 - ((playerDefense - 1) * 0.1f);
   if (playerDMGReduction <= 0.30f) playerDMGReduction = 0.30f;
   playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
+}
+
+ public void checkForLevelUp() { //check to see if the player just leveled up
+  if ((int)Math.cbrt(playerXP) > playerLevel) { //if player leveled up
+    playerLevel = (int)Math.cbrt(playerXP); //set the level to new level
+    playerStatPoints = playerStatPoints + 4; //add 4 stat points
+  }
+}
+
+ public void calcWeaponStats() { //calculate weapon stats and costs
+  playerWeaponPower0 = playerWeaponBasePower0;
+  playerWeaponPower1 = playerWeaponBasePower1;
+  playerWeaponPower2 = playerWeaponBasePower2;
+  playerWeaponPower4 = playerWeaponBasePower4;
+  for (int i = 0; i < playerWeaponLevel0; i++) {
+    playerWeaponPower0 = playerWeaponPower0 * 1.1f;
+  }
+  for (int i = 0; i < playerWeaponLevel1; i++) {
+    playerWeaponPower1 = playerWeaponPower1 * 1.1f;
+  }
+  for (int i = 0; i < playerWeaponLevel2; i++) {
+    playerWeaponPower2 = playerWeaponPower2 * 1.1f;
+  }
+  for (int i = 0; i < playerWeaponLevel4; i++) {
+    playerWeaponPower4 = playerWeaponPower4 * 1.1f;
+  }
+  playerWeaponCost0 = (int)pow(playerWeaponLevel0 * 10, 3);
+  playerWeaponCost1 = (int)pow(playerWeaponLevel1 * 10, 3);
+  playerWeaponCost2 = (int)pow(playerWeaponLevel2 * 10, 3);
+  playerWeaponCost4 = (int)pow(playerWeaponLevel4 * 10, 3);
 }
 
  public void setRect(int colorIndex) {
@@ -951,8 +976,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
               if (enemyHP <= 0) {
                 enemyTiming = 30; //start timer over for death anim
                 enemyState = 2; //set enemy to dead
-                playerMoney = playerMoney + (enemyHPMax * moneyValueDrop * moneyBalance);
-                playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance);
+                playerMoney = playerMoney + (enemyHPMax * moneyValueDrop * moneyBalance); //add money for kill
+                playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance); //add xp for kill
+                checkForLevelUp(); //check if player leveled up
               }
               if (blts[i].bulletType != 4) blts[i].reset(); //reset bullet on impact if not snipe shot
             }
@@ -1155,6 +1181,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   playerXP = gamesaveJSON.getFloat("playerXP");
   playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
   playerCooldown = gamesaveJSON.getFloat("playerCooldown");
+  playerWeaponLevel0 = gamesaveJSON.getInt("playerWeaponLevel0");
+  playerWeaponLevel1 = gamesaveJSON.getInt("playerWeaponLevel1");
+  playerWeaponLevel2 = gamesaveJSON.getInt("playerWeaponLevel2");
+  playerWeaponLevel4 = gamesaveJSON.getInt("playerWeaponLevel4");
   
   playerLevel = (int)Math.cbrt(playerXP);
 }
@@ -1167,6 +1197,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   gamesaveJSON.setFloat("playerMoney", playerMoney);
   gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
   gamesaveJSON.setFloat("playerCooldown", playerCooldown);
+  gamesaveJSON.setInt("playerWeaponLevel0", playerWeaponLevel0);
+  gamesaveJSON.setInt("playerWeaponLevel1", playerWeaponLevel1);
+  gamesaveJSON.setInt("playerWeaponLevel2", playerWeaponLevel2);
+  gamesaveJSON.setInt("playerWeaponLevel4", playerWeaponLevel4);
   
   saveJSONObject(gamesaveJSON, "gamesave.json");
   fill(255);
@@ -1723,7 +1757,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
   } else if (screenIndex == 8) { //engineering menu
     if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195) screenIndex = 2; //upgrade beam weapon
+    else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
+    else if (mouseX > 60 && mouseX < 445 && mouseY > 370 && mouseY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
+    else if (mouseX > 60 && mouseX < 445 && mouseY > 570 && mouseY < 595 && playerMoney >= playerWeaponCost4) {playerMoney = playerMoney - playerWeaponCost4; playerWeaponLevel4++; calcWeaponStats();} //upgrade snipe weapon
+    else if (mouseX > 485 && mouseX < 870 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
   }
 }
 class starsBG {
@@ -1772,7 +1809,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 100; //the current build number, should be incremented manually each commit
+int buildNumber = 101; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
@@ -1839,24 +1876,40 @@ int playerStatPoints = 100; //stat points to allocate
 //machine gun
 int playerWeaponCooldown0 = 2;
 float playerWeaponPower0 = 3.5f;
+float playerWeaponBasePower0 = 3.5f;
 int playerWeaponHitX0 = 10;
 int playerWeaponHitY0 = 10;
 float playerWeaponMove0 = 0;
+int playerWeaponLevel0;
+int playerWeaponCost0;
 //spread shot
 int playerWeaponCooldown1 = 30;
 float playerWeaponPower1 = 12;
+float playerWeaponBasePower1 = 12;
+int playerWeaponLevel1;
+int playerWeaponCost1;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
 float playerWeaponPower2 = 5;
+float playerWeaponBasePower2 = 5;
+int playerWeaponLevel2;
+int playerWeaponCost2;
 //snipe shot
 int playerWeaponCooldown4 = 30;
 float playerWeaponPower4 = 5;
+float playerWeaponBasePower4 = 5;
+int playerWeaponLevel4;
+int playerWeaponCost4;
 //basic secondary rocket
 int playerWeaponCooldown100 = 40;
 float playerWeaponPower100 = 10;
+float playerWeaponBasePower100 = 10;
+int playerWeaponLevel100;
 //tracking missile
 int playerWeaponCooldown101 = 40;
 float playerWeaponPower101 = 10;
+float playerWeaponBasePower101 = 10;
+int playerWeaponLevel101;
 
 //input vars
 boolean keyInput[] = new boolean [45];

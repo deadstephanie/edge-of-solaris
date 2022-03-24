@@ -39,6 +39,10 @@ void loadSave() { //load the player data save file
   playerXP = gamesaveJSON.getFloat("playerXP");
   playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
   playerCooldown = gamesaveJSON.getFloat("playerCooldown");
+  playerWeaponLevel0 = gamesaveJSON.getInt("playerWeaponLevel0");
+  playerWeaponLevel1 = gamesaveJSON.getInt("playerWeaponLevel1");
+  playerWeaponLevel2 = gamesaveJSON.getInt("playerWeaponLevel2");
+  playerWeaponLevel4 = gamesaveJSON.getInt("playerWeaponLevel4");
   
   playerLevel = (int)Math.cbrt(playerXP);
 }
@@ -51,6 +55,10 @@ void saveSave() { //save the player data save file
   gamesaveJSON.setFloat("playerMoney", playerMoney);
   gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
   gamesaveJSON.setFloat("playerCooldown", playerCooldown);
+  gamesaveJSON.setInt("playerWeaponLevel0", playerWeaponLevel0);
+  gamesaveJSON.setInt("playerWeaponLevel1", playerWeaponLevel1);
+  gamesaveJSON.setInt("playerWeaponLevel2", playerWeaponLevel2);
+  gamesaveJSON.setInt("playerWeaponLevel4", playerWeaponLevel4);
   
   saveJSONObject(gamesaveJSON, "gamesave.json");
   fill(255);

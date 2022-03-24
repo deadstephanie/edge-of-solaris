@@ -63,7 +63,8 @@ void setup(){
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
   loadSave(); //load the gamesave.sav file
-  scanForStartPoints();
+  scanForStartPoints(); //scan the script for the segment start points
+  calcWeaponStats(); //calculates weapon power from level and weapon upg cost
 }
 
 void draw() {
@@ -255,9 +256,6 @@ void drawFrame() {
 
 void drawUI() {
   if (screenIndex == 0) { //in game
-    textSize(25);
-    fill(255);
-    //text("Q, E, R switch weapons", 50, 640);
     
     //render hp and shield bars
     if (oneHitMode == false) {
@@ -447,7 +445,7 @@ void drawUI() {
     text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
     text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1 * (60/playerWeaponCooldown2)), 60, 145);
     text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
-    text("Click here to Upgrade Weapon: $100", 60, 185); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost2, 60, 185); 
     
     text("Machine Gun (per bullet stats)", 60, 245);
     text("Bullet Count: 1", 60, 265);
@@ -456,7 +454,7 @@ void drawUI() {
     text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
     text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1 * (60/playerWeaponCooldown0)), 60, 345);
     text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
-    text("Click here to Upgrade Weapon: $100", 60, 385); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60, 385); 
     
     text("Heavy Laser (per bullet stats)", 60, 445);
     text("Bullet Count: 1", 60, 465);
@@ -465,7 +463,7 @@ void drawUI() {
     text("Current Damage per Second: " + (playerWeaponPower4 * (60/playerWeaponCooldown4)), 60, 525);
     text("Upgraded Damage per Second: " + (playerWeaponPower4 * 1.1 * (60/playerWeaponCooldown4)), 60, 545);
     text("Current Bullets per second: " + (60/playerWeaponCooldown4), 60, 565);
-    text("Click here to Upgrade Weapon: $100", 60, 585); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost4, 60, 585); 
     
     text("Shotgun (per bullet stats)", 485, 45);
     text("Bullet Count: 5", 485, 65);
@@ -474,7 +472,7 @@ void drawUI() {
     text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
     text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1 * (60/playerWeaponCooldown1)), 485, 145);
     text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
-    text("Click here to Upgrade Weapon: $100", 485, 185); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485, 185); 
   }
 }
 
@@ -482,10 +480,7 @@ void levelEnd() { //called when the level should end
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
-  if ((int)Math.cbrt(playerXP) > playerLevel) { //if player leveled up
-    playerLevel = (int)Math.cbrt(playerXP); //set the level to new level
-    playerStatPoints = playerStatPoints + 4; //add 4 stat points
-  }
+  checkForLevelUp(); //check if player leveled up
   scanLevelEndCommands();
 }
 
@@ -505,6 +500,36 @@ void levelStart(int cmdIndex) {
   playerDMGReduction = 1 - ((playerDefense - 1) * 0.1);
   if (playerDMGReduction <= 0.30) playerDMGReduction = 0.30;
   playerShieldRegen = (playerShieldMax / 100) * playerShieldRegenBoost;
+}
+
+void checkForLevelUp() { //check to see if the player just leveled up
+  if ((int)Math.cbrt(playerXP) > playerLevel) { //if player leveled up
+    playerLevel = (int)Math.cbrt(playerXP); //set the level to new level
+    playerStatPoints = playerStatPoints + 4; //add 4 stat points
+  }
+}
+
+void calcWeaponStats() { //calculate weapon stats and costs
+  playerWeaponPower0 = playerWeaponBasePower0;
+  playerWeaponPower1 = playerWeaponBasePower1;
+  playerWeaponPower2 = playerWeaponBasePower2;
+  playerWeaponPower4 = playerWeaponBasePower4;
+  for (int i = 0; i < playerWeaponLevel0; i++) {
+    playerWeaponPower0 = playerWeaponPower0 * 1.1;
+  }
+  for (int i = 0; i < playerWeaponLevel1; i++) {
+    playerWeaponPower1 = playerWeaponPower1 * 1.1;
+  }
+  for (int i = 0; i < playerWeaponLevel2; i++) {
+    playerWeaponPower2 = playerWeaponPower2 * 1.1;
+  }
+  for (int i = 0; i < playerWeaponLevel4; i++) {
+    playerWeaponPower4 = playerWeaponPower4 * 1.1;
+  }
+  playerWeaponCost0 = (int)pow(playerWeaponLevel0 * 10, 3);
+  playerWeaponCost1 = (int)pow(playerWeaponLevel1 * 10, 3);
+  playerWeaponCost2 = (int)pow(playerWeaponLevel2 * 10, 3);
+  playerWeaponCost4 = (int)pow(playerWeaponLevel4 * 10, 3);
 }
 
 void setRect(int colorIndex) {

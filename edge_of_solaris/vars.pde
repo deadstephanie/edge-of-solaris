@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 100; //the current build number, should be incremented manually each commit
+int buildNumber = 101; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
 int levelIndex = 0; //what level the player is playing, 0 is test level
@@ -66,24 +66,40 @@ int playerStatPoints = 100; //stat points to allocate
 //machine gun
 int playerWeaponCooldown0 = 2;
 float playerWeaponPower0 = 3.5;
+float playerWeaponBasePower0 = 3.5;
 int playerWeaponHitX0 = 10;
 int playerWeaponHitY0 = 10;
 float playerWeaponMove0 = 0;
+int playerWeaponLevel0;
+int playerWeaponCost0;
 //spread shot
 int playerWeaponCooldown1 = 30;
 float playerWeaponPower1 = 12;
+float playerWeaponBasePower1 = 12;
+int playerWeaponLevel1;
+int playerWeaponCost1;
 //dual beam cannon
 int playerWeaponCooldown2 = 20;
 float playerWeaponPower2 = 5;
+float playerWeaponBasePower2 = 5;
+int playerWeaponLevel2;
+int playerWeaponCost2;
 //snipe shot
 int playerWeaponCooldown4 = 30;
 float playerWeaponPower4 = 5;
+float playerWeaponBasePower4 = 5;
+int playerWeaponLevel4;
+int playerWeaponCost4;
 //basic secondary rocket
 int playerWeaponCooldown100 = 40;
 float playerWeaponPower100 = 10;
+float playerWeaponBasePower100 = 10;
+int playerWeaponLevel100;
 //tracking missile
 int playerWeaponCooldown101 = 40;
 float playerWeaponPower101 = 10;
+float playerWeaponBasePower101 = 10;
+int playerWeaponLevel101;
 
 //input vars
 boolean keyInput[] = new boolean [45];
