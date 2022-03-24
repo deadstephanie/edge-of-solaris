@@ -415,6 +415,8 @@ JSONObject gamesaveJSON;
     text("defense", 75, 375);
     text("attack", 75, 475);
     
+    text("XP: " + playerXP, 75, 675);
+    
     text("+", 650, 175);
     text("+", 650, 275);
     text("+", 650, 375);
@@ -938,6 +940,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
               if (enemyHP <= 0) {
                 enemyTiming = 30; //start timer over for death anim
                 enemyState = 2; //set enemy to dead
+                playerMoney = playerMoney + (enemyHPMax * moneyValueDrop * moneyBalance);
+                playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance);
               }
               if (blts[i].bulletType != 4) blts[i].reset(); //reset bullet on impact if not snipe shot
             }
@@ -1137,6 +1141,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   playerDefense = gamesaveJSON.getFloat("playerDefense");
   playerAttack = gamesaveJSON.getFloat("playerAttack");
   playerMoney = gamesaveJSON.getFloat("playerMoney");
+  playerXP = gamesaveJSON.getFloat("playerXP");
+  playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
+  playerCooldown = gamesaveJSON.getFloat("playerCooldown");
 }
 
  public void saveSave() { //save the player data save file
@@ -1145,6 +1152,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   gamesaveJSON.setFloat("playerDefense", playerDefense);
   gamesaveJSON.setFloat("playerAttack", playerAttack);
   gamesaveJSON.setFloat("playerMoney", playerMoney);
+  gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
+  gamesaveJSON.setFloat("playerCooldown", playerCooldown);
   
   saveJSONObject(gamesaveJSON, "gamesave.json");
   fill(255);
@@ -1768,6 +1777,8 @@ float autoScroll = -2; //controls how fast the enemies move to the left
 float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
 float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
+float moneyBalance = 1; //multiplier for balancing money gained from enemies
+float xpBalance = 1; //multiplier for balancing xp gained from enemies
 boolean paused = false; //if gameplay is paused this is true
 File file; //file used for loading files
 boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
@@ -1799,7 +1810,7 @@ float playerHPMax = 100; //max hp
 float playerDefense = 1.1f; //percentage damage reduction, goes down
 float playerDMGReduction = 1; //calculated from playerDefense
 float playerAttack = 1; //percentage boost to all player wpn dmg
-float playerCooldown = 1; //percentage boost to defense (reduces damage taken)
+float playerCooldown = 1; //percentage boost to all wpn cooldown
 float enemyDrop = 1; //percentage of time enemies drop items
 float moneyValueDrop = 1; //percentage boost of money dropped
 float hpValueDrop = 1; //percentage boost of hp dropped

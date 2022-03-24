@@ -17,6 +17,8 @@ float autoScroll = -2; //controls how fast the enemies move to the left
 float enemyBalanceHP = 1; //multiplier for enemy hp
 float enemyBalanceDMG = 1; //multiplier for enemy shot power
 float enemyBalanceBump = 5; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier
+float moneyBalance = 1; //multiplier for balancing money gained from enemies
+float xpBalance = 1; //multiplier for balancing xp gained from enemies
 boolean paused = false; //if gameplay is paused this is true
 File file; //file used for loading files
 boolean useCWD = false; //whether or not to use CWD for file loading/saving (linux only)
@@ -48,7 +50,7 @@ float playerHPMax = 100; //max hp
 float playerDefense = 1.1; //percentage damage reduction, goes down
 float playerDMGReduction = 1; //calculated from playerDefense
 float playerAttack = 1; //percentage boost to all player wpn dmg
-float playerCooldown = 1; //percentage boost to defense (reduces damage taken)
+float playerCooldown = 1; //percentage boost to all wpn cooldown
 float enemyDrop = 1; //percentage of time enemies drop items
 float moneyValueDrop = 1; //percentage boost of money dropped
 float hpValueDrop = 1; //percentage boost of hp dropped

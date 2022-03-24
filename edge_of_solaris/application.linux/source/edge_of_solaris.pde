@@ -396,6 +396,8 @@ void drawUI() {
     text("defense", 75, 375);
     text("attack", 75, 475);
     
+    text("XP: " + playerXP, 75, 675);
+    
     text("+", 650, 175);
     text("+", 650, 275);
     text("+", 650, 375);

@@ -65,6 +65,8 @@ void collision() {
               if (enemyHP <= 0) {
                 enemyTiming = 30; //start timer over for death anim
                 enemyState = 2; //set enemy to dead
+                playerMoney = playerMoney + (enemyHPMax * moneyValueDrop * moneyBalance);
+                playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance);
               }
               if (blts[i].bulletType != 4) blts[i].reset(); //reset bullet on impact if not snipe shot
             }

@@ -3,5 +3,8 @@
   "playerAttack": 1,
   "playerDefense": 1,
   "playerMoney": 500,
-  "playerHPMax": 100
+  "playerHPMax": 100,
+  "playerXP": 0,
+  "playerStatPoints": 100,
+  "playerCooldown": 1
 }

@@ -36,6 +36,9 @@ void loadSave() { //load the player data save file
   playerDefense = gamesaveJSON.getFloat("playerDefense");
   playerAttack = gamesaveJSON.getFloat("playerAttack");
   playerMoney = gamesaveJSON.getFloat("playerMoney");
+  playerXP = gamesaveJSON.getFloat("playerXP");
+  playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
+  playerCooldown = gamesaveJSON.getFloat("playerCooldown");
 }
 
 void saveSave() { //save the player data save file
@@ -44,6 +47,8 @@ void saveSave() { //save the player data save file
   gamesaveJSON.setFloat("playerDefense", playerDefense);
   gamesaveJSON.setFloat("playerAttack", playerAttack);
   gamesaveJSON.setFloat("playerMoney", playerMoney);
+  gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
+  gamesaveJSON.setFloat("playerCooldown", playerCooldown);
   
   saveJSONObject(gamesaveJSON, "gamesave.json");
   fill(255);
