@@ -1719,8 +1719,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 210;
     basicE[enemyIndex].enemyHitY = 86;
-    basicE[enemyIndex].enemyHP = 30 * enemyBalanceHP;
-    basicE[enemyIndex].enemyHPMax = 30 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHP = 50 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 50 * enemyBalanceHP;
   } else if (type == 2) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
@@ -1872,6 +1872,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     levelEnemyIndex++;
   }
   
+  //reset player variables
+  playerHP = playerHPMax;
+  playerX = 200;
+  playerY = 250;
+  playerShield = 0;
+  
   //redraw enemies
   initObjects(); //reset all enemies
   for(int i = 0; i < levelEnemyIndex; i++) {
@@ -1941,11 +1947,25 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
           } 
         } else {
           if (keyInput[7] == true || keyInput[4] == true) { //r key or space key
-            levelStart(levelIndex); //restart the current level
+            if (levelEditorMode == true) {
+              loadLevel();
+            }
+            else levelStart(levelIndex); //restart the current level
             paused = false;
             keyInput[4] = false; //unset space key
           } else if (keyInput[5] == true) { //q key
             //TODO LEVEL EXIT HERE
+            if (levelEditorMode == true) {
+              playerHP = playerHPMax; //restore player hp
+              playerX = 200;
+              playerY = 250;
+              screenIndex = 9; //set to level editor screen
+              //redraw enemies
+              initObjects(); //reset all enemies
+              for(int i = 0; i < levelEnemyIndex; i++) {
+                genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+              }
+            }
           }
         }
         
@@ -1966,7 +1986,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
     if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
     if (keyInput[8] == true) saveLevel(); //save the level to a JSON
-    if (keyInput[17] == true) screenIndex = 2; //go back to level select
+    if (keyInput[17] == true) {screenIndex = 2; levelEditorMode = false;} //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
     if (keyInput[19] == true) { //playtest level
       println("test");
@@ -2179,7 +2199,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 105; //the current build number, should be incremented manually each commit
+int buildNumber = 106; //the current build number, should be incremented manually each commit
 int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -2194,7 +2214,7 @@ int timing = 0; //used for various timings, namely the players weapon firing tim
 int secondTiming = 0; //used for timing secondary weapons
 int screenX = 1280; //screen size x
 int screenY = 720; //screen size y
-float autoScroll = -2; //controls how fast the enemies move to the left
+float autoScroll = -1.5f; //controls how fast the enemies move to the left
 float enemyBalanceHP = 2; //multiplier for enemy hp
 float enemyBalanceDMG = 2; //multiplier for enemy shot power
 float enemyBalanceBump = 3; //multipler for damage to deal when player bumps into an enemy, it is enemyHP * this multiplier

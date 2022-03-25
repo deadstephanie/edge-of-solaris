@@ -324,8 +324,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 210;
     basicE[enemyIndex].enemyHitY = 86;
-    basicE[enemyIndex].enemyHP = 30 * enemyBalanceHP;
-    basicE[enemyIndex].enemyHPMax = 30 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHP = 50 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 50 * enemyBalanceHP;
   } else if (type == 2) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
@@ -476,6 +476,12 @@ void loadLevel() { //load a saved level editor level
     levelEnemyY[i] = item.getInt("enemyY");
     levelEnemyIndex++;
   }
+  
+  //reset player variables
+  playerHP = playerHPMax;
+  playerX = 200;
+  playerY = 250;
+  playerShield = 0;
   
   //redraw enemies
   initObjects(); //reset all enemies

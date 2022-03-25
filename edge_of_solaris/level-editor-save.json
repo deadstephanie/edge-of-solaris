@@ -1,6 +1,818 @@
-[{
-  "enemyType": 0,
-  "enemyY": 293,
-  "enemyX": 758,
-  "id": 0
-}]
+[
+  {
+    "enemyType": 0,
+    "enemyY": 104,
+    "enemyX": 537,
+    "id": 0
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 315,
+    "enemyX": 677,
+    "id": 1
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 541,
+    "enemyX": 811,
+    "id": 2
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 82,
+    "enemyX": 1306,
+    "id": 3
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 390,
+    "enemyX": 1182,
+    "id": 4
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 616,
+    "enemyX": 1187,
+    "id": 5
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 547,
+    "enemyX": 1535,
+    "id": 6
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 368,
+    "enemyX": 1737,
+    "id": 7
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 168,
+    "enemyX": 1757,
+    "id": 8
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 211,
+    "enemyX": 1980,
+    "id": 9
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 412,
+    "enemyX": 2114,
+    "id": 10
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 515,
+    "enemyX": 2230,
+    "id": 11
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 154,
+    "enemyX": 2466,
+    "id": 12
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 249,
+    "enemyX": 2482,
+    "id": 13
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 587,
+    "enemyX": 2877,
+    "id": 14
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 355,
+    "enemyX": 2972,
+    "id": 15
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 75,
+    "enemyX": 3108,
+    "id": 16
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 136,
+    "enemyX": 3466,
+    "id": 17
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 461,
+    "enemyX": 3648,
+    "id": 18
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 607,
+    "enemyX": 4000,
+    "id": 19
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 464,
+    "enemyX": 4294,
+    "id": 20
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 311,
+    "enemyX": 4577,
+    "id": 21
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 108,
+    "enemyX": 4973,
+    "id": 22
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 289,
+    "enemyX": 5313,
+    "id": 23
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 389,
+    "enemyX": 5598,
+    "id": 24
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 634,
+    "enemyX": 6175,
+    "id": 25
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 466,
+    "enemyX": 6113,
+    "id": 26
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 279,
+    "enemyX": 6085,
+    "id": 27
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 117,
+    "enemyX": 6090,
+    "id": 28
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 93,
+    "enemyX": 6728,
+    "id": 29
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 361,
+    "enemyX": 6916,
+    "id": 30
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 629,
+    "enemyX": 6716,
+    "id": 31
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 390,
+    "enemyX": 7148,
+    "id": 32
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 135,
+    "enemyX": 7340,
+    "id": 33
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 632,
+    "enemyX": 7350,
+    "id": 34
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 126,
+    "enemyX": 7809,
+    "id": 35
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 292,
+    "enemyX": 7736,
+    "id": 36
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 452,
+    "enemyX": 7764,
+    "id": 37
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 615,
+    "enemyX": 8136,
+    "id": 38
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 439,
+    "enemyX": 8230,
+    "id": 39
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 311,
+    "enemyX": 8181,
+    "id": 40
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 149,
+    "enemyX": 8156,
+    "id": 41
+  },
+  {
+    "enemyType": 4,
+    "enemyY": 342,
+    "enemyX": 8994,
+    "id": 42
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 75,
+    "enemyX": 9539,
+    "id": 43
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 432,
+    "enemyX": 9809,
+    "id": 44
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 599,
+    "enemyX": 9925,
+    "id": 45
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 601,
+    "enemyX": 10316,
+    "id": 46
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 344,
+    "enemyX": 10436,
+    "id": 47
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 147,
+    "enemyX": 10642,
+    "id": 48
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 91,
+    "enemyX": 10757,
+    "id": 49
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 362,
+    "enemyX": 10911,
+    "id": 50
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 451,
+    "enemyX": 10852,
+    "id": 51
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 586,
+    "enemyX": 11001,
+    "id": 52
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 594,
+    "enemyX": 11130,
+    "id": 53
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 187,
+    "enemyX": 11170,
+    "id": 54
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 274,
+    "enemyX": 11479,
+    "id": 55
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 387,
+    "enemyX": 11500,
+    "id": 56
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 477,
+    "enemyX": 11513,
+    "id": 57
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 569,
+    "enemyX": 11556,
+    "id": 58
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 155,
+    "enemyX": 11860,
+    "id": 59
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 375,
+    "enemyX": 11870,
+    "id": 60
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 533,
+    "enemyX": 12110,
+    "id": 61
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 241,
+    "enemyX": 12362,
+    "id": 62
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 141,
+    "enemyX": 12463,
+    "id": 63
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 180,
+    "enemyX": 12746,
+    "id": 64
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 412,
+    "enemyX": 12774,
+    "id": 65
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 518,
+    "enemyX": 12897,
+    "id": 66
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 391,
+    "enemyX": 12485,
+    "id": 67
+  },
+  {
+    "enemyType": 2,
+    "enemyY": 549,
+    "enemyX": 12423,
+    "id": 68
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 245,
+    "enemyX": 11740,
+    "id": 69
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 449,
+    "enemyX": 11201,
+    "id": 70
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 40,
+    "enemyX": 12070,
+    "id": 71
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 105,
+    "enemyX": 13084,
+    "id": 72
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 391,
+    "enemyX": 13265,
+    "id": 73
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 548,
+    "enemyX": 13531,
+    "id": 74
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 344,
+    "enemyX": 13774,
+    "id": 75
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 121,
+    "enemyX": 13727,
+    "id": 76
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 215,
+    "enemyX": 13946,
+    "id": 77
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 412,
+    "enemyX": 13994,
+    "id": 78
+  },
+  {
+    "enemyType": 6,
+    "enemyY": 577,
+    "enemyX": 14051,
+    "id": 79
+  },
+  {
+    "enemyType": 1,
+    "enemyY": 482,
+    "enemyX": 13795,
+    "id": 80
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 251,
+    "enemyX": 13578,
+    "id": 81
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 67,
+    "enemyX": 13547,
+    "id": 82
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 377,
+    "enemyX": 14932,
+    "id": 83
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 283,
+    "enemyX": 15600,
+    "id": 84
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 431,
+    "enemyX": 16345,
+    "id": 85
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 138,
+    "enemyX": 17110,
+    "id": 86
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 317,
+    "enemyX": 17318,
+    "id": 87
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 445,
+    "enemyX": 17508,
+    "id": 88
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 594,
+    "enemyX": 17715,
+    "id": 89
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 435,
+    "enemyX": 17994,
+    "id": 90
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 254,
+    "enemyX": 18040,
+    "id": 91
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 99,
+    "enemyX": 18208,
+    "id": 92
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 198,
+    "enemyX": 18386,
+    "id": 93
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 354,
+    "enemyX": 18529,
+    "id": 94
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 467,
+    "enemyX": 18741,
+    "id": 95
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 613,
+    "enemyX": 18942,
+    "id": 96
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 491,
+    "enemyX": 19202,
+    "id": 97
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 383,
+    "enemyX": 19393,
+    "id": 98
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 255,
+    "enemyX": 19590,
+    "id": 99
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 119,
+    "enemyX": 19829,
+    "id": 100
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 140,
+    "enemyX": 20110,
+    "id": 101
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 279,
+    "enemyX": 20292,
+    "id": 102
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 342,
+    "enemyX": 20461,
+    "id": 103
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 484,
+    "enemyX": 20618,
+    "id": 104
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 519,
+    "enemyX": 20820,
+    "id": 105
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 369,
+    "enemyX": 21056,
+    "id": 106
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 223,
+    "enemyX": 21233,
+    "id": 107
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 89,
+    "enemyX": 21413,
+    "id": 108
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 292,
+    "enemyX": 21597,
+    "id": 109
+  },
+  {
+    "enemyType": 3,
+    "enemyY": 481,
+    "enemyX": 21725,
+    "id": 110
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 436,
+    "enemyX": 21354,
+    "id": 111
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 170,
+    "enemyX": 20894,
+    "id": 112
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 225,
+    "enemyX": 20662,
+    "id": 113
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 506,
+    "enemyX": 20396,
+    "id": 114
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 451,
+    "enemyX": 19949,
+    "id": 115
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 529,
+    "enemyX": 19758,
+    "id": 116
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 163,
+    "enemyX": 19290,
+    "id": 117
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 174,
+    "enemyX": 19107,
+    "id": 118
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 355,
+    "enemyX": 18907,
+    "id": 119
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 486,
+    "enemyX": 18385,
+    "id": 120
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 170,
+    "enemyX": 17750,
+    "id": 121
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 494,
+    "enemyX": 17267,
+    "id": 122
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 353,
+    "enemyX": 16913,
+    "id": 123
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 237,
+    "enemyX": 16530,
+    "id": 124
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 103,
+    "enemyX": 21911,
+    "id": 125
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 325,
+    "enemyX": 22022,
+    "id": 126
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 554,
+    "enemyX": 22128,
+    "id": 127
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 393,
+    "enemyX": 22356,
+    "id": 128
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 105,
+    "enemyX": 22462,
+    "id": 129
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 446,
+    "enemyX": 22763,
+    "id": 130
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 591,
+    "enemyX": 23069,
+    "id": 131
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 266,
+    "enemyX": 23163,
+    "id": 132
+  },
+  {
+    "enemyType": 0,
+    "enemyY": 60,
+    "enemyX": 23354,
+    "id": 133
+  },
+  {
+    "enemyType": 4,
+    "enemyY": 184,
+    "enemyX": 24249,
+    "id": 134
+  },
+  {
+    "enemyType": 4,
+    "enemyY": 544,
+    "enemyX": 24567,
+    "id": 135
+  }
+]

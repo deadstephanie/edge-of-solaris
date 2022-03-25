@@ -61,11 +61,25 @@ void processInput() {
           } 
         } else {
           if (keyInput[7] == true || keyInput[4] == true) { //r key or space key
-            levelStart(levelIndex); //restart the current level
+            if (levelEditorMode == true) {
+              loadLevel();
+            }
+            else levelStart(levelIndex); //restart the current level
             paused = false;
             keyInput[4] = false; //unset space key
           } else if (keyInput[5] == true) { //q key
             //TODO LEVEL EXIT HERE
+            if (levelEditorMode == true) {
+              playerHP = playerHPMax; //restore player hp
+              playerX = 200;
+              playerY = 250;
+              screenIndex = 9; //set to level editor screen
+              //redraw enemies
+              initObjects(); //reset all enemies
+              for(int i = 0; i < levelEnemyIndex; i++) {
+                genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+              }
+            }
           }
         }
         
@@ -86,7 +100,7 @@ void processInput() {
     if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
     if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
     if (keyInput[8] == true) saveLevel(); //save the level to a JSON
-    if (keyInput[17] == true) screenIndex = 2; //go back to level select
+    if (keyInput[17] == true) {screenIndex = 2; levelEditorMode = false;} //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
     if (keyInput[19] == true) { //playtest level
       println("test");
