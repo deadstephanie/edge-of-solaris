@@ -77,6 +77,27 @@ void processInput() {
     if (keyInput[4] == true) {
       advanceVNText();
     }
+  } else if (screenIndex == 9) { //level editor
+    if (keyInput[2] == true) scrollX++;
+    if (keyInput[0] == true) scrollX = scrollX + 10;
+    if (keyInput[3] == true) scrollX--;
+    if (keyInput[1] == true) scrollX = scrollX - 10;
+    if (scrollX < 0) scrollX = 0; //dont let scroll go negative
+    if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
+    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
+    if (keyInput[8] == true) saveLevel(); //save the level to a JSON
+    if (keyInput[17] == true) screenIndex = 2; //go back to level select
+    if (keyInput[18] == true) loadLevel(); //try to load the editor save
+    if (keyInput[19] == true) { //playtest level
+      println("test");
+      screenIndex = 0;
+      levelEditorMode = true;
+      //redraw enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    }
   }
 }
 
@@ -98,6 +119,9 @@ void keyPressed() {
   if (key == '4') keyInput[14] = true;
   if (key == '5') keyInput[15] = true;
   if (key == '6') keyInput[16] = true;
+  if (key == 'm' || key == 'M') keyInput[17] = true;
+  if (key == 'l' || key == 'L') keyInput[18] = true;
+  if (key == 't' || key == 'T') keyInput[19] = true;
 }
 
 void keyReleased() {
@@ -118,6 +142,9 @@ void keyReleased() {
   if (key == '4') keyInput[14] = false;
   if (key == '5') keyInput[15] = false;
   if (key == '6') keyInput[16] = false;
+  if (key == 'm' || key == 'M') keyInput[17] = false;
+  if (key == 'l' || key == 'L') keyInput[18] = false;
+  if (key == 't' || key == 'T') keyInput[19] = false;
 }
 
 void playerShoot() {
@@ -171,14 +198,15 @@ void mousePressed() {
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
     if (areaIndex == 0) { //debug area
-      if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(98); //performance test level
-      else if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
+      if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      else if (mouseX > 50 && mouseX < 750 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+      else if (mouseX > 50 && mouseX < 750 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+      else if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) levelStart(98); //performance test level
+      else if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
     } else if (areaIndex == 1) { //first area
-      if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
+      if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) {screenIndex = 9; initObjects();} //level editor button
+      if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
     }
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
@@ -202,5 +230,26 @@ void mousePressed() {
     else if (mouseX > 60 && mouseX < 445 && mouseY > 370 && mouseY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
     else if (mouseX > 60 && mouseX < 445 && mouseY > 570 && mouseY < 595 && playerMoney >= playerWeaponCost4) {playerMoney = playerMoney - playerWeaponCost4; playerWeaponLevel4++; calcWeaponStats();} //upgrade snipe weapon
     else if (mouseX > 485 && mouseX < 870 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
+  } else if (screenIndex == 9) { //level editor
+    //place an enemy
+    if (mouseButton == LEFT) { //only place if LMB pressed
+      genEnemy(levelEnemyTypeSelected, mouseX + scrollX, mouseY);
+      levelEnemyType[levelEnemyIndex] = levelEnemyTypeSelected;
+      levelEnemyX[levelEnemyIndex] = mouseX + scrollX;
+      levelEnemyY[levelEnemyIndex] = mouseY;
+      levelEnemyIndex++;
+    } else if (mouseButton == RIGHT) { //undo
+      if (levelEnemyIndex > 0) levelEnemyIndex--;
+      //redraw enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    } else if (mouseButton == CENTER) { //reset enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    }
   }
 }

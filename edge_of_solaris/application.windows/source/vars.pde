@@ -1,7 +1,7 @@
 //game vars
-int buildNumber = 104; //the current build number, should be incremented manually each commit
-int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
-//7 = hanger, 8 = engineering
+int buildNumber = 105; //the current build number, should be incremented manually each commit
+int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+//7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
 int areaIndex = 1; //tells the level select what options to have, 0 is debug
@@ -128,3 +128,13 @@ int playerEngineTimer = 0;
 //settings vars
 boolean oneHitMode = true; //whether to set game to paused when player dies
 boolean damageOnTop = false; //whether or not to render to damage on top of the player
+
+//level editor vars
+int scrollX = 0; //used for the scroll on the level editor
+int[] levelEnemyType = new int[999]; //used to store the enemy types
+int[] levelEnemyX = new int[999]; //used to store enemy x pos
+int[] levelEnemyY = new int[999]; //used to store enemy y pos
+int levelEnemyIndex = 0; //used for writing to the arrays
+int levelEnemyTypeSelected = 0; //used to know which enemy type is selected
+float displayX; //used for scrolling enemies
+boolean levelEditorMode; //used for playtesting the level

@@ -378,3 +378,108 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
   }
 }
+
+void levelEditor() { //the level editor routine is here
+  //render background
+  if (levelType == 1) background(180, 248, 255);
+     else if (levelType == 2) background(0);
+     
+  //render stars/clouds
+  if (levelType == 2 || levelType == 1) {
+    for (starsBG stars : stars) {
+      stars.update();
+      stars.display();
+    }
+  }
+    
+  //render and process enemies (enemies will fire once placed)
+  for (enemy basicE : basicE) {
+    basicE.update();
+    basicE.shoot();
+    basicE.display();
+  }
+    
+  //render and process bullets
+  for (bullet blts : blts) {
+    blts.update();
+    blts.display();
+  }
+    
+  //render player hp and shield bars
+  stroke(0);
+  strokeWeight(15);
+  fill(0);
+  rect(20, 650, 200, 50, 10);
+  rect(235, 650, 200, 50, 10);
+  setRect(4);
+  if (playerHP >= 0) rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
+  setRect(5);
+  rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
+  setRect(3); //render surrounds
+  noFill();
+  rect(20, 650, 200, 50, 10);
+  rect(235, 650, 200, 50, 10);
+  fill(0);
+    
+    
+  //render weapon selector
+  stroke(255);
+  strokeWeight(2);
+  rect(450, 653, 30, 20, 5);
+  rect(450, 678, 30, 20, 5);
+  rect(485, 653, 30, 20, 5);
+  rect(485, 678, 30, 20, 5);      
+    
+  image(player1, playerX - 5 - scrollX, playerY - 5); //player sprite
+    
+  textSize(24);
+  fill(255, 20, 20);
+  text("scrollX: " + scrollX, 1000, 25);
+  text("mouseX: " + mouseX, 1000, 50);
+  text("mouseY: " + mouseY, 1000, 75);
+  text("enemyType: " + levelEnemyTypeSelected, 1000, 100);
+  text("::CONTROLS::", 1000, 125);
+  text("LMB = place enemy", 1000, 150);
+  text("MMB = reset enemies", 1000, 175);
+  text("RMB = undo", 1000, 200);
+  text("A/D scroll", 1000, 225);
+  text("W/S fast scroll", 1000, 250);
+  text("SPACE cycles enemy type", 1000, 275);
+  text("P saves to level-editor-save.json", 950, 300);
+  text("M exits to level select", 1000, 325);
+  text("L loads the save file", 1000, 350);
+  text("T tests the level", 1000, 375);
+}
+
+void saveLevel() { //saves the level editor level
+  levelEditorSaveJSON = new JSONArray();
+  for(int i = 0; i < levelEnemyIndex; i++) { //repeat for all 
+    JSONObject data = new JSONObject();
+    data.setInt("id", i);
+    data.setInt("enemyType", levelEnemyType[i]);
+    data.setInt("enemyX", levelEnemyX[i]);
+    data.setInt("enemyY", levelEnemyY[i]);
+    levelEditorSaveJSON.setJSONObject(i, data);
+  }
+  saveJSONArray(levelEditorSaveJSON, "level-editor-save.json");
+  text("saved to level-editor-save.json", 1000, 250);
+}
+
+void loadLevel() { //load a saved level editor level
+  levelEditorSaveJSON = loadJSONArray("level-editor-save.json"); //load the array
+  //JSONArray values = levelEditorSaveJSON.getJSONArray(0);
+  levelEnemyIndex = 0; //reset the index
+  for (int i = 0; i < levelEditorSaveJSON.size(); i++) {
+    JSONObject item = levelEditorSaveJSON.getJSONObject(i);
+    levelEnemyType[i] = item.getInt("enemyType");
+    levelEnemyX[i] = item.getInt("enemyX");
+    levelEnemyY[i] = item.getInt("enemyY");
+    levelEnemyIndex++;
+  }
+  
+  //redraw enemies
+  initObjects(); //reset all enemies
+  for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+  }
+}

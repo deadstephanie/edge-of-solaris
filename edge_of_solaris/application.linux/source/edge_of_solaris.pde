@@ -50,6 +50,7 @@ PrintWriter settingsOut;
 PrintWriter OSver;
 JSONObject settingsJSON;
 JSONObject gamesaveJSON;
+JSONArray levelEditorSaveJSON;
 
 import java.io.*;
 
@@ -345,6 +346,7 @@ void drawUI() {
       
     } else if (areaIndex == 1) { //first area
       text("start the story", 75, 75);
+      text("go to level editor", 75, 375);
       text("go to debug level select", 75, 475);
     } 
   } else if (screenIndex == 4) { //settings menu
@@ -487,6 +489,8 @@ void drawUI() {
         }
       }
     }
+  } else if (screenIndex == 9) { //level editor window
+    levelEditor();
   }
 }
 
@@ -494,11 +498,23 @@ void levelEnd() { //called when the level should end
   keyInput[4] = false; //release space key
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
+  if (levelEditorMode == false) {
   checkForLevelUp(); //check if player leveled up
   if (levelIndex == 0) level0Completed = true;
   if (levelIndex == 1) level1Completed = true;
   if (levelIndex == 1 && playerWeaponsUnlocked == 0) {playerWeaponsUnlocked = 1; areaIndex = 2;} //unlock the mg after level 1 complete and set area to 2
   scanLevelEndCommands();
+  } else {
+    playerHP = playerHPMax; //restore player hp
+    playerX = 200;
+    playerY = 250;
+    screenIndex = 9; //set to level editor screen
+    //redraw enemies
+    initObjects(); //reset all enemies
+    for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+    }
+  }
 }
 
 void levelStart(int cmdIndex) {

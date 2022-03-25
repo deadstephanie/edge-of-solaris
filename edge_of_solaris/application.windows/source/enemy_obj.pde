@@ -28,7 +28,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
 void update() {
-  enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed
+  if (screenIndex != 9) enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed (only if not in level editor
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
   if (enemyState != 2) { //only run if enemy is not dead
@@ -40,15 +40,17 @@ void update() {
       enemyMoveTiming = enemyMoveTiming + 0.025;
       break;
       case 4:
-      if (enemyX <= 1000) enemyX = 1000;
-      else enemyTiming = 199;
+      if (screenIndex != 9) { //only run if not in level editor mode
+        if (enemyX <= 1000) enemyX = 1000;
+        else enemyTiming = 199;
+      }
       break;
       default:
       break;
     }
     
     if (enemyX < -200) enemyState = 2; //kill enemy if off screen
-    if (enemyType == 7) {
+    if (enemyType == 7 && screenIndex != 9) { //only do if enemy type is energy weapon and not in level editor
       enemyHP = enemyHP + (enemyHPMax / 1000);
       if (enemyHP > enemyHPMax) enemyHP = enemyHPMax;
       if (enemyX < (900 - (abs(enemyY - 300))/2)) enemySpeedX = 0;
@@ -99,68 +101,70 @@ void reset() {
 }
 
 void shoot() {
-   if (enemyState != 2 && enemyX < 1250) {
-    if (enemyType == 0) { //check to see if enemy is a drone and not dead
+  if (screenIndex == 9) displayX = enemyX - scrollX;
+   else displayX = enemyX;
+   if (enemyState != 2 && displayX < 1250) { //check if enemy is on screen and not dead
+    if (enemyType == 0) { //check to see if enemy is a drone
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     float speed = 5; //higher numbers are slower
     int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
-    float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
+    float c = sqrt((abs(playerX - displayX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
     c = c * speed; //scale c (distance hypotenuse) to speed
-    float speedX = (playerX - enemyX + offsetX);
+    float speedX = (playerX - displayX + offsetX);
     float speedY = (playerY - enemyY + offsetY);
     speedX = speedX / (c);
     speedY = speedY / (c);
-    blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
   } else if (enemyType == 1) { //check for enemy type helicopter
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
   } else if (enemyType == 2) { //check for enemy type small interceptor that shoots a spread shot
     if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, +0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, -0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
     } else if (enemyType == 3) { //check for enemy type medium interceptor
     if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
-      blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 4) { //check for enemy type miniboss cargo ship
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
-    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 50, 50, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
-    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, -1, 5, 50, 50, 50, 50, 0, 0, 0);
-    basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 1, 5, 50, 50, 50, 50, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(int(displayX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 50, 50, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
+    basicE[findEnemy()] = new enemy(int(displayX - 80), int(enemyY + 15), -2, -1, 5, 50, 50, 50, 50, 0, 0, 0);
+    basicE[findEnemy()] = new enemy(int(displayX - 80), int(enemyY + 15), -2, 1, 5, 50, 50, 50, 50, 0, 0, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 5) { //check for enemy type, this is the bomb
     if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-      blts[findBullet()] = new bullet(enemyX, enemyY, 0, -4, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, 0, +4, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +4, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -4, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, 0, -4, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, 0, +4, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +4, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -4, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
-      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +2.828, +2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +2.828, -2.828, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
-      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -1.53, +3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -1.53, -3.695, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
-      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, +3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-      blts[findBullet()] = new bullet(enemyX, enemyY, -3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -3.695, +1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, +3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, -3.695, -1.53, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       
       //destroy bomb
       enemyTiming = 30;
@@ -178,12 +182,12 @@ void shoot() {
       float speedY = (playerY - enemyY + offsetY);
       speedX = speedX / (c);
       speedY = speedY / (c);
-      blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
   } else if (enemyType == 7) { //energy weapon
     if (enemyTiming > 120) {
-      blts[findBullet()] = new bullet(enemyX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
+      blts[findBullet()] = new bullet(displayX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
   }
@@ -191,15 +195,58 @@ void shoot() {
 }
 
 void display() {
+  displayX = enemyX - scrollX;
   strokeWeight(1);
   noStroke();
   if (enemyState == 1) tint(255, 100, 100);
-  if (enemyState != 2) { //do not display hp bar if enemy is dead
-    strokeWeight(1);
-    stroke(0);
-    fill(20, 255, 20, 100);
-    rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
-    
+  if (enemyState != 2) { //do not display hp bar and render enemy if enemy is dead
+    if (screenIndex == 9) {
+      //draw hp bars
+      strokeWeight(1);
+      stroke(0);
+      fill(20, 255, 20, 100);
+      rect(displayX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
+      
+      //draw enemies
+      switch(enemyType) {
+        case 0: //drone that fires a homing shot
+        image(faun1, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 1: //small gunship
+        image(faun2, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 2: //small interceptor (spread shot)
+        image(faun3, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 3: //medium interceptor
+        image(faun4, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 4: //cargo ship
+        image(faun5, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
+        image(faun3, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 7: //energy weapon that charges
+        fill(20, 20, 200, 150);
+        stroke(20, 20, 200, 150);
+        rect(displayX - (enemyTiming / 2), enemyY - 12, 50, 25); //shooting animation
+        image(faun6, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        default:
+        noStroke();
+        fill(255, 0, 0);
+        ellipse(displayX, enemyY, enemyHitX, enemyHitY);
+        break;
+      }
+    } else {
+      //draw hp bars
+      strokeWeight(1);
+      stroke(0);
+      fill(20, 255, 20, 100);
+      rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
+      
+      //draw enemies
       switch (enemyType) {
         case 0: //drone that fires a homing shot
         image(faun1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
@@ -231,6 +278,7 @@ void display() {
         ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
         break;
       }
+    }
     tint(255, 255, 255); //reset tint
     enemyState = 0; //reset enemy state (so it untints after being shot)
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
