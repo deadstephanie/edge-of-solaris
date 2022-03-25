@@ -1,6 +1,5 @@
 void placeEnemies() {
-  if (levelIndex == 2) {
-    //temp layout
+  if (levelIndex == 2) { //performance test level
     genEnemy(0, 1000, 300);
     
     genEnemy(0, 1200, 200);
@@ -152,7 +151,7 @@ void placeEnemies() {
     genEnemy(0, 4800, 400);
     genEnemy(0, 4800, 500);
     genEnemy(0, 4800, 600);
-  } else if (levelIndex == 1) {
+  } else if (levelIndex == 1) { //miniboss level
     genEnemy(6, 1000, 350);
     genEnemy(6, 800, 150);
     genEnemy(6, 800, 550);
@@ -176,7 +175,7 @@ void placeEnemies() {
     genEnemy(6, 2300, 150);
     
     genEnemy(4, 2500, 300);
-  } else if (levelIndex == 0) {
+  } else if (levelIndex == 0) { //opening level
     genEnemy(6, 1000, 400);
     genEnemy(6, 1100, 500);
     genEnemy(6, 1200, 600);
@@ -215,8 +214,13 @@ void placeEnemies() {
     genEnemy(6, 3750, 200);
     genEnemy(6, 3800, 550);
     genEnemy(6, 3800, 150);
-    
-    //genEnemy(999, 4000, -500); //level complete enemy
+  } else if (levelIndex == 3) {
+    genEnemy(7, 900, 100);
+    genEnemy(7, 900, 200);
+    genEnemy(7, 900, 300);
+    genEnemy(7, 900, 400);
+    genEnemy(7, 900, 500);
+    genEnemy(7, 900, 600);
   }
 }
 
@@ -283,15 +287,15 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyHitY = 70;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
-  } else if (type == 999) { //level end enemy
+  } else if (type == 7) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 0;
-    basicE[enemyIndex].enemyHitY = 0;
-    basicE[enemyIndex].enemyHP = 9999;
-    basicE[enemyIndex].enemyHPMax = 9999;
+    basicE[enemyIndex].enemyHitX = 120;
+    basicE[enemyIndex].enemyHitY = 52;
+    basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
   }
 }

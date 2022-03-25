@@ -48,6 +48,11 @@ void update() {
     }
     
     if (enemyX < -200) enemyState = 2; //kill enemy if off screen
+    if (enemyType == 7) {
+      enemyHP = enemyHP + (enemyHPMax / 1000);
+      if (enemyHP > enemyHPMax) enemyHP = enemyHPMax;
+      if (enemyX < (900 - (abs(enemyY - 300))/2)) enemySpeedX = 0;
+    }
   }
 }
 
@@ -176,6 +181,11 @@ void shoot() {
       blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
+  } else if (enemyType == 7) {
+    if (enemyTiming > 120) {
+      blts[findBullet()] = new bullet(enemyX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
+      enemyTiming = 0;
+    }
   }
    }
 }
@@ -192,22 +202,28 @@ void display() {
     
       switch (enemyType) {
         case 0: //drone that fires a homing shot
-        image(naturals1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
         break;
         case 1: //small gunship
-        image(naturals2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
         break;
         case 2: //small interceptor (spread shot)
-        image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
         break;
         case 3: //medium interceptor
-        image(naturals4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
         break;
         case 4: //cargo ship
-        image(naturals5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
         break;
         case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-        image(naturals3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        break;
+        case 7: //energy weapon that charges
+        fill(20, 20, 200, 150);
+        stroke(20, 20, 200, 150);
+        rect(enemyX - (enemyTiming / 2), enemyY - 12, 50, 25); //shooting animation
+        image(faun6, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
         break;
         default:
         noStroke();

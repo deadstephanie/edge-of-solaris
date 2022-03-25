@@ -3,11 +3,12 @@ enemy[] basicE;
 starsBG[] stars;
 damage[] dmg;
 
-PImage naturals1;
-PImage naturals2;
-PImage naturals3;
-PImage naturals4;
-PImage naturals5;
+PImage faun1;
+PImage faun2;
+PImage faun3;
+PImage faun4;
+PImage faun5;
+PImage faun6;
 PImage player1;
 PImage vnPlayer1;
 PImage vnPlayer2;
@@ -317,6 +318,7 @@ void drawUI() {
     rect(50, 125, 400, 75);
     rect(50, 225, 400, 75);
     rect(50, 325, 400, 75);
+    rect(50, 425, 400, 75);
     
     if (playerStatPoints > 0) { //check if stat points to spend
       fill(255, 0, 0);
@@ -337,6 +339,7 @@ void drawUI() {
     text("level 00", 75, 175);
     text("level 01", 75, 275);
     text("test level", 75, 375);
+    text("test level 2", 75, 475);
   } else if (screenIndex == 4) { //settings menu
     background(0);
     stroke(255);
@@ -447,32 +450,36 @@ void drawUI() {
     text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
     text("Click here to Upgrade Weapon: $" + playerWeaponCost2, 60, 185); 
     
-    text("Machine Gun (per bullet stats)", 60, 245);
-    text("Bullet Count: 1", 60, 265);
-    text("Current Damage per Bullet: " + playerWeaponPower0, 60, 285);
-    text("Upgraded Damage per Bullet: " + (playerWeaponPower0 * 1.1), 60, 305);
-    text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
-    text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1 * (60/playerWeaponCooldown0)), 60, 345);
-    text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
-    text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60, 385); 
-    
-    text("Heavy Laser (per bullet stats)", 60, 445);
-    text("Bullet Count: 1", 60, 465);
-    text("Current Damage per Bullet: " + playerWeaponPower4, 60, 485);
-    text("Upgraded Damage per Bullet: " + (playerWeaponPower4 * 1.1), 60, 505);
-    text("Current Damage per Second: " + (playerWeaponPower4 * (60/playerWeaponCooldown4)), 60, 525);
-    text("Upgraded Damage per Second: " + (playerWeaponPower4 * 1.1 * (60/playerWeaponCooldown4)), 60, 545);
-    text("Current Bullets per second: " + (60/playerWeaponCooldown4), 60, 565);
-    text("Click here to Upgrade Weapon: $" + playerWeaponCost4, 60, 585); 
-    
-    text("Shotgun (per bullet stats)", 485, 45);
-    text("Bullet Count: 5", 485, 65);
-    text("Current Damage per Bullet: " + playerWeaponPower1, 485, 85);
-    text("Upgraded Damage per Bullet: " + (playerWeaponPower1 * 1.1), 485, 105);
-    text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
-    text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1 * (60/playerWeaponCooldown1)), 485, 145);
-    text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
-    text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485, 185); 
+    if (playerWeaponsUnlocked >= 1) {
+      text("Machine Gun (per bullet stats)", 60, 245);
+      text("Bullet Count: 1", 60, 265);
+      text("Current Damage per Bullet: " + playerWeaponPower0, 60, 285);
+      text("Upgraded Damage per Bullet: " + (playerWeaponPower0 * 1.1), 60, 305);
+      text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
+      text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1 * (60/playerWeaponCooldown0)), 60, 345);
+      text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
+      text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60, 385); 
+      if (playerWeaponsUnlocked >= 2) {
+        text("Heavy Laser (per bullet stats)", 60, 445);
+        text("Bullet Count: 1", 60, 465);
+        text("Current Damage per Bullet: " + playerWeaponPower4, 60, 485);
+        text("Upgraded Damage per Bullet: " + (playerWeaponPower4 * 1.1), 60, 505);
+        text("Current Damage per Second: " + (playerWeaponPower4 * (60/playerWeaponCooldown4)), 60, 525);
+        text("Upgraded Damage per Second: " + (playerWeaponPower4 * 1.1 * (60/playerWeaponCooldown4)), 60, 545);
+        text("Current Bullets per second: " + (60/playerWeaponCooldown4), 60, 565);
+        text("Click here to Upgrade Weapon: $" + playerWeaponCost4, 60, 585); 
+        if (playerWeaponsUnlocked >= 3) {
+          text("Shotgun (per bullet stats)", 485, 45);
+          text("Bullet Count: 5", 485, 65);
+          text("Current Damage per Bullet: " + playerWeaponPower1, 485, 85);
+          text("Upgraded Damage per Bullet: " + (playerWeaponPower1 * 1.1), 485, 105);
+          text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
+          text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1 * (60/playerWeaponCooldown1)), 485, 145);
+          text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
+          text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485, 185); 
+        }
+      }
+    }
   }
 }
 
@@ -481,6 +488,9 @@ void levelEnd() { //called when the level should end
   levelEnd = false; //turn off level end trigger
   paused = false; //unpause game
   checkForLevelUp(); //check if player leveled up
+  if (levelIndex == 0) level0Completed = true;
+  if (levelIndex == 1) level1Completed = true;
+  if (levelIndex == 1 && playerWeaponsUnlocked == 0) playerWeaponsUnlocked = 1; //unlock the mg after level 1 complete
   scanLevelEndCommands();
 }
 

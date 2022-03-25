@@ -1,5 +1,8 @@
 void processInput() {
-  if (screenIndex == 0 && paused == false) {
+  if (screenIndex == 0 && paused == false) { //in game and not paused
+      if (mousePressed && (mouseButton == LEFT)) { //shoot with LMB
+        playerShoot();
+      }
       if (keyInput[0] == true) { //w
       if (playerY > 10)
         playerY = playerY - (playerMoveY * playerMoveBoost);
@@ -19,13 +22,13 @@ void processInput() {
       if (keyInput[4] == true) { //space
         playerShoot();
       }
-      if (keyInput[5] == true) { //q, mg weapon
+      if (keyInput[5] == true && playerWeaponsUnlocked >= 1) { //q, mg weapon
         playerWeapon = 0;
       }
-      if (keyInput[6] == true) { //e, snipe weapon
+      if (keyInput[6] == true && playerWeaponsUnlocked >= 2) { //e, snipe weapon
         playerWeapon = 4;
       }
-      if (keyInput[7] == true) { //r, spread weapon
+      if (keyInput[7] == true && playerWeaponsUnlocked >= 3) { //r, spread weapon
         playerWeapon = 1;
       }
       if (keyInput[8] == true) { //p, pause game
@@ -41,13 +44,13 @@ void processInput() {
       if (keyInput[11] == true) { //1, beam cannon primary weapon
         playerWeapon = 2;
       }
-      if (keyInput[12] == true) { //2, mg primary weapon
+      if (keyInput[12] == true && playerWeaponsUnlocked >= 1) { //2, mg primary weapon
         playerWeapon = 0;
       }
-      if (keyInput[13] == true) { //3, snipe primary weapon
+      if (keyInput[13] == true && playerWeaponsUnlocked >= 2) { //3, snipe primary weapon
         playerWeapon = 4;
       }
-      if (keyInput[14] == true) { //4, spread primary weapon
+      if (keyInput[14] == true && playerWeaponsUnlocked >= 3) { //4, spread primary weapon
         playerWeapon = 1;
       }
   } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
@@ -171,6 +174,7 @@ void mousePressed() {
     else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
     else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
     else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
+    else if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) levelStart(3); //performance test level 2
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();

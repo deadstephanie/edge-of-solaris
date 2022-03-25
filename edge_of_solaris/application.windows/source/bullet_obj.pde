@@ -39,10 +39,9 @@ void update() {
     int enemyTargetIndex = 9999; //which enemy is being targeted
     for (int i = 0; i < basicECount; i++) {
       if (basicE[i].enemyState != 2) { //confirm enemy is not dead
-        float enemyDistanceNew;
         enemyDistanceX = abs(basicE[i].enemyX - bulletX); //find difference on x axis
         enemyDistanceY = abs(basicE[i].enemyY - bulletY); //find difference on y axis
-        enemyDistanceNew = sqrt(pow(enemyDistanceX, 2) + pow(enemyDistanceY, 2));
+        float enemyDistanceNew = sqrt(pow(enemyDistanceX, 2) + pow(enemyDistanceY, 2));
         if (enemyDistanceNew < enemyDistance) { //if current enemy distance is less than previous enemy distance
           enemyDistance = enemyDistanceNew; //set current closest distance to current distance
           enemyTargetIndex = i; //set the current targeted enemy to be this enemy
@@ -149,6 +148,13 @@ void display() {
     fill(20, 255, 20, 150);
     ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
     fill(175, 255, 175);
+    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+  } else if (bulletType == 201) { //enemy energy shot (enemyindex 7)
+    stroke(20, 20, 200, 150);
+    strokeWeight(2);
+    fill(20, 20, 255, 150);
+    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    fill(175, 175, 255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
   }
 }

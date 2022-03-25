@@ -2,7 +2,7 @@
   "playerShieldMax": 50,
   "playerAttack": 1,
   "playerDefense": 1,
-  "playerMoney": 500000,
+  "playerMoney": 500,
   "playerHPMax": 100,
   "playerXP": 1,
   "playerStatPoints": 0,
@@ -11,4 +11,7 @@
   "playerWeaponLevel1": 1,
   "playerWeaponLevel2": 1,
   "playerWeaponLevel4": 1,
+  "playerWeaponsUnlocked": 0,
+  "level0Completed": false,
+  "level1Completed": false,
 }

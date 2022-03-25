@@ -1,6 +1,15 @@
 void loadText() {
   String[] loadScript = loadStrings("assets/text/script.txt");
   levelEndCommands = loadStrings("assets/text/level-end-commands.txt");
+  /*String OS = System.getProperty("os.name").toLowerCase();
+  if (OS.contains("win")) {//if windows
+  //%APPDATA%/edge-of-solaris
+    settingsJSON = loadJSONObject("settings.json");
+  } else { //if not on windows ie linux
+    file = new File("$XDG_DATA_HOME/edge-of-solaris/settings.json");
+    if (file.isFile() == true) settingsJSON = loadJSONObject(file); else settingsJSON = loadJSONObject("settings.json"); //if no appdata save default to root
+  }*/
+  
   file = new File(userDataDir(), "settings.json");
   if (file.isFile() == true) {settingsJSON = loadJSONObject(file); useCWD = true;} else settingsJSON = loadJSONObject("settings.json");
   
@@ -43,6 +52,9 @@ void loadSave() { //load the player data save file
   playerWeaponLevel1 = gamesaveJSON.getInt("playerWeaponLevel1");
   playerWeaponLevel2 = gamesaveJSON.getInt("playerWeaponLevel2");
   playerWeaponLevel4 = gamesaveJSON.getInt("playerWeaponLevel4");
+  playerWeaponsUnlocked = gamesaveJSON.getInt("playerWeaponsUnlocked");
+  level0Completed = gamesaveJSON.getBoolean("level0Completed");
+  level1Completed = gamesaveJSON.getBoolean("level1Completed");
   
   playerLevel = (int)Math.cbrt(playerXP);
 }
@@ -59,6 +71,9 @@ void saveSave() { //save the player data save file
   gamesaveJSON.setInt("playerWeaponLevel1", playerWeaponLevel1);
   gamesaveJSON.setInt("playerWeaponLevel2", playerWeaponLevel2);
   gamesaveJSON.setInt("playerWeaponLevel4", playerWeaponLevel4);
+  gamesaveJSON.setInt("playerWeaponsUnlocked", playerWeaponsUnlocked);
+  gamesaveJSON.setBoolean("level0Completed", level0Completed);
+  gamesaveJSON.setBoolean("level1Completed", level1Completed);
   
   saveJSONObject(gamesaveJSON, "gamesave.json");
   fill(255);
@@ -91,11 +106,13 @@ void scanLevelEndCommands() { //scan the level end commands file
 }
 
 void loadSprites() { //load png assets
-  naturals1 = loadImage("assets/png/naturals/3-xx.png");
-  naturals2 = loadImage("assets/png/naturals/2-xx.png");
-  naturals3 = loadImage("assets/png/naturals/1-xx.png");
-  naturals4 = loadImage("assets/png/naturals/4-xx.png");
-  naturals5 = loadImage("assets/png/naturals/5-xx.png");
+  faun1 = loadImage("assets/png/faun/3-xx.png");
+  faun2 = loadImage("assets/png/faun/2-xx.png");
+  faun3 = loadImage("assets/png/faun/1-xx.png");
+  faun4 = loadImage("assets/png/faun/4-xx.png");
+  faun5 = loadImage("assets/png/faun/5-xx.png");
+  faun6 = loadImage("assets/png/faun/6-xx.png");
+  
   player1 = loadImage("assets/png/player/3-x.png");
 
   vnPlayer1 = loadImage("assets/vn/player/1.png");
