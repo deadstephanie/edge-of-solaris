@@ -103,18 +103,21 @@ void drawVN() {
   }
 }
 
-int scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
+void scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
   char[] ch = textLines[textIndex-1].toCharArray();
   if (ch[0] == '-' && ch[1] == 'l') { //load level
     commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //read the level index to load
-    return 0; //the command to load a level
+    levelStart(commandIndex);
   } else if (ch[0] == '-' && ch[1] == 's') { //text start point
     textIndex++; //advance text to skip past start point line
   } else if (ch[0] == '-' && ch[1] == 'c') { //load a menu screen command
     commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //jump to menu screen
-    return 1; //the command to go to menu
+    screenIndex = commandIndex;
+  } else if (ch[3] == '-' && ch[4] == 'a') { //load a new area (jump to level select)
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
+    screenIndex = 2; //set screen to level select
+    areaIndex = commandIndex; //set area to selected area
   }
-  return 255;
 }
 
 void scanForStartPoints() {
@@ -130,11 +133,7 @@ void scanForStartPoints() {
 
 void advanceVNText() { //moves vn forward, reads commands, etc
   textIndex++; //advance the text script
-  if (scanVNCommands() == 0) {//load level command
-    levelStart(commandIndex); //load a level
-  } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = commandIndex; //go to selected screen
-  }
+  scanVNCommands();
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key
 }

@@ -96,10 +96,14 @@ void scanLevelEndCommands() { //scan the level end commands file
   } else if (ch[3] == '-' && ch[4] == 'c') { //load a menu screen
     commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //load the index of the screen
     screenIndex = commandIndex; //jump to that screen
-  } else if (ch[3] == '-' && ch[4] == 's') { //load a 
+  } else if (ch[3] == '-' && ch[4] == 's') { //load a script segment
     commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
     screenIndex = 3; //set screen to vn
     textIndex = scriptStartPoints[commandIndex]; //set the text index to the selected start point
+  } else if (ch[3] == '-' && ch[4] == 'a') { //load a new area (jump to level select)
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
+    screenIndex = 2; //set screen to level select
+    areaIndex = commandIndex; //set area to selected area
   } else { //fallback
     screenIndex = 2;
   }

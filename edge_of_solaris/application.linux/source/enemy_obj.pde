@@ -100,9 +100,9 @@ void reset() {
 
 void shoot() {
    if (enemyState != 2 && enemyX < 1250) {
-    if (enemyType == 0) { //check to see if enemy is basic and not dead
-    if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
-    float speed = 10; //higher numbers are slower
+    if (enemyType == 0) { //check to see if enemy is a drone and not dead
+    if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
+    float speed = 5; //higher numbers are slower
     int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
     float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
@@ -114,26 +114,26 @@ void shoot() {
     blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
-  } else if (enemyType == 1) { //check for enemy type
+  } else if (enemyType == 1) { //check for enemy type helicopter
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
-  } else if (enemyType == 2) { //check for enemy type
-    if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+  } else if (enemyType == 2) { //check for enemy type small interceptor that shoots a spread shot
+    if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, +0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, -0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
-    } else if (enemyType == 3) { //check for enemy type
+    } else if (enemyType == 3) { //check for enemy type medium interceptor
     if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
       blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
-  } else if (enemyType == 4) { //check for enemy type
+  } else if (enemyType == 4) { //check for enemy type miniboss cargo ship
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
     basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, 0, 5, 50, 50, 50, 50, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
     basicE[findEnemy()] = new enemy(int(enemyX - 80), int(enemyY + 15), -2, -1, 5, 50, 50, 50, 50, 0, 0, 0);
@@ -167,7 +167,7 @@ void shoot() {
       enemyState = 2;
       enemyHP = 0;
     }
-  } else if (enemyType == 6) {
+  } else if (enemyType == 6) { //small interceptor that shoots homing shots once it reaches the end of the screen
     if (enemyTiming > 20 && enemyX < 200) {
       float speed = 10; //higher numbers are slower
       int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
@@ -181,7 +181,7 @@ void shoot() {
       blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
-  } else if (enemyType == 7) {
+  } else if (enemyType == 7) { //energy weapon
     if (enemyTiming > 120) {
       blts[findBullet()] = new bullet(enemyX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;

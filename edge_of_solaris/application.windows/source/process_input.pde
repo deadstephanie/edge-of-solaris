@@ -170,11 +170,16 @@ void mousePressed() {
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) levelStart(3); //performance test level 2
+    if (areaIndex == 0) { //debug area
+      if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(98); //performance test level
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
+    } else if (areaIndex == 1) { //first area
+      if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
+    }
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();
@@ -192,7 +197,7 @@ void mousePressed() {
     if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05; playerStatPoints--;}
   } else if (screenIndex == 8) { //engineering menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) if (areaIndex == 2) {screenIndex = 3; textIndex = scriptStartPoints[3];} else screenIndex = 2; //back button
     else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
     else if (mouseX > 60 && mouseX < 445 && mouseY > 370 && mouseY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
     else if (mouseX > 60 && mouseX < 445 && mouseY > 570 && mouseY < 595 && playerMoney >= playerWeaponCost4) {playerMoney = playerMoney - playerWeaponCost4; playerWeaponLevel4++; calcWeaponStats();} //upgrade snipe weapon

@@ -85,6 +85,7 @@ JSONObject gamesaveJSON;
   loadSave(); //load the gamesave.sav file
   scanForStartPoints(); //scan the script for the segment start points
   calcWeaponStats(); //calculates weapon power from level and weapon upg cost
+  placeEnemies();
 }
 
  public void draw() {
@@ -333,11 +334,11 @@ JSONObject gamesaveJSON;
     rect(950, 425, 300, 75);
     rect(950, 525, 300, 75);
     //draw level select rects
-    rect(50, 25, 400, 75);
-    rect(50, 125, 400, 75);
-    rect(50, 225, 400, 75);
-    rect(50, 325, 400, 75);
-    rect(50, 425, 400, 75);
+    rect(50, 25, 700, 75);
+    rect(50, 125, 700, 75);
+    rect(50, 225, 700, 75);
+    rect(50, 325, 700, 75);
+    rect(50, 425, 700, 75);
     
     if (playerStatPoints > 0) { //check if stat points to spend
       fill(255, 0, 0);
@@ -354,11 +355,17 @@ JSONObject gamesaveJSON;
     text("engineering", 975, 375);
     text("settings", 975, 475);
     text("save game", 975, 575);
-    text("launch story", 75, 75);
-    text("level 00", 75, 175);
-    text("level 01", 75, 275);
-    text("test level", 75, 375);
-    text("test level 2", 75, 475);
+    if (areaIndex == 0) {
+      text("launch story", 75, 75);
+      text("level 00", 75, 175);
+      text("level 01", 75, 275);
+      text("test level", 75, 375);
+      text("test level 2", 75, 475);
+      
+    } else if (areaIndex == 1) { //first area
+      text("start the story", 75, 75);
+      text("go to debug level select", 75, 475);
+    } 
   } else if (screenIndex == 4) { //settings menu
     background(0);
     stroke(255);
@@ -509,7 +516,7 @@ JSONObject gamesaveJSON;
   checkForLevelUp(); //check if player leveled up
   if (levelIndex == 0) level0Completed = true;
   if (levelIndex == 1) level1Completed = true;
-  if (levelIndex == 1 && playerWeaponsUnlocked == 0) playerWeaponsUnlocked = 1; //unlock the mg after level 1 complete
+  if (levelIndex == 1 && playerWeaponsUnlocked == 0) {playerWeaponsUnlocked = 1; areaIndex = 2;} //unlock the mg after level 1 complete and set area to 2
   scanLevelEndCommands();
 }
 
@@ -1027,9 +1034,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 
  public void shoot() {
    if (enemyState != 2 && enemyX < 1250) {
-    if (enemyType == 0) { //check to see if enemy is basic and not dead
-    if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
-    float speed = 10; //higher numbers are slower
+    if (enemyType == 0) { //check to see if enemy is a drone and not dead
+    if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
+    float speed = 5; //higher numbers are slower
     int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
     int offsetY = 10; //account for incorrect aim
     float c = sqrt((abs(playerX - enemyX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
@@ -1041,26 +1048,26 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
-  } else if (enemyType == 1) { //check for enemy type
+  } else if (enemyType == 1) { //check for enemy type helicopter
     if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(enemyX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
-  } else if (enemyType == 2) { //check for enemy type
-    if (enemyTiming > 120) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +2, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(enemyX, enemyY, -5, -2, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+  } else if (enemyType == 2) { //check for enemy type small interceptor that shoots a spread shot
+    if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, +0.5f, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, -0.5f, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(enemyX - 70, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
-    } else if (enemyType == 3) { //check for enemy type
+    } else if (enemyType == 3) { //check for enemy type medium interceptor
     if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
       blts[findBullet()] = new bullet(enemyX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
-  } else if (enemyType == 4) { //check for enemy type
+  } else if (enemyType == 4) { //check for enemy type miniboss cargo ship
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
     basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, 0, 5, 50, 50, 50, 50, 0, 0, 0); //i have no idea why the x/y need to be cast as ints but they do
     basicE[findEnemy()] = new enemy(PApplet.parseInt(enemyX - 80), PApplet.parseInt(enemyY + 15), -2, -1, 5, 50, 50, 50, 50, 0, 0, 0);
@@ -1094,7 +1101,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       enemyState = 2;
       enemyHP = 0;
     }
-  } else if (enemyType == 6) {
+  } else if (enemyType == 6) { //small interceptor that shoots homing shots once it reaches the end of the screen
     if (enemyTiming > 20 && enemyX < 200) {
       float speed = 10; //higher numbers are slower
       int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
@@ -1108,7 +1115,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       blts[findBullet()] = new bullet(enemyX, enemyY, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
-  } else if (enemyType == 7) {
+  } else if (enemyType == 7) { //energy weapon
     if (enemyTiming > 120) {
       blts[findBullet()] = new bullet(enemyX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
@@ -1270,10 +1277,14 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (ch[3] == '-' && ch[4] == 'c') { //load a menu screen
     commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //load the index of the screen
     screenIndex = commandIndex; //jump to that screen
-  } else if (ch[3] == '-' && ch[4] == 's') { //load a 
+  } else if (ch[3] == '-' && ch[4] == 's') { //load a script segment
     commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
     screenIndex = 3; //set screen to vn
     textIndex = scriptStartPoints[commandIndex]; //set the text index to the selected start point
+  } else if (ch[3] == '-' && ch[4] == 'a') { //load a new area (jump to level select)
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
+    screenIndex = 2; //set screen to level select
+    areaIndex = commandIndex; //set area to selected area
   } else { //fallback
     screenIndex = 2;
   }
@@ -1319,8 +1330,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   shadow4 = loadImage("assets/ui/shadow4.png");
 }
  public void placeEnemies() {
-  if (levelIndex == 2) { //performance test level
-    genEnemy(0, 1000, 300);
+  if (levelIndex == 98) { //performance test level
+    genEnemy(2, 1000, 300);
     
     genEnemy(0, 1200, 200);
     genEnemy(0, 1200, 400);
@@ -1534,13 +1545,92 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     genEnemy(6, 3750, 200);
     genEnemy(6, 3800, 550);
     genEnemy(6, 3800, 150);
-  } else if (levelIndex == 3) {
+  } else if (levelIndex == 99) {
     genEnemy(7, 900, 100);
     genEnemy(7, 900, 200);
     genEnemy(7, 900, 300);
     genEnemy(7, 900, 400);
     genEnemy(7, 900, 500);
     genEnemy(7, 900, 600);
+  } else if (levelIndex == 2) { //3rd level
+    genEnemy(2, 900, 100);
+    genEnemy(2, 1100, 300);
+    genEnemy(2, 1300, 500);
+    
+    genEnemy(2, 1600, 500);
+    genEnemy(2, 1800, 300);
+    genEnemy(2, 2000, 100);
+    
+    genEnemy(2, 2600, 100);
+    genEnemy(2, 2650, 200);
+    genEnemy(2, 2600, 300);
+    genEnemy(2, 2650, 400);
+    genEnemy(2, 2600, 500);
+    
+    genEnemy(2, 3200, 50);
+    genEnemy(2, 3250, 150);
+    genEnemy(2, 3200, 250);
+    genEnemy(2, 3250, 350);
+    genEnemy(2, 3200, 450);
+    genEnemy(2, 3250, 550);
+    genEnemy(0, 3200, 600);
+    
+    genEnemy(2, 3600, 100);
+    genEnemy(2, 3650, 200);
+    genEnemy(2, 3600, 300);
+    genEnemy(2, 3650, 400);
+    genEnemy(2, 3600, 500);
+    
+    genEnemy(2, 4200, 500);
+    genEnemy(2, 4200, 300);
+    genEnemy(2, 4200, 100);
+    
+    genEnemy(2, 4600, 500);
+    genEnemy(2, 4600, 300);
+    genEnemy(2, 4600, 100);
+    
+    genEnemy(2, 5000, 500);
+    genEnemy(2, 5000, 300);
+    genEnemy(2, 5000, 100);
+    
+    genEnemy(2, 5600, 100);
+    genEnemy(2, 5650, 200);
+    genEnemy(2, 5600, 300);
+    genEnemy(2, 5650, 400);
+    genEnemy(2, 5600, 500);
+    genEnemy(0, 5600, 600);
+    
+    genEnemy(2, 6200, 50);
+    genEnemy(2, 6250, 150);
+    genEnemy(2, 6200, 250);
+    genEnemy(2, 6250, 350);
+    genEnemy(2, 6200, 450);
+    genEnemy(2, 6250, 550);
+    
+    genEnemy(2, 6600, 100);
+    genEnemy(2, 6650, 200);
+    genEnemy(2, 6600, 300);
+    genEnemy(2, 6650, 400);
+    genEnemy(2, 6600, 500);
+    genEnemy(0, 6600, 600);
+    
+    genEnemy(0, 7200, 500);
+    genEnemy(0, 7200, 300);
+    genEnemy(0, 7200, 100);
+    
+    genEnemy(0, 7600, 500);
+    genEnemy(0, 7600, 300);
+    genEnemy(0, 7600, 100);
+    
+    genEnemy(0, 8000, 500);
+    genEnemy(0, 8000, 300);
+    genEnemy(0, 8000, 100);
+    
+    genEnemy(1, 8600, 100);
+    genEnemy(1, 8650, 200);
+    genEnemy(1, 8600, 300);
+    genEnemy(1, 8650, 400);
+    genEnemy(1, 8600, 500);
   }
 }
 
@@ -1791,11 +1881,16 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
     else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) screenIndex = 3; //story button
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(2); //performance test level
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) levelStart(3); //performance test level 2
+    if (areaIndex == 0) { //debug area
+      if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 325 && mouseY < 400) levelStart(98); //performance test level
+      else if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
+    } else if (areaIndex == 1) { //first area
+      if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      if (mouseX > 50 && mouseX < 450 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
+    }
   } else if (screenIndex == 3) { //vn segments
     if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
       advanceVNText();
@@ -1813,7 +1908,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05f; playerStatPoints--;}
     if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
   } else if (screenIndex == 8) { //engineering menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
+    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) if (areaIndex == 2) {screenIndex = 3; textIndex = scriptStartPoints[3];} else screenIndex = 2; //back button
     else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
     else if (mouseX > 60 && mouseX < 445 && mouseY > 370 && mouseY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
     else if (mouseX > 60 && mouseX < 445 && mouseY > 570 && mouseY < 595 && playerMoney >= playerWeaponCost4) {playerMoney = playerMoney - playerWeaponCost4; playerWeaponLevel4++; calcWeaponStats();} //upgrade snipe weapon
@@ -1866,11 +1961,12 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 103; //the current build number, should be incremented manually each commit
+int buildNumber = 104; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
-int levelIndex = 0; //what level the player is playing, 2 is test level
+int levelIndex = 0; //what level the player is playing, 98/99 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
+int areaIndex = 1; //tells the level select what options to have, 0 is debug
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
 int basicECount = 300; //total enemy objects
@@ -2099,18 +2195,21 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
   }
 }
 
- public int scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
+ public void scanVNCommands() { //looks for commands in the script text, this is run when text is advanced
   char[] ch = textLines[textIndex-1].toCharArray();
   if (ch[0] == '-' && ch[1] == 'l') { //load level
     commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //read the level index to load
-    return 0; //the command to load a level
+    levelStart(commandIndex);
   } else if (ch[0] == '-' && ch[1] == 's') { //text start point
     textIndex++; //advance text to skip past start point line
   } else if (ch[0] == '-' && ch[1] == 'c') { //load a menu screen command
     commandIndex = (ch[3] - '0') * 10 + (ch[4] - '0'); //jump to menu screen
-    return 1; //the command to go to menu
+    screenIndex = commandIndex;
+  } else if (ch[3] == '-' && ch[4] == 'a') { //load a new area (jump to level select)
+    commandIndex = (ch[6] - '0') * 10 + (ch[7] - '0'); //jump to a script text section
+    screenIndex = 2; //set screen to level select
+    areaIndex = commandIndex; //set area to selected area
   }
-  return 255;
 }
 
  public void scanForStartPoints() {
@@ -2126,11 +2225,7 @@ boolean damageOnTop = false; //whether or not to render to damage on top of the 
 
  public void advanceVNText() { //moves vn forward, reads commands, etc
   textIndex++; //advance the text script
-  if (scanVNCommands() == 0) {//load level command
-    levelStart(commandIndex); //load a level
-  } else if (scanVNCommands() == 1) { //load menu command
-    screenIndex = commandIndex; //go to selected screen
-  }
+  scanVNCommands();
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key
 }

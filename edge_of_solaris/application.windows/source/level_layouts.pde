@@ -1,6 +1,6 @@
 void placeEnemies() {
-  if (levelIndex == 2) { //performance test level
-    genEnemy(0, 1000, 300);
+  if (levelIndex == 98) { //performance test level
+    genEnemy(2, 1000, 300);
     
     genEnemy(0, 1200, 200);
     genEnemy(0, 1200, 400);
@@ -214,13 +214,92 @@ void placeEnemies() {
     genEnemy(6, 3750, 200);
     genEnemy(6, 3800, 550);
     genEnemy(6, 3800, 150);
-  } else if (levelIndex == 3) {
+  } else if (levelIndex == 99) {
     genEnemy(7, 900, 100);
     genEnemy(7, 900, 200);
     genEnemy(7, 900, 300);
     genEnemy(7, 900, 400);
     genEnemy(7, 900, 500);
     genEnemy(7, 900, 600);
+  } else if (levelIndex == 2) { //3rd level
+    genEnemy(2, 900, 100);
+    genEnemy(2, 1100, 300);
+    genEnemy(2, 1300, 500);
+    
+    genEnemy(2, 1600, 500);
+    genEnemy(2, 1800, 300);
+    genEnemy(2, 2000, 100);
+    
+    genEnemy(2, 2600, 100);
+    genEnemy(2, 2650, 200);
+    genEnemy(2, 2600, 300);
+    genEnemy(2, 2650, 400);
+    genEnemy(2, 2600, 500);
+    
+    genEnemy(2, 3200, 50);
+    genEnemy(2, 3250, 150);
+    genEnemy(2, 3200, 250);
+    genEnemy(2, 3250, 350);
+    genEnemy(2, 3200, 450);
+    genEnemy(2, 3250, 550);
+    genEnemy(0, 3200, 600);
+    
+    genEnemy(2, 3600, 100);
+    genEnemy(2, 3650, 200);
+    genEnemy(2, 3600, 300);
+    genEnemy(2, 3650, 400);
+    genEnemy(2, 3600, 500);
+    
+    genEnemy(2, 4200, 500);
+    genEnemy(2, 4200, 300);
+    genEnemy(2, 4200, 100);
+    
+    genEnemy(2, 4600, 500);
+    genEnemy(2, 4600, 300);
+    genEnemy(2, 4600, 100);
+    
+    genEnemy(2, 5000, 500);
+    genEnemy(2, 5000, 300);
+    genEnemy(2, 5000, 100);
+    
+    genEnemy(2, 5600, 100);
+    genEnemy(2, 5650, 200);
+    genEnemy(2, 5600, 300);
+    genEnemy(2, 5650, 400);
+    genEnemy(2, 5600, 500);
+    genEnemy(0, 5600, 600);
+    
+    genEnemy(2, 6200, 50);
+    genEnemy(2, 6250, 150);
+    genEnemy(2, 6200, 250);
+    genEnemy(2, 6250, 350);
+    genEnemy(2, 6200, 450);
+    genEnemy(2, 6250, 550);
+    
+    genEnemy(2, 6600, 100);
+    genEnemy(2, 6650, 200);
+    genEnemy(2, 6600, 300);
+    genEnemy(2, 6650, 400);
+    genEnemy(2, 6600, 500);
+    genEnemy(0, 6600, 600);
+    
+    genEnemy(0, 7200, 500);
+    genEnemy(0, 7200, 300);
+    genEnemy(0, 7200, 100);
+    
+    genEnemy(0, 7600, 500);
+    genEnemy(0, 7600, 300);
+    genEnemy(0, 7600, 100);
+    
+    genEnemy(0, 8000, 500);
+    genEnemy(0, 8000, 300);
+    genEnemy(0, 8000, 100);
+    
+    genEnemy(1, 8600, 100);
+    genEnemy(1, 8650, 200);
+    genEnemy(1, 8600, 300);
+    genEnemy(1, 8650, 400);
+    genEnemy(1, 8600, 500);
   }
 }
 

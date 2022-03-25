@@ -1,9 +1,10 @@
 //game vars
-int buildNumber = 103; //the current build number, should be incremented manually each commit
+int buildNumber = 104; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering
-int levelIndex = 0; //what level the player is playing, 2 is test level
+int levelIndex = 0; //what level the player is playing, 98/99 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
+int areaIndex = 1; //tells the level select what options to have, 0 is debug
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
 int basicECount = 300; //total enemy objects

@@ -66,6 +66,7 @@ void setup(){
   loadSave(); //load the gamesave.sav file
   scanForStartPoints(); //scan the script for the segment start points
   calcWeaponStats(); //calculates weapon power from level and weapon upg cost
+  placeEnemies();
 }
 
 void draw() {
@@ -314,11 +315,11 @@ void drawUI() {
     rect(950, 425, 300, 75);
     rect(950, 525, 300, 75);
     //draw level select rects
-    rect(50, 25, 400, 75);
-    rect(50, 125, 400, 75);
-    rect(50, 225, 400, 75);
-    rect(50, 325, 400, 75);
-    rect(50, 425, 400, 75);
+    rect(50, 25, 700, 75);
+    rect(50, 125, 700, 75);
+    rect(50, 225, 700, 75);
+    rect(50, 325, 700, 75);
+    rect(50, 425, 700, 75);
     
     if (playerStatPoints > 0) { //check if stat points to spend
       fill(255, 0, 0);
@@ -335,11 +336,17 @@ void drawUI() {
     text("engineering", 975, 375);
     text("settings", 975, 475);
     text("save game", 975, 575);
-    text("launch story", 75, 75);
-    text("level 00", 75, 175);
-    text("level 01", 75, 275);
-    text("test level", 75, 375);
-    text("test level 2", 75, 475);
+    if (areaIndex == 0) {
+      text("launch story", 75, 75);
+      text("level 00", 75, 175);
+      text("level 01", 75, 275);
+      text("test level", 75, 375);
+      text("test level 2", 75, 475);
+      
+    } else if (areaIndex == 1) { //first area
+      text("start the story", 75, 75);
+      text("go to debug level select", 75, 475);
+    } 
   } else if (screenIndex == 4) { //settings menu
     background(0);
     stroke(255);
@@ -490,7 +497,7 @@ void levelEnd() { //called when the level should end
   checkForLevelUp(); //check if player leveled up
   if (levelIndex == 0) level0Completed = true;
   if (levelIndex == 1) level1Completed = true;
-  if (levelIndex == 1 && playerWeaponsUnlocked == 0) playerWeaponsUnlocked = 1; //unlock the mg after level 1 complete
+  if (levelIndex == 1 && playerWeaponsUnlocked == 0) {playerWeaponsUnlocked = 1; areaIndex = 2;} //unlock the mg after level 1 complete and set area to 2
   scanLevelEndCommands();
 }
 
