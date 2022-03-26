@@ -144,7 +144,7 @@ void shoot() {
     if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
     blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    //blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -0.5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;

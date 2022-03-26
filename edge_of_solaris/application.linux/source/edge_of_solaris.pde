@@ -502,7 +502,12 @@ void levelEnd() { //called when the level should end
   checkForLevelUp(); //check if player leveled up
   if (levelIndex == 0) level0Completed = true;
   if (levelIndex == 1) level1Completed = true;
-  if (levelIndex == 1 && playerWeaponsUnlocked == 0) {playerWeaponsUnlocked = 1; areaIndex = 2;} //unlock the mg after level 1 complete and set area to 2
+  if (levelIndex == 1) { //sets area to 2 (required for the back button into story bit)
+  areaIndex = 2;
+    if (playerWeaponsUnlocked == 0) { //basically don't set weapons unlocked to 1 if weapons are already unlocked, mostly for debug
+      playerWeaponsUnlocked = 1; 
+    }
+  } //unlock the mg after level 1 complete and set area to 2
   scanLevelEndCommands();
   } else {
     playerHP = playerHPMax; //restore player hp

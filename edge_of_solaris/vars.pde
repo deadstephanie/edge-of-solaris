@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 107; //the current build number, should be incremented manually each commit
+int buildNumber = 108; //the current build number, should be incremented manually each commit
 int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -70,7 +70,7 @@ int playerWeaponsUnlocked; //how many weapons have been unlocked 0-3
 //machine gun
 int playerWeaponCooldown0 = 2;
 float playerWeaponPower0;
-float playerWeaponBasePower0 = 0.5;
+float playerWeaponBasePower0 = 1;
 int playerWeaponHitX0 = 10;
 int playerWeaponHitY0 = 10;
 float playerWeaponMove0 = 0;

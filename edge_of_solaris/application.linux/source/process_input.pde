@@ -103,7 +103,6 @@ void processInput() {
     if (keyInput[17] == true) {screenIndex = 2; levelEditorMode = false;} //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
     if (keyInput[19] == true) { //playtest level
-      println("test");
       screenIndex = 0;
       levelEditorMode = true;
       //redraw enemies
@@ -219,7 +218,7 @@ void mousePressed() {
       else if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
     } else if (areaIndex == 1) { //first area
       if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) {screenIndex = 9; initObjects();} //level editor button
+      if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) {screenIndex = 9; initObjects(); scrollX = 0;} //level editor button
       if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
     }
   } else if (screenIndex == 3) { //vn segments
