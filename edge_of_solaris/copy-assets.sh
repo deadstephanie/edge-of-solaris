@@ -5,3 +5,5 @@ cp settings.json application.windows
 cp settings.json application.linux
 cp gamesave.json application.windows
 cp gamesave.json application.linux
+cp level-editor-save.json application.windows
+cp level-editor-save.json application.linux

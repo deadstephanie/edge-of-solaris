@@ -39,6 +39,9 @@ void update() {
       enemySpeedY = (sin((enemyMoveTiming / 1)) * 1);
       enemyMoveTiming = enemyMoveTiming + 0.025;
       break;
+      case 3:
+      //enemyMoveTiming++;
+      break;
       case 4:
       if (screenIndex != 9) { //only run if not in level editor mode
         if (enemyX <= 1000) enemyX = 1000;
@@ -119,9 +122,23 @@ void shoot() {
     enemyTiming = 0;
     }
   } else if (enemyType == 1) { //check for enemy type helicopter
-    if (enemyTiming > 80) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(displayX - 50, enemyY + 13, -5, 0, 200, 50, 5, 10 * enemyBalanceDMG, 0);
+    if (enemyTiming > 10) { //check to make sure enough time has passed since last shot
+    if (enemyMoveTiming > 40) {
+    float speed = 5; //higher numbers are slower
+    int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
+    int offsetY = 10; //account for incorrect aim
+    float c = sqrt((abs(playerX - displayX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
+    c = c * speed; //scale c (distance hypotenuse) to speed
+    float speedX = (playerX - displayX + offsetX);
+    float speedY = (playerY - enemyY + offsetY);
+    speedX = speedX / (c);
+    speedY = speedY / (c);
+    blts[findBullet()] = new bullet(displayX - 100, enemyY + 20, speedX, speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 100, enemyY + 20, speedX, -speedY, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
+    }
+    if (enemyMoveTiming > 43) enemyMoveTiming = 0;
+    enemyMoveTiming++;
     }
   } else if (enemyType == 2) { //check for enemy type small interceptor that shoots a spread shot
     if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
@@ -133,9 +150,13 @@ void shoot() {
     enemyTiming = 0;
     }
     } else if (enemyType == 3) { //check for enemy type medium interceptor
-    if (enemyTiming > 30) { //check to make sure enough time has passed since last shot
-      blts[findBullet()] = new bullet(displayX - 40, enemyY + 13, -10, 0, 200, 10, 5, 5 * enemyBalanceDMG, 0);
+    if (enemyTiming > 2) { //check to make sure enough time has passed since last shot
+      if (enemyMoveTiming > 40) {
+      blts[findBullet()] = new bullet(displayX - 80, enemyY + 17, -10, random(1)-0.5, 200, 10, 5, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
+      }
+      if (enemyMoveTiming > 44) enemyMoveTiming = 0;
+      enemyMoveTiming++;
     }
   } else if (enemyType == 4) { //check for enemy type miniboss cargo ship
     if (enemyTiming > 200) { //check to make sure enough time has passed since last shot
