@@ -1,0 +1,17 @@
+{
+  "playerShieldMax": 50,
+  "playerAttack": 1,
+  "playerDefense": 1,
+  "playerMoney": 500,
+  "playerHPMax": 100,
+  "playerXP": 1,
+  "playerStatPoints": 0,
+  "playerCooldown": 1,
+  "playerWeaponLevel0": 1,
+  "playerWeaponLevel1": 1,
+  "playerWeaponLevel2": 1,
+  "playerWeaponLevel4": 1,
+  "playerWeaponsUnlocked": 3,
+  "level0Completed": false,
+  "level1Completed": false,
+}
