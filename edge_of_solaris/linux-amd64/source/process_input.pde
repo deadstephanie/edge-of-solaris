@@ -1,9 +1,13 @@
 void processInput() {
   if (keyInput[4] == true) intentConfirm(); //space key pressed
-  if (keyInput[0] == true) intentMove(0); //W key pressed
-  if (keyInput[2] == true) intentMove(1); //D key pressed
-  if (keyInput[1] == true) intentMove(2); //S key pressed
-  if (keyInput[3] == true) intentMove(3); //A key pressed
+  if (usingDPAD == false && usingStick == false) { //do not process keyboard movement if other movement being used
+    if (keyInput[0] == true) intentMove(0); //W key pressed
+    if (keyInput[2] == true) intentMove(1); //D key pressed
+    if (keyInput[1] == true) intentMove(2); //S key pressed
+    if (keyInput[3] == true) intentMove(3); //A key pressed
+  }
+  if (keyInput[8] == true) intentPause(); //P key pressed
+  if (keyInput[7] == true) intentRestart(); //R key pressed
   
   if (screenIndex == 0 && paused == false) { //in game and not paused
       if (mousePressed && (mouseButton == LEFT)) { //shoot with LMB
@@ -38,8 +42,8 @@ void processInput() {
         playerWeapon = 1;
       }
       if (keyInput[8] == true) { //p, pause game
-        paused = true;
-        keyInput[8] = false;
+        //paused = true;
+        //keyInput[8] = false;
       }
       if (keyInput[9] == true) { //z, secondary weapon 1
         playerSecondWeapon = 0;
@@ -62,8 +66,8 @@ void processInput() {
   } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
         if (playerState != 255) { //check to ensure player is not dead
           if (keyInput[8] == true) { //p key
-            paused = false;
-            keyInput[8] = false;
+            //paused = false;
+            //keyInput[8] = false;
           } 
         } else {
           if (keyInput[7] == true || keyInput[4] == true) { //r key or space key
@@ -89,11 +93,11 @@ void processInput() {
           }
         }
         
-  } else if (screenIndex == 1) {
+  } else if (screenIndex == 1) { //title screen
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
   
-  } else if (screenIndex == 3) {
+  } else if (screenIndex == 3) { //vn
     if (keyInput[4] == true) {
       //advanceVNText();
     }
@@ -281,25 +285,44 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
     if (currController.isButtonPressed(ControllerButton.A)) {
       intentConfirm();
     } else { //if A not pressed
-      vnAdvance = true; //release A button, allow vn to advance again
+      btnAdvanceA = true; //release A button, allow vn to advance again
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_UP)) {
+      usingDPAD = true;
       intentMove(0);
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_RIGHT)) {
+      usingDPAD = true;
       intentMove(1);
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_DOWN)) {
+      usingDPAD = true;
       intentMove(2);
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_LEFT)) {
+      usingDPAD = true;
       intentMove(3);
+    }
+    if (usingDPAD == false && paused == false) { //only allow stick movement if dpad not pressed this frame and game not paused
+      if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > 0.05) { //deadzone
+        usingStick = true;
+        playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
+      }
+      if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > 0.05) { //deadzone
+        usingStick = true;
+        playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+      }
+      
     }
     if (currController.isButtonPressed(ControllerButton.B)) {
       
     }
+    if (currController.isButtonPressed(ControllerButton.START)) {
+      intentPause();
+    } else btnAdvancePause = true;
   } catch (ControllerUnpluggedException e) {   
-    vnAdvance = true; //vn advance always true if no controller
+    btnAdvanceA = true; //vn advance always true if no controller
+    btnAdvancePause = true; //always true if no controller
   }
 }
 
@@ -308,10 +331,17 @@ void intentConfirm() { //called when space/A are pressed
     if (screenIndex == 0) { //in game
       playerShoot();
     } else if (screenIndex == 3) { //vn segments
-      if (vnAdvance == true) { //used to prevent skipping segments by holding A
+      if (btnAdvanceA == true) { //used to prevent skipping segments by holding A
         advanceVNText();
-        vnAdvance = false; //latch A button
+        btnAdvanceA = false; //latch A button
       }
+    }
+  } else { //if paused
+    if (levelEnd == true && btnAdvanceA == true) {
+      levelEnd();
+      btnAdvanceA = false;
+    } else if (playerState == 255) { //dead
+      intentRestart(); //restart level
     }
   }
 }
@@ -323,15 +353,49 @@ void intentMove(int direction) {
   if (screenIndex == 0) { //gameplay
     if (paused == false) { //ensure game is not paused
       if (direction == 0) { //up direction
-        if (playerY > 10) playerY = playerY - (playerMoveY * playerMoveBoost);
+        playerY = playerY - (playerMoveY * playerMoveBoost);
       } if (direction == 2) { //down direction
-        if (playerY < 600) playerY = playerY + (playerMoveY * playerMoveBoost);
+        playerY = playerY + (playerMoveY * playerMoveBoost);
       }
       if (direction == 1) { //right direction
-        if (playerX < 1200) playerX = playerX + (playerMoveX * playerMoveBoost);
+        playerX = playerX + (playerMoveX * playerMoveBoost);
       } if (direction == 3) { //left direction
-        if (playerX > 20) playerX = playerX - (playerMoveX * playerMoveBoost);
+        playerX = playerX - (playerMoveX * playerMoveBoost);
       }
+      
+      //constrain player movement
+      if (playerY < 10) playerY = 10;
+      else if (playerY > 600) playerY = 600;
+      if (playerX > 1200) playerX = 1200;
+      else if (playerX < 20) playerX = 20;
+    } else { //if paused
+
+    }
+  }
+}
+
+void intentPause() { //P or Start btn
+  if (screenIndex == 0) { //gameplay screen
+    if (btnAdvancePause == true) {
+      if (paused == false) { //if not paused
+        paused = true; //pause game
+        btnAdvancePause = false; //latch start btn
+        keyInput[8] = false; //latch p key
+      } else { //if paused
+        paused = false; //unpuase game
+        btnAdvancePause = false; //latch start btn
+        keyInput[8] = false; //latch p key
+      }
+    }
+  }
+}
+
+void intentRestart() {
+  if (screenIndex == 0) { //gameplay screen
+    if (paused == true) { //if game is paused
+      if (levelEditorMode == true) loadLevel(); //load level editor level
+      else levelStart(levelIndex); //normal load level
+      paused = false; //unpause game
     }
   }
 }

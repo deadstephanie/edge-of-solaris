@@ -92,7 +92,8 @@ void setup(){
 }
 
 void draw() {
-  processInput();
+  controllerSupport(); //detects controllers, controller movement,etc
+  processInput(); //process keyboard input
   drawFrame();
   drawUI();
   if (screenIndex == 3) {
@@ -106,7 +107,8 @@ void draw() {
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
   }
-  controllerSupport(); //detects controllers, controller movement,etc
+  usingDPAD = false; //release dpad
+  usingStick = false; //release stick
 }
 
 void drawFrame() {
@@ -157,8 +159,9 @@ void drawFrame() {
           break; //break out of loop for efficiency
         }else if (i == (basicECount - 1)) {
           levelEnd = true; //switch to level end screen
-          keyInput[4] = false; //release space key
           paused = true; //put game in paused state
+          keyInput[4] = false; //latch space key
+          btnAdvanceA = false; //latch a btn
           break; //break out of loop for efficiency
         }
       }
@@ -179,7 +182,8 @@ void drawFrame() {
       paused = true; //pause game
       playerState = 255; //set player as dead
       playerAnimTiming = 30; //set timer for death anim
-      keyInput[4] = false; //unset space key
+      keyInput[4] = false; //latch space key
+      btnAdvanceA = false; //latch A btn
     }
     
     //render the engine glow effect
@@ -256,8 +260,7 @@ void drawFrame() {
       fill(255, 50, 50);
       text("Level Complete", 550, 350);
       textSize(48);
-      text("Press Space to continue", 490, 450);
-      if (keyInput[4] == true) levelEnd();
+      text("Press Space or A to continue", 490, 450);
     } else { //if paused, player not dead and level not complete
       textSize(60);
       fill(255, 50, 50);

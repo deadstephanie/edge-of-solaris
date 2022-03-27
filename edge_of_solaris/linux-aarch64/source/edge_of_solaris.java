@@ -125,7 +125,8 @@ ControllerManager controllers = new ControllerManager();
 }
 
  public void draw() {
-  processInput();
+  controllerSupport(); //detects controllers, controller movement,etc
+  processInput(); //process keyboard input
   drawFrame();
   drawUI();
   if (screenIndex == 3) {
@@ -139,7 +140,8 @@ ControllerManager controllers = new ControllerManager();
     if (timing < 255) timing++;
     if (secondTiming < 255) secondTiming++;
   }
-  controllerSupport(); //detects controllers, controller movement,etc
+  usingDPAD = false; //release dpad
+  usingStick = false; //release stick
 }
 
  public void drawFrame() {
@@ -190,8 +192,9 @@ ControllerManager controllers = new ControllerManager();
           break; //break out of loop for efficiency
         }else if (i == (basicECount - 1)) {
           levelEnd = true; //switch to level end screen
-          keyInput[4] = false; //release space key
           paused = true; //put game in paused state
+          keyInput[4] = false; //latch space key
+          btnAdvanceA = false; //latch a btn
           break; //break out of loop for efficiency
         }
       }
@@ -212,7 +215,8 @@ ControllerManager controllers = new ControllerManager();
       paused = true; //pause game
       playerState = 255; //set player as dead
       playerAnimTiming = 30; //set timer for death anim
-      keyInput[4] = false; //unset space key
+      keyInput[4] = false; //latch space key
+      btnAdvanceA = false; //latch A btn
     }
     
     //render the engine glow effect
@@ -289,8 +293,7 @@ ControllerManager controllers = new ControllerManager();
       fill(255, 50, 50);
       text("Level Complete", 550, 350);
       textSize(48);
-      text("Press Space to continue", 490, 450);
-      if (keyInput[4] == true) levelEnd();
+      text("Press Space or A to continue", 490, 450);
     } else { //if paused, player not dead and level not complete
       textSize(60);
       fill(255, 50, 50);
@@ -1948,10 +1951,14 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
  public void processInput() {
   if (keyInput[4] == true) intentConfirm(); //space key pressed
-  if (keyInput[0] == true) intentMove(0); //W key pressed
-  if (keyInput[2] == true) intentMove(1); //D key pressed
-  if (keyInput[1] == true) intentMove(2); //S key pressed
-  if (keyInput[3] == true) intentMove(3); //A key pressed
+  if (usingDPAD == false && usingStick == false) { //do not process keyboard movement if other movement being used
+    if (keyInput[0] == true) intentMove(0); //W key pressed
+    if (keyInput[2] == true) intentMove(1); //D key pressed
+    if (keyInput[1] == true) intentMove(2); //S key pressed
+    if (keyInput[3] == true) intentMove(3); //A key pressed
+  }
+  if (keyInput[8] == true) intentPause(); //P key pressed
+  if (keyInput[7] == true) intentRestart(); //R key pressed
   
   if (screenIndex == 0 && paused == false) { //in game and not paused
       if (mousePressed && (mouseButton == LEFT)) { //shoot with LMB
@@ -1986,8 +1993,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         playerWeapon = 1;
       }
       if (keyInput[8] == true) { //p, pause game
-        paused = true;
-        keyInput[8] = false;
+        //paused = true;
+        //keyInput[8] = false;
       }
       if (keyInput[9] == true) { //z, secondary weapon 1
         playerSecondWeapon = 0;
@@ -2010,8 +2017,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   } else if (screenIndex == 0 && paused == true && levelEnd == false) { //if game is paused and level is not complete
         if (playerState != 255) { //check to ensure player is not dead
           if (keyInput[8] == true) { //p key
-            paused = false;
-            keyInput[8] = false;
+            //paused = false;
+            //keyInput[8] = false;
           } 
         } else {
           if (keyInput[7] == true || keyInput[4] == true) { //r key or space key
@@ -2037,11 +2044,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
           }
         }
         
-  } else if (screenIndex == 1) {
+  } else if (screenIndex == 1) { //title screen
     if (keyInput[4] == true) screenIndex = 2;
   } else if (screenIndex == 2) {
   
-  } else if (screenIndex == 3) {
+  } else if (screenIndex == 3) { //vn
     if (keyInput[4] == true) {
       //advanceVNText();
     }
@@ -2229,25 +2236,44 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (currController.isButtonPressed(ControllerButton.A)) {
       intentConfirm();
     } else { //if A not pressed
-      vnAdvance = true; //release A button, allow vn to advance again
+      btnAdvanceA = true; //release A button, allow vn to advance again
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_UP)) {
+      usingDPAD = true;
       intentMove(0);
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_RIGHT)) {
+      usingDPAD = true;
       intentMove(1);
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_DOWN)) {
+      usingDPAD = true;
       intentMove(2);
     }
     if (currController.isButtonPressed(ControllerButton.DPAD_LEFT)) {
+      usingDPAD = true;
       intentMove(3);
+    }
+    if (usingDPAD == false && paused == false) { //only allow stick movement if dpad not pressed this frame and game not paused
+      if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > 0.05f) { //deadzone
+        usingStick = true;
+        playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
+      }
+      if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > 0.05f) { //deadzone
+        usingStick = true;
+        playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+      }
+      
     }
     if (currController.isButtonPressed(ControllerButton.B)) {
       
     }
+    if (currController.isButtonPressed(ControllerButton.START)) {
+      intentPause();
+    } else btnAdvancePause = true;
   } catch (ControllerUnpluggedException e) {   
-    vnAdvance = true; //vn advance always true if no controller
+    btnAdvanceA = true; //vn advance always true if no controller
+    btnAdvancePause = true; //always true if no controller
   }
 }
 
@@ -2256,10 +2282,17 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (screenIndex == 0) { //in game
       playerShoot();
     } else if (screenIndex == 3) { //vn segments
-      if (vnAdvance == true) { //used to prevent skipping segments by holding A
+      if (btnAdvanceA == true) { //used to prevent skipping segments by holding A
         advanceVNText();
-        vnAdvance = false; //latch A button
+        btnAdvanceA = false; //latch A button
       }
+    }
+  } else { //if paused
+    if (levelEnd == true && btnAdvanceA == true) {
+      levelEnd();
+      btnAdvanceA = false;
+    } else if (playerState == 255) { //dead
+      intentRestart(); //restart level
     }
   }
 }
@@ -2271,19 +2304,52 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (screenIndex == 0) { //gameplay
     if (paused == false) { //ensure game is not paused
       if (direction == 0) { //up direction
-        if (playerY > 10) playerY = playerY - (playerMoveY * playerMoveBoost);
+        playerY = playerY - (playerMoveY * playerMoveBoost);
       } if (direction == 2) { //down direction
-        if (playerY < 600) playerY = playerY + (playerMoveY * playerMoveBoost);
+        playerY = playerY + (playerMoveY * playerMoveBoost);
       }
       if (direction == 1) { //right direction
-        if (playerX < 1200) playerX = playerX + (playerMoveX * playerMoveBoost);
+        playerX = playerX + (playerMoveX * playerMoveBoost);
       } if (direction == 3) { //left direction
-        if (playerX > 20) playerX = playerX - (playerMoveX * playerMoveBoost);
+        playerX = playerX - (playerMoveX * playerMoveBoost);
+      }
+      
+      //constrain player movement
+      if (playerY < 10) playerY = 10;
+      else if (playerY > 600) playerY = 600;
+      if (playerX > 1200) playerX = 1200;
+      else if (playerX < 20) playerX = 20;
+    } else { //if paused
+
+    }
+  }
+}
+
+ public void intentPause() { //P or Start btn
+  if (screenIndex == 0) { //gameplay screen
+    if (btnAdvancePause == true) {
+      if (paused == false) { //if not paused
+        paused = true; //pause game
+        btnAdvancePause = false; //latch start btn
+        keyInput[8] = false; //latch p key
+      } else { //if paused
+        paused = false; //unpuase game
+        btnAdvancePause = false; //latch start btn
+        keyInput[8] = false; //latch p key
       }
     }
   }
 }
 
+ public void intentRestart() {
+  if (screenIndex == 0) { //gameplay screen
+    if (paused == true) { //if game is paused
+      if (levelEditorMode == true) loadLevel(); //load level editor level
+      else levelStart(levelIndex); //normal load level
+      paused = false; //unpause game
+    }
+  }
+}
 class starsBG {
   int starX;
   int starY;
@@ -2330,7 +2396,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 109; //the current build number, should be incremented manually each commit
+int buildNumber = 110; //the current build number, should be incremented manually each commit
 int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -2452,7 +2518,6 @@ int commandIndex = 0; //used by the vn command handler to define which level sho
 boolean vnScreenChanges = true; //used to denote whether or not a screen update is needed on the vn segments as to not render frames when nothing has changed
 int scriptLength = 0; //used to determine length of script file when its loaded
 int[] scriptStartPoints = new int[999]; //used to determine the start point of each script
-boolean vnAdvance = true; //whether or not to advance vn text, ie this prevents holding the A, set to true after A is released
 
 //animation timing vars
 int playerEngineTimer = 0;
@@ -2470,6 +2535,12 @@ int levelEnemyIndex = 0; //used for writing to the arrays
 int levelEnemyTypeSelected = 0; //used to know which enemy type is selected
 float displayX; //used for scrolling enemies
 boolean levelEditorMode; //used for playtesting the level
+
+//controll vars
+boolean usingStick = false; //if using joystick controls this frame
+boolean usingDPAD = false; //if using DPAD this frame
+boolean btnAdvanceA = true; //whether or not to advance, ie this prevents holding the A/SPACE, set to true after A/SPACE is released
+boolean btnAdvancePause = true; //same as btnAdvanceA but for start/P button
  public void drawVN() {
   if (vnScreenChanges == true) {
   background(0);

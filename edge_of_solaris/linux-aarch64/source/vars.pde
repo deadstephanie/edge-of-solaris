@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 109; //the current build number, should be incremented manually each commit
+int buildNumber = 110; //the current build number, should be incremented manually each commit
 int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -121,7 +121,6 @@ int commandIndex = 0; //used by the vn command handler to define which level sho
 boolean vnScreenChanges = true; //used to denote whether or not a screen update is needed on the vn segments as to not render frames when nothing has changed
 int scriptLength = 0; //used to determine length of script file when its loaded
 int[] scriptStartPoints = new int[999]; //used to determine the start point of each script
-boolean vnAdvance = true; //whether or not to advance vn text, ie this prevents holding the A, set to true after A is released
 
 //animation timing vars
 int playerEngineTimer = 0;
@@ -139,3 +138,9 @@ int levelEnemyIndex = 0; //used for writing to the arrays
 int levelEnemyTypeSelected = 0; //used to know which enemy type is selected
 float displayX; //used for scrolling enemies
 boolean levelEditorMode; //used for playtesting the level
+
+//controll vars
+boolean usingStick = false; //if using joystick controls this frame
+boolean usingDPAD = false; //if using DPAD this frame
+boolean btnAdvanceA = true; //whether or not to advance, ie this prevents holding the A/SPACE, set to true after A/SPACE is released
+boolean btnAdvancePause = true; //same as btnAdvanceA but for start/P button
