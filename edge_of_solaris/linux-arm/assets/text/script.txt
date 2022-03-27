@@ -32,7 +32,7 @@
 00 12 1 Esence: Why are you always so serious? Go talk to Veda in engineering she has a new weapon for you.
 01 30 0 Zerina: Hey Veda, what have you been working on?
 00 32 1 Veda: Oh, hey Zeri! I have a a sweet new weapon for you. Its a machine gun.
-00 33 1 Veda: The rate of fire is insane but the accuracy kinda sucks. You can switch weapons with the number keys.
+00 33 1 Veda: The rate of fire is insane but the accuracy kinda sucks. You can switch weapons with the number keys or LB/RB.
 00 32 1 Veda: In the Engineering bay you can view your weapon stats and upgrade your weapons, it all costs money of course, but I'll cut you a deal hehe
 -c 08
 -s 03

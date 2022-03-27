@@ -334,8 +334,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 170;
     basicE[enemyIndex].enemyHitY = 70;
-    basicE[enemyIndex].enemyHP = 40 * enemyBalanceHP;
-    basicE[enemyIndex].enemyHPMax = 40 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
   } else if (type == 3) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;

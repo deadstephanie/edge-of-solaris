@@ -1164,11 +1164,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   } else if (enemyType == 2) { //check for enemy type small interceptor that shoots a spread shot
     if (enemyTiming > 60) { //check to make sure enough time has passed since last shot
-    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +0.5f, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    //blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -0.5f, 200, 10, 10, 10 * enemyBalanceDMG, 0);
-    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -1, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, +5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, -5, -5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, +5, 0, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, +5, +5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
+    blts[findBullet()] = new bullet(displayX - 70, enemyY, +5, -5, 200, 10, 10, 10 * enemyBalanceDMG, 0);
     enemyTiming = 0;
     }
     } else if (enemyType == 3) { //check for enemy type medium interceptor
@@ -1824,8 +1824,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemyType = type;
     basicE[enemyIndex].enemyHitX = 170;
     basicE[enemyIndex].enemyHitY = 70;
-    basicE[enemyIndex].enemyHP = 40 * enemyBalanceHP;
-    basicE[enemyIndex].enemyHPMax = 40 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
   } else if (type == 3) {
     basicE[enemyIndex].enemyX = x;
     basicE[enemyIndex].enemyY = y;
@@ -2576,7 +2576,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 111; //the current build number, should be incremented manually each commit
+int buildNumber = 112; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
