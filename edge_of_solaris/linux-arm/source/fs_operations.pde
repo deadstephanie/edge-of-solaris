@@ -51,8 +51,9 @@ void loadSave() { //load the player data save file
   playerWeaponLevel0 = gamesaveJSON.getInt("playerWeaponLevel0");
   playerWeaponLevel1 = gamesaveJSON.getInt("playerWeaponLevel1");
   playerWeaponLevel2 = gamesaveJSON.getInt("playerWeaponLevel2");
-  playerWeaponLevel4 = gamesaveJSON.getInt("playerWeaponLevel4");
+  playerWeaponLevel3 = gamesaveJSON.getInt("playerWeaponLevel3");
   playerWeaponsUnlocked = gamesaveJSON.getInt("playerWeaponsUnlocked");
+  playerSecondariesUnlocked = gamesaveJSON.getInt("playerSecondariesUnlocked");
   level0Completed = gamesaveJSON.getBoolean("level0Completed");
   level1Completed = gamesaveJSON.getBoolean("level1Completed");
   
@@ -70,8 +71,9 @@ void saveSave() { //save the player data save file
   gamesaveJSON.setInt("playerWeaponLevel0", playerWeaponLevel0);
   gamesaveJSON.setInt("playerWeaponLevel1", playerWeaponLevel1);
   gamesaveJSON.setInt("playerWeaponLevel2", playerWeaponLevel2);
-  gamesaveJSON.setInt("playerWeaponLevel4", playerWeaponLevel4);
+  gamesaveJSON.setInt("playerWeaponLevel3", playerWeaponLevel3);
   gamesaveJSON.setInt("playerWeaponsUnlocked", playerWeaponsUnlocked);
+  gamesaveJSON.setInt("playerSecondariesUnlocked", playerSecondariesUnlocked);
   gamesaveJSON.setBoolean("level0Completed", level0Completed);
   gamesaveJSON.setBoolean("level1Completed", level1Completed);
   

@@ -1,6 +1,6 @@
 //game vars
-int buildNumber = 110; //the current build number, should be incremented manually each commit
-int screenIndex = 2; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
+int buildNumber = 111; //the current build number, should be incremented manually each commit
+int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
 int levelType = 1; //0 = over land, 1 = over water, 2 = space
@@ -26,6 +26,7 @@ boolean useCWD = false; //whether or not to use CWD for file loading/saving (lin
 int levelEndCheckTimer = 0; //timer to check periodically to see if all enemies are dead
 boolean levelEnd = false; //true when on the level end screen
 int shadowFactor = 0; //don't ask
+boolean shadowDisp = false;
 boolean level0Completed; //if level0 has been completed or not
 boolean level1Completed; //if level1 has been completed or not
 
@@ -64,6 +65,7 @@ int playerLevel; //level of player
 float playerMoney; //amount of money player has
 int playerStatPoints; //stat points to allocate
 int playerWeaponsUnlocked; //how many weapons have been unlocked 0-3
+int playerSecondariesUnlocked; //how many secondary weapons player has unlocked 0-1
 
 
 //player weapon vars
@@ -89,11 +91,11 @@ float playerWeaponBasePower2 = 5;
 int playerWeaponLevel2;
 int playerWeaponCost2;
 //snipe shot
-int playerWeaponCooldown4 = 30;
-float playerWeaponPower4;
-float playerWeaponBasePower4 = 5;
-int playerWeaponLevel4;
-int playerWeaponCost4;
+int playerWeaponCooldown3 = 30;
+float playerWeaponPower3;
+float playerWeaponBasePower3 = 5;
+int playerWeaponLevel3;
+int playerWeaponCost3;
 //basic secondary rocket
 int playerWeaponCooldown100 = 40;
 float playerWeaponPower100 = 10;
@@ -139,8 +141,20 @@ int levelEnemyTypeSelected = 0; //used to know which enemy type is selected
 float displayX; //used for scrolling enemies
 boolean levelEditorMode; //used for playtesting the level
 
-//controll vars
+//controller vars
 boolean usingStick = false; //if using joystick controls this frame
 boolean usingDPAD = false; //if using DPAD this frame
 boolean btnAdvanceA = true; //whether or not to advance, ie this prevents holding the A/SPACE, set to true after A/SPACE is released
 boolean btnAdvancePause = true; //same as btnAdvanceA but for start/P button
+boolean btnAdvanceWpn = true; //same as btnAdvanceA but for weapon switching with the bumpers
+boolean btnAdvanceSec = true; //like the rest but for secondary weapon switching with the triggers
+boolean btnAdvanceMenu = true; //used for the DPAD latching for the menu
+boolean btnAdvanceCancel = true; //same but for cancel/B button
+
+//menu vars
+int menuIndexY = 0; //used to indicate which menu item is selected
+int menuIndexX = 0;
+int[][] menuLimits = {
+                        {5, 6},
+                        {4, 0}
+                     };

@@ -94,8 +94,11 @@ void setup(){
 void draw() {
   controllerSupport(); //detects controllers, controller movement,etc
   processInput(); //process keyboard input
+  playerX = constrain(playerX, 20, 1200); //constrain playerX to playfield
+  playerY = constrain(playerY, 10, 600); //constrain playerY to playfield
   drawFrame();
   drawUI();
+  if (shadowDisp == true) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++; shadowDisp = false;}
   if (screenIndex == 3) {
     fill(0);
     rect(0, 0, 100, 50);
@@ -250,7 +253,7 @@ void drawFrame() {
       fill(255, 50, 50);
       text("YOU DIED", 550, 350);
       textSize(48);
-      text("Press R or Space to restart", 400, 450);
+      text("Press R, Space or A to restart", 400, 450);
       
     } else {
       if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
@@ -325,7 +328,7 @@ void drawUI() {
     textSize(64);
     text("new game", 500, 400);
     text("continue", 500, 500);
-    text("press space to continue (temp)", 50, 650);
+    text("press space or A to continue (temp)", 50, 650);
     textSize(24);
     text("build " + buildNumber, 1175, 700);
   } else if (screenIndex == 2) { //level select
@@ -334,17 +337,28 @@ void drawUI() {
     strokeWeight(10);
     fill(50, 0, 50);
     //draw menu rects
+    if (menuIndexX == 1 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
     rect(950, 25, 300, 75);
+    if (menuIndexX == 1 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
     rect(950, 125, 300, 75);
+    if (menuIndexX == 1 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
     rect(950, 225, 300, 75);
+    if (menuIndexX == 1 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
     rect(950, 325, 300, 75);
+    if (menuIndexX == 1 && menuIndexY == 4) fill(20, 100, 20); else fill(50, 0, 50);
     rect(950, 425, 300, 75);
+    if (menuIndexX == 1 && menuIndexY == 5) fill(20, 100, 20); else fill(50, 0, 50);
     rect(950, 525, 300, 75);
     //draw level select rects
+    if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 25, 700, 75);
+    if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 125, 700, 75);
+    if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 225, 700, 75);
+    if (menuIndexX == 0 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 325, 700, 75);
+    if (menuIndexX == 0 && menuIndexY == 4) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 425, 700, 75);
     
     if (playerStatPoints > 0) { //check if stat points to spend
@@ -381,18 +395,21 @@ void drawUI() {
     fill(50, 0, 50);
     //draw menu rects
     rect(950, 25, 300, 75);
+    if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 25, 400, 75);
     if (oneHitMode == true) {
       fill(0, 150, 0);
-    }
+    } else fill(50, 0, 50);
     rect(475, 25, 75, 75);
     fill(50, 0, 50); // reset color
     if (damageOnTop == true) {
       fill(0, 150, 0);
-    }
+    } else fill(50, 0, 50);
     rect(475, 125, 75, 75);
     fill(50, 0, 50); // reset color
+    if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 125, 400, 75);
+    if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
     rect(50, 225, 400, 75);
     //draw options button
     noStroke();
@@ -421,11 +438,15 @@ void drawUI() {
     rect(475, 325, 125, 75);
     rect(475, 425, 125, 75);
     
+    if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
     rect(625, 125, 75, 75);
+    if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
     rect(625, 225, 75, 75);
+    if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
     rect(625, 325, 75, 75);
+    if (menuIndexX == 0 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
     rect(625, 425, 75, 75);
-    //draw options button
+
     noStroke();
     fill(255);
     textSize(48);
@@ -482,8 +503,9 @@ void drawUI() {
     text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
     text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1 * (60/playerWeaponCooldown2)), 60, 145);
     text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
+    if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20);
     text("Click here to Upgrade Weapon: $" + playerWeaponCost2, 60, 185); 
-    
+    fill(255);
     if (playerWeaponsUnlocked >= 1) {
       text("Machine Gun (per bullet stats)", 60, 245);
       text("Bullet Count: 1", 60, 265);
@@ -492,16 +514,20 @@ void drawUI() {
       text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
       text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1 * (60/playerWeaponCooldown0)), 60, 345);
       text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
+      if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20);
       text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60, 385); 
+      fill(255);
       if (playerWeaponsUnlocked >= 2) {
         text("Heavy Laser (per bullet stats)", 60, 445);
         text("Bullet Count: 1", 60, 465);
-        text("Current Damage per Bullet: " + playerWeaponPower4, 60, 485);
-        text("Upgraded Damage per Bullet: " + (playerWeaponPower4 * 1.1), 60, 505);
-        text("Current Damage per Second: " + (playerWeaponPower4 * (60/playerWeaponCooldown4)), 60, 525);
-        text("Upgraded Damage per Second: " + (playerWeaponPower4 * 1.1 * (60/playerWeaponCooldown4)), 60, 545);
-        text("Current Bullets per second: " + (60/playerWeaponCooldown4), 60, 565);
-        text("Click here to Upgrade Weapon: $" + playerWeaponCost4, 60, 585); 
+        text("Current Damage per Bullet: " + playerWeaponPower3, 60, 485);
+        text("Upgraded Damage per Bullet: " + (playerWeaponPower3 * 1.1), 60, 505);
+        text("Current Damage per Second: " + (playerWeaponPower3 * (60/playerWeaponCooldown3)), 60, 525);
+        text("Upgraded Damage per Second: " + (playerWeaponPower3 * 1.1 * (60/playerWeaponCooldown3)), 60, 545);
+        text("Current Bullets per second: " + (60/playerWeaponCooldown3), 60, 565);
+        if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20);
+        text("Click here to Upgrade Weapon: $" + playerWeaponCost3, 60, 585); 
+        fill(255);
         if (playerWeaponsUnlocked >= 3) {
           text("Shotgun (per bullet stats)", 485, 45);
           text("Bullet Count: 5", 485, 65);
@@ -510,7 +536,9 @@ void drawUI() {
           text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
           text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1 * (60/playerWeaponCooldown1)), 485, 145);
           text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
+          if (menuIndexX == 1 && menuIndexY == 0) fill(20, 100, 20);
           text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485, 185); 
+          fill(255);
         }
       }
     }
@@ -576,7 +604,7 @@ void calcWeaponStats() { //calculate weapon stats and costs
   playerWeaponPower0 = playerWeaponBasePower0;
   playerWeaponPower1 = playerWeaponBasePower1;
   playerWeaponPower2 = playerWeaponBasePower2;
-  playerWeaponPower4 = playerWeaponBasePower4;
+  playerWeaponPower3 = playerWeaponBasePower3;
   for (int i = 0; i < playerWeaponLevel0; i++) {
     playerWeaponPower0 = playerWeaponPower0 * 1.1;
   }
@@ -586,13 +614,13 @@ void calcWeaponStats() { //calculate weapon stats and costs
   for (int i = 0; i < playerWeaponLevel2; i++) {
     playerWeaponPower2 = playerWeaponPower2 * 1.1;
   }
-  for (int i = 0; i < playerWeaponLevel4; i++) {
-    playerWeaponPower4 = playerWeaponPower4 * 1.1;
+  for (int i = 0; i < playerWeaponLevel3; i++) {
+    playerWeaponPower3 = playerWeaponPower3 * 1.1;
   }
   playerWeaponCost0 = (int)pow(playerWeaponLevel0 * 10, 3);
   playerWeaponCost1 = (int)pow(playerWeaponLevel1 * 10, 3);
   playerWeaponCost2 = (int)pow(playerWeaponLevel2 * 10, 3);
-  playerWeaponCost4 = (int)pow(playerWeaponLevel4 * 10, 3);
+  playerWeaponCost3 = (int)pow(playerWeaponLevel3 * 10, 3);
 }
 
 void setRect(int colorIndex) {

@@ -103,11 +103,11 @@ void display() {
     strokeWeight(2);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
-  } else if (bulletType == 4) { //snipe shot
+  } else if (bulletType == 3) { //snipe shot
     noStroke();
-    fill(20, 20, 255, 200);
+    fill(20, 20, 200, 200);
     ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
-    stroke(255, 120);
+    stroke(200, 200, 255, 120);
     strokeWeight(10);
     fill(255);
     ellipse(bulletX, bulletY, bulletHitX, bulletHitY);

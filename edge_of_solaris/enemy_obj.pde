@@ -79,7 +79,7 @@ void collision() {
                 playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance); //add xp for kill
                 checkForLevelUp(); //check if player leveled up
               }
-              if (blts[i].bulletType != 4) blts[i].reset(); //reset bullet on impact if not snipe shot
+              if (blts[i].bulletType != 3) blts[i].reset(); //reset bullet on impact if not snipe shot
             }
             
           }
