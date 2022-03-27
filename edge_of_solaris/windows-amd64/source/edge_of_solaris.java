@@ -1923,35 +1923,37 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   image(player1, playerX - 5 - scrollX, playerY - 5); //player sprite
   
   //draw enemies
-  float displayY = mouseY;
-  displayX = mouseX;
+  if (useControllerForCursor == false) {
+    cursorY = mouseY;
+    cursorX = mouseX;
+  }
   tint(255, 100);
   switch(levelEnemyTypeSelected) {
     case 0: //drone that fires a homing shot
-    image(faun1, displayX - (110 / 2), displayY - (110 / 2));
+    image(faun1, cursorX - (110 / 2), cursorY - (110 / 2));
     break;
     case 1: //small gunship
-    image(faun2, displayX - (210 / 2), displayY - (86 / 2));
+    image(faun2, cursorX - (210 / 2), cursorY - (86 / 2));
     break;
     case 2: //small interceptor (spread shot)
-    image(faun3, displayX - (170 / 2), displayY - (70 / 2));
+    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
     break;
     case 3: //medium interceptor
-    image(faun4, displayX - (190 / 2), displayY - (58 / 2));
+    image(faun4, cursorX - (190 / 2), cursorY - (58 / 2));
     break;
     case 4: //cargo ship
-    image(faun5, displayX - (252 / 2), displayY - (102 / 2));
+    image(faun5, cursorX - (252 / 2), cursorY - (102 / 2));
     break;
     case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-    image(faun3, displayX - (170 / 2), displayY - (70 / 2));
+    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
     break;
     case 7: //energy weapon that charges
-    image(faun6, displayX - (120 / 2), displayY - (52 / 2));
+    image(faun6, cursorX - (120 / 2), cursorY - (52 / 2));
     break;
     default:
     noStroke();
     fill(255, 0, 0);
-    ellipse(displayX, displayY, 40, 40);
+    ellipse(cursorX, cursorY, 40, 40);
     break;
   }
   tint(255, 255, 255, 255);
@@ -1963,16 +1965,31 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   text("mouseY: " + mouseY, 1000, 75);
   text("enemyType: " + levelEnemyTypeSelected, 1000, 100);
   text("::CONTROLS::", 1000, 125);
-  text("LMB = place enemy", 1000, 150);
-  text("MMB = reset enemies", 1000, 175);
-  text("RMB = undo", 1000, 200);
-  text("A/D scroll", 1000, 225);
-  text("W/S fast scroll", 1000, 250);
-  text("SPACE cycles enemy type", 1000, 275);
-  text("P saves to level-editor-save.json", 950, 300);
-  text("M exits to level select", 1000, 325);
-  text("L loads the save file", 1000, 350);
-  text("T tests the level", 1000, 375);
+  if (useControllerForCursor == true) {
+    text("A/Cross = place enemy", 1000, 150);
+    text("B/Circle = undo", 1000, 175);
+    text("Y/Triange = cycle enemies", 1000, 200);
+    text("LB = load from file", 1000, 225);
+    text("RB = save to file", 1000, 250);
+    text("Start = playtest", 1000, 275);
+    text("R3 = exit", 1000, 300);
+    text("Press Back/Share to", 1000, 325);
+    text("switch to mouse", 1000, 350);
+  } else {
+    text("LMB = place enemy", 1000, 150);
+    text("MMB = reset enemies", 1000, 175);
+    text("RMB = undo", 1000, 200);
+    text("A/D scroll", 1000, 225);
+    text("W/S fast scroll", 1000, 250);
+    text("SPACE cycles enemy type", 1000, 275);
+    text("P saves to level-editor-save.json", 950, 300);
+    text("M exits to level select", 1000, 325);
+    text("L loads the save file", 1000, 350);
+    text("T tests the level", 1000, 375);
+    text("Press Back/Share on", 1000, 400);
+    text("controller to switch to", 1000, 425);
+    text("controller", 1000, 450);
+  }
 }
 
  public void saveLevel() { //saves the level editor level
@@ -2120,24 +2137,18 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       //advanceVNText();
     }
   } else if (screenIndex == 9) { //level editor
-    if (keyInput[2] == true) scrollX++;
+    /*if (keyInput[2] == true) scrollX++;
     if (keyInput[0] == true) scrollX = scrollX + 10;
     if (keyInput[3] == true) scrollX--;
     if (keyInput[1] == true) scrollX = scrollX - 10;
-    if (scrollX < 0) scrollX = 0; //dont let scroll go negative
+    if (scrollX < 0) scrollX = 0; //dont let scroll go negative*/
     if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
     if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
     if (keyInput[8] == true) saveLevel(); //save the level to a JSON
-    if (keyInput[17] == true) {screenIndex = 2; levelEditorMode = false;} //go back to level select
+    if (keyInput[17] == true) intentLevelEditor(6); //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
     if (keyInput[19] == true) { //playtest level
-      screenIndex = 0;
-      levelEditorMode = true;
-      //redraw enemies
-      initObjects(); //reset all enemies
-      for(int i = 0; i < levelEnemyIndex; i++) {
-        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
-      }
+      intentLevelEditor(5);
     }
   }
 }
@@ -2282,12 +2293,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       levelEnemyY[levelEnemyIndex] = mouseY;
       levelEnemyIndex++;
     } else if (mouseButton == RIGHT) { //undo
-      if (levelEnemyIndex > 0) levelEnemyIndex--;
-      //redraw enemies
-      initObjects(); //reset all enemies
-      for(int i = 0; i < levelEnemyIndex; i++) {
-        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
-      }
+      intentLevelEditor(1);
     } else if (mouseButton == CENTER) { //reset enemies
       initObjects(); //reset all enemies
       for(int i = 0; i < levelEnemyIndex; i++) {
@@ -2327,11 +2333,13 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (usingDPAD == false && paused == false) { //only allow stick movement if dpad not pressed this frame and game not paused
       if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > 0.05f) { //deadzone
         usingStick = true;
-        playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
+        if (screenIndex == 0) playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
+        else if (screenIndex == 9) cursorX = cursorX + (10 * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
       }
       if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > 0.05f) { //deadzone
         usingStick = true;
-        playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+        if (screenIndex == 0) playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+        else if (screenIndex == 9) cursorY = cursorY - (10 * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
       }
     }
     if (currController.getAxisState(ControllerAxis.TRIGGERLEFT) > 0.1f) {
@@ -2349,8 +2357,21 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       intentWeaponSwitchDown();
     } else btnAdvanceWpn = true; //if neither bumper is pressed
     if (currController.isButtonPressed(ControllerButton.START)) {
+      if (screenIndex == 9 && btnAdvancePause == true) {btnAdvancePause = false; intentLevelEditor(5);}
       intentPause();
     } else btnAdvancePause = true;
+    if (currController.isButtonPressed(ControllerButton.Y)) {
+      intentLevelEditor(0);
+    } else btnAdvanceY = true;
+    if (currController.isButtonPressed(ControllerButton.BACK)) {
+      if (btnAdvanceBack == true) {
+        btnAdvanceBack = false;
+        useControllerForCursor = !useControllerForCursor;
+      }
+    } else btnAdvanceBack = true;
+    if (currController.isButtonPressed(ControllerButton.RIGHTSTICK)) {
+      intentLevelEditor(6);
+    }
   } catch (ControllerUnpluggedException e) {   
     btnAdvanceA = true; //vn advance always true if no controller
     btnAdvancePause = true; //always true if no controller
@@ -2384,18 +2405,24 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       keyInput[4] = false; //latch space
       intentConfirmMenu();
     }
+  } else if (screenIndex == 9) {
+    if (btnAdvanceA == true) {
+      intentLevelEditor(2);
+    }
   }
 }
 
  public void intentCancel() { //called when backspace/B are pressed
   if (btnAdvanceCancel == true) {
     btnAdvanceCancel = false;
-    if (screenIndex != 0 && screenIndex != 3) {
+    if (screenIndex != 0 && screenIndex != 3 && screenIndex != 9) {
       if (screenIndex == 4) saveSettings(); //save settings if exiting settings menu
       if (areaIndex == 2 && screenIndex == 8) {screenIndex = 3; textIndex = scriptStartPoints[3];}
       else screenIndex = 2; //go to level select as long as not in game/in vn
       menuIndexX = 0;
       menuIndexY = 0;
+    } else if (screenIndex == 9) { //level editor
+      intentLevelEditor(1);
     }
   }
 }
@@ -2429,6 +2456,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (direction == 1) menuIndexX++;
       if (direction == 3 || direction == 1) menuIndexY = 0;
     }
+  } else if (screenIndex == 9) { //level editor
+    if (direction == 0) scrollX = scrollX + 10;
+    if (direction == 1) scrollX++;
+    if (direction == 2) scrollX = scrollX - 10;
+    if (direction == 3) scrollX--;
+    if (scrollX < 0) scrollX = 0; //dont let scroll go negative
   }
 }
 
@@ -2467,6 +2500,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (playerWeapon > playerWeaponsUnlocked) playerWeapon = 0; //reset if overflow past unlocked
       btnAdvanceWpn = false; //latch bumpers
       keyInput[6] = false; //latch E key
+    }
+  } if (screenIndex == 9) { //level editor
+    if (btnAdvanceWpn == true) {
+      intentLevelEditor(3);
     }
   }
 }
@@ -2564,6 +2601,50 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
   }
 }
+
+ public void intentLevelEditor (int command) {
+  if (screenIndex == 9) { //level editor screen
+    if (command == 0 && btnAdvanceY == true) { //cycle enemies
+    btnAdvanceY = false;
+    keyInput[4] = false;
+    levelEnemyTypeSelected++;
+    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset if overflow
+    } else if (command == 1) { //undo
+      if (levelEnemyIndex > 0) levelEnemyIndex--;
+      //redraw enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    } else if (command == 2) { //place enemy
+      btnAdvanceA = false;
+      if (useControllerForCursor == false) {
+        cursorX = mouseX;
+        cursorY = mouseY;
+      }
+      genEnemy(levelEnemyTypeSelected, (int)cursorX + scrollX, (int)cursorY);
+      levelEnemyType[levelEnemyIndex] = levelEnemyTypeSelected;
+      levelEnemyX[levelEnemyIndex] = (int)cursorX + scrollX;
+      levelEnemyY[levelEnemyIndex] = (int)cursorY;
+      levelEnemyIndex++;
+    } else if (command == 3) { //load from file
+      loadLevel();
+    } else if (command == 4) { //save to file
+      saveLevel();
+    } else if (command == 5) { //playtest level
+      screenIndex = 0;
+      levelEditorMode = true;
+      //redraw enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    } else if (command == 6) { //exit
+      screenIndex = 2; 
+      levelEditorMode = false;
+    }
+  }
+}
 class starsBG {
   int starX;
   int starY;
@@ -2610,7 +2691,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 112; //the current build number, should be incremented manually each commit
+int buildNumber = 113; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -2751,6 +2832,9 @@ int levelEnemyIndex = 0; //used for writing to the arrays
 int levelEnemyTypeSelected = 0; //used to know which enemy type is selected
 float displayX; //used for scrolling enemies
 boolean levelEditorMode; //used for playtesting the level
+float cursorX = 600; //used for controller
+float cursorY = 350; //used for controller
+boolean useControllerForCursor = false; //whether or not to use controller as cursor
 
 //controller vars
 boolean usingStick = false; //if using joystick controls this frame
@@ -2761,6 +2845,9 @@ boolean btnAdvanceWpn = true; //same as btnAdvanceA but for weapon switching wit
 boolean btnAdvanceSec = true; //like the rest but for secondary weapon switching with the triggers
 boolean btnAdvanceMenu = true; //used for the DPAD latching for the menu
 boolean btnAdvanceCancel = true; //same but for cancel/B button
+boolean btnAdvanceY = true; //same but for Y button
+boolean btnAdvanceX = true; //same but for X button
+boolean btnAdvanceBack = true; //same but for Back/Share button
 
 //menu vars
 int menuIndexY = 0; //used to indicate which menu item is selected

@@ -105,24 +105,18 @@ void processInput() {
       //advanceVNText();
     }
   } else if (screenIndex == 9) { //level editor
-    if (keyInput[2] == true) scrollX++;
+    /*if (keyInput[2] == true) scrollX++;
     if (keyInput[0] == true) scrollX = scrollX + 10;
     if (keyInput[3] == true) scrollX--;
     if (keyInput[1] == true) scrollX = scrollX - 10;
-    if (scrollX < 0) scrollX = 0; //dont let scroll go negative
+    if (scrollX < 0) scrollX = 0; //dont let scroll go negative*/
     if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
     if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
     if (keyInput[8] == true) saveLevel(); //save the level to a JSON
-    if (keyInput[17] == true) {screenIndex = 2; levelEditorMode = false;} //go back to level select
+    if (keyInput[17] == true) intentLevelEditor(6); //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
     if (keyInput[19] == true) { //playtest level
-      screenIndex = 0;
-      levelEditorMode = true;
-      //redraw enemies
-      initObjects(); //reset all enemies
-      for(int i = 0; i < levelEnemyIndex; i++) {
-        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
-      }
+      intentLevelEditor(5);
     }
   }
 }
@@ -267,12 +261,7 @@ void mousePressed() {
       levelEnemyY[levelEnemyIndex] = mouseY;
       levelEnemyIndex++;
     } else if (mouseButton == RIGHT) { //undo
-      if (levelEnemyIndex > 0) levelEnemyIndex--;
-      //redraw enemies
-      initObjects(); //reset all enemies
-      for(int i = 0; i < levelEnemyIndex; i++) {
-        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
-      }
+      intentLevelEditor(1);
     } else if (mouseButton == CENTER) { //reset enemies
       initObjects(); //reset all enemies
       for(int i = 0; i < levelEnemyIndex; i++) {
@@ -312,11 +301,13 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
     if (usingDPAD == false && paused == false) { //only allow stick movement if dpad not pressed this frame and game not paused
       if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > 0.05) { //deadzone
         usingStick = true;
-        playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
+        if (screenIndex == 0) playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
+        else if (screenIndex == 9) cursorX = cursorX + (10 * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
       }
       if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > 0.05) { //deadzone
         usingStick = true;
-        playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+        if (screenIndex == 0) playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+        else if (screenIndex == 9) cursorY = cursorY - (10 * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
       }
     }
     if (currController.getAxisState(ControllerAxis.TRIGGERLEFT) > 0.1) {
@@ -334,8 +325,21 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
       intentWeaponSwitchDown();
     } else btnAdvanceWpn = true; //if neither bumper is pressed
     if (currController.isButtonPressed(ControllerButton.START)) {
+      if (screenIndex == 9 && btnAdvancePause == true) {btnAdvancePause = false; intentLevelEditor(5);}
       intentPause();
     } else btnAdvancePause = true;
+    if (currController.isButtonPressed(ControllerButton.Y)) {
+      intentLevelEditor(0);
+    } else btnAdvanceY = true;
+    if (currController.isButtonPressed(ControllerButton.BACK)) {
+      if (btnAdvanceBack == true) {
+        btnAdvanceBack = false;
+        useControllerForCursor = !useControllerForCursor;
+      }
+    } else btnAdvanceBack = true;
+    if (currController.isButtonPressed(ControllerButton.RIGHTSTICK)) {
+      intentLevelEditor(6);
+    }
   } catch (ControllerUnpluggedException e) {   
     btnAdvanceA = true; //vn advance always true if no controller
     btnAdvancePause = true; //always true if no controller
@@ -369,18 +373,24 @@ void intentConfirm() { //called when space/A are pressed
       keyInput[4] = false; //latch space
       intentConfirmMenu();
     }
+  } else if (screenIndex == 9) {
+    if (btnAdvanceA == true) {
+      intentLevelEditor(2);
+    }
   }
 }
 
 void intentCancel() { //called when backspace/B are pressed
   if (btnAdvanceCancel == true) {
     btnAdvanceCancel = false;
-    if (screenIndex != 0 && screenIndex != 3) {
+    if (screenIndex != 0 && screenIndex != 3 && screenIndex != 9) {
       if (screenIndex == 4) saveSettings(); //save settings if exiting settings menu
       if (areaIndex == 2 && screenIndex == 8) {screenIndex = 3; textIndex = scriptStartPoints[3];}
       else screenIndex = 2; //go to level select as long as not in game/in vn
       menuIndexX = 0;
       menuIndexY = 0;
+    } else if (screenIndex == 9) { //level editor
+      intentLevelEditor(1);
     }
   }
 }
@@ -414,6 +424,12 @@ void intentMove(int direction) {
       if (direction == 1) menuIndexX++;
       if (direction == 3 || direction == 1) menuIndexY = 0;
     }
+  } else if (screenIndex == 9) { //level editor
+    if (direction == 0) scrollX = scrollX + 10;
+    if (direction == 1) scrollX++;
+    if (direction == 2) scrollX = scrollX - 10;
+    if (direction == 3) scrollX--;
+    if (scrollX < 0) scrollX = 0; //dont let scroll go negative
   }
 }
 
@@ -452,6 +468,10 @@ void intentWeaponSwitchUp() {
       if (playerWeapon > playerWeaponsUnlocked) playerWeapon = 0; //reset if overflow past unlocked
       btnAdvanceWpn = false; //latch bumpers
       keyInput[6] = false; //latch E key
+    }
+  } if (screenIndex == 9) { //level editor
+    if (btnAdvanceWpn == true) {
+      intentLevelEditor(3);
     }
   }
 }
@@ -546,6 +566,50 @@ void intentConfirmMenu() {
       else if (menuIndexY == 2 &&playerMoney >= playerWeaponCost3) {playerMoney = playerMoney - playerWeaponCost3; playerWeaponLevel3++; calcWeaponStats();} //upgrade snipe weapon
     } else if (menuIndexX == 1) {
       if (menuIndexY == 0 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
+    }
+  }
+}
+
+void intentLevelEditor (int command) {
+  if (screenIndex == 9) { //level editor screen
+    if (command == 0 && btnAdvanceY == true) { //cycle enemies
+    btnAdvanceY = false;
+    keyInput[4] = false;
+    levelEnemyTypeSelected++;
+    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset if overflow
+    } else if (command == 1) { //undo
+      if (levelEnemyIndex > 0) levelEnemyIndex--;
+      //redraw enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    } else if (command == 2) { //place enemy
+      btnAdvanceA = false;
+      if (useControllerForCursor == false) {
+        cursorX = mouseX;
+        cursorY = mouseY;
+      }
+      genEnemy(levelEnemyTypeSelected, (int)cursorX + scrollX, (int)cursorY);
+      levelEnemyType[levelEnemyIndex] = levelEnemyTypeSelected;
+      levelEnemyX[levelEnemyIndex] = (int)cursorX + scrollX;
+      levelEnemyY[levelEnemyIndex] = (int)cursorY;
+      levelEnemyIndex++;
+    } else if (command == 3) { //load from file
+      loadLevel();
+    } else if (command == 4) { //save to file
+      saveLevel();
+    } else if (command == 5) { //playtest level
+      screenIndex = 0;
+      levelEditorMode = true;
+      //redraw enemies
+      initObjects(); //reset all enemies
+      for(int i = 0; i < levelEnemyIndex; i++) {
+        genEnemy(levelEnemyType[i], levelEnemyX[i], levelEnemyY[i]);
+      }
+    } else if (command == 6) { //exit
+      screenIndex = 2; 
+      levelEditorMode = false;
     }
   }
 }

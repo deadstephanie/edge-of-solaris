@@ -433,35 +433,37 @@ void levelEditor() { //the level editor routine is here
   image(player1, playerX - 5 - scrollX, playerY - 5); //player sprite
   
   //draw enemies
-  float displayY = mouseY;
-  displayX = mouseX;
+  if (useControllerForCursor == false) {
+    cursorY = mouseY;
+    cursorX = mouseX;
+  }
   tint(255, 100);
   switch(levelEnemyTypeSelected) {
     case 0: //drone that fires a homing shot
-    image(faun1, displayX - (110 / 2), displayY - (110 / 2));
+    image(faun1, cursorX - (110 / 2), cursorY - (110 / 2));
     break;
     case 1: //small gunship
-    image(faun2, displayX - (210 / 2), displayY - (86 / 2));
+    image(faun2, cursorX - (210 / 2), cursorY - (86 / 2));
     break;
     case 2: //small interceptor (spread shot)
-    image(faun3, displayX - (170 / 2), displayY - (70 / 2));
+    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
     break;
     case 3: //medium interceptor
-    image(faun4, displayX - (190 / 2), displayY - (58 / 2));
+    image(faun4, cursorX - (190 / 2), cursorY - (58 / 2));
     break;
     case 4: //cargo ship
-    image(faun5, displayX - (252 / 2), displayY - (102 / 2));
+    image(faun5, cursorX - (252 / 2), cursorY - (102 / 2));
     break;
     case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-    image(faun3, displayX - (170 / 2), displayY - (70 / 2));
+    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
     break;
     case 7: //energy weapon that charges
-    image(faun6, displayX - (120 / 2), displayY - (52 / 2));
+    image(faun6, cursorX - (120 / 2), cursorY - (52 / 2));
     break;
     default:
     noStroke();
     fill(255, 0, 0);
-    ellipse(displayX, displayY, 40, 40);
+    ellipse(cursorX, cursorY, 40, 40);
     break;
   }
   tint(255, 255, 255, 255);
@@ -473,16 +475,31 @@ void levelEditor() { //the level editor routine is here
   text("mouseY: " + mouseY, 1000, 75);
   text("enemyType: " + levelEnemyTypeSelected, 1000, 100);
   text("::CONTROLS::", 1000, 125);
-  text("LMB = place enemy", 1000, 150);
-  text("MMB = reset enemies", 1000, 175);
-  text("RMB = undo", 1000, 200);
-  text("A/D scroll", 1000, 225);
-  text("W/S fast scroll", 1000, 250);
-  text("SPACE cycles enemy type", 1000, 275);
-  text("P saves to level-editor-save.json", 950, 300);
-  text("M exits to level select", 1000, 325);
-  text("L loads the save file", 1000, 350);
-  text("T tests the level", 1000, 375);
+  if (useControllerForCursor == true) {
+    text("A/Cross = place enemy", 1000, 150);
+    text("B/Circle = undo", 1000, 175);
+    text("Y/Triange = cycle enemies", 1000, 200);
+    text("LB = load from file", 1000, 225);
+    text("RB = save to file", 1000, 250);
+    text("Start = playtest", 1000, 275);
+    text("R3 = exit", 1000, 300);
+    text("Press Back/Share to", 1000, 325);
+    text("switch to mouse", 1000, 350);
+  } else {
+    text("LMB = place enemy", 1000, 150);
+    text("MMB = reset enemies", 1000, 175);
+    text("RMB = undo", 1000, 200);
+    text("A/D scroll", 1000, 225);
+    text("W/S fast scroll", 1000, 250);
+    text("SPACE cycles enemy type", 1000, 275);
+    text("P saves to level-editor-save.json", 950, 300);
+    text("M exits to level select", 1000, 325);
+    text("L loads the save file", 1000, 350);
+    text("T tests the level", 1000, 375);
+    text("Press Back/Share on", 1000, 400);
+    text("controller to switch to", 1000, 425);
+    text("controller", 1000, 450);
+  }
 }
 
 void saveLevel() { //saves the level editor level
