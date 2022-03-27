@@ -431,6 +431,40 @@ void levelEditor() { //the level editor routine is here
   rect(485, 678, 30, 20, 5);      
     
   image(player1, playerX - 5 - scrollX, playerY - 5); //player sprite
+  
+  //draw enemies
+  float displayY = mouseY;
+  displayX = mouseX;
+  tint(255, 100);
+  switch(levelEnemyTypeSelected) {
+    case 0: //drone that fires a homing shot
+    image(faun1, displayX - (110 / 2), displayY - (110 / 2));
+    break;
+    case 1: //small gunship
+    image(faun2, displayX - (210 / 2), displayY - (86 / 2));
+    break;
+    case 2: //small interceptor (spread shot)
+    image(faun3, displayX - (170 / 2), displayY - (70 / 2));
+    break;
+    case 3: //medium interceptor
+    image(faun4, displayX - (190 / 2), displayY - (58 / 2));
+    break;
+    case 4: //cargo ship
+    image(faun5, displayX - (252 / 2), displayY - (102 / 2));
+    break;
+    case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
+    image(faun3, displayX - (170 / 2), displayY - (70 / 2));
+    break;
+    case 7: //energy weapon that charges
+    image(faun6, displayX - (120 / 2), displayY - (52 / 2));
+    break;
+    default:
+    noStroke();
+    fill(255, 0, 0);
+    ellipse(displayX, displayY, 40, 40);
+    break;
+  }
+  tint(255, 255, 255, 255);
     
   textSize(24);
   fill(255, 20, 20);
