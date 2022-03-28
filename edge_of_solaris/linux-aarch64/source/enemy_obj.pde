@@ -28,10 +28,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
 void update() {
+  if (screenIndex == 9) displayX = enemyX - scrollX;
+  else displayX = enemyX;
   if (screenIndex != 9) enemyX = enemyX + enemySpeedX; //update enemy x pos according to speed (only if not in level editor
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
-  if (enemyState != 2) { //only run if enemy is not dead
+  if (enemyState != 2&& displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //only run if enemy is not dead
     if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
     
     switch(enemyType) {
@@ -63,7 +65,7 @@ void update() {
 
 void collision() {
   for (int i = 0; i < bulletCount; i++) { //run for every bullet instance
-   if (blts[i].bulletType != 255 && enemyState != 2) { //check to ensure bullet is not inactive (for efficiency) and enemy is not dead
+   if (blts[i].bulletType != 255 && enemyState != 2&& displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //check to ensure bullet is not inactive (for efficiency) and enemy is not dead
     if (enemyX - (enemyHitX / 2) <= blts[i].bulletX - (blts[i].bulletHitX / 2)) {
       if ((enemyX + (enemyHitX / 2)) >= (blts[i].bulletX - (blts[i].bulletHitX / 2))) {
         if (enemyY - (enemyHitY / 2) <= blts[i].bulletY - (blts[i].bulletHitY / 2)) {
@@ -104,9 +106,7 @@ void reset() {
 }
 
 void shoot() {
-  if (screenIndex == 9) displayX = enemyX - scrollX;
-   else displayX = enemyX;
-   if (enemyState != 2 && displayX < 1250 * screenScaling) { //check if enemy is on screen and not dead
+   if (enemyState != 2 && displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //check if enemy is on screen and not dead
     if (enemyType == 0) { //check to see if enemy is a drone
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     float speed = 5; //higher numbers are slower
@@ -216,11 +216,10 @@ void shoot() {
 }
 
 void display() {
-  displayX = (enemyX - scrollX);
   strokeWeight(1);
   noStroke();
   if (enemyState == 1) tint(255, 100, 100);
-  if (enemyState != 2 && displayX < (1500 * screenScaling)) { //do not display hp bar and render enemy if enemy is dead
+  if (enemyState != 2 && displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //do not display hp bar and render enemy if enemy is dead
     if (screenIndex == 9 || screenIndex == 0) {
       //draw hp bars
       strokeWeight(1);

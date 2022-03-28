@@ -183,6 +183,10 @@ void placeEnemies() {
     genEnemy(6, 1600, 200);
     genEnemy(6, 1700, 100);
     
+    genEnemy(0, 1800, 100);
+    genEnemy(0, 1900, 200);
+    genEnemy(0, 2000, 300);
+    
     genEnemy(6, 2100, 350);
     genEnemy(6, 2200, 450);
     genEnemy(6, 2200, 250);
