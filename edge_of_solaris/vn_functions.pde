@@ -13,10 +13,10 @@ void drawVN() {
   }
   switch(vnInfo[textIndex][0]) { //left side vn portrait image
     case 0:
-    image(vnPlayer1r, 0, 0, 500, 500);
+    image(vnPlayer1r, 0 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 1:
-    image(vnPlayer2r, 0, 0, 500, 500);
+    image(vnPlayer2r, 0 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 5:
     //image(vnSol1r, 0, 0, 500, 500);
@@ -36,49 +36,49 @@ void drawVN() {
   }
   switch(vnInfo[textIndex][1]) { //right side vn portrait image
     case 0:
-    image(vnPlayer1, 800, 0, 500, 500);
+    image(vnPlayer1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 1:
-    image(vnPlayer2, 800, 0, 500, 500);
+    image(vnPlayer2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 5:
-    image(vnSol1, 800, 0, 500, 500);
+    image(vnSol1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 10:
-    image(vnEsence1, 800, 0, 500, 500);
+    image(vnEsence1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 11:
-    image(vnEsence2, 800, 0, 500, 500);
+    image(vnEsence2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 12:
-    image(vnEsence3, 800, 0, 500, 500);
+    image(vnEsence3, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 13:
-    image(vnEsence4, 800, 0, 500, 500);
+    image(vnEsence4, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 20:
-    image(vnCyana1, 800, 0, 500, 500);
+    image(vnCyana1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 21:
-    image(vnCyana2, 800, 0, 500, 500);
+    image(vnCyana2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 22:
-    image(vnCyana3, 800, 0, 500, 500);
+    image(vnCyana3, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 23:
-    image(vnCyana4, 800, 0, 500, 500);
+    image(vnCyana4, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 30:
-    image(vnVeda1, 800, 0, 500, 500);
+    image(vnVeda1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 31:
-    image(vnVeda2, 800, 0, 500, 500);
+    image(vnVeda2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 32:
-    image(vnVeda3, 800, 0, 500, 500);
+    image(vnVeda3, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 33:
-    image(vnVeda4, 800, 0, 500, 500);
+    image(vnVeda4, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     default:
     break;
@@ -88,16 +88,16 @@ void drawVN() {
   strokeWeight(2);
   stroke(255);
   fill(20, 20, 255);
-  rect(20, 450, 1240, 250, 20);
-  rect(1150, 650, 100, 40, 5);
-  rect(1040, 650, 100, 40, 5);
-  textSize(48);
+  rect(20 * screenScaling, 450 * screenScaling, 1240 * screenScaling, 250 * screenScaling, 20);
+  rect(1150 * screenScaling, 650 * screenScaling, 100 * screenScaling, 40 * screenScaling, 5);
+  rect(1040 * screenScaling, 650 * screenScaling, 100 * screenScaling, 40 * screenScaling, 5);
+  textSize(48 * screenScaling);
   fill(255);
   noStroke();
-  text(textLinesO[textIndex - 1], 35, 460, 1230, 250);
-  textSize(32);
-  text("SKIP", 1050, 680);
-  text("NEXT", 1160, 680);
+  text(textLinesO[textIndex - 1], 35 * screenScaling, 460 * screenScaling, 1230 * screenScaling, 250 * screenScaling);
+  textSize(32 * screenScaling);
+  text("SKIP", 1050 * screenScaling, 680 * screenScaling);
+  text("NEXT", 1160 * screenScaling, 680 * screenScaling);
   
   vnScreenChanges = false; //finished rendering frame, do not render again unless changes to frame occur
   }

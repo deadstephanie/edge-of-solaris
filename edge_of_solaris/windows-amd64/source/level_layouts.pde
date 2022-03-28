@@ -312,8 +312,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
-    basicE[enemyIndex].enemyHitX = 110;
-    basicE[enemyIndex].enemyHitY = 110;
+    basicE[enemyIndex].enemyHitX = 100;
+    basicE[enemyIndex].enemyHitY = 100;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
   } else if (type == 1) {
@@ -322,8 +322,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 210;
-    basicE[enemyIndex].enemyHitY = 86;
+    basicE[enemyIndex].enemyHitX = 200;
+    basicE[enemyIndex].enemyHitY = 76;
     basicE[enemyIndex].enemyHP = 50 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 50 * enemyBalanceHP;
   } else if (type == 2) {
@@ -332,8 +332,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 170;
-    basicE[enemyIndex].enemyHitY = 70;
+    basicE[enemyIndex].enemyHitX = 160;
+    basicE[enemyIndex].enemyHitY = 60;
     basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
   } else if (type == 3) {
@@ -342,8 +342,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 190;
-    basicE[enemyIndex].enemyHitY = 58;
+    basicE[enemyIndex].enemyHitX = 180;
+    basicE[enemyIndex].enemyHitY = 48;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
   } else if (type == 4) {
@@ -352,8 +352,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 252;
-    basicE[enemyIndex].enemyHitY = 102;
+    basicE[enemyIndex].enemyHitX = 244;
+    basicE[enemyIndex].enemyHitY = 92;
     basicE[enemyIndex].enemyHP = 100 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 100 * enemyBalanceHP;
   } else if (type == 6) {
@@ -362,8 +362,8 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 170;
-    basicE[enemyIndex].enemyHitY = 70;
+    basicE[enemyIndex].enemyHitX = 160;
+    basicE[enemyIndex].enemyHitY = 60;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
   } else if (type == 7) {
@@ -409,96 +409,97 @@ void levelEditor() { //the level editor routine is here
   stroke(0);
   strokeWeight(15);
   fill(0);
-  rect(20, 650, 200, 50, 10);
-  rect(235, 650, 200, 50, 10);
+  rect(20 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
+  rect(235 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
   setRect(4);
-  if (playerHP >= 0) rect(23, 653.5, (195 * (playerHP / playerHPMax)), 44);
+  if (playerHP >= 0) rect(23 * screenScaling, 653.5 * screenScaling, ((195 * (playerHP / playerHPMax))) * screenScaling, 44 * screenScaling);
   setRect(5);
-  rect(238, 653.5, (194 * (playerShield / playerShieldMax)), 44);
+  rect(238 * screenScaling, 653.5 * screenScaling, ((194 * (playerShield / playerShieldMax))) * screenScaling, 44 * screenScaling);
   setRect(3); //render surrounds
   noFill();
-  rect(20, 650, 200, 50, 10);
-  rect(235, 650, 200, 50, 10);
+  rect(20 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
+  rect(235 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
   fill(0);
     
     
   //render weapon selector
   stroke(255);
   strokeWeight(2);
-  rect(450, 653, 30, 20, 5);
-  rect(450, 678, 30, 20, 5);
-  rect(485, 653, 30, 20, 5);
-  rect(485, 678, 30, 20, 5);      
+  rect(450 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+  rect(450 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+  rect(485 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+  rect(485 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);      
     
-  image(player1, playerX - 5 - scrollX, playerY - 5); //player sprite
+  image(player1, (playerX - 5 - scrollX) * screenScaling, (playerY - 5) * screenScaling, 80 * screenScaling, 30 * screenScaling); //player sprite
   
   //draw enemies
   if (useControllerForCursor == false) {
-    cursorY = mouseY;
-    cursorX = mouseX;
+    cursorY = mouseY / screenScaling;
+    cursorX = mouseX / screenScaling;
   }
   tint(255, 100);
   switch(levelEnemyTypeSelected) {
     case 0: //drone that fires a homing shot
-    image(faun1, cursorX - (110 / 2), cursorY - (110 / 2));
+    image(faun1, (cursorX - (100 / 2)) * screenScaling, (cursorY - (100 / 2)) * screenScaling, 100 * screenScaling, 100 * screenScaling);
     break;
     case 1: //small gunship
-    image(faun2, cursorX - (210 / 2), cursorY - (86 / 2));
+    image(faun2, (cursorX - (200 / 2)) * screenScaling, (cursorY - (76 / 2)) * screenScaling, 200 * screenScaling, 76 * screenScaling);
     break;
     case 2: //small interceptor (spread shot)
-    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
+    image(faun3, (cursorX - (160 / 2)) * screenScaling, (cursorY - (60 / 2)) * screenScaling, 160 * screenScaling, 60 * screenScaling);
     break;
     case 3: //medium interceptor
-    image(faun4, cursorX - (190 / 2), cursorY - (58 / 2));
+    image(faun4, (cursorX - (180 / 2)) * screenScaling, (cursorY - (48 / 2)) * screenScaling, 180 * screenScaling, 48 * screenScaling);
     break;
     case 4: //cargo ship
-    image(faun5, cursorX - (252 / 2), cursorY - (102 / 2));
+    image(faun5, (cursorX - (244 / 2)) * screenScaling, (cursorY - (92 / 2)) * screenScaling, 244 * screenScaling, 92 * screenScaling);
     break;
     case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
+    image(faun3, (cursorX - (160 / 2)) * screenScaling, (cursorY - (70 / 2)) * screenScaling, 160 * screenScaling, 60 * screenScaling);
     break;
     case 7: //energy weapon that charges
-    image(faun6, cursorX - (120 / 2), cursorY - (52 / 2));
+    image(faun6, (cursorX - (120 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 120 * screenScaling, 52 * screenScaling);
     break;
     default:
     noStroke();
     fill(255, 0, 0);
-    ellipse(cursorX, cursorY, 40, 40);
+    ellipse(cursorX * screenScaling, cursorY * screenScaling, 40 * screenScaling, 40 * screenScaling);
     break;
   }
   tint(255, 255, 255, 255);
     
-  textSize(24);
+  textSize(24 * screenScaling);
   fill(255, 20, 20);
-  text("scrollX: " + scrollX, 1000, 25);
-  text("mouseX: " + mouseX, 1000, 50);
-  text("mouseY: " + mouseY, 1000, 75);
-  text("enemyType: " + levelEnemyTypeSelected, 1000, 100);
-  text("::CONTROLS::", 1000, 125);
+  text("scrollX: " + scrollX, 1000 * screenScaling, 25 * screenScaling);
+  text("cursorX: " + cursorX * screenScaling, 1000 * screenScaling, 50 * screenScaling);
+  text("cursorY: " + cursorY * screenScaling, 1000 * screenScaling, 75 * screenScaling);
+  text("enemyType: " + levelEnemyTypeSelected, 1000 * screenScaling, 100 * screenScaling);
+  text("::CONTROLS::", 1000 * screenScaling, 125 * screenScaling);
   if (useControllerForCursor == true) {
-    text("A/Cross = place enemy", 1000, 150);
-    text("B/Circle = undo", 1000, 175);
-    text("Y/Triange = cycle enemies", 1000, 200);
-    text("LB = load from file", 1000, 225);
-    text("RB = save to file", 1000, 250);
-    text("Start = playtest", 1000, 275);
-    text("R3 = exit", 1000, 300);
-    text("Press Back/Share to", 1000, 325);
-    text("switch to mouse", 1000, 350);
+    text("DPAD/RS-X = scroll screen", 1000 * screenScaling, 150 * screenScaling);
+    text("A/Cross = place enemy", 1000 * screenScaling, 175 * screenScaling);
+    text("B/Circle = undo", 1000 * screenScaling, 200 * screenScaling);
+    text("Y/Triange = cycle enemies", 1000 * screenScaling, 225 * screenScaling);
+    text("LB = load from file", 1000 * screenScaling, 250 * screenScaling);
+    text("RB = save to file", 1000 * screenScaling, 275 * screenScaling);
+    text("Start = playtest", 1000 * screenScaling, 300 * screenScaling);
+    text("R3 = exit", 1000 * screenScaling, 325 * screenScaling);
+    text("Press Back/Share to", 1000 * screenScaling, 350 * screenScaling);
+    text("switch to mouse", 1000 * screenScaling, 375 * screenScaling);
   } else {
-    text("LMB = place enemy", 1000, 150);
-    text("MMB = reset enemies", 1000, 175);
-    text("RMB = undo", 1000, 200);
-    text("A/D scroll", 1000, 225);
-    text("W/S fast scroll", 1000, 250);
-    text("SPACE cycles enemy type", 1000, 275);
-    text("P saves to level-editor-save.json", 950, 300);
-    text("M exits to level select", 1000, 325);
-    text("L loads the save file", 1000, 350);
-    text("T tests the level", 1000, 375);
-    text("Press Back/Share on", 1000, 400);
-    text("controller to switch to", 1000, 425);
-    text("controller", 1000, 450);
+    text("LMB = place enemy", 1000 * screenScaling, 150 * screenScaling);
+    text("MMB = reset enemies", 1000 * screenScaling, 175 * screenScaling);
+    text("RMB = undo", 1000 * screenScaling, 200 * screenScaling);
+    text("A/D scroll", 1000 * screenScaling, 225 * screenScaling);
+    text("W/S fast scroll", 1000 * screenScaling, 250 * screenScaling);
+    text("SPACE cycles enemy type", 1000 * screenScaling, 275 * screenScaling);
+    text("P saves to level-editor-save.json", 950 * screenScaling, 300 * screenScaling);
+    text("M exits to level select", 1000 * screenScaling, 325 * screenScaling);
+    text("L loads the save file", 1000 * screenScaling, 350 * screenScaling);
+    text("T tests the level", 1000 * screenScaling, 375 * screenScaling);
+    text("Press Back/Share on", 1000 * screenScaling, 400 * screenScaling);
+    text("controller to switch to", 1000 * screenScaling, 425 * screenScaling);
+    text("controller", 1000 * screenScaling, 450 * screenScaling);
   }
 }
 
@@ -513,7 +514,7 @@ void saveLevel() { //saves the level editor level
     levelEditorSaveJSON.setJSONObject(i, data);
   }
   saveJSONArray(levelEditorSaveJSON, "level-editor-save.json");
-  text("saved to level-editor-save.json", 1000, 250);
+  text("saved to level-editor-save.json", 1000 * screenScaling, 250 * screenScaling);
 }
 
 void loadLevel() { //load a saved level editor level

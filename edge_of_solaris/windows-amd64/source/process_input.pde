@@ -212,53 +212,57 @@ void playerShoot() {
 }
 
 void mousePressed() {
+  cursorX = mouseX / screenScaling;
+  cursorY = mouseY / screenScaling;
   if (screenIndex == 2) {//menu screen
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) screenIndex = 5; //status button
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 125 && cursorY < 200); //mess hall button
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 225 && cursorY < 300); //hanger button
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 325 && cursorY < 400) screenIndex = 8; //engineering buttton
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 425 && cursorY < 500) screenIndex = 4; //settings button 
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 525 && cursorY < 600) saveSave(); //save button 
     if (areaIndex == 0) { //debug area
-      if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) levelStart(98); //performance test level
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
+      if (cursorX > 50 && cursorX < 750 && cursorY > 25 && cursorY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 125 && cursorY < 200) levelStart(0); //level 00
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 225 && cursorY < 300) levelStart(1); //level 01
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 325 && cursorY < 400) levelStart(98); //performance test level
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 425 && cursorY < 500) levelStart(99); //performance test level 2
     } else if (areaIndex == 1) { //first area
-      if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) {screenIndex = 9; initObjects(); scrollX = 0;} //level editor button
-      if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
+      if (cursorX > 50 && cursorX < 750 && cursorY > 25 && cursorY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      if (cursorX > 50 && cursorX < 750 && cursorY > 325 && cursorY < 400) {screenIndex = 9; initObjects(); scrollX = 0;} //level editor button
+      if (cursorX > 50 && cursorX < 750 && cursorY > 425 && cursorY < 500) areaIndex = 0; //debug button
     }
   } else if (screenIndex == 3) { //vn segments
-    if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
+    if (cursorX > 1150 && cursorX < 1250 && cursorY > 650 && cursorY < 690) { //next button
       advanceVNText();
     }
-    else if (mouseX > 1040 && mouseX < 1140 && mouseY > 650 && mouseY < 690); //skip button (currently doesnt do anything
+    else if (cursorX > 1040 && cursorX < 1140 && cursorY > 650 && cursorY < 690); //skip button (currently doesnt do anything
   } else if (screenIndex == 4) { //settings menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) oneHitMode = !oneHitMode; //one hit death mode
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++;} //shadow
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 25 && cursorY < 100) oneHitMode = !oneHitMode; //one hit death mode
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 225 && cursorY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++;} //shadow
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 125 && cursorY < 200) damageOnTop = !damageOnTop; //damage on top button
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 325 && cursorY < 400 && screenRes == 0) {screenRes = 1; changeRes(screenRes);}
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 325 && cursorY < 400 && screenRes == 1) {screenRes = 0; changeRes(screenRes);}
   } else if (screenIndex == 5) { //stats menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
-    else if (mouseX > 625 && mouseX < 700 && mouseY > 125 && mouseY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05; playerStatPoints--;}
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) screenIndex = 2; //back button
+    else if (cursorX > 625 && cursorX < 700 && cursorY > 125 && cursorY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05; playerStatPoints--;}
+    if (cursorX > 625 && cursorX < 700 && cursorY > 225 && cursorY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05; playerStatPoints--;}
+    if (cursorX > 625 && cursorX < 700 && cursorY > 325 && cursorY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05; playerStatPoints--;}
+    if (cursorX > 625 && cursorX < 700 && cursorY > 425 && cursorY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05; playerStatPoints--;}
   } else if (screenIndex == 8) { //engineering menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) if (areaIndex == 2) {screenIndex = 3; textIndex = scriptStartPoints[3];} else screenIndex = 2; //back button
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 370 && mouseY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 570 && mouseY < 595 && playerMoney >= playerWeaponCost3) {playerMoney = playerMoney - playerWeaponCost3; playerWeaponLevel3++; calcWeaponStats();} //upgrade snipe weapon
-    else if (mouseX > 485 && mouseX < 870 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) if (areaIndex == 2) {screenIndex = 3; textIndex = scriptStartPoints[3];} else screenIndex = 2; //back button
+    else if (cursorX > 60 && cursorX < 445 && cursorY > 170 && cursorY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
+    else if (cursorX > 60 && cursorX < 445 && cursorY > 370 && cursorY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
+    else if (cursorX > 60 && cursorX < 445 && cursorY > 570 && cursorY < 595 && playerMoney >= playerWeaponCost3) {playerMoney = playerMoney - playerWeaponCost3; playerWeaponLevel3++; calcWeaponStats();} //upgrade snipe weapon
+    else if (cursorX > 485 && cursorX < 870 && cursorY > 170 && cursorY < 195 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
   } else if (screenIndex == 9) { //level editor
     //place an enemy
     if (mouseButton == LEFT) { //only place if LMB pressed
-      genEnemy(levelEnemyTypeSelected, mouseX + scrollX, mouseY);
+      genEnemy(levelEnemyTypeSelected, (int)cursorX + scrollX, (int)cursorY);
       levelEnemyType[levelEnemyIndex] = levelEnemyTypeSelected;
-      levelEnemyX[levelEnemyIndex] = mouseX + scrollX;
-      levelEnemyY[levelEnemyIndex] = mouseY;
+      levelEnemyX[levelEnemyIndex] = (int)cursorX + scrollX;
+      levelEnemyY[levelEnemyIndex] = (int)cursorY;
       levelEnemyIndex++;
     } else if (mouseButton == RIGHT) { //undo
       intentLevelEditor(1);
@@ -299,15 +303,22 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
     }
     if (usingDPAD == false) btnAdvanceMenu = true; //release menu nav buttons if no dpad being pressed
     if (usingDPAD == false && paused == false) { //only allow stick movement if dpad not pressed this frame and game not paused
-      if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > 0.05) { //deadzone
+      if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > LSDeadzone) { //deadzone
         usingStick = true;
         if (screenIndex == 0) playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
         else if (screenIndex == 9) cursorX = cursorX + (10 * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
       }
-      if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > 0.05) { //deadzone
+      if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > LSDeadzone) { //deadzone
         usingStick = true;
         if (screenIndex == 0) playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
         else if (screenIndex == 9) cursorY = cursorY - (10 * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+      }
+    }
+    if (abs(currController.getAxisState(ControllerAxis.RIGHTX)) > RSDeadzone) { //deadzone
+      if (screenIndex == 9) {
+        float scrollXtemp = scrollX + (int)(25 * constrain(currController.getAxisState(ControllerAxis.RIGHTX), -1, 1));
+        scrollX = (int)scrollXtemp;
+        if (scrollX < 0) scrollX = 0; //dont let scroll go negative
       }
     }
     if (currController.getAxisState(ControllerAxis.TRIGGERLEFT) > 0.1) {
@@ -383,7 +394,7 @@ void intentConfirm() { //called when space/A are pressed
 void intentCancel() { //called when backspace/B are pressed
   if (btnAdvanceCancel == true) {
     btnAdvanceCancel = false;
-    if (screenIndex != 0 && screenIndex != 3 && screenIndex != 9) {
+    if (screenIndex != 0 && screenIndex != 3 && screenIndex != 9 && screenIndex != 1) {
       if (screenIndex == 4) saveSettings(); //save settings if exiting settings menu
       if (areaIndex == 2 && screenIndex == 8) {screenIndex = 3; textIndex = scriptStartPoints[3];}
       else screenIndex = 2; //go to level select as long as not in game/in vn
@@ -391,6 +402,8 @@ void intentCancel() { //called when backspace/B are pressed
       menuIndexY = 0;
     } else if (screenIndex == 9) { //level editor
       intentLevelEditor(1);
+    } else if (screenIndex == 1) {
+      changeRes(1);
     }
   }
 }
@@ -546,6 +559,8 @@ void intentConfirmMenu() {
       if (menuIndexY == 0) oneHitMode = !oneHitMode; //one hit death mode
       else if (menuIndexY == 1) damageOnTop = !damageOnTop; //damage on top button
       else if (menuIndexY == 2) {shadowDisp = true; shadowFactor++;} //shadow
+      else if (menuIndexY == 3 && screenRes == 0) {screenRes = 1; changeRes(screenRes);} //change screen resolution
+      else if (menuIndexY == 3 && screenRes == 1) {screenRes = 0; changeRes(screenRes);} //change screen resolution
     }
   } else if (screenIndex == 5) { //status menu
     if (menuIndexX == 0) {

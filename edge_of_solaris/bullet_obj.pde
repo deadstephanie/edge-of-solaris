@@ -94,68 +94,68 @@ void display() {
     stroke(20, 20, 200, 120);
     strokeWeight(2);
     fill(20, 20, 200);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 1) { //spread shot
     noStroke();
     fill(139, 69, 19, 200);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     stroke(220, 220, 20, 120);
     strokeWeight(2);
     fill(255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 3) { //snipe shot
     noStroke();
     fill(20, 20, 200, 200);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     stroke(200, 200, 255, 120);
     strokeWeight(10);
     fill(255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 100) { //basic secondary missile
     stroke(255, 20, 20, 200);
     strokeWeight(3);
     fill(255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   }else if (bulletType == 101) {   
     stroke(255, 77, 0, 150);
     strokeWeight(3);
     fill(255, 77, 0, 150);
-    ellipse(bulletX - (bulletSpeedX / 1), bulletY - (bulletSpeedY / 1), bulletHitX - 1, bulletHitY - 1);
+    ellipse((bulletX - (bulletSpeedX / 1)) * screenScaling, (bulletY - (bulletSpeedY / 1)) * screenScaling, (bulletHitX - 1) * screenScaling, (bulletHitY - 1) * screenScaling);
     
     stroke(255, 77, 0, 100);
     strokeWeight(3);
     fill(255, 77, 0, 100);
-    ellipse(bulletX - (bulletSpeedX / 0.5), bulletY - (bulletSpeedY / 0.5), bulletHitX - 1   , bulletHitY - 1);
+    ellipse((bulletX - (bulletSpeedX / 0.5)) * screenScaling, (bulletY - (bulletSpeedY / 0.5)) * screenScaling, (bulletHitX - 1.5) * screenScaling, (bulletHitY - 1.5) * screenScaling);
     
     stroke(155, 77, 0, 50);
     strokeWeight(3);
     fill(255, 77, 0, 50);
-    ellipse(bulletX - (bulletSpeedX / 0.35), bulletY - (bulletSpeedY / 0.35), bulletHitX - 1   , bulletHitY - 1);
+    ellipse((bulletX - (bulletSpeedX / 0.35)) * screenScaling, (bulletY - (bulletSpeedY / 0.35)) * screenScaling, (bulletHitX - 2) * screenScaling, (bulletHitY - 2) * screenScaling);
     
     stroke(255, 2, 255, 200);
     strokeWeight(3);
     fill(255, 200, 220);
-    ellipse(bulletX - (bulletSpeedX / 2), bulletY - (bulletSpeedY / 2), bulletHitX, bulletHitY);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse((bulletX - (bulletSpeedX / 2)) * screenScaling, (bulletY - (bulletSpeedY / 2)) * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 2) { //dual beam cannon
     stroke(20, 20, 200, 150);
     strokeWeight(2);
     fill(100, 100, 255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 150);
     strokeWeight(2);
     fill(20, 255, 20, 150);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     fill(175, 255, 175);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 201) { //enemy energy shot (enemyindex 7)
     stroke(20, 20, 200, 150);
     strokeWeight(2);
     fill(20, 20, 255, 150);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     fill(175, 175, 255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   }
 }
 }

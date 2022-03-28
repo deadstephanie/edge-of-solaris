@@ -1,5 +1,7 @@
-when there is no more lines in the script file the game crashes
+when there is no more lines in the script file the game may crash
 
-the next and skip buttons do nothing in the vn segments
+the skip button does nothing in the vn segments
 
 performance needs to optimized all around
+
+menu selections can go beyond the available options, ie they are not limited in x/y

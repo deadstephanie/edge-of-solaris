@@ -107,6 +107,7 @@ ControllerManager controllers = new ControllerManager();
 
  public void setup(){
   /* size commented out by preprocessor */;
+  surface.setResizable(true);
   frameRate(60);
   blts = new bullet[bulletCount];
   basicE = new enemy[basicECount];
@@ -127,8 +128,8 @@ ControllerManager controllers = new ControllerManager();
  public void draw() {
   controllerSupport(); //detects controllers, controller movement,etc
   processInput(); //process keyboard input
-  playerX = constrain(playerX, 20, 1200); //constrain playerX to playfield
-  playerY = constrain(playerY, 10, 600); //constrain playerY to playfield
+  playerX = constrain(playerX, 20 * screenScaling, 1200 * screenScaling); //constrain playerX to playfield
+  playerY = constrain(playerY, 10 * screenScaling, 600 * screenScaling); //constrain playerY to playfield
   drawFrame();
   drawUI();
   if (shadowDisp == true) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++; shadowDisp = false;}
@@ -145,6 +146,20 @@ ControllerManager controllers = new ControllerManager();
   }
   usingDPAD = false; //release dpad
   usingStick = false; //release stick
+}
+
+ public void changeRes(int res) { //change screen resolution
+  if (res == 0) { //720p
+    surface.setSize(1280, 720);
+    screenScaling = 1;
+    screenX = 1280;
+    screenY = 720;
+  } else if (res == 1) { //1080p
+    surface.setSize(1920, 1080);
+    screenScaling = 1.5f;
+    screenX = 1920;
+    screenY = 1080;
+  }
 }
 
  public void drawFrame() {
@@ -185,7 +200,7 @@ ControllerManager controllers = new ControllerManager();
     } else if (levelType == 1) { //over water
       noStroke();
       fill(50, 50, 255);
-      ellipse(640, 750, 2000, 200);
+      ellipse(640 * screenScaling, 750 * screenScaling, 2000 * screenScaling, 200 * screenScaling);
     } 
     levelEndCheckTimer++;
     if (levelEndCheckTimer > 60) { //check to see if all enemies are dead once a second
@@ -211,7 +226,7 @@ ControllerManager controllers = new ControllerManager();
     else { //if player being hurt
       setRect(2); 
       playerState--;  //reset player state
-      rect(playerX, playerY + 10, playerHitX, playerHitY - 10, 10); //render player hurt state
+      rect(playerX * screenScaling, (playerY + 10) * screenScaling, playerHitX * screenScaling, (playerHitY - 10) * screenScaling, 10); //render player hurt state
     }
     
     if (playerHP <= 0) { //if player dies
@@ -225,18 +240,18 @@ ControllerManager controllers = new ControllerManager();
     //render the engine glow effect
     noStroke();
     fill(0, 127, 255, 100);
-    ellipse(playerX - 6, playerY + 12.5f, 30 + abs(playerEngineTimer / 3), 10);
+    ellipse((playerX - 6) * screenScaling, (playerY + 12.5f) * screenScaling, (30 + abs(playerEngineTimer / 3)) * screenScaling, 10 * screenScaling);
     fill(0, 165, 255, 120);
-    ellipse(playerX - 3, playerY + 12.5f, 20 + abs(playerEngineTimer / 3), 10);
+    ellipse((playerX - 3) * screenScaling, (playerY + 12.5f) * screenScaling, (20 + abs(playerEngineTimer / 3)) * screenScaling, 10 * screenScaling);
     fill(60, 240, 255, 150);
-    ellipse(playerX - 1, playerY + 12.5f, 15 + abs(playerEngineTimer / 3), 8);
+    ellipse((playerX - 1) * screenScaling, (playerY + 12.5f) * screenScaling, (15 + abs(playerEngineTimer / 3)) * screenScaling, 8 * screenScaling);
     fill(100, 240, 255, 200);
-    ellipse(playerX - 1, playerY + 12.5f, 10 + abs(playerEngineTimer / 3), 6);
+    ellipse((playerX - 1) * screenScaling, (playerY + 12.5f) * screenScaling, (10 + abs(playerEngineTimer / 3)) * screenScaling, 6 * screenScaling);
     playerEngineTimer++;
     if (playerEngineTimer == 15) playerEngineTimer = -15;
     
-    if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
-    else image(player1, playerX - 5, playerY - 5); //player sprite
+    if (shadowFactor > 12) image(shadow4, (playerX - 5) * screenScaling, (playerY - 5) * screenScaling, (playerHitX * 2) * screenScaling, (playerHitY * 2) * screenScaling);
+    else image(player1, (playerX - 5) * screenScaling, (playerY - 5) * screenScaling, 80 * screenScaling, 30 * screenScaling); //player sprite
     
     if (damageOnTop == true) {
       for (damage dmg : dmg) {
@@ -270,37 +285,38 @@ ControllerManager controllers = new ControllerManager();
     } else if (levelType == 1) { //over water
       noStroke();
       fill(50, 50, 255);
-      ellipse(640, 750, 2000, 200);
+      ellipse(640 * screenScaling, 750 * screenScaling, 2000 * screenScaling, 200 * screenScaling);
     }
     if (playerState == 255) { //if player dead
       if (playerAnimTiming != 0) {
         fill(255, 127, 0, 100);
-        ellipse(playerX + 30, playerY + 7, (playerHitX / 3) + (playerAnimTiming * 5), (playerHitY / 2) + (playerAnimTiming * 3));
+        ellipse((playerX + 30) * screenScaling, (playerY + 7) * screenScaling, ((playerHitX / 3) + (playerAnimTiming * 5)) * screenScaling, ((playerHitY / 2) + (playerAnimTiming * 3)) * screenScaling);
         fill(255, 165, 0, 120);
-        ellipse(playerX + 30, playerY + 7, (playerHitX / 3) + (playerAnimTiming * 4), (playerHitY / 2) + (playerAnimTiming * 2));
+        ellipse((playerX + 30) * screenScaling, (playerY + 7) * screenScaling, ((playerHitX / 3) + (playerAnimTiming * 4)) * screenScaling, ((playerHitY / 2) + (playerAnimTiming * 2)) * screenScaling);
         fill(255, 240, 60, 150);
-        ellipse(playerX + 30, playerY + 7, (playerHitX / 3) + (playerAnimTiming * 3), (playerHitY / 2) + (playerAnimTiming * 1));
+        ellipse((playerX + 30) * screenScaling, (playerY + 7) * screenScaling, ((playerHitX / 3) + (playerAnimTiming * 3)) * screenScaling, ((playerHitY / 2) + (playerAnimTiming * 1)) * screenScaling);
         playerAnimTiming--;
       }
-      textSize(60);
+      textSize(60 * screenScaling);
       fill(255, 50, 50);
-      text("YOU DIED", 550, 350);
-      textSize(48);
-      text("Press R, Space or A to restart", 400, 450);
+      text("YOU DIED", 550 * screenScaling, 350 * screenScaling);
+      textSize(48 * screenScaling);
+      text("Press R, Space or A to restart", 400 * screenScaling, 450 * screenScaling);
       
     } else {
-      if (shadowFactor > 12) image(shadow4, playerX - 5, playerY - 5, playerHitX * 2, playerHitY * 2);
-      else image(player1, playerX - 5, playerY - 5); //player sprite
+      if (shadowFactor > 12) image(shadow4, (playerX - 5) * screenScaling, (playerY - 5) * screenScaling, (playerHitX * 2) * screenScaling, (playerHitY * 2) * screenScaling);
+      else image(player1, (playerX - 5) * screenScaling, (playerY - 5) * screenScaling, 80 * screenScaling, 30 * screenScaling); //player sprite
+      
       if (levelEnd == true) { //if on level end screen
-      textSize(60);
+      textSize(60 * screenScaling);
       fill(255, 50, 50);
-      text("Level Complete", 550, 350);
-      textSize(48);
-      text("Press Space or A to continue", 490, 450);
+      text("Level Complete", 550 * screenScaling, 350 * screenScaling);
+      textSize(48 * screenScaling);
+      text("Press Space or A to continue", 490 * screenScaling, 450 * screenScaling);
     } else { //if paused, player not dead and level not complete
-      textSize(60);
+      textSize(60 * screenScaling);
       fill(255, 50, 50);
-      text("PAUSED", 550, 350);
+      text("PAUSED", 550 * screenScaling, 350 * screenScaling);
     }
     }
     if (damageOnTop == true) {
@@ -326,44 +342,44 @@ ControllerManager controllers = new ControllerManager();
       stroke(0);
       strokeWeight(15);
       fill(0);
-      rect(20, 650, 200, 50, 10);
-      rect(235, 650, 200, 50, 10);
+      rect(20 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
+      rect(235 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
       setRect(4);
-      if (playerHP >= 0) rect(23, 653.5f, (195 * (playerHP / playerHPMax)), 44);
+      if (playerHP >= 0) rect(23 * screenScaling, 653.5f * screenScaling, (195 * (playerHP / playerHPMax)) * screenScaling, 44 * screenScaling);
       setRect(5);
-      rect(238, 653.5f, (194 * (playerShield / playerShieldMax)), 44);
+      rect(238 * screenScaling, 653.5f * screenScaling, (194 * (playerShield / playerShieldMax)) * screenScaling, 44 * screenScaling);
       setRect(3); //render surrounds
       noFill();
-      rect(20, 650, 200, 50, 10);
-      rect(235, 650, 200, 50, 10);
+      rect(20 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
+      rect(235 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
       fill(0);
     }
     
     //render weapon selector
     stroke(255);
     strokeWeight(2);
-    rect(450, 653, 30, 20, 5);
-    rect(450, 678, 30, 20, 5);
-    rect(485, 653, 30, 20, 5);
-    rect(485, 678, 30, 20, 5);
+    rect(450 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+    rect(450 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+    rect(485 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+    rect(485 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
   } else if (screenIndex == 1) { //title page
     background(0);
     fill(200, 200, 255, 120);
-    textSize(130);
-    text("Edge Of Solaris", 240, 120);
-    text("Edge Of Solaris", 248, 120);
+    textSize(130 * screenScaling);
+    text("Edge Of Solaris", 240 * screenScaling, 120 * screenScaling);
+    text("Edge Of Solaris", 248 * screenScaling, 120 * screenScaling);
     fill(200, 200, 255, 255);
-    textSize(128);
-    text("Edge Of Solaris", 250, 120);
+    textSize(128 * screenScaling);
+    text("Edge Of Solaris", 250 * screenScaling, 120 * screenScaling);
     fill(200, 200, 255);
-    textSize(90);
-    text("random tagline in space", 200, 240);
+    textSize(90 * screenScaling);
+    text("random tagline in space", 200 * screenScaling, 240 * screenScaling);
     textSize(64);
-    text("new game", 500, 400);
-    text("continue", 500, 500);
-    text("press space or A to continue (temp)", 50, 650);
-    textSize(24);
-    text("build " + buildNumber, 1175, 700);
+    text("new game", 500 * screenScaling, 400 * screenScaling);
+    text("continue", 500 * screenScaling, 500 * screenScaling);
+    text("press space or A to continue (temp)", 50 * screenScaling, 650 * screenScaling);
+    textSize(24 * screenScaling);
+    text("build " + buildNumber, 1175 * screenScaling, 650 * screenScaling);
   } else if (screenIndex == 2) { //level select
     background(0);
     stroke(255);
@@ -371,55 +387,55 @@ ControllerManager controllers = new ControllerManager();
     fill(50, 0, 50);
     //draw menu rects
     if (menuIndexX == 1 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(950, 25, 300, 75);
+    rect(950 * screenScaling, 25 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 1 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(950, 125, 300, 75);
+    rect(950 * screenScaling, 125 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 1 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(950, 225, 300, 75);
+    rect(950 * screenScaling, 225 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 1 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(950, 325, 300, 75);
+    rect(950 * screenScaling, 325 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 1 && menuIndexY == 4) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(950, 425, 300, 75);
+    rect(950 * screenScaling, 425 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 1 && menuIndexY == 5) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(950, 525, 300, 75);
+    rect(950 * screenScaling, 525 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     //draw level select rects
     if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 25, 700, 75);
+    rect(50 * screenScaling, 25 * screenScaling, 700 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 125, 700, 75);
+    rect(50 * screenScaling, 125 * screenScaling, 700 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 225, 700, 75);
+    rect(50 * screenScaling, 225 * screenScaling, 700 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 325, 700, 75);
+    rect(50 * screenScaling, 325 * screenScaling, 700 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 4) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 425, 700, 75);
+    rect(50 * screenScaling, 425 * screenScaling, 700 * screenScaling, 75 * screenScaling);
     
     if (playerStatPoints > 0) { //check if stat points to spend
       fill(255, 0, 0);
       noStroke();
-      ellipse(1212.5f, 62.5f, 50, 50); //draw red circle to indicate stat points to spend
+      ellipse(1212.5f * screenScaling, 62.5f * screenScaling, 50 * screenScaling, 50 * screenScaling); //draw red circle to indicate stat points to spend
     }
     //draw text
     noStroke();
     fill(255);
-    textSize(48);
-    text("status", 975, 75);
-    text("mess hall", 975, 175);
-    text("hanger", 975, 275);
-    text("engineering", 975, 375);
-    text("settings", 975, 475);
-    text("save game", 975, 575);
-    if (areaIndex == 0) {
-      text("launch story", 75, 75);
-      text("level 00", 75, 175);
-      text("level 01", 75, 275);
-      text("test level", 75, 375);
-      text("test level 2", 75, 475);
+    textSize(48 * screenScaling);
+    text("status", 975 * screenScaling, 75 * screenScaling);
+    text("mess hall", 975 * screenScaling, 175 * screenScaling);
+    text("hanger", 975 * screenScaling, 275 * screenScaling);
+    text("engineering", 975 * screenScaling, 375 * screenScaling);
+    text("settings", 975 * screenScaling, 475 * screenScaling);
+    text("save game", 975 * screenScaling, 575 * screenScaling);
+    if (areaIndex == 0) { //debug menu
+      text("launch story", 75 * screenScaling, 75 * screenScaling);
+      text("level 00", 75 * screenScaling, 175 * screenScaling);
+      text("level 01", 75 * screenScaling, 275 * screenScaling);
+      text("test level", 75 * screenScaling, 375 * screenScaling);
+      text("test level 2", 75 * screenScaling, 475 * screenScaling);
       
     } else if (areaIndex == 1) { //first area
-      text("start the story", 75, 75);
-      text("go to level editor", 75, 375);
-      text("go to debug level select", 75, 475);
+      text("start the story", 75 * screenScaling, 75 * screenScaling);
+      text("go to level editor", 75 * screenScaling, 375 * screenScaling);
+      text("go to debug level select", 75 * screenScaling, 475 * screenScaling);
     } 
   } else if (screenIndex == 4) { //settings menu
     background(0);
@@ -427,150 +443,154 @@ ControllerManager controllers = new ControllerManager();
     strokeWeight(10);
     fill(50, 0, 50);
     //draw menu rects
-    rect(950, 25, 300, 75);
+    rect(950 * screenScaling, 25 * screenScaling, 300 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 25, 400, 75);
+    rect(50 * screenScaling, 25 * screenScaling, 400 * screenScaling, 75 * screenScaling);
     if (oneHitMode == true) {
       fill(0, 150, 0);
     } else fill(50, 0, 50);
-    rect(475, 25, 75, 75);
+    rect(475 * screenScaling, 25 * screenScaling, 75 * screenScaling, 75 * screenScaling);
     fill(50, 0, 50); // reset color
     if (damageOnTop == true) {
       fill(0, 150, 0);
     } else fill(50, 0, 50);
-    rect(475, 125, 75, 75);
+    rect(475 * screenScaling, 125 * screenScaling, 75 * screenScaling, 75 * screenScaling);
     fill(50, 0, 50); // reset color
     if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 125, 400, 75);
+    rect(50 * screenScaling, 125 * screenScaling, 400 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(50, 225, 400, 75);
+    rect(50 * screenScaling, 225 * screenScaling, 400 * screenScaling, 75 * screenScaling);
+    if (menuIndexX == 0 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
+    rect(50 * screenScaling, 325 * screenScaling, 400 * screenScaling, 75 * screenScaling);
     //draw options button
     noStroke();
     fill(255);
-    textSize(48);
-    text("Back", 975, 75);
-    text("one hit mode", 75, 75);
-    text("damage on top", 75, 175);
-    text("shadow", 75, 275);
+    textSize(48 * screenScaling);
+    text("Back", 975 * screenScaling, 75 * screenScaling);
+    text("one hit mode", 75 * screenScaling, 75 * screenScaling);
+    text("damage on top", 75 * screenScaling, 175 * screenScaling);
+    text("shadow", 75 * screenScaling, 275 * screenScaling);
+    if (screenRes == 0) text("change to 1080p", 75 * screenScaling, 375 * screenScaling);
+    else if (screenRes == 1) text("change to 720p", 75 * screenScaling, 375 * screenScaling);
   } else if (screenIndex == 5) { //status window
     background(0);
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
     //draw menu rects
-    rect(950, 25, 300, 75);
-    rect(50, 25, 400, 75);
-    rect(50, 125, 400, 75);
-    rect(50, 225, 400, 75);
-    rect(50, 325, 400, 75);
-    rect(50, 425, 400, 75);
+    rect(950 * screenScaling, 25 * screenScaling, 300 * screenScaling, 75 * screenScaling);
+    rect(50 * screenScaling, 25 * screenScaling, 400 * screenScaling, 75 * screenScaling);
+    rect(50 * screenScaling, 125 * screenScaling, 400 * screenScaling, 75 * screenScaling);
+    rect(50 * screenScaling, 225 * screenScaling, 400 * screenScaling, 75 * screenScaling);
+    rect(50 * screenScaling, 325 * screenScaling, 400 * screenScaling, 75 * screenScaling);
+    rect(50 * screenScaling, 425 * screenScaling, 400 * screenScaling, 75 * screenScaling);
     
-    rect(475, 25, 125, 75);
-    rect(475, 125, 125, 75);
-    rect(475, 225, 125, 75);
-    rect(475, 325, 125, 75);
-    rect(475, 425, 125, 75);
+    rect(475 * screenScaling, 25 * screenScaling, 125 * screenScaling, 75 * screenScaling);
+    rect(475 * screenScaling, 125 * screenScaling, 125 * screenScaling, 75 * screenScaling);
+    rect(475 * screenScaling, 225 * screenScaling, 125 * screenScaling, 75 * screenScaling);
+    rect(475 * screenScaling, 325 * screenScaling, 125 * screenScaling, 75 * screenScaling);
+    rect(475 * screenScaling, 425 * screenScaling, 125 * screenScaling, 75 * screenScaling);
     
     if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(625, 125, 75, 75);
+    rect(625 * screenScaling, 125 * screenScaling, 75 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(625, 225, 75, 75);
+    rect(625 * screenScaling, 225 * screenScaling, 75 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(625, 325, 75, 75);
+    rect(625 * screenScaling, 325 * screenScaling, 75 * screenScaling, 75 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 3) fill(20, 100, 20); else fill(50, 0, 50);
-    rect(625, 425, 75, 75);
+    rect(625 * screenScaling, 425 * screenScaling, 75 * screenScaling, 75 * screenScaling);
 
     noStroke();
     fill(255);
-    textSize(48);
-    text("Back", 975, 75);
-    text("total stat points", 75, 75);
-    text("hp", 75, 175);
-    text("shield", 75, 275);
-    text("defense", 75, 375);
-    text("attack", 75, 475);
+    textSize(48 * screenScaling);
+    text("Back", 975 * screenScaling, 75 * screenScaling);
+    text("total stat points", 75 * screenScaling, 75 * screenScaling);
+    text("hp", 75 * screenScaling, 175 * screenScaling);
+    text("shield", 75 * screenScaling, 275 * screenScaling);
+    text("defense", 75 * screenScaling, 375 * screenScaling);
+    text("attack", 75 * screenScaling, 475 * screenScaling);
     
-    text("XP: " + playerXP, 75, 575);
-    text("level: " + playerLevel, 75, 675);
-    text("xp next level: " + pow(playerLevel + 1, 3), 500, 575);
+    text("XP: " + playerXP, 75 * screenScaling, 575 * screenScaling);
+    text("level: " + playerLevel, 75 * screenScaling, 675 * screenScaling);
+    text("xp next level: " + pow(playerLevel + 1, 3), 500 * screenScaling, 575 * screenScaling);
     
-    text("+", 650, 175);
-    text("+", 650, 275);
-    text("+", 650, 375);
-    text("+", 650, 475);
+    text("+", 650 * screenScaling, 175 * screenScaling);
+    text("+", 650 * screenScaling, 275 * screenScaling);
+    text("+", 650 * screenScaling, 375 * screenScaling);
+    text("+", 650 * screenScaling, 475 * screenScaling);
     
-    text(playerStatPoints, 490, 75);
-    text((int)playerHPMax, 490, 175);
-    text((int)playerShieldMax, 490, 275);
-    text((int)(playerDefense * 100), 490, 375);
-    text((int)(playerAttack * 100), 490, 475);
+    text(playerStatPoints, 490 * screenScaling, 75 * screenScaling);
+    text((int)playerHPMax, 490 * screenScaling, 175 * screenScaling);
+    text((int)playerShieldMax, 490 * screenScaling, 275 * screenScaling);
+    text((int)(playerDefense * 100), 490 * screenScaling, 375 * screenScaling);
+    text((int)(playerAttack * 100), 490 * screenScaling, 475 * screenScaling);
   } else if (screenIndex == 8) { //engineering
     background(0);
     stroke(255);
     strokeWeight(10);
     fill(50, 0, 50);
     //draw menu rects
-    rect(950, 25, 300, 75);
-    rect(950, 125, 300, 175);
+    rect(950 * screenScaling, 25 * screenScaling, 300 * screenScaling, 75 * screenScaling);
+    rect(950 * screenScaling, 125 * screenScaling, 300 * screenScaling, 175 * screenScaling);
     //draw level select rects
-    rect(50, 25, 400, 175);
-    rect(50, 225, 400, 175);
-    rect(50, 425, 400, 175);
+    rect(50 * screenScaling, 25 * screenScaling, 400 * screenScaling, 175 * screenScaling);
+    rect(50 * screenScaling, 225 * screenScaling, 400 * screenScaling, 175 * screenScaling);
+    rect(50 * screenScaling, 425 * screenScaling, 400 * screenScaling, 175 * screenScaling);
     
-    rect(475, 25, 400, 175);
-    rect(475, 225, 400, 175);
-    rect(475, 425, 400, 175);
+    rect(475 * screenScaling, 25 * screenScaling, 400 * screenScaling, 175 * screenScaling);
+    rect(475 * screenScaling, 225 * screenScaling, 400 * screenScaling, 175 * screenScaling);
+    rect(475 * screenScaling, 425 * screenScaling, 400 * screenScaling, 175 * screenScaling);
     
     noStroke();
     fill(255);
-    textSize(48);
-    text("Back", 975, 75);
-    text("Money:", 975, 175);
-    text("$" + playerMoney, 975, 275);
+    textSize(48 * screenScaling);
+    text("Back", 975 * screenScaling, 75 * screenScaling);
+    text("Money:", 975 * screenScaling, 175 * screenScaling);
+    text("$" + playerMoney, 975 * screenScaling, 275 * screenScaling);
     
-    textSize(16);
-    text("Dual Beam Cannon (per bullet stats)", 60, 45);
-    text("Bullet Count: 2", 60, 65);
-    text("Current Damage per Bullet: " + playerWeaponPower2, 60, 85);
-    text("Upgraded Damage per Bullet: " + (playerWeaponPower2 * 1.1f), 60, 105);
-    text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60, 125);
-    text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1f * (60/playerWeaponCooldown2)), 60, 145);
-    text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60, 165);
+    textSize(16 * screenScaling);
+    text("Dual Beam Cannon (per bullet stats)", 60 * screenScaling, 45 * screenScaling);
+    text("Bullet Count: 2", 60 * screenScaling, 65 * screenScaling);
+    text("Current Damage per Bullet: " + playerWeaponPower2, 60 * screenScaling, 85 * screenScaling);
+    text("Upgraded Damage per Bullet: " + (playerWeaponPower2 * 1.1f), 60 * screenScaling, 105 * screenScaling);
+    text("Current Damage per Second: " + (playerWeaponPower2 * (60/playerWeaponCooldown2)), 60 * screenScaling, 125 * screenScaling);
+    text("Upgraded Damage per Second: " + (playerWeaponPower2 * 1.1f * (60/playerWeaponCooldown2)), 60 * screenScaling, 145 * screenScaling);
+    text("Current Bullets per second: " + (60/playerWeaponCooldown2), 60 * screenScaling, 165 * screenScaling);
     if (menuIndexX == 0 && menuIndexY == 0) fill(20, 100, 20);
-    text("Click here to Upgrade Weapon: $" + playerWeaponCost2, 60, 185); 
+    text("Click here to Upgrade Weapon: $" + playerWeaponCost2, 60 * screenScaling, 185 * screenScaling); 
     fill(255);
     if (playerWeaponsUnlocked >= 1) {
-      text("Machine Gun (per bullet stats)", 60, 245);
-      text("Bullet Count: 1", 60, 265);
-      text("Current Damage per Bullet: " + playerWeaponPower0, 60, 285);
-      text("Upgraded Damage per Bullet: " + (playerWeaponPower0 * 1.1f), 60, 305);
-      text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60, 325);
-      text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1f * (60/playerWeaponCooldown0)), 60, 345);
-      text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60, 365);
+      text("Machine Gun (per bullet stats)", 60 * screenScaling, 245 * screenScaling);
+      text("Bullet Count: 1", 60 * screenScaling, 265 * screenScaling);
+      text("Current Damage per Bullet: " + playerWeaponPower0, 60 * screenScaling, 285 * screenScaling);
+      text("Upgraded Damage per Bullet: " + (playerWeaponPower0 * 1.1f), 60 * screenScaling, 305 * screenScaling);
+      text("Current Damage per Second: " + (playerWeaponPower0 * (60/playerWeaponCooldown0)), 60 * screenScaling, 325 * screenScaling);
+      text("Upgraded Damage per Second: " + (playerWeaponPower0 * 1.1f * (60/playerWeaponCooldown0)), 60 * screenScaling, 345 * screenScaling);
+      text("Current Bullets per second: " + (60/playerWeaponCooldown0), 60 * screenScaling, 365 * screenScaling);
       if (menuIndexX == 0 && menuIndexY == 1) fill(20, 100, 20);
-      text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60, 385); 
+      text("Click here to Upgrade Weapon: $" + playerWeaponCost0, 60 * screenScaling, 385 * screenScaling); 
       fill(255);
       if (playerWeaponsUnlocked >= 2) {
-        text("Heavy Laser (per bullet stats)", 60, 445);
-        text("Bullet Count: 1", 60, 465);
-        text("Current Damage per Bullet: " + playerWeaponPower3, 60, 485);
-        text("Upgraded Damage per Bullet: " + (playerWeaponPower3 * 1.1f), 60, 505);
-        text("Current Damage per Second: " + (playerWeaponPower3 * (60/playerWeaponCooldown3)), 60, 525);
-        text("Upgraded Damage per Second: " + (playerWeaponPower3 * 1.1f * (60/playerWeaponCooldown3)), 60, 545);
-        text("Current Bullets per second: " + (60/playerWeaponCooldown3), 60, 565);
+        text("Heavy Laser (per bullet stats)", 60 * screenScaling, 445 * screenScaling);
+        text("Bullet Count: 1", 60 * screenScaling, 465 * screenScaling);
+        text("Current Damage per Bullet: " + playerWeaponPower3, 60 * screenScaling, 485 * screenScaling);
+        text("Upgraded Damage per Bullet: " + (playerWeaponPower3 * 1.1f), 60 * screenScaling, 505 * screenScaling);
+        text("Current Damage per Second: " + (playerWeaponPower3 * (60/playerWeaponCooldown3)), 60 * screenScaling, 525 * screenScaling);
+        text("Upgraded Damage per Second: " + (playerWeaponPower3 * 1.1f * (60/playerWeaponCooldown3)), 60 * screenScaling, 545 * screenScaling);
+        text("Current Bullets per second: " + (60/playerWeaponCooldown3), 60 * screenScaling, 565 * screenScaling);
         if (menuIndexX == 0 && menuIndexY == 2) fill(20, 100, 20);
-        text("Click here to Upgrade Weapon: $" + playerWeaponCost3, 60, 585); 
+        text("Click here to Upgrade Weapon: $" + playerWeaponCost3, 60 * screenScaling, 585 * screenScaling); 
         fill(255);
         if (playerWeaponsUnlocked >= 3) {
-          text("Shotgun (per bullet stats)", 485, 45);
-          text("Bullet Count: 5", 485, 65);
-          text("Current Damage per Bullet: " + playerWeaponPower1, 485, 85);
-          text("Upgraded Damage per Bullet: " + (playerWeaponPower1 * 1.1f), 485, 105);
-          text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485, 125);
-          text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1f * (60/playerWeaponCooldown1)), 485, 145);
-          text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485, 165);
+          text("Shotgun (per bullet stats)", 485 * screenScaling, 45 * screenScaling);
+          text("Bullet Count: 5", 485 * screenScaling, 65 * screenScaling);
+          text("Current Damage per Bullet: " + playerWeaponPower1, 485 * screenScaling, 85 * screenScaling);
+          text("Upgraded Damage per Bullet: " + (playerWeaponPower1 * 1.1f), 485 * screenScaling, 105 * screenScaling);
+          text("Current Damage per Second: " + (playerWeaponPower1 * (60/playerWeaponCooldown1)), 485 * screenScaling, 125 * screenScaling);
+          text("Upgraded Damage per Second: " + (playerWeaponPower1 * 1.1f * (60/playerWeaponCooldown1)), 485 * screenScaling, 145 * screenScaling);
+          text("Current Bullets per second: " + (60/playerWeaponCooldown1), 485 * screenScaling, 165 * screenScaling);
           if (menuIndexX == 1 && menuIndexY == 0) fill(20, 100, 20);
-          text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485, 185); 
+          text("Click here to Upgrade Weapon: $" + playerWeaponCost1, 485 * screenScaling, 185 * screenScaling); 
           fill(255);
         }
       }
@@ -905,68 +925,68 @@ public void reset() {
     stroke(20, 20, 200, 120);
     strokeWeight(2);
     fill(20, 20, 200);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 1) { //spread shot
     noStroke();
     fill(139, 69, 19, 200);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     stroke(220, 220, 20, 120);
     strokeWeight(2);
     fill(255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 3) { //snipe shot
     noStroke();
     fill(20, 20, 200, 200);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     stroke(200, 200, 255, 120);
     strokeWeight(10);
     fill(255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 100) { //basic secondary missile
     stroke(255, 20, 20, 200);
     strokeWeight(3);
     fill(255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   }else if (bulletType == 101) {   
     stroke(255, 77, 0, 150);
     strokeWeight(3);
     fill(255, 77, 0, 150);
-    ellipse(bulletX - (bulletSpeedX / 1), bulletY - (bulletSpeedY / 1), bulletHitX - 1, bulletHitY - 1);
+    ellipse((bulletX - (bulletSpeedX / 1)) * screenScaling, (bulletY - (bulletSpeedY / 1)) * screenScaling, (bulletHitX - 1) * screenScaling, (bulletHitY - 1) * screenScaling);
     
     stroke(255, 77, 0, 100);
     strokeWeight(3);
     fill(255, 77, 0, 100);
-    ellipse(bulletX - (bulletSpeedX / 0.5f), bulletY - (bulletSpeedY / 0.5f), bulletHitX - 1   , bulletHitY - 1);
+    ellipse((bulletX - (bulletSpeedX / 0.5f)) * screenScaling, (bulletY - (bulletSpeedY / 0.5f)) * screenScaling, (bulletHitX - 1.5f) * screenScaling, (bulletHitY - 1.5f) * screenScaling);
     
     stroke(155, 77, 0, 50);
     strokeWeight(3);
     fill(255, 77, 0, 50);
-    ellipse(bulletX - (bulletSpeedX / 0.35f), bulletY - (bulletSpeedY / 0.35f), bulletHitX - 1   , bulletHitY - 1);
+    ellipse((bulletX - (bulletSpeedX / 0.35f)) * screenScaling, (bulletY - (bulletSpeedY / 0.35f)) * screenScaling, (bulletHitX - 2) * screenScaling, (bulletHitY - 2) * screenScaling);
     
     stroke(255, 2, 255, 200);
     strokeWeight(3);
     fill(255, 200, 220);
-    ellipse(bulletX - (bulletSpeedX / 2), bulletY - (bulletSpeedY / 2), bulletHitX, bulletHitY);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse((bulletX - (bulletSpeedX / 2)) * screenScaling, (bulletY - (bulletSpeedY / 2)) * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 2) { //dual beam cannon
     stroke(20, 20, 200, 150);
     strokeWeight(2);
     fill(100, 100, 255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 200) { //basic enemy shot
     stroke(20, 200, 20, 150);
     strokeWeight(2);
     fill(20, 255, 20, 150);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     fill(175, 255, 175);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   } else if (bulletType == 201) { //enemy energy shot (enemyindex 7)
     stroke(20, 20, 200, 150);
     strokeWeight(2);
     fill(20, 20, 255, 150);
-    ellipse(bulletX, bulletY, bulletHitX + 5, bulletHitY + 5);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, (bulletHitX + 5) * screenScaling, (bulletHitY + 5) * screenScaling);
     fill(175, 175, 255);
-    ellipse(bulletX, bulletY, bulletHitX, bulletHitY);
+    ellipse(bulletX * screenScaling, bulletY * screenScaling, bulletHitX * screenScaling, bulletHitY * screenScaling);
   }
 }
 }
@@ -998,16 +1018,16 @@ class damage {
         int fade = damageTimer * 8;
         if (fade > 255) fade = 255;
         noStroke();
-        textSize(24);
+        textSize(24 * screenScaling);
         fill(255, 20, 20, fade);
-        text(damage, damageX, damageY);
+        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
       } else if (damageType == 1) {
         int fade = damageTimer * 8;
         if (fade > 255) fade = 255;
         noStroke();
-        textSize(24);
+        textSize(24 * screenScaling);
         fill(200, 20, 255, fade);
-        text(damage, damageX, damageY);
+        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
       }
     }
   }
@@ -1128,7 +1148,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void shoot() {
   if (screenIndex == 9) displayX = enemyX - scrollX;
    else displayX = enemyX;
-   if (enemyState != 2 && displayX < 1250) { //check if enemy is on screen and not dead
+   if (enemyState != 2 && displayX < 1250 * screenScaling) { //check if enemy is on screen and not dead
     if (enemyType == 0) { //check to see if enemy is a drone
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     float speed = 5; //higher numbers are slower
@@ -1215,7 +1235,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       enemyHP = 0;
     }
   } else if (enemyType == 6) { //small interceptor that shoots homing shots once it reaches the end of the screen
-    if (enemyTiming > 20 && enemyX < 200) {
+    if (enemyTiming > 20 && enemyX < 200 * screenScaling) {
       float speed = 10; //higher numbers are slower
       int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
       int offsetY = 10; //account for incorrect aim
@@ -1238,87 +1258,48 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void display() {
-  displayX = enemyX - scrollX;
+  displayX = (enemyX - scrollX);
   strokeWeight(1);
   noStroke();
   if (enemyState == 1) tint(255, 100, 100);
-  if (enemyState != 2) { //do not display hp bar and render enemy if enemy is dead
-    if (screenIndex == 9) {
+  if (enemyState != 2 && displayX < (1500 * screenScaling)) { //do not display hp bar and render enemy if enemy is dead
+    if (screenIndex == 9 || screenIndex == 0) {
       //draw hp bars
       strokeWeight(1);
       stroke(0);
       fill(20, 255, 20, 100);
-      rect(displayX - (enemyHitX * 0.45f), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
+      rect((displayX - (enemyHitX * 0.45f)) * screenScaling, (enemyY - (enemyHitY - 5)) * screenScaling, (((enemyHitX - 5) * (enemyHP / enemyHPMax))) * screenScaling, 5 * screenScaling);
       
       //draw enemies
       switch(enemyType) {
         case 0: //drone that fires a homing shot
-        image(faun1, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun1, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 1: //small gunship
-        image(faun2, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun2, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 2: //small interceptor (spread shot)
-        image(faun3, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun3, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 3: //medium interceptor
-        image(faun4, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun4, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 4: //cargo ship
-        image(faun5, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun5, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-        image(faun3, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun3, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 7: //energy weapon that charges
         fill(20, 20, 200, 150);
         stroke(20, 20, 200, 150);
-        rect(displayX - (enemyTiming / 2), enemyY - 12, 50, 25); //shooting animation
-        image(faun6, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        rect((displayX - (enemyTiming / 2)) * screenScaling, (enemyY - 12) * screenScaling, 50 * screenScaling, 25 * screenScaling); //shooting animation
+        image(faun6, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         default:
         noStroke();
         fill(255, 0, 0);
-        ellipse(displayX, enemyY, enemyHitX, enemyHitY);
-        break;
-      }
-    } else {
-      //draw hp bars
-      strokeWeight(1);
-      stroke(0);
-      fill(20, 255, 20, 100);
-      rect(enemyX - (enemyHitX * 0.45f), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
-      
-      //draw enemies
-      switch (enemyType) {
-        case 0: //drone that fires a homing shot
-        image(faun1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 1: //small gunship
-        image(faun2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 2: //small interceptor (spread shot)
-        image(faun3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 3: //medium interceptor
-        image(faun4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 4: //cargo ship
-        image(faun5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-        image(faun3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 7: //energy weapon that charges
-        fill(20, 20, 200, 150);
-        stroke(20, 20, 200, 150);
-        rect(enemyX - (enemyTiming / 2), enemyY - 12, 50, 25); //shooting animation
-        image(faun6, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        default:
-        noStroke();
-        fill(255, 0, 0);
-        ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+        ellipse(displayX * screenScaling, enemyY * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
       }
     }
@@ -1326,11 +1307,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     enemyState = 0; //reset enemy state (so it untints after being shot)
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
-    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 5), (enemyHitY / 2) + (enemyTiming * 3));
+    ellipse(enemyX * screenScaling, enemyY * screenScaling, ((enemyHitX / 3) + (enemyTiming * 5)) * screenScaling, ((enemyHitY / 2) + (enemyTiming * 3)) * screenScaling);
     fill(255, 165, 0, 120);
-    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 4), (enemyHitY / 2) + (enemyTiming * 2));
+    ellipse(enemyX * screenScaling, enemyY * screenScaling, ((enemyHitX / 3) + (enemyTiming * 4)) * screenScaling, ((enemyHitY / 2) + (enemyTiming * 2)) * screenScaling);
     fill(255, 240, 60, 150);
-    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
+    ellipse(enemyX * screenScaling, enemyY * screenScaling, ((enemyHitX / 3) + (enemyTiming * 3)) * screenScaling, ((enemyHitY / 2) + (enemyTiming * 1)) * screenScaling);
     enemyTiming--;
   }
   
@@ -1355,6 +1336,10 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
+  LSDeadzone = settingsJSON.getFloat("LSDeadzone");
+  RSDeadzone = settingsJSON.getFloat("RSDeadzone");
+  screenRes = settingsJSON.getInt("screenRes");
+  changeRes(screenRes); //update screen res according to setting
   
   for(int i = 0; i < loadScript.length; i++) {
     textLines[i] = loadScript[i]; //this is necessary trust me
@@ -1424,7 +1409,9 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void saveSettings() { //save the settings file
   if (oneHitMode == true) settingsJSON.setInt("oneHitMode", 1); else settingsJSON.setInt("oneHitMode", 0);
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
-  
+  settingsJSON.setFloat("LSDeadzone", LSDeadzone);
+  settingsJSON.setFloat("RSDeadzone", RSDeadzone);
+  settingsJSON.setInt("screenRes", screenRes);
   saveJSONObject(settingsJSON, "settings.json");
 }
 
@@ -1802,8 +1789,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = 0;
-    basicE[enemyIndex].enemyHitX = 110;
-    basicE[enemyIndex].enemyHitY = 110;
+    basicE[enemyIndex].enemyHitX = 100;
+    basicE[enemyIndex].enemyHitY = 100;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
   } else if (type == 1) {
@@ -1812,8 +1799,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 210;
-    basicE[enemyIndex].enemyHitY = 86;
+    basicE[enemyIndex].enemyHitX = 200;
+    basicE[enemyIndex].enemyHitY = 76;
     basicE[enemyIndex].enemyHP = 50 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 50 * enemyBalanceHP;
   } else if (type == 2) {
@@ -1822,8 +1809,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 170;
-    basicE[enemyIndex].enemyHitY = 70;
+    basicE[enemyIndex].enemyHitX = 160;
+    basicE[enemyIndex].enemyHitY = 60;
     basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
   } else if (type == 3) {
@@ -1832,8 +1819,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 190;
-    basicE[enemyIndex].enemyHitY = 58;
+    basicE[enemyIndex].enemyHitX = 180;
+    basicE[enemyIndex].enemyHitY = 48;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
   } else if (type == 4) {
@@ -1842,8 +1829,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 252;
-    basicE[enemyIndex].enemyHitY = 102;
+    basicE[enemyIndex].enemyHitX = 244;
+    basicE[enemyIndex].enemyHitY = 92;
     basicE[enemyIndex].enemyHP = 100 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 100 * enemyBalanceHP;
   } else if (type == 6) {
@@ -1852,8 +1839,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemySpeedX = autoScroll;
     basicE[enemyIndex].enemySpeedY = 0;
     basicE[enemyIndex].enemyType = type;
-    basicE[enemyIndex].enemyHitX = 170;
-    basicE[enemyIndex].enemyHitY = 70;
+    basicE[enemyIndex].enemyHitX = 160;
+    basicE[enemyIndex].enemyHitY = 60;
     basicE[enemyIndex].enemyHP = 10 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 10 * enemyBalanceHP;
   } else if (type == 7) {
@@ -1899,96 +1886,97 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   stroke(0);
   strokeWeight(15);
   fill(0);
-  rect(20, 650, 200, 50, 10);
-  rect(235, 650, 200, 50, 10);
+  rect(20 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
+  rect(235 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
   setRect(4);
-  if (playerHP >= 0) rect(23, 653.5f, (195 * (playerHP / playerHPMax)), 44);
+  if (playerHP >= 0) rect(23 * screenScaling, 653.5f * screenScaling, ((195 * (playerHP / playerHPMax))) * screenScaling, 44 * screenScaling);
   setRect(5);
-  rect(238, 653.5f, (194 * (playerShield / playerShieldMax)), 44);
+  rect(238 * screenScaling, 653.5f * screenScaling, ((194 * (playerShield / playerShieldMax))) * screenScaling, 44 * screenScaling);
   setRect(3); //render surrounds
   noFill();
-  rect(20, 650, 200, 50, 10);
-  rect(235, 650, 200, 50, 10);
+  rect(20 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
+  rect(235 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
   fill(0);
     
     
   //render weapon selector
   stroke(255);
   strokeWeight(2);
-  rect(450, 653, 30, 20, 5);
-  rect(450, 678, 30, 20, 5);
-  rect(485, 653, 30, 20, 5);
-  rect(485, 678, 30, 20, 5);      
+  rect(450 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+  rect(450 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+  rect(485 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+  rect(485 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);      
     
-  image(player1, playerX - 5 - scrollX, playerY - 5); //player sprite
+  image(player1, (playerX - 5 - scrollX) * screenScaling, (playerY - 5) * screenScaling, 80 * screenScaling, 30 * screenScaling); //player sprite
   
   //draw enemies
   if (useControllerForCursor == false) {
-    cursorY = mouseY;
-    cursorX = mouseX;
+    cursorY = mouseY / screenScaling;
+    cursorX = mouseX / screenScaling;
   }
   tint(255, 100);
   switch(levelEnemyTypeSelected) {
     case 0: //drone that fires a homing shot
-    image(faun1, cursorX - (110 / 2), cursorY - (110 / 2));
+    image(faun1, (cursorX - (100 / 2)) * screenScaling, (cursorY - (100 / 2)) * screenScaling, 100 * screenScaling, 100 * screenScaling);
     break;
     case 1: //small gunship
-    image(faun2, cursorX - (210 / 2), cursorY - (86 / 2));
+    image(faun2, (cursorX - (200 / 2)) * screenScaling, (cursorY - (76 / 2)) * screenScaling, 200 * screenScaling, 76 * screenScaling);
     break;
     case 2: //small interceptor (spread shot)
-    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
+    image(faun3, (cursorX - (160 / 2)) * screenScaling, (cursorY - (60 / 2)) * screenScaling, 160 * screenScaling, 60 * screenScaling);
     break;
     case 3: //medium interceptor
-    image(faun4, cursorX - (190 / 2), cursorY - (58 / 2));
+    image(faun4, (cursorX - (180 / 2)) * screenScaling, (cursorY - (48 / 2)) * screenScaling, 180 * screenScaling, 48 * screenScaling);
     break;
     case 4: //cargo ship
-    image(faun5, cursorX - (252 / 2), cursorY - (102 / 2));
+    image(faun5, (cursorX - (244 / 2)) * screenScaling, (cursorY - (92 / 2)) * screenScaling, 244 * screenScaling, 92 * screenScaling);
     break;
     case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-    image(faun3, cursorX - (170 / 2), cursorY - (70 / 2));
+    image(faun3, (cursorX - (160 / 2)) * screenScaling, (cursorY - (70 / 2)) * screenScaling, 160 * screenScaling, 60 * screenScaling);
     break;
     case 7: //energy weapon that charges
-    image(faun6, cursorX - (120 / 2), cursorY - (52 / 2));
+    image(faun6, (cursorX - (120 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 120 * screenScaling, 52 * screenScaling);
     break;
     default:
     noStroke();
     fill(255, 0, 0);
-    ellipse(cursorX, cursorY, 40, 40);
+    ellipse(cursorX * screenScaling, cursorY * screenScaling, 40 * screenScaling, 40 * screenScaling);
     break;
   }
   tint(255, 255, 255, 255);
     
-  textSize(24);
+  textSize(24 * screenScaling);
   fill(255, 20, 20);
-  text("scrollX: " + scrollX, 1000, 25);
-  text("mouseX: " + mouseX, 1000, 50);
-  text("mouseY: " + mouseY, 1000, 75);
-  text("enemyType: " + levelEnemyTypeSelected, 1000, 100);
-  text("::CONTROLS::", 1000, 125);
+  text("scrollX: " + scrollX, 1000 * screenScaling, 25 * screenScaling);
+  text("cursorX: " + cursorX * screenScaling, 1000 * screenScaling, 50 * screenScaling);
+  text("cursorY: " + cursorY * screenScaling, 1000 * screenScaling, 75 * screenScaling);
+  text("enemyType: " + levelEnemyTypeSelected, 1000 * screenScaling, 100 * screenScaling);
+  text("::CONTROLS::", 1000 * screenScaling, 125 * screenScaling);
   if (useControllerForCursor == true) {
-    text("A/Cross = place enemy", 1000, 150);
-    text("B/Circle = undo", 1000, 175);
-    text("Y/Triange = cycle enemies", 1000, 200);
-    text("LB = load from file", 1000, 225);
-    text("RB = save to file", 1000, 250);
-    text("Start = playtest", 1000, 275);
-    text("R3 = exit", 1000, 300);
-    text("Press Back/Share to", 1000, 325);
-    text("switch to mouse", 1000, 350);
+    text("DPAD/RS-X = scroll screen", 1000 * screenScaling, 150 * screenScaling);
+    text("A/Cross = place enemy", 1000 * screenScaling, 175 * screenScaling);
+    text("B/Circle = undo", 1000 * screenScaling, 200 * screenScaling);
+    text("Y/Triange = cycle enemies", 1000 * screenScaling, 225 * screenScaling);
+    text("LB = load from file", 1000 * screenScaling, 250 * screenScaling);
+    text("RB = save to file", 1000 * screenScaling, 275 * screenScaling);
+    text("Start = playtest", 1000 * screenScaling, 300 * screenScaling);
+    text("R3 = exit", 1000 * screenScaling, 325 * screenScaling);
+    text("Press Back/Share to", 1000 * screenScaling, 350 * screenScaling);
+    text("switch to mouse", 1000 * screenScaling, 375 * screenScaling);
   } else {
-    text("LMB = place enemy", 1000, 150);
-    text("MMB = reset enemies", 1000, 175);
-    text("RMB = undo", 1000, 200);
-    text("A/D scroll", 1000, 225);
-    text("W/S fast scroll", 1000, 250);
-    text("SPACE cycles enemy type", 1000, 275);
-    text("P saves to level-editor-save.json", 950, 300);
-    text("M exits to level select", 1000, 325);
-    text("L loads the save file", 1000, 350);
-    text("T tests the level", 1000, 375);
-    text("Press Back/Share on", 1000, 400);
-    text("controller to switch to", 1000, 425);
-    text("controller", 1000, 450);
+    text("LMB = place enemy", 1000 * screenScaling, 150 * screenScaling);
+    text("MMB = reset enemies", 1000 * screenScaling, 175 * screenScaling);
+    text("RMB = undo", 1000 * screenScaling, 200 * screenScaling);
+    text("A/D scroll", 1000 * screenScaling, 225 * screenScaling);
+    text("W/S fast scroll", 1000 * screenScaling, 250 * screenScaling);
+    text("SPACE cycles enemy type", 1000 * screenScaling, 275 * screenScaling);
+    text("P saves to level-editor-save.json", 950 * screenScaling, 300 * screenScaling);
+    text("M exits to level select", 1000 * screenScaling, 325 * screenScaling);
+    text("L loads the save file", 1000 * screenScaling, 350 * screenScaling);
+    text("T tests the level", 1000 * screenScaling, 375 * screenScaling);
+    text("Press Back/Share on", 1000 * screenScaling, 400 * screenScaling);
+    text("controller to switch to", 1000 * screenScaling, 425 * screenScaling);
+    text("controller", 1000 * screenScaling, 450 * screenScaling);
   }
 }
 
@@ -2003,7 +1991,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     levelEditorSaveJSON.setJSONObject(i, data);
   }
   saveJSONArray(levelEditorSaveJSON, "level-editor-save.json");
-  text("saved to level-editor-save.json", 1000, 250);
+  text("saved to level-editor-save.json", 1000 * screenScaling, 250 * screenScaling);
 }
 
  public void loadLevel() { //load a saved level editor level
@@ -2244,53 +2232,57 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
 }
 
  public void mousePressed() {
+  cursorX = mouseX / screenScaling;
+  cursorY = mouseY / screenScaling;
   if (screenIndex == 2) {//menu screen
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 5; //status button
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 125 && mouseY < 200); //mess hall button
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 225 && mouseY < 300); //hanger button
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 325 && mouseY < 400) screenIndex = 8; //engineering buttton
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 425 && mouseY < 500) screenIndex = 4; //settings button 
-    else if (mouseX > 950 && mouseX < 1250 && mouseY > 525 && mouseY < 600) saveSave(); //save button 
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) screenIndex = 5; //status button
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 125 && cursorY < 200); //mess hall button
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 225 && cursorY < 300); //hanger button
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 325 && cursorY < 400) screenIndex = 8; //engineering buttton
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 425 && cursorY < 500) screenIndex = 4; //settings button 
+    else if (cursorX > 950 && cursorX < 1250 && cursorY > 525 && cursorY < 600) saveSave(); //save button 
     if (areaIndex == 0) { //debug area
-      if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 125 && mouseY < 200) levelStart(0); //level 00
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 225 && mouseY < 300) levelStart(1); //level 01
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) levelStart(98); //performance test level
-      else if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) levelStart(99); //performance test level 2
+      if (cursorX > 50 && cursorX < 750 && cursorY > 25 && cursorY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 125 && cursorY < 200) levelStart(0); //level 00
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 225 && cursorY < 300) levelStart(1); //level 01
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 325 && cursorY < 400) levelStart(98); //performance test level
+      else if (cursorX > 50 && cursorX < 750 && cursorY > 425 && cursorY < 500) levelStart(99); //performance test level 2
     } else if (areaIndex == 1) { //first area
-      if (mouseX > 50 && mouseX < 750 && mouseY > 25 && mouseY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
-      if (mouseX > 50 && mouseX < 750 && mouseY > 325 && mouseY < 400) {screenIndex = 9; initObjects(); scrollX = 0;} //level editor button
-      if (mouseX > 50 && mouseX < 750 && mouseY > 425 && mouseY < 500) areaIndex = 0; //debug button
+      if (cursorX > 50 && cursorX < 750 && cursorY > 25 && cursorY < 100) {screenIndex = 3;textIndex = scriptStartPoints[0];} //story button
+      if (cursorX > 50 && cursorX < 750 && cursorY > 325 && cursorY < 400) {screenIndex = 9; initObjects(); scrollX = 0;} //level editor button
+      if (cursorX > 50 && cursorX < 750 && cursorY > 425 && cursorY < 500) areaIndex = 0; //debug button
     }
   } else if (screenIndex == 3) { //vn segments
-    if (mouseX > 1150 && mouseX < 1250 && mouseY > 650 && mouseY < 690) { //next button
+    if (cursorX > 1150 && cursorX < 1250 && cursorY > 650 && cursorY < 690) { //next button
       advanceVNText();
     }
-    else if (mouseX > 1040 && mouseX < 1140 && mouseY > 650 && mouseY < 690); //skip button (currently doesnt do anything
+    else if (cursorX > 1040 && cursorX < 1140 && cursorY > 650 && cursorY < 690); //skip button (currently doesnt do anything
   } else if (screenIndex == 4) { //settings menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 25 && mouseY < 100) oneHitMode = !oneHitMode; //one hit death mode
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 225 && mouseY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++;} //shadow
-    else if (mouseX > 50 && mouseX < 450 && mouseY > 125 && mouseY < 200) damageOnTop = !damageOnTop; //damage on top button
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) {screenIndex = 2; saveSettings();} //back button (also saves settings)
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 25 && cursorY < 100) oneHitMode = !oneHitMode; //one hit death mode
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 225 && cursorY < 300) {image(shadow, 500, 500); image(shadow2, 1000, 500); image(shadow3, 500, 200); shadowFactor++;} //shadow
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 125 && cursorY < 200) damageOnTop = !damageOnTop; //damage on top button
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 325 && cursorY < 400 && screenRes == 0) {screenRes = 1; changeRes(screenRes);}
+    else if (cursorX > 50 && cursorX < 450 && cursorY > 325 && cursorY < 400 && screenRes == 1) {screenRes = 0; changeRes(screenRes);}
   } else if (screenIndex == 5) { //stats menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) screenIndex = 2; //back button
-    else if (mouseX > 625 && mouseX < 700 && mouseY > 125 && mouseY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05f; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 225 && mouseY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05f; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 325 && mouseY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05f; playerStatPoints--;}
-    if (mouseX > 625 && mouseX < 700 && mouseY > 425 && mouseY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) screenIndex = 2; //back button
+    else if (cursorX > 625 && cursorX < 700 && cursorY > 125 && cursorY < 200) if (playerStatPoints > 0) {playerHPMax = playerHPMax * 1.05f; playerStatPoints--;}
+    if (cursorX > 625 && cursorX < 700 && cursorY > 225 && cursorY < 300) if (playerStatPoints > 0) {playerShieldMax = playerShieldMax * 1.05f; playerStatPoints--;}
+    if (cursorX > 625 && cursorX < 700 && cursorY > 325 && cursorY < 400) if (playerStatPoints > 0) {playerDefense = playerDefense * 1.05f; playerStatPoints--;}
+    if (cursorX > 625 && cursorX < 700 && cursorY > 425 && cursorY < 500) if (playerStatPoints > 0) {playerAttack = playerAttack * 1.05f; playerStatPoints--;}
   } else if (screenIndex == 8) { //engineering menu
-    if (mouseX > 950 && mouseX < 1250 && mouseY > 25 && mouseY < 100) if (areaIndex == 2) {screenIndex = 3; textIndex = scriptStartPoints[3];} else screenIndex = 2; //back button
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 370 && mouseY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
-    else if (mouseX > 60 && mouseX < 445 && mouseY > 570 && mouseY < 595 && playerMoney >= playerWeaponCost3) {playerMoney = playerMoney - playerWeaponCost3; playerWeaponLevel3++; calcWeaponStats();} //upgrade snipe weapon
-    else if (mouseX > 485 && mouseX < 870 && mouseY > 170 && mouseY < 195 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
+    if (cursorX > 950 && cursorX < 1250 && cursorY > 25 && cursorY < 100) if (areaIndex == 2) {screenIndex = 3; textIndex = scriptStartPoints[3];} else screenIndex = 2; //back button
+    else if (cursorX > 60 && cursorX < 445 && cursorY > 170 && cursorY < 195 && playerMoney >= playerWeaponCost2) {playerMoney = playerMoney - playerWeaponCost2; playerWeaponLevel2++; calcWeaponStats();} //upgrade beam weapon
+    else if (cursorX > 60 && cursorX < 445 && cursorY > 370 && cursorY < 395 && playerMoney >= playerWeaponCost0) {playerMoney = playerMoney - playerWeaponCost0; playerWeaponLevel0++; calcWeaponStats();} //upgrade mg weapon
+    else if (cursorX > 60 && cursorX < 445 && cursorY > 570 && cursorY < 595 && playerMoney >= playerWeaponCost3) {playerMoney = playerMoney - playerWeaponCost3; playerWeaponLevel3++; calcWeaponStats();} //upgrade snipe weapon
+    else if (cursorX > 485 && cursorX < 870 && cursorY > 170 && cursorY < 195 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
   } else if (screenIndex == 9) { //level editor
     //place an enemy
     if (mouseButton == LEFT) { //only place if LMB pressed
-      genEnemy(levelEnemyTypeSelected, mouseX + scrollX, mouseY);
+      genEnemy(levelEnemyTypeSelected, (int)cursorX + scrollX, (int)cursorY);
       levelEnemyType[levelEnemyIndex] = levelEnemyTypeSelected;
-      levelEnemyX[levelEnemyIndex] = mouseX + scrollX;
-      levelEnemyY[levelEnemyIndex] = mouseY;
+      levelEnemyX[levelEnemyIndex] = (int)cursorX + scrollX;
+      levelEnemyY[levelEnemyIndex] = (int)cursorY;
       levelEnemyIndex++;
     } else if (mouseButton == RIGHT) { //undo
       intentLevelEditor(1);
@@ -2331,15 +2323,22 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     }
     if (usingDPAD == false) btnAdvanceMenu = true; //release menu nav buttons if no dpad being pressed
     if (usingDPAD == false && paused == false) { //only allow stick movement if dpad not pressed this frame and game not paused
-      if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > 0.05f) { //deadzone
+      if (abs(currController.getAxisState(ControllerAxis.LEFTX)) > LSDeadzone) { //deadzone
         usingStick = true;
         if (screenIndex == 0) playerX = playerX + (playerMoveX * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
         else if (screenIndex == 9) cursorX = cursorX + (10 * constrain(currController.getAxisState(ControllerAxis.LEFTX), -1, 1));
       }
-      if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > 0.05f) { //deadzone
+      if (abs(currController.getAxisState(ControllerAxis.LEFTY)) > LSDeadzone) { //deadzone
         usingStick = true;
         if (screenIndex == 0) playerY = playerY - (playerMoveY * playerMoveBoost * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
         else if (screenIndex == 9) cursorY = cursorY - (10 * constrain(currController.getAxisState(ControllerAxis.LEFTY), -1, 1));
+      }
+    }
+    if (abs(currController.getAxisState(ControllerAxis.RIGHTX)) > RSDeadzone) { //deadzone
+      if (screenIndex == 9) {
+        float scrollXtemp = scrollX + (int)(25 * constrain(currController.getAxisState(ControllerAxis.RIGHTX), -1, 1));
+        scrollX = (int)scrollXtemp;
+        if (scrollX < 0) scrollX = 0; //dont let scroll go negative
       }
     }
     if (currController.getAxisState(ControllerAxis.TRIGGERLEFT) > 0.1f) {
@@ -2415,7 +2414,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
  public void intentCancel() { //called when backspace/B are pressed
   if (btnAdvanceCancel == true) {
     btnAdvanceCancel = false;
-    if (screenIndex != 0 && screenIndex != 3 && screenIndex != 9) {
+    if (screenIndex != 0 && screenIndex != 3 && screenIndex != 9 && screenIndex != 1) {
       if (screenIndex == 4) saveSettings(); //save settings if exiting settings menu
       if (areaIndex == 2 && screenIndex == 8) {screenIndex = 3; textIndex = scriptStartPoints[3];}
       else screenIndex = 2; //go to level select as long as not in game/in vn
@@ -2423,6 +2422,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       menuIndexY = 0;
     } else if (screenIndex == 9) { //level editor
       intentLevelEditor(1);
+    } else if (screenIndex == 1) {
+      changeRes(1);
     }
   }
 }
@@ -2578,6 +2579,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       if (menuIndexY == 0) oneHitMode = !oneHitMode; //one hit death mode
       else if (menuIndexY == 1) damageOnTop = !damageOnTop; //damage on top button
       else if (menuIndexY == 2) {shadowDisp = true; shadowFactor++;} //shadow
+      else if (menuIndexY == 3 && screenRes == 0) {screenRes = 1; changeRes(screenRes);} //change screen resolution
+      else if (menuIndexY == 3 && screenRes == 1) {screenRes = 0; changeRes(screenRes);} //change screen resolution
     }
   } else if (screenIndex == 5) { //status menu
     if (menuIndexX == 0) {
@@ -2681,17 +2684,17 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
     strokeWeight(5);
     stroke(255, 25);
     fill(255, (150 + (starSpeedX * 10)));
-    ellipse(starX, starY, 60, 25);
+    ellipse(starX, starY, 60 * screenScaling, 25 * screenScaling);
   } else if (levelType == 2) {
     strokeWeight(5);
     stroke(255, 25);
     fill(255, (150 + (starSpeedX * 10)));
-    ellipse(starX, starY, 5, 5);
+    ellipse(starX, starY, 5 * screenScaling, 5 * screenScaling);
   }
 }
 }
 //game vars
-int buildNumber = 113; //the current build number, should be incremented manually each commit
+int buildNumber = 115; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -2704,8 +2707,9 @@ int dmgCount = 200; //total damage (readout) objects
 int starCount = 100; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
 int secondTiming = 0; //used for timing secondary weapons
-int screenX = 1280; //screen size x
-int screenY = 720; //screen size y
+int screenX = 1280; //screen size x, used only for stars
+int screenY = 720; //screen size y, used only for stars
+float screenScaling = 1; //scaling from 720p so 1080p is 1.5, sprite size, pos, text size, etc
 float autoScroll = -1.5f; //controls how fast the enemies move to the left
 float enemyBalanceHP = 2; //multiplier for enemy hp
 float enemyBalanceDMG = 2; //multiplier for enemy shot power
@@ -2822,6 +2826,9 @@ int playerEngineTimer = 0;
 //settings vars
 boolean oneHitMode = true; //whether to set game to paused when player dies
 boolean damageOnTop = false; //whether or not to render to damage on top of the player
+float RSDeadzone = 0.2f; //deadzone of right stick
+float LSDeadzone = 0.05f; //deadzone of left stick
+int screenRes; //screen resolution, 0 = 720, 1 = 1080
 
 //level editor vars
 int scrollX = 0; //used for the scroll on the level editor
@@ -2849,6 +2856,7 @@ boolean btnAdvanceY = true; //same but for Y button
 boolean btnAdvanceX = true; //same but for X button
 boolean btnAdvanceBack = true; //same but for Back/Share button
 
+
 //menu vars
 int menuIndexY = 0; //used to indicate which menu item is selected
 int menuIndexX = 0;
@@ -2871,10 +2879,10 @@ int[][] menuLimits = {
   }
   switch(vnInfo[textIndex][0]) { //left side vn portrait image
     case 0:
-    image(vnPlayer1r, 0, 0, 500, 500);
+    image(vnPlayer1r, 0 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 1:
-    image(vnPlayer2r, 0, 0, 500, 500);
+    image(vnPlayer2r, 0 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 5:
     //image(vnSol1r, 0, 0, 500, 500);
@@ -2894,49 +2902,49 @@ int[][] menuLimits = {
   }
   switch(vnInfo[textIndex][1]) { //right side vn portrait image
     case 0:
-    image(vnPlayer1, 800, 0, 500, 500);
+    image(vnPlayer1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 1:
-    image(vnPlayer2, 800, 0, 500, 500);
+    image(vnPlayer2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 5:
-    image(vnSol1, 800, 0, 500, 500);
+    image(vnSol1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 10:
-    image(vnEsence1, 800, 0, 500, 500);
+    image(vnEsence1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 11:
-    image(vnEsence2, 800, 0, 500, 500);
+    image(vnEsence2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 12:
-    image(vnEsence3, 800, 0, 500, 500);
+    image(vnEsence3, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 13:
-    image(vnEsence4, 800, 0, 500, 500);
+    image(vnEsence4, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 20:
-    image(vnCyana1, 800, 0, 500, 500);
+    image(vnCyana1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 21:
-    image(vnCyana2, 800, 0, 500, 500);
+    image(vnCyana2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 22:
-    image(vnCyana3, 800, 0, 500, 500);
+    image(vnCyana3, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 23:
-    image(vnCyana4, 800, 0, 500, 500);
+    image(vnCyana4, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 30:
-    image(vnVeda1, 800, 0, 500, 500);
+    image(vnVeda1, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 31:
-    image(vnVeda2, 800, 0, 500, 500);
+    image(vnVeda2, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 32:
-    image(vnVeda3, 800, 0, 500, 500);
+    image(vnVeda3, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     case 33:
-    image(vnVeda4, 800, 0, 500, 500);
+    image(vnVeda4, 800 * screenScaling, 0 * screenScaling, 500 * screenScaling, 500 * screenScaling);
     break;
     default:
     break;
@@ -2946,16 +2954,16 @@ int[][] menuLimits = {
   strokeWeight(2);
   stroke(255);
   fill(20, 20, 255);
-  rect(20, 450, 1240, 250, 20);
-  rect(1150, 650, 100, 40, 5);
-  rect(1040, 650, 100, 40, 5);
-  textSize(48);
+  rect(20 * screenScaling, 450 * screenScaling, 1240 * screenScaling, 250 * screenScaling, 20);
+  rect(1150 * screenScaling, 650 * screenScaling, 100 * screenScaling, 40 * screenScaling, 5);
+  rect(1040 * screenScaling, 650 * screenScaling, 100 * screenScaling, 40 * screenScaling, 5);
+  textSize(48 * screenScaling);
   fill(255);
   noStroke();
-  text(textLinesO[textIndex - 1], 35, 460, 1230, 250);
-  textSize(32);
-  text("SKIP", 1050, 680);
-  text("NEXT", 1160, 680);
+  text(textLinesO[textIndex - 1], 35 * screenScaling, 460 * screenScaling, 1230 * screenScaling, 250 * screenScaling);
+  textSize(32 * screenScaling);
+  text("SKIP", 1050 * screenScaling, 680 * screenScaling);
+  text("NEXT", 1160 * screenScaling, 680 * screenScaling);
   
   vnScreenChanges = false; //finished rendering frame, do not render again unless changes to frame occur
   }

@@ -1,4 +1,7 @@
 {
+  "screenRes": 1,
   "damageOnTop": 0,
+  "LSDeadzone": 0.05000000074505806,
+  "RSDeadzone": 0.20000000298023224,
   "oneHitMode": 0
 }

@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 113; //the current build number, should be incremented manually each commit
+int buildNumber = 115; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -12,8 +12,9 @@ int dmgCount = 200; //total damage (readout) objects
 int starCount = 100; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
 int secondTiming = 0; //used for timing secondary weapons
-int screenX = 1280; //screen size x
-int screenY = 720; //screen size y
+int screenX = 1280; //screen size x, used only for stars
+int screenY = 720; //screen size y, used only for stars
+float screenScaling = 1; //scaling from 720p so 1080p is 1.5, sprite size, pos, text size, etc
 float autoScroll = -1.5; //controls how fast the enemies move to the left
 float enemyBalanceHP = 2; //multiplier for enemy hp
 float enemyBalanceDMG = 2; //multiplier for enemy shot power
@@ -130,6 +131,9 @@ int playerEngineTimer = 0;
 //settings vars
 boolean oneHitMode = true; //whether to set game to paused when player dies
 boolean damageOnTop = false; //whether or not to render to damage on top of the player
+float RSDeadzone = 0.2; //deadzone of right stick
+float LSDeadzone = 0.05; //deadzone of left stick
+int screenRes; //screen resolution, 0 = 720, 1 = 1080
 
 //level editor vars
 int scrollX = 0; //used for the scroll on the level editor
@@ -156,6 +160,7 @@ boolean btnAdvanceCancel = true; //same but for cancel/B button
 boolean btnAdvanceY = true; //same but for Y button
 boolean btnAdvanceX = true; //same but for X button
 boolean btnAdvanceBack = true; //same but for Back/Share button
+
 
 //menu vars
 int menuIndexY = 0; //used to indicate which menu item is selected

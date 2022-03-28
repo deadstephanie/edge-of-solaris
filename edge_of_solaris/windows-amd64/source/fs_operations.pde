@@ -17,6 +17,10 @@ void loadText() {
   if (tempInt == 1) oneHitMode = true; else oneHitMode = false;
   tempInt = settingsJSON.getInt("damageOnTop");
   if (tempInt == 1) damageOnTop = true; else damageOnTop = false;
+  LSDeadzone = settingsJSON.getFloat("LSDeadzone");
+  RSDeadzone = settingsJSON.getFloat("RSDeadzone");
+  screenRes = settingsJSON.getInt("screenRes");
+  changeRes(screenRes); //update screen res according to setting
   
   for(int i = 0; i < loadScript.length; i++) {
     textLines[i] = loadScript[i]; //this is necessary trust me
@@ -86,7 +90,9 @@ void saveSave() { //save the player data save file
 void saveSettings() { //save the settings file
   if (oneHitMode == true) settingsJSON.setInt("oneHitMode", 1); else settingsJSON.setInt("oneHitMode", 0);
   if (damageOnTop == true) settingsJSON.setInt("damageOnTop", 1); else settingsJSON.setInt("damageOnTop", 0);
-  
+  settingsJSON.setFloat("LSDeadzone", LSDeadzone);
+  settingsJSON.setFloat("RSDeadzone", RSDeadzone);
+  settingsJSON.setInt("screenRes", screenRes);
   saveJSONObject(settingsJSON, "settings.json");
 }
 

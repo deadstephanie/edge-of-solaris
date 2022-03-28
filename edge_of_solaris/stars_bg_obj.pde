@@ -34,12 +34,12 @@ void display() {
     strokeWeight(5);
     stroke(255, 25);
     fill(255, (150 + (starSpeedX * 10)));
-    ellipse(starX, starY, 60, 25);
+    ellipse(starX, starY, 60 * screenScaling, 25 * screenScaling);
   } else if (levelType == 2) {
     strokeWeight(5);
     stroke(255, 25);
     fill(255, (150 + (starSpeedX * 10)));
-    ellipse(starX, starY, 5, 5);
+    ellipse(starX, starY, 5 * screenScaling, 5 * screenScaling);
   }
 }
 }

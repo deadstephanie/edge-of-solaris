@@ -106,7 +106,7 @@ void reset() {
 void shoot() {
   if (screenIndex == 9) displayX = enemyX - scrollX;
    else displayX = enemyX;
-   if (enemyState != 2 && displayX < 1250) { //check if enemy is on screen and not dead
+   if (enemyState != 2 && displayX < 1250 * screenScaling) { //check if enemy is on screen and not dead
     if (enemyType == 0) { //check to see if enemy is a drone
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     float speed = 5; //higher numbers are slower
@@ -193,7 +193,7 @@ void shoot() {
       enemyHP = 0;
     }
   } else if (enemyType == 6) { //small interceptor that shoots homing shots once it reaches the end of the screen
-    if (enemyTiming > 20 && enemyX < 200) {
+    if (enemyTiming > 20 && enemyX < 200 * screenScaling) {
       float speed = 10; //higher numbers are slower
       int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
       int offsetY = 10; //account for incorrect aim
@@ -216,87 +216,48 @@ void shoot() {
 }
 
 void display() {
-  displayX = enemyX - scrollX;
+  displayX = (enemyX - scrollX);
   strokeWeight(1);
   noStroke();
   if (enemyState == 1) tint(255, 100, 100);
-  if (enemyState != 2) { //do not display hp bar and render enemy if enemy is dead
-    if (screenIndex == 9) {
+  if (enemyState != 2 && displayX < (1500 * screenScaling)) { //do not display hp bar and render enemy if enemy is dead
+    if (screenIndex == 9 || screenIndex == 0) {
       //draw hp bars
       strokeWeight(1);
       stroke(0);
       fill(20, 255, 20, 100);
-      rect(displayX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
+      rect((displayX - (enemyHitX * 0.45)) * screenScaling, (enemyY - (enemyHitY - 5)) * screenScaling, (((enemyHitX - 5) * (enemyHP / enemyHPMax))) * screenScaling, 5 * screenScaling);
       
       //draw enemies
       switch(enemyType) {
         case 0: //drone that fires a homing shot
-        image(faun1, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun1, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 1: //small gunship
-        image(faun2, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun2, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 2: //small interceptor (spread shot)
-        image(faun3, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun3, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 3: //medium interceptor
-        image(faun4, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun4, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 4: //cargo ship
-        image(faun5, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun5, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-        image(faun3, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        image(faun3, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         case 7: //energy weapon that charges
         fill(20, 20, 200, 150);
         stroke(20, 20, 200, 150);
-        rect(displayX - (enemyTiming / 2), enemyY - 12, 50, 25); //shooting animation
-        image(faun6, displayX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
+        rect((displayX - (enemyTiming / 2)) * screenScaling, (enemyY - 12) * screenScaling, 50 * screenScaling, 25 * screenScaling); //shooting animation
+        image(faun6, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         default:
         noStroke();
         fill(255, 0, 0);
-        ellipse(displayX, enemyY, enemyHitX, enemyHitY);
-        break;
-      }
-    } else {
-      //draw hp bars
-      strokeWeight(1);
-      stroke(0);
-      fill(20, 255, 20, 100);
-      rect(enemyX - (enemyHitX * 0.45), enemyY - (enemyHitY - 5), ((enemyHitX - 5) * (enemyHP / enemyHPMax)), 5);
-      
-      //draw enemies
-      switch (enemyType) {
-        case 0: //drone that fires a homing shot
-        image(faun1, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 1: //small gunship
-        image(faun2, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 2: //small interceptor (spread shot)
-        image(faun3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 3: //medium interceptor
-        image(faun4, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 4: //cargo ship
-        image(faun5, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 6: //small interceptor that does not fire until it reaches a certain part of the screen, then fires a homing shot
-        image(faun3, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        case 7: //energy weapon that charges
-        fill(20, 20, 200, 150);
-        stroke(20, 20, 200, 150);
-        rect(enemyX - (enemyTiming / 2), enemyY - 12, 50, 25); //shooting animation
-        image(faun6, enemyX - (enemyHitX / 2), enemyY - (enemyHitY / 2));
-        break;
-        default:
-        noStroke();
-        fill(255, 0, 0);
-        ellipse(enemyX, enemyY, enemyHitX, enemyHitY);
+        ellipse(displayX * screenScaling, enemyY * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
       }
     }
@@ -304,11 +265,11 @@ void display() {
     enemyState = 0; //reset enemy state (so it untints after being shot)
   } else if (enemyState == 2 && enemyTiming !=0) { //death state anim
     fill(255, 127, 0, 100);
-    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 5), (enemyHitY / 2) + (enemyTiming * 3));
+    ellipse(enemyX * screenScaling, enemyY * screenScaling, ((enemyHitX / 3) + (enemyTiming * 5)) * screenScaling, ((enemyHitY / 2) + (enemyTiming * 3)) * screenScaling);
     fill(255, 165, 0, 120);
-    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 4), (enemyHitY / 2) + (enemyTiming * 2));
+    ellipse(enemyX * screenScaling, enemyY * screenScaling, ((enemyHitX / 3) + (enemyTiming * 4)) * screenScaling, ((enemyHitY / 2) + (enemyTiming * 2)) * screenScaling);
     fill(255, 240, 60, 150);
-    ellipse(enemyX, enemyY, (enemyHitX / 3) + (enemyTiming * 3), (enemyHitY / 2) + (enemyTiming * 1));
+    ellipse(enemyX * screenScaling, enemyY * screenScaling, ((enemyHitX / 3) + (enemyTiming * 3)) * screenScaling, ((enemyHitY / 2) + (enemyTiming * 1)) * screenScaling);
     enemyTiming--;
   }
   
