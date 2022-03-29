@@ -122,7 +122,7 @@ void shoot() {
     enemyTiming = 0;
     }
   } else if (enemyType == 1) { //check for enemy type helicopter
-    if (enemyTiming > 10) { //check to make sure enough time has passed since last shot
+    if (enemyTiming > 14) { //check to make sure enough time has passed since last shot
     if (enemyMoveTiming > 40) {
     float speed = 5; //higher numbers are slower
     int offsetX = 30; //account for incorrect aim, ie these values change the point of aim

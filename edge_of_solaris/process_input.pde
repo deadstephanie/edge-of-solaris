@@ -1,5 +1,5 @@
 void processInput() {
-  if (keyInput[4] == true) intentConfirm(); //space key pressed
+  if (keyInput[4] == true && screenIndex != 9) intentConfirm(); //space key pressed
   if (usingDPAD == false && usingStick == false) { //do not process keyboard movement if other movement being used
     if (keyInput[0] == true) intentMove(0); //W key pressed
     if (keyInput[2] == true) intentMove(1); //D key pressed
