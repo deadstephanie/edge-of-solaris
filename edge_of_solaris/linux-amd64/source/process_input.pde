@@ -111,7 +111,7 @@ void processInput() {
     if (keyInput[1] == true) scrollX = scrollX - 10;
     if (scrollX < 0) scrollX = 0; //dont let scroll go negative*/
     if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
-    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
+    if (levelEnemyTypeSelected > levelEnemyTotal) levelEnemyTypeSelected = 0; //reset it overflow
     if (keyInput[8] == true) saveLevel(); //save the level to a JSON
     if (keyInput[17] == true) intentLevelEditor(6); //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
@@ -591,7 +591,7 @@ void intentLevelEditor (int command) {
     btnAdvanceY = false;
     keyInput[4] = false;
     levelEnemyTypeSelected++;
-    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset if overflow
+    if (levelEnemyTypeSelected > levelEnemyTotal) levelEnemyTypeSelected = 0; //reset if overflow
     } else if (command == 1) { //undo
       if (levelEnemyIndex > 0) levelEnemyIndex--;
       //redraw enemies

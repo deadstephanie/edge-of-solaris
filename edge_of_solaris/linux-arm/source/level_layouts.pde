@@ -380,6 +380,26 @@ void genEnemy(int type, int x, int y) { //used for placing enemies easier, pass 
     basicE[enemyIndex].enemyHitY = 52;
     basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
+  } else if (type == 8) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 240;
+    basicE[enemyIndex].enemyHitY = 52;
+    basicE[enemyIndex].enemyHP = 30 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 30 * enemyBalanceHP;
+  } else if (type == 9) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 240;
+    basicE[enemyIndex].enemyHitY = 52;
+    basicE[enemyIndex].enemyHP = 30 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 30 * enemyBalanceHP;
   }
 }
 
@@ -463,6 +483,12 @@ void levelEditor() { //the level editor routine is here
     break;
     case 7: //energy weapon that charges
     image(faun6, (cursorX - (120 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 120 * screenScaling, 52 * screenScaling);
+    break;
+    case 8: //enemy that charges then zooms across the screen
+    image(faun7, (cursorX - (240 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 240 * screenScaling, 52 * screenScaling);
+    break;
+    case 9: //enemy that charges then zooms across the screen
+    image(faun8, (cursorX - (240 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 240 * screenScaling, 52 * screenScaling);
     break;
     default:
     noStroke();

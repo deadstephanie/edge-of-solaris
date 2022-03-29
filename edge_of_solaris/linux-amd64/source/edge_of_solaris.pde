@@ -27,6 +27,8 @@ PImage faun3;
 PImage faun4;
 PImage faun5;
 PImage faun6;
+PImage faun7;
+PImage faun8;
 PImage player1;
 PImage vnPlayer1;
 PImage vnPlayer2;

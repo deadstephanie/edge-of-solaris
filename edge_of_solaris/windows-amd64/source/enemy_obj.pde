@@ -34,7 +34,7 @@ void update() {
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
   if (enemyState != 2&& displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //only run if enemy is not dead
-    if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+    if (enemyTiming < 999) enemyTiming++; //increment enemy timer (used for timing enemy firing and other enemy functions)
     
     switch(enemyType) {
       case 0:
@@ -50,17 +50,29 @@ void update() {
         else enemyTiming = 199;
       }
       break;
+      case 8:
+      if (screenIndex != 9 && enemyMoveTiming == 0) { //only run if not in level editor mode
+        if (enemyX <= 1000) enemyX = 1000;
+        else enemyTiming = 199;
+      }
+      break;
+      case 9:
+      if (screenIndex != 9 && enemyMoveTiming == 0) { //only run if not in level editor mode
+        if (enemyX <= 1000) enemyX = 1000;
+        else enemyTiming = 199;
+      }
+      break;
       default:
       break;
     }
     
-    if (enemyX < -200) enemyState = 2; //kill enemy if off screen
+    
     if (enemyType == 7 && screenIndex != 9) { //only do if enemy type is energy weapon and not in level editor
       enemyHP = enemyHP + (enemyHPMax / 1000);
       if (enemyHP > enemyHPMax) enemyHP = enemyHPMax;
       if (enemyX < (900 - (abs(enemyY - 300))/2)) enemySpeedX = 0;
     }
-  }
+  } if (enemyX < -200) enemyState = 2;//kill enemy if off screen
 }
 
 void collision() {
@@ -211,6 +223,34 @@ void shoot() {
       blts[findBullet()] = new bullet(displayX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
+  } else if (enemyType == 8) { //charge move enemy
+    if (enemyMoveTiming == 0 && enemyTiming > 480) {
+      enemySpeedX = -30;
+      enemyTiming = 0;
+      enemyMoveTiming = 10;
+    } else if (enemyMoveTiming > 0 && enemyTiming > 2) {
+      blts[findBullet()] = new bullet(displayX + 120, enemyY, autoScroll, 0, 200, 10, 10, 5 * enemyBalanceDMG, 0);
+      enemyTiming = 0;
+    }
+  } else if (enemyType == 9) { //charge move enemy, targeting variant
+    if (enemyMoveTiming == 0 && enemyTiming > 480) {
+      float speed = 1; //higher numbers are slower
+      int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
+      int offsetY = 10; //account for incorrect aim
+      float c = sqrt((abs(playerX - displayX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
+      c = c * speed; //scale c (distance hypotenuse) to speed
+      float speedX = (playerX - displayX + offsetX);
+      float speedY = (playerY - enemyY + offsetY);
+      speedX = speedX / (c);
+      speedY = speedY / (c);
+      enemySpeedX = speedX;
+      enemySpeedY = speedY;
+      enemyTiming = 0;
+      enemyMoveTiming = 10;
+    } else if (enemyMoveTiming > 0 && enemyTiming > 2) {
+      blts[findBullet()] = new bullet(displayX + 120, enemyY, autoScroll, 0, 200, 10, 10, 5 * enemyBalanceDMG, 0);
+      enemyTiming = 0;
+    }
   }
    }
 }
@@ -252,6 +292,18 @@ void display() {
         stroke(20, 20, 200, 150);
         rect((displayX - (enemyTiming / 2)) * screenScaling, (enemyY - 12) * screenScaling, 50 * screenScaling, 25 * screenScaling); //shooting animation
         image(faun6, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
+        break;
+        case 8: //enemy that charges then zooms across screen
+        fill(20, 20, 200, 150);
+        stroke(20, 20, 200, 150);
+        if (enemyMoveTiming == 0) rect(((displayX - 80 + (enemyTiming / 8))) * screenScaling, (enemyY - 16) * screenScaling, 90 * screenScaling, 30 * screenScaling); //shooting animation
+        image(faun7, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
+        break;
+        case 9: //enemy that charges then zooms across screen
+        fill(20, 20, 200, 150);
+        stroke(20, 20, 200, 150);
+        if (enemyMoveTiming == 0) rect(((displayX - 80 + (enemyTiming / 8))) * screenScaling, (enemyY - 16) * screenScaling, 90 * screenScaling, 30 * screenScaling); //shooting animation
+        image(faun8, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         default:
         noStroke();

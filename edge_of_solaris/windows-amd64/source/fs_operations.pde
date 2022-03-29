@@ -124,6 +124,8 @@ void loadSprites() { //load png assets
   faun4 = loadImage("assets/png/faun/4-xx.png");
   faun5 = loadImage("assets/png/faun/5-xx.png");
   faun6 = loadImage("assets/png/faun/6-xx.png");
+  faun7 = loadImage("assets/png/faun/8-xx.png");
+  faun8 = loadImage("assets/png/faun/9-xx.png");
   
   player1 = loadImage("assets/png/player/3-x.png");
 

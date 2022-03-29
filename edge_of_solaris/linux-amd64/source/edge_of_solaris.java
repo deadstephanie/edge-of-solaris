@@ -60,6 +60,8 @@ PImage faun3;
 PImage faun4;
 PImage faun5;
 PImage faun6;
+PImage faun7;
+PImage faun8;
 PImage player1;
 PImage vnPlayer1;
 PImage vnPlayer2;
@@ -1076,7 +1078,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   enemyY = enemyY + enemySpeedY; //update enemy y pos according to speed
   if (enemyHP <= 0) enemyState = 2; //set enemy as dead if hp is zero
   if (enemyState != 2&& displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //only run if enemy is not dead
-    if (enemyTiming < 255) enemyTiming++; //increment enemy timer (used for timing enemy firing
+    if (enemyTiming < 999) enemyTiming++; //increment enemy timer (used for timing enemy firing and other enemy functions)
     
     switch(enemyType) {
       case 0:
@@ -1092,17 +1094,29 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         else enemyTiming = 199;
       }
       break;
+      case 8:
+      if (screenIndex != 9 && enemyMoveTiming == 0) { //only run if not in level editor mode
+        if (enemyX <= 1000) enemyX = 1000;
+        else enemyTiming = 199;
+      }
+      break;
+      case 9:
+      if (screenIndex != 9 && enemyMoveTiming == 0) { //only run if not in level editor mode
+        if (enemyX <= 1000) enemyX = 1000;
+        else enemyTiming = 199;
+      }
+      break;
       default:
       break;
     }
     
-    if (enemyX < -200) enemyState = 2; //kill enemy if off screen
+    
     if (enemyType == 7 && screenIndex != 9) { //only do if enemy type is energy weapon and not in level editor
       enemyHP = enemyHP + (enemyHPMax / 1000);
       if (enemyHP > enemyHPMax) enemyHP = enemyHPMax;
       if (enemyX < (900 - (abs(enemyY - 300))/2)) enemySpeedX = 0;
     }
-  }
+  } if (enemyX < -200) enemyState = 2;//kill enemy if off screen
 }
 
  public void collision() {
@@ -1253,6 +1267,34 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
       blts[findBullet()] = new bullet(displayX - 140, enemyY, -30, 0, 201, 250, 20, 5 * enemyBalanceDMG, 0);
       enemyTiming = 0;
     }
+  } else if (enemyType == 8) { //charge move enemy
+    if (enemyMoveTiming == 0 && enemyTiming > 480) {
+      enemySpeedX = -30;
+      enemyTiming = 0;
+      enemyMoveTiming = 10;
+    } else if (enemyMoveTiming > 0 && enemyTiming > 2) {
+      blts[findBullet()] = new bullet(displayX + 120, enemyY, autoScroll, 0, 200, 10, 10, 5 * enemyBalanceDMG, 0);
+      enemyTiming = 0;
+    }
+  } else if (enemyType == 9) { //charge move enemy, targeting variant
+    if (enemyMoveTiming == 0 && enemyTiming > 480) {
+      float speed = 1; //higher numbers are slower
+      int offsetX = 30; //account for incorrect aim, ie these values change the point of aim
+      int offsetY = 10; //account for incorrect aim
+      float c = sqrt((abs(playerX - displayX + offsetX)) + abs((playerY - enemyY + offsetY))); //solve for hypotenuse
+      c = c * speed; //scale c (distance hypotenuse) to speed
+      float speedX = (playerX - displayX + offsetX);
+      float speedY = (playerY - enemyY + offsetY);
+      speedX = speedX / (c);
+      speedY = speedY / (c);
+      enemySpeedX = speedX;
+      enemySpeedY = speedY;
+      enemyTiming = 0;
+      enemyMoveTiming = 10;
+    } else if (enemyMoveTiming > 0 && enemyTiming > 2) {
+      blts[findBullet()] = new bullet(displayX + 120, enemyY, autoScroll, 0, 200, 10, 10, 5 * enemyBalanceDMG, 0);
+      enemyTiming = 0;
+    }
   }
    }
 }
@@ -1294,6 +1336,18 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
         stroke(20, 20, 200, 150);
         rect((displayX - (enemyTiming / 2)) * screenScaling, (enemyY - 12) * screenScaling, 50 * screenScaling, 25 * screenScaling); //shooting animation
         image(faun6, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
+        break;
+        case 8: //enemy that charges then zooms across screen
+        fill(20, 20, 200, 150);
+        stroke(20, 20, 200, 150);
+        if (enemyMoveTiming == 0) rect(((displayX - 80 + (enemyTiming / 8))) * screenScaling, (enemyY - 16) * screenScaling, 90 * screenScaling, 30 * screenScaling); //shooting animation
+        image(faun7, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
+        break;
+        case 9: //enemy that charges then zooms across screen
+        fill(20, 20, 200, 150);
+        stroke(20, 20, 200, 150);
+        if (enemyMoveTiming == 0) rect(((displayX - 80 + (enemyTiming / 8))) * screenScaling, (enemyY - 16) * screenScaling, 90 * screenScaling, 30 * screenScaling); //shooting animation
+        image(faun8, (displayX - (enemyHitX / 2)) * screenScaling, (enemyY - (enemyHitY / 2)) * screenScaling, enemyHitX * screenScaling, enemyHitY * screenScaling);
         break;
         default:
         noStroke();
@@ -1442,6 +1496,8 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   faun4 = loadImage("assets/png/faun/4-xx.png");
   faun5 = loadImage("assets/png/faun/5-xx.png");
   faun6 = loadImage("assets/png/faun/6-xx.png");
+  faun7 = loadImage("assets/png/faun/8-xx.png");
+  faun8 = loadImage("assets/png/faun/9-xx.png");
   
   player1 = loadImage("assets/png/player/3-x.png");
 
@@ -1856,6 +1912,26 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     basicE[enemyIndex].enemyHitY = 52;
     basicE[enemyIndex].enemyHP = 20 * enemyBalanceHP;
     basicE[enemyIndex].enemyHPMax = 20 * enemyBalanceHP;
+  } else if (type == 8) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 240;
+    basicE[enemyIndex].enemyHitY = 52;
+    basicE[enemyIndex].enemyHP = 30 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 30 * enemyBalanceHP;
+  } else if (type == 9) {
+    basicE[enemyIndex].enemyX = x;
+    basicE[enemyIndex].enemyY = y;
+    basicE[enemyIndex].enemySpeedX = autoScroll;
+    basicE[enemyIndex].enemySpeedY = 0;
+    basicE[enemyIndex].enemyType = type;
+    basicE[enemyIndex].enemyHitX = 240;
+    basicE[enemyIndex].enemyHitY = 52;
+    basicE[enemyIndex].enemyHP = 30 * enemyBalanceHP;
+    basicE[enemyIndex].enemyHPMax = 30 * enemyBalanceHP;
   }
 }
 
@@ -1939,6 +2015,12 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     break;
     case 7: //energy weapon that charges
     image(faun6, (cursorX - (120 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 120 * screenScaling, 52 * screenScaling);
+    break;
+    case 8: //enemy that charges then zooms across the screen
+    image(faun7, (cursorX - (240 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 240 * screenScaling, 52 * screenScaling);
+    break;
+    case 9: //enemy that charges then zooms across the screen
+    image(faun8, (cursorX - (240 / 2)) * screenScaling, (cursorY - (52 / 2)) * screenScaling, 240 * screenScaling, 52 * screenScaling);
     break;
     default:
     noStroke();
@@ -2134,7 +2216,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     if (keyInput[1] == true) scrollX = scrollX - 10;
     if (scrollX < 0) scrollX = 0; //dont let scroll go negative*/
     if (keyInput[4] == true) {levelEnemyTypeSelected++; keyInput[4] = false;} //press space to cycle enemies
-    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset it overflow
+    if (levelEnemyTypeSelected > levelEnemyTotal) levelEnemyTypeSelected = 0; //reset it overflow
     if (keyInput[8] == true) saveLevel(); //save the level to a JSON
     if (keyInput[17] == true) intentLevelEditor(6); //go back to level select
     if (keyInput[18] == true) loadLevel(); //try to load the editor save
@@ -2614,7 +2696,7 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
     btnAdvanceY = false;
     keyInput[4] = false;
     levelEnemyTypeSelected++;
-    if (levelEnemyTypeSelected > 7) levelEnemyTypeSelected = 0; //reset if overflow
+    if (levelEnemyTypeSelected > levelEnemyTotal) levelEnemyTypeSelected = 0; //reset if overflow
     } else if (command == 1) { //undo
       if (levelEnemyIndex > 0) levelEnemyIndex--;
       //redraw enemies
@@ -2697,7 +2779,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 117; //the current build number, should be incremented manually each commit
+int buildNumber = 118; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -2839,6 +2921,7 @@ int[] levelEnemyType = new int[999]; //used to store the enemy types
 int[] levelEnemyX = new int[999]; //used to store enemy x pos
 int[] levelEnemyY = new int[999]; //used to store enemy y pos
 int levelEnemyIndex = 0; //used for writing to the arrays
+int levelEnemyTotal = 9; //used to denote max enemy types, ie when to wraparound on level editor
 int levelEnemyTypeSelected = 0; //used to know which enemy type is selected
 float displayX; //used for scrolling enemies
 boolean levelEditorMode; //used for playtesting the level
