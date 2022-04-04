@@ -462,6 +462,7 @@ void levelEditor() { //the level editor routine is here
     cursorX = mouseX / screenScaling;
   }
   tint(255, 100);
+  image(player1, (playerX - 5) * screenScaling, (playerY - 5) * screenScaling, 80 * screenScaling, 30 * screenScaling); //player sprite faded (doesnt scroll)
   switch(levelEnemyTypeSelected) {
     case 0: //drone that fires a homing shot
     image(faun1, (cursorX - (100 / 2)) * screenScaling, (cursorY - (100 / 2)) * screenScaling, 100 * screenScaling, 100 * screenScaling);
