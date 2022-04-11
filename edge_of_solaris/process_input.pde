@@ -235,6 +235,8 @@ void mousePressed() {
   } else if (screenIndex == 3) { //vn segments
     if (cursorX > 1150 && cursorX < 1250 && cursorY > 650 && cursorY < 690) { //next button
       advanceVNText();
+    } else if (cursorX > 1040 && cursorX < 1140 && cursorY > 650 && cursorY < 690) { //next button
+      skipVNText();
     }
     else if (cursorX > 1040 && cursorX < 1140 && cursorY > 650 && cursorY < 690); //skip button (currently doesnt do anything
   } else if (screenIndex == 4) { //settings menu
@@ -341,6 +343,7 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
     } else btnAdvancePause = true;
     if (currController.isButtonPressed(ControllerButton.Y)) {
       intentLevelEditor(0);
+      intentY();
     } else btnAdvanceY = true;
     if (currController.isButtonPressed(ControllerButton.BACK)) {
       if (btnAdvanceBack == true) {
@@ -581,6 +584,14 @@ void intentConfirmMenu() {
       else if (menuIndexY == 2 &&playerMoney >= playerWeaponCost3) {playerMoney = playerMoney - playerWeaponCost3; playerWeaponLevel3++; calcWeaponStats();} //upgrade snipe weapon
     } else if (menuIndexX == 1) {
       if (menuIndexY == 0 && playerMoney >= playerWeaponCost1) {playerMoney = playerMoney - playerWeaponCost1; playerWeaponLevel1++; calcWeaponStats();} //upgrade shotgun weapon
+    }
+  }
+}
+
+void intentY () {
+  if (btnAdvanceY == true) {
+    if (screenIndex == 3) { //extraneous but here for clarity, ease of understanding
+      skipVNText(); //skip to next vn command
     }
   }
 }

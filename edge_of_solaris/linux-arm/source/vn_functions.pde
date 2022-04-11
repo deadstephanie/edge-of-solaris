@@ -95,9 +95,9 @@ void drawVN() {
   fill(255);
   noStroke();
   text(textLinesO[textIndex - 1], 35 * screenScaling, 460 * screenScaling, 1230 * screenScaling, 250 * screenScaling);
-  textSize(32 * screenScaling);
-  text("SKIP", 1050 * screenScaling, 680 * screenScaling);
-  text("NEXT", 1160 * screenScaling, 680 * screenScaling);
+  textSize(26 * screenScaling);
+  text("SKIP (Y)", 1045 * screenScaling, 680 * screenScaling);
+  text("NEXT (A)", 1153 * screenScaling, 680 * screenScaling);
   
   vnScreenChanges = false; //finished rendering frame, do not render again unless changes to frame occur
   }
@@ -136,6 +136,12 @@ void advanceVNText() { //moves vn forward, reads commands, etc
   scanVNCommands();
   vnScreenChanges = true; //trigger a new vn frame rendering
   keyInput[4] = false; //release space key
+}
+
+void skipVNText() { //when user wants to skip text, always on for always skip text mode
+  while (screenIndex == 3) { //repeat until screen index is not vn
+    advanceVNText(); //advance text one line
+  } //this will likely crash the game if there is not a command at the end of the text segment (ie it would run out of text lines)
 }
 
 void scanVNInfo() { //scans the script text for the vn portrait info

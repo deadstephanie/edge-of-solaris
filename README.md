@@ -7,6 +7,7 @@ Windows users: navigate to windows-amd64 and download this folder then run the e
 Note you may be prompted to install Java 17 after you install openjdk 17, if so, use the x64 installer here (oracle jdk17) https://www.oracle.com/java/technologies/downloads/#jdk17-windows
 
 Linux users: navigate to linux-amd64 and download this folder then run the binary inside it
+You will need to install openjdk17, for apt users the command is `sudo apt install openjdk-17-jre`
 
 Mac OS users: you will need to download the source and download Processing 4. open edge_of_solaris.pde in Processing and compile the program for Mac OS. I cannot compile one for you because it must be compiled from a Mac OS machine and I do not have one
 
