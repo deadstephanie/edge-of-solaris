@@ -22,7 +22,7 @@ bullet(float bulletXtemp, float bulletYtemp, float bulletSpeedXtemp, float bulle
 }
 
 void update() {
-  if (bulletX > (screenX + 100) || bulletX < -100 || bulletY > (screenY + 100) || bulletY < -100) bulletType = 255; //destroy bullet if off screen
+  if (bulletX > (1280 + 100) || bulletX < -100 || bulletY > (720 + 100) || bulletY < -100) bulletType = 255; //destroy bullet if off screen
   else { //if bullet is not off screen, update bullet position and timer
     bulletX = bulletX + bulletSpeedX; //update bullet x according to x speed
     bulletY = bulletY + bulletSpeedY; //update bullet y according to y speed
@@ -70,7 +70,7 @@ void update() {
     bulletPower = (playerWeaponPower1 * playerAttack) - pow(1.030, bulletTimer);
     if (bulletHitX < 1) bulletType = 255; //kill bullet if too small
   } else if (bulletType == 200) { //basic enemy bullet
-    
+    if (bulletX > 1280) bulletType = 255; //kill enemy bullets if they are off the right side of the screen
   }
 }
 

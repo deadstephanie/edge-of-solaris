@@ -118,7 +118,7 @@ void reset() {
 }
 
 void shoot() {
-   if (enemyState != 2 && displayX < (1500 * screenScaling) && displayX > (-20 * screenScaling)) { //check if enemy is on screen and not dead
+   if (enemyState != 2 && displayX < (1200 * screenScaling) && displayX > (-20 * screenScaling)) { //check if enemy is on screen and not dead
     if (enemyType == 0) { //check to see if enemy is a drone
     if (enemyTiming > 40) { //check to make sure enough time has passed since last shot
     float speed = 5; //higher numbers are slower
