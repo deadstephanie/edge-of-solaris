@@ -84,11 +84,29 @@ void collision() {
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
-              enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
-              dmg[findDamage()] = new damage(enemyX, enemyY, blts[i].bulletPower, 0, 30);
+              float bulletDamage = blts[i].bulletPower;
+              if (random(100) <= playerCritChance) {
+                if (playerCritChance > 100) { //if super crits are possible
+                  if (random(100) <= (playerCritChance - 100)) { //super crit acheived
+                    float playerSuperCritMod = pow(playerCritMod, 3);
+                    bulletDamage = bulletDamage * playerSuperCritMod;
+                    dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 3, 60);
+                  }
+                  else { //super crit possible but not acheived
+                    bulletDamage = bulletDamage * playerCritMod;
+                    dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 2, 40);
+                  }
+                } else { //crit acheived but super crit not acheived
+                  bulletDamage = bulletDamage * playerCritMod;
+                  dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 2, 40);
+                }
+              } else dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 0, 30);
+              enemyHP = enemyHP - bulletDamage; //reduce enemy hp per bullet power
+              
               if (enemyHP <= 0) {
                 enemyTiming = 30; //start timer over for death anim
                 enemyState = 2; //set enemy to dead
+                dropItem(enemyHPMax, enemyX, enemyY); //try to drop an item
                 playerMoney = playerMoney + (enemyHPMax * moneyValueDrop * moneyBalance); //add money for kill
                 playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance); //add xp for kill
                 checkForLevelUp(); //check if player leveled up

@@ -53,6 +53,7 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 damage[] dmg;
+item[] itemDrop;
 
 PImage faun1;
 PImage faun2;
@@ -111,10 +112,11 @@ ControllerManager controllers = new ControllerManager();
   /* size commented out by preprocessor */;
   surface.setResizable(true);
   frameRate(60);
-  blts = new bullet[bulletCount];
+  blts = new bullet[bulletCount]; //create all init objects
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
   dmg = new damage[dmgCount];
+  itemDrop = new item[itemDropCount]; 
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
@@ -187,6 +189,10 @@ ControllerManager controllers = new ControllerManager();
     for (bullet blts : blts) {
       blts.update();
       blts.display();
+    }
+    for (item itemDrop : itemDrop) {
+      itemDrop.update();
+      itemDrop.display();
     }
     for (damage dmg : dmg) {
       dmg.update();
@@ -277,6 +283,9 @@ ControllerManager controllers = new ControllerManager();
     for (bullet blts : blts) {
       blts.display();
     }
+    for (item itemDrop : itemDrop) {
+      itemDrop.display();
+    }
     if (damageOnTop == false) {
       for (damage dmg : dmg) {
         dmg.display();
@@ -364,6 +373,11 @@ ControllerManager controllers = new ControllerManager();
     rect(450 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
     rect(485 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
     rect(485 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+    
+    textSize(48);
+    stroke(0);
+    fill(200, 255, 20);
+    text("Money: " + playerMoney, 550 * screenScaling, 680 * screenScaling);
   } else if (screenIndex == 1) { //title page
     background(0);
     fill(200, 200, 255, 120);
@@ -717,6 +731,9 @@ ControllerManager controllers = new ControllerManager();
   for (int i = 0; i < dmgCount; i++) {
     dmg[i] = new damage(-200, -200, 0, 0, 0);
   }
+  for (int i = 0; i < itemDropCount; i++) {
+    itemDrop[i] = new item(-200, -200,0, 0, 0, 255, 0);
+  }
 }
 
  public void resetObjects() { //resets objects (similar to init but meant to be run in main loop)
@@ -731,6 +748,9 @@ ControllerManager controllers = new ControllerManager();
     }
     for (damage dmg : dmg) {
       dmg.reset();
+    }
+    for (item itemDrop : itemDrop) {
+      itemDrop.reset();
     }
 }
 
@@ -779,6 +799,23 @@ ControllerManager controllers = new ControllerManager();
     }
   }
   }
+  for (int i = 0; i < itemDropCount; i++) { //check collision with items that are dropped
+   if (itemDrop[i].itemType != 255) { //check to ensure item is not dead
+    if (playerX <= itemDrop[i].itemX + (itemDrop[i].itemHitX / 2)) {
+      if ((playerX + (playerHitX / 1)) >= (itemDrop[i].itemX - (itemDrop[i].itemHitX / 2))) {
+        if (playerY + 10 <= itemDrop[i].itemY + (itemDrop[i].itemHitY / 2)) {
+          if ((playerY + (playerHitY / 1)) >= (itemDrop[i].itemY - (itemDrop[i].itemHitY / 2))) {
+              if (itemDrop[i].itemType == 0) { //money item
+                playerMoney = playerMoney + itemDrop[i].itemValue; //add item money to player money
+                dmg[findDamage()] = new damage(itemDrop[i].itemX, itemDrop[i].itemY, itemDrop[i].itemValue, 4, 30);
+              }
+              itemDrop[i].itemType = 255;
+          }
+        }
+      }
+    }
+  }
+  }
 }
 
  public int findBullet () { //finds next unused bullet and returns its index value as an int
@@ -815,7 +852,7 @@ ControllerManager controllers = new ControllerManager();
   return bulletIndex;
 }
 
- public int findDamage () { //finds next unused enemy and returns its index value as an int
+ public int findDamage () { //finds next unused damage object and returns its index value as an int
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -830,6 +867,66 @@ ControllerManager controllers = new ControllerManager();
       }
     }
   return bulletIndex;
+}
+
+ public int findItem () { //finds next unused item object and returns its index value as an int
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (itemDrop[i].itemType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (itemDropCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
+}
+
+ public void dropItem(float value, float x, float y) { //when an enemy dies
+  int shouldWeDropanItem = 0;
+  boolean itemSuperCrit = false;
+  if (itemCritChance > 100) { //super crit possible
+    if (random(100) <= (itemCritChance - 100)) { //if super crit
+      shouldWeDropanItem = 1;
+      itemSuperCrit = true;
+    } else { //no super crit
+      shouldWeDropanItem = 1;
+    }
+  } else if (random(100) <= itemDropChance) { //normal item drop
+    shouldWeDropanItem = 1;
+  }
+  
+  if (shouldWeDropanItem == 1) { //normal drop
+    int itemRand = PApplet.parseInt(random(1000));
+    
+    if (itemSuperCrit == true) { //super crit
+      value = value * pow(itemCritMod, 3);
+      if (itemRand <= moneyDropThreshold) { //money
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 1, 0);
+      } else if (itemRand <= xpDropThreshold) { //xp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 3, 0);
+      } else if (itemRand <= hpDropThreshold) { //hp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 5, 0);
+      } else if (itemRand <= shieldDropThreshold) { //shield
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 7, 0);
+      }
+    } else { //normal drop
+      if (random(100) <= itemCritChance) value = value * itemCritMod;
+      if (itemRand <= moneyDropThreshold) { //money
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 0, 0);
+      } else if (itemRand <= xpDropThreshold) { //xp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 2, 0);
+      } else if (itemRand <= hpDropThreshold) { //hp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 4, 0);
+      } else if (itemRand <= shieldDropThreshold) { //shield
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 6, 0);
+      }
+    }
+  }
 }
 class bullet {
   float bulletX; //bullet x pos
@@ -996,8 +1093,8 @@ class damage {
   float damageX;
   float damageY;
   float damage;
-  int damageType;
-  int damageTimer;
+  int damageType; //0 = enemy take dmg, 1 = player take dmg, 2 = crit on enemy, 3 = super crit, 4 = money collect from item
+  int damageTimer; //set on creation of obj, when it reaches 0 damage is dead
   
   damage(float damageXtemp, float damageYtemp, float damagetemp, int damageTypetemp, int damageTimertemp) {
     damageX = damageXtemp;
@@ -1008,27 +1105,48 @@ class damage {
   }
   
    public void update() {
-    if (damageTimer != 0) {
+    if (damageTimer != 0) { //as long as damage isnt dead
       damageTimer--;
       damageY--;
     }
   }
   
    public void display() {
-    if (damageTimer != 0) {
-      if (damageType == 0) {
+    if (damageTimer != 0) { //when timer runs out damage is dead
+      if (damageType == 0) { //enemy dmg
         int fade = damageTimer * 8;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(24 * screenScaling);
         fill(255, 20, 20, fade);
         text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
-      } else if (damageType == 1) {
+      } else if (damageType == 1) { //player dmg
         int fade = damageTimer * 8;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(24 * screenScaling);
         fill(200, 20, 255, fade);
+        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+      }  else if (damageType == 2) { //player crit on enemy
+        int fade = damageTimer * 7;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(36 * screenScaling);
+        fill(255, 0, 0, fade);
+        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+      } else if (damageType == 3) { //player super crit on enemy
+        int fade = damageTimer * 5;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(48 * screenScaling);
+        fill(255, 0, 0, fade);
+        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+      } else if (damageType == 4) { //money
+        int fade = damageTimer * 5;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(24 * screenScaling);
+        fill(220, 255, 25, fade);
         text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
       }
     }
@@ -1038,7 +1156,7 @@ class damage {
     damageX = -200;
     damageY = -200;
     damage = 0;
-    damageType = 0;
+    damageType = 255;
     damageTimer = 0;
   }
 }
@@ -1128,11 +1246,29 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
           if ((enemyY + (enemyHitY / 2)) >= (blts[i].bulletY - (blts[i].bulletHitY / 2))) {
             if (blts[i].bulletType < 199) { //check if bullet type is player projectile
               enemyState = 1; //change enemy to hurt state
-              enemyHP = enemyHP - blts[i].bulletPower; //reduce enemy hp per bullet power
-              dmg[findDamage()] = new damage(enemyX, enemyY, blts[i].bulletPower, 0, 30);
+              float bulletDamage = blts[i].bulletPower;
+              if (random(100) <= playerCritChance) {
+                if (playerCritChance > 100) { //if super crits are possible
+                  if (random(100) <= (playerCritChance - 100)) { //super crit acheived
+                    float playerSuperCritMod = pow(playerCritMod, 3);
+                    bulletDamage = bulletDamage * playerSuperCritMod;
+                    dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 3, 60);
+                  }
+                  else { //super crit possible but not acheived
+                    bulletDamage = bulletDamage * playerCritMod;
+                    dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 2, 40);
+                  }
+                } else { //crit acheived but super crit not acheived
+                  bulletDamage = bulletDamage * playerCritMod;
+                  dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 2, 40);
+                }
+              } else dmg[findDamage()] = new damage(enemyX, enemyY, bulletDamage, 0, 30);
+              enemyHP = enemyHP - bulletDamage; //reduce enemy hp per bullet power
+              
               if (enemyHP <= 0) {
                 enemyTiming = 30; //start timer over for death anim
                 enemyState = 2; //set enemy to dead
+                dropItem(enemyHPMax, enemyX, enemyY); //try to drop an item
                 playerMoney = playerMoney + (enemyHPMax * moneyValueDrop * moneyBalance); //add money for kill
                 playerXP = playerXP + (enemyHPMax * xpValueDrop * xpBalance); //add xp for kill
                 checkForLevelUp(); //check if player leveled up
@@ -1424,6 +1560,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   playerXP = gamesaveJSON.getFloat("playerXP");
   playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
   playerCooldown = gamesaveJSON.getFloat("playerCooldown");
+  playerCritChance = gamesaveJSON.getFloat("playerCritChance");
+  playerCritMod = gamesaveJSON.getFloat("playerCritMod");
+  itemCritChance = gamesaveJSON.getFloat("itemCritChance");
+  itemDropChance = gamesaveJSON.getFloat("itemDropChance");
+  itemCritMod = gamesaveJSON.getFloat("itemCritMod");
   playerWeaponLevel0 = gamesaveJSON.getInt("playerWeaponLevel0");
   playerWeaponLevel1 = gamesaveJSON.getInt("playerWeaponLevel1");
   playerWeaponLevel2 = gamesaveJSON.getInt("playerWeaponLevel2");
@@ -1444,6 +1585,11 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   gamesaveJSON.setFloat("playerMoney", playerMoney);
   gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
   gamesaveJSON.setFloat("playerCooldown", playerCooldown);
+  gamesaveJSON.setFloat("playerCritChance", playerCritChance);
+  gamesaveJSON.setFloat("playerCritMod", playerCritMod);
+  gamesaveJSON.setFloat("itemCritChance", itemCritChance);
+  gamesaveJSON.setFloat("itemDropChance", itemDropChance);
+  gamesaveJSON.setFloat("itemCritMod", itemCritMod);
   gamesaveJSON.setInt("playerWeaponLevel0", playerWeaponLevel0);
   gamesaveJSON.setInt("playerWeaponLevel1", playerWeaponLevel1);
   gamesaveJSON.setInt("playerWeaponLevel2", playerWeaponLevel2);
@@ -1529,6 +1675,51 @@ enemy(int enemyXtemp, int enemyYtemp, int enemySpeedXtemp, int enemySpeedYtemp, 
   shadow2 = loadImage("assets/ui/shadow2.png");
   shadow3 = loadImage("assets/ui/shadow3.gif");
   shadow4 = loadImage("assets/ui/shadow4.png");
+}
+class item {
+  float itemX;
+  float itemY;
+  float itemHitX;
+  float itemHitY;
+  float itemValue;
+  int itemType; //0 = money, 255 = dead
+  int itemTimer;
+  
+  item(float itemXtemp, float itemYtemp, float itemHitXtemp, float itemHitYtemp, float itemValuetemp, int itemTypetemp, int itemTimertemp) {
+    itemX = itemXtemp;
+    itemY = itemYtemp;
+    itemHitX = itemHitXtemp;
+    itemHitY = itemHitYtemp;
+    itemValue = itemValuetemp;
+    itemType = itemTypetemp;
+    itemTimer = itemTimertemp;
+  }
+  
+   public void update() {
+    if (itemType != 255) {
+      itemTimer++;
+      itemX = itemX + autoScroll;
+    }
+  }
+  
+   public void display() {
+    if (itemType == 0) { //money
+      strokeWeight(2);
+      stroke(0); 
+      fill(228, 235, 33);
+      ellipse(itemX * screenScaling, itemY * screenScaling, itemHitX * screenScaling, itemHitY * screenScaling);
+    } 
+  }
+  
+   public void reset() {
+    itemX = -200;
+    itemY = -200;
+    itemHitX = 0;
+    itemHitY = 0;
+    itemValue = 0;
+    itemType = 255;
+    itemTimer = 0;
+  }
 }
  public void placeEnemies() {
   if (levelIndex == 98) { //performance test level
@@ -2791,7 +2982,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 121; //the current build number, should be incremented manually each commit
+int buildNumber = 122; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -2800,6 +2991,7 @@ int areaIndex = 1; //tells the level select what options to have, 0 is debug
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
 int basicECount = 300; //total enemy objects
+int itemDropCount = 100; //total items on screen
 int dmgCount = 200; //total damage (readout) objects
 int starCount = 100; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
@@ -2848,7 +3040,15 @@ float playerDefense = 1.1f; //percentage damage reduction, goes down
 float playerDMGReduction = 1; //calculated from playerDefense
 float playerAttack = 1; //percentage boost to all player wpn dmg
 float playerCooldown = 1; //percentage boost to all wpn cooldown
-float enemyDrop = 1; //percentage of time enemies drop items
+float playerCritChance = 15; //percentage of time shots will cri when impacting enemy
+float playerCritMod = 2.5f; //multiplier for shot crits
+float itemDropChance = 50; //percentage of time enemies drop items
+float itemCritChance = 15; //percentage item drop values will crit
+float itemCritMod = 2.5f; //multiplier for item crits
+int moneyDropThreshold = 1250; //out of 1000, how often money will drop
+int xpDropThreshold = 500; //how often xp will drop
+int hpDropThreshold = 750; //how often hp will drop
+int shieldDropThreshold = 1000; //how often shield will drop
 float moneyValueDrop = 1; //percentage boost of money dropped
 float hpValueDrop = 1; //percentage boost of hp dropped
 float xpValueDrop = 1; //percentage boost of xp dropped

@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 121; //the current build number, should be incremented manually each commit
+int buildNumber = 122; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -8,6 +8,7 @@ int areaIndex = 1; //tells the level select what options to have, 0 is debug
 int enemyIndex = 0; //used for enemy gen
 int bulletCount = 500; //total bullet objects
 int basicECount = 300; //total enemy objects
+int itemDropCount = 100; //total items on screen
 int dmgCount = 200; //total damage (readout) objects
 int starCount = 100; //how many stars to display
 int timing = 0; //used for various timings, namely the players weapon firing timer
@@ -56,7 +57,15 @@ float playerDefense = 1.1; //percentage damage reduction, goes down
 float playerDMGReduction = 1; //calculated from playerDefense
 float playerAttack = 1; //percentage boost to all player wpn dmg
 float playerCooldown = 1; //percentage boost to all wpn cooldown
-float enemyDrop = 1; //percentage of time enemies drop items
+float playerCritChance = 15; //percentage of time shots will cri when impacting enemy
+float playerCritMod = 2.5; //multiplier for shot crits
+float itemDropChance = 50; //percentage of time enemies drop items
+float itemCritChance = 15; //percentage item drop values will crit
+float itemCritMod = 2.5; //multiplier for item crits
+int moneyDropThreshold = 1250; //out of 1000, how often money will drop
+int xpDropThreshold = 500; //how often xp will drop
+int hpDropThreshold = 750; //how often hp will drop
+int shieldDropThreshold = 1000; //how often shield will drop
 float moneyValueDrop = 1; //percentage boost of money dropped
 float hpValueDrop = 1; //percentage boost of hp dropped
 float xpValueDrop = 1; //percentage boost of xp dropped

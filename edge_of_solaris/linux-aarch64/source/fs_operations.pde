@@ -52,6 +52,11 @@ void loadSave() { //load the player data save file
   playerXP = gamesaveJSON.getFloat("playerXP");
   playerStatPoints = gamesaveJSON.getInt("playerStatPoints");
   playerCooldown = gamesaveJSON.getFloat("playerCooldown");
+  playerCritChance = gamesaveJSON.getFloat("playerCritChance");
+  playerCritMod = gamesaveJSON.getFloat("playerCritMod");
+  itemCritChance = gamesaveJSON.getFloat("itemCritChance");
+  itemDropChance = gamesaveJSON.getFloat("itemDropChance");
+  itemCritMod = gamesaveJSON.getFloat("itemCritMod");
   playerWeaponLevel0 = gamesaveJSON.getInt("playerWeaponLevel0");
   playerWeaponLevel1 = gamesaveJSON.getInt("playerWeaponLevel1");
   playerWeaponLevel2 = gamesaveJSON.getInt("playerWeaponLevel2");
@@ -72,6 +77,11 @@ void saveSave() { //save the player data save file
   gamesaveJSON.setFloat("playerMoney", playerMoney);
   gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
   gamesaveJSON.setFloat("playerCooldown", playerCooldown);
+  gamesaveJSON.setFloat("playerCritChance", playerCritChance);
+  gamesaveJSON.setFloat("playerCritMod", playerCritMod);
+  gamesaveJSON.setFloat("itemCritChance", itemCritChance);
+  gamesaveJSON.setFloat("itemDropChance", itemDropChance);
+  gamesaveJSON.setFloat("itemCritMod", itemCritMod);
   gamesaveJSON.setInt("playerWeaponLevel0", playerWeaponLevel0);
   gamesaveJSON.setInt("playerWeaponLevel1", playerWeaponLevel1);
   gamesaveJSON.setInt("playerWeaponLevel2", playerWeaponLevel2);

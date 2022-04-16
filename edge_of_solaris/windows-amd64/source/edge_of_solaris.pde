@@ -20,6 +20,7 @@ bullet[] blts;
 enemy[] basicE;
 starsBG[] stars;
 damage[] dmg;
+item[] itemDrop;
 
 PImage faun1;
 PImage faun2;
@@ -78,10 +79,11 @@ void setup(){
   size(1280, 720);
   surface.setResizable(true);
   frameRate(60);
-  blts = new bullet[bulletCount];
+  blts = new bullet[bulletCount]; //create all init objects
   basicE = new enemy[basicECount];
   stars = new starsBG[starCount];
   dmg = new damage[dmgCount];
+  itemDrop = new item[itemDropCount]; 
   initObjects(); //initializes all objects to "default" values
   loadText(); //load the text file for visual novel text
   loadSprites(); //load in png images for sprites
@@ -154,6 +156,10 @@ void drawFrame() {
     for (bullet blts : blts) {
       blts.update();
       blts.display();
+    }
+    for (item itemDrop : itemDrop) {
+      itemDrop.update();
+      itemDrop.display();
     }
     for (damage dmg : dmg) {
       dmg.update();
@@ -244,6 +250,9 @@ void drawFrame() {
     for (bullet blts : blts) {
       blts.display();
     }
+    for (item itemDrop : itemDrop) {
+      itemDrop.display();
+    }
     if (damageOnTop == false) {
       for (damage dmg : dmg) {
         dmg.display();
@@ -331,6 +340,11 @@ void drawUI() {
     rect(450 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
     rect(485 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
     rect(485 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
+    
+    textSize(48);
+    stroke(0);
+    fill(200, 255, 20);
+    text("Money: " + playerMoney, 550 * screenScaling, 680 * screenScaling);
   } else if (screenIndex == 1) { //title page
     background(0);
     fill(200, 200, 255, 120);
@@ -684,6 +698,9 @@ void initObjects() { //set all objects to default (meant to be run in setup)
   for (int i = 0; i < dmgCount; i++) {
     dmg[i] = new damage(-200, -200, 0, 0, 0);
   }
+  for (int i = 0; i < itemDropCount; i++) {
+    itemDrop[i] = new item(-200, -200,0, 0, 0, 255, 0);
+  }
 }
 
 void resetObjects() { //resets objects (similar to init but meant to be run in main loop)
@@ -698,6 +715,9 @@ void resetObjects() { //resets objects (similar to init but meant to be run in m
     }
     for (damage dmg : dmg) {
       dmg.reset();
+    }
+    for (item itemDrop : itemDrop) {
+      itemDrop.reset();
     }
 }
 
@@ -746,6 +766,23 @@ void playerCollision() { //check collision with enemy bullets/ships
     }
   }
   }
+  for (int i = 0; i < itemDropCount; i++) { //check collision with items that are dropped
+   if (itemDrop[i].itemType != 255) { //check to ensure item is not dead
+    if (playerX <= itemDrop[i].itemX + (itemDrop[i].itemHitX / 2)) {
+      if ((playerX + (playerHitX / 1)) >= (itemDrop[i].itemX - (itemDrop[i].itemHitX / 2))) {
+        if (playerY + 10 <= itemDrop[i].itemY + (itemDrop[i].itemHitY / 2)) {
+          if ((playerY + (playerHitY / 1)) >= (itemDrop[i].itemY - (itemDrop[i].itemHitY / 2))) {
+              if (itemDrop[i].itemType == 0) { //money item
+                playerMoney = playerMoney + itemDrop[i].itemValue; //add item money to player money
+                dmg[findDamage()] = new damage(itemDrop[i].itemX, itemDrop[i].itemY, itemDrop[i].itemValue, 4, 30);
+              }
+              itemDrop[i].itemType = 255;
+          }
+        }
+      }
+    }
+  }
+  }
 }
 
 int findBullet () { //finds next unused bullet and returns its index value as an int
@@ -782,7 +819,7 @@ int findEnemy () { //finds next unused enemy and returns its index value as an i
   return bulletIndex;
 }
 
-int findDamage () { //finds next unused enemy and returns its index value as an int
+int findDamage () { //finds next unused damage object and returns its index value as an int
     bulletIndex = 0;
     int i = 0;
     boolean exit = false;
@@ -797,4 +834,64 @@ int findDamage () { //finds next unused enemy and returns its index value as an 
       }
     }
   return bulletIndex;
+}
+
+int findItem () { //finds next unused item object and returns its index value as an int
+    bulletIndex = 0;
+    int i = 0;
+    boolean exit = false;
+    while (exit == false) {
+      if (itemDrop[i].itemType == 255) {
+        bulletIndex = i;
+        exit = true;
+      } else i++;
+      if (i > (itemDropCount - 1)) {
+        bulletIndex = 0;
+        exit = true;
+      }
+    }
+  return bulletIndex;
+}
+
+void dropItem(float value, float x, float y) { //when an enemy dies
+  int shouldWeDropanItem = 0;
+  boolean itemSuperCrit = false;
+  if (itemCritChance > 100) { //super crit possible
+    if (random(100) <= (itemCritChance - 100)) { //if super crit
+      shouldWeDropanItem = 1;
+      itemSuperCrit = true;
+    } else { //no super crit
+      shouldWeDropanItem = 1;
+    }
+  } else if (random(100) <= itemDropChance) { //normal item drop
+    shouldWeDropanItem = 1;
+  }
+  
+  if (shouldWeDropanItem == 1) { //normal drop
+    int itemRand = int(random(1000));
+    
+    if (itemSuperCrit == true) { //super crit
+      value = value * pow(itemCritMod, 3);
+      if (itemRand <= moneyDropThreshold) { //money
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 1, 0);
+      } else if (itemRand <= xpDropThreshold) { //xp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 3, 0);
+      } else if (itemRand <= hpDropThreshold) { //hp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 5, 0);
+      } else if (itemRand <= shieldDropThreshold) { //shield
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 7, 0);
+      }
+    } else { //normal drop
+      if (random(100) <= itemCritChance) value = value * itemCritMod;
+      if (itemRand <= moneyDropThreshold) { //money
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 0, 0);
+      } else if (itemRand <= xpDropThreshold) { //xp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 2, 0);
+      } else if (itemRand <= hpDropThreshold) { //hp
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 4, 0);
+      } else if (itemRand <= shieldDropThreshold) { //shield
+        itemDrop[findItem()] = new item(x, y, 20, 20, value, 6, 0);
+      }
+    }
+  }
 }
