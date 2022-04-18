@@ -18,7 +18,7 @@ class item {
   }
   
   void update() {
-    if (itemType != 255) {
+    if (itemType != 255) { //if item not dead
       itemTimer++;
       itemX = itemX + autoScroll;
     }
@@ -26,9 +26,24 @@ class item {
   
   void display() {
     if (itemType == 0) { //money
-      strokeWeight(2);
+      strokeWeight(5);
       stroke(0); 
       fill(228, 235, 33);
+      ellipse(itemX * screenScaling, itemY * screenScaling, itemHitX * screenScaling, itemHitY * screenScaling);
+    } else if (itemType == 2) { //xp
+      strokeWeight(5);
+      stroke(0); 
+      fill(20, 255, 255);
+      ellipse(itemX * screenScaling, itemY * screenScaling, itemHitX * screenScaling, itemHitY * screenScaling);
+    } else if (itemType == 4) { //hp
+      strokeWeight(5);
+      stroke(0); 
+      fill(20, 255, 20);
+      ellipse(itemX * screenScaling, itemY * screenScaling, itemHitX * screenScaling, itemHitY * screenScaling);
+    } else if (itemType == 6) { //shied
+      strokeWeight(5);
+      stroke(0); 
+      fill(28, 35, 253);
       ellipse(itemX * screenScaling, itemY * screenScaling, itemHitX * screenScaling, itemHitY * screenScaling);
     } 
   }

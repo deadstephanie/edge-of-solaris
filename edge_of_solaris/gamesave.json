@@ -10,7 +10,7 @@
   "playerCritChance": 15,
   "playerCritMod": 2.5,
   "itemCritChance": 15,
-  "itemDropChance": 15,
+  "itemDropChance": 100,
   "itemCritMod": 2.5,
   "playerWeaponLevel0": 1,
   "playerWeaponLevel1": 1,

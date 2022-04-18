@@ -22,45 +22,67 @@ class damage {
   
   void display() {
     if (damageTimer != 0) { //when timer runs out damage is dead
+      String damageShort = nf(int(damage), 0, 0);
       if (damageType == 0) { //enemy dmg
         int fade = damageTimer * 8;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(24 * screenScaling);
         fill(255, 20, 20, fade);
-        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
       } else if (damageType == 1) { //player dmg
         int fade = damageTimer * 8;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(24 * screenScaling);
         fill(200, 20, 255, fade);
-        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
       }  else if (damageType == 2) { //player crit on enemy
         int fade = damageTimer * 7;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(36 * screenScaling);
         fill(255, 0, 0, fade);
-        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
       } else if (damageType == 3) { //player super crit on enemy
         int fade = damageTimer * 5;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(48 * screenScaling);
         fill(255, 0, 0, fade);
-        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
       } else if (damageType == 4) { //money
         int fade = damageTimer * 5;
         if (fade > 255) fade = 255;
         noStroke();
         textSize(24 * screenScaling);
         fill(220, 255, 25, fade);
-        text(damage * screenScaling, damageX * screenScaling, damageY * screenScaling);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
+      } else if (damageType == 6) { //xp
+        int fade = damageTimer * 5;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(24 * screenScaling);
+        fill(20, 255, 255, fade);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
+      } else if (damageType == 8) { //hp
+        int fade = damageTimer * 5;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(24 * screenScaling);
+        fill(20, 255, 20, fade);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
+      } else if (damageType == 10) { //shield
+        int fade = damageTimer * 5;
+        if (fade > 255) fade = 255;
+        noStroke();
+        textSize(24 * screenScaling);
+        fill(28, 35, 253, fade);
+        text(damageShort, damageX * screenScaling, damageY * screenScaling);
       }
     }
   }
-  
+   
   void reset() {
     damageX = -200;
     damageY = -200;

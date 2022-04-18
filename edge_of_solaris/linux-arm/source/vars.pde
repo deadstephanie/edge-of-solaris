@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 122; //the current build number, should be incremented manually each commit
+int buildNumber = 123; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -59,10 +59,10 @@ float playerAttack = 1; //percentage boost to all player wpn dmg
 float playerCooldown = 1; //percentage boost to all wpn cooldown
 float playerCritChance = 15; //percentage of time shots will cri when impacting enemy
 float playerCritMod = 2.5; //multiplier for shot crits
-float itemDropChance = 50; //percentage of time enemies drop items
+float itemDropChance = 50 ; //percentage of time enemies drop items
 float itemCritChance = 15; //percentage item drop values will crit
 float itemCritMod = 2.5; //multiplier for item crits
-int moneyDropThreshold = 1250; //out of 1000, how often money will drop
+int moneyDropThreshold = 250; //out of 1000, how often money will drop
 int xpDropThreshold = 500; //how often xp will drop
 int hpDropThreshold = 750; //how often hp will drop
 int shieldDropThreshold = 1000; //how often shield will drop
@@ -139,6 +139,7 @@ int playerEngineTimer = 0;
 
 //settings vars
 boolean oneHitMode = true; //whether to set game to paused when player dies
+int playerLives = 3; //used for one hit mode only
 boolean damageOnTop = false; //whether or not to render to damage on top of the player
 float RSDeadzone = 0.2; //deadzone of right stick
 float LSDeadzone = 0.05; //deadzone of left stick

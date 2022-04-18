@@ -379,7 +379,13 @@ void intentConfirm() { //called when space/A are pressed
       levelEnd();
       btnAdvanceA = false;
     } else if (playerState == 255) { //dead
-      intentRestart(); //restart level
+    if (oneHitMode == true && playerLives > 0) {
+      paused = false;
+      playerLives--;
+      playerHP = playerHPMax;
+      playerShield = playerShieldMax;
+      playerState = -60;
+    } else intentRestart(); //restart level
     }
   } if (screenIndex == 2 || screenIndex == 1 || screenIndex == 5 || screenIndex == 8 || screenIndex == 4) {
     if (btnAdvanceA == true) {

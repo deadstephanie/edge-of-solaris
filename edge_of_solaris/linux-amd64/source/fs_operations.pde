@@ -75,6 +75,7 @@ void saveSave() { //save the player data save file
   gamesaveJSON.setFloat("playerDefense", playerDefense);
   gamesaveJSON.setFloat("playerAttack", playerAttack);
   gamesaveJSON.setFloat("playerMoney", playerMoney);
+  gamesaveJSON.setFloat("playerXP", playerXP);
   gamesaveJSON.setInt("playerStatPoints", playerStatPoints);
   gamesaveJSON.setFloat("playerCooldown", playerCooldown);
   gamesaveJSON.setFloat("playerCritChance", playerCritChance);

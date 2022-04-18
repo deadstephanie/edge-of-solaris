@@ -566,6 +566,8 @@ void loadLevel() { //load a saved level editor level
   playerY = 250;
   playerShield = 0;
   
+  calculateStats();
+  
   //redraw enemies
   initObjects(); //reset all enemies
   for(int i = 0; i < levelEnemyIndex; i++) {

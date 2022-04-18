@@ -194,14 +194,22 @@ void drawFrame() {
     }
     
     //draw player
-    playerCollision();
+    if (playerState >= 0) playerCollision(); //only process collision if player is not invulnerable
     if (playerShield < playerShieldMax) playerShield = playerShield + playerShieldRegen; //regen shield if depleted
     if (playerShield > playerShieldMax) playerShield = playerShieldMax; //ensure shield does not increase past max
     if (playerState == 0) setRect(1); //if player not being hurt
-    else { //if player being hurt
-      setRect(2); 
-      playerState--;  //reset player state
-      rect(playerX * screenScaling, (playerY + 10) * screenScaling, playerHitX * screenScaling, (playerHitY - 10) * screenScaling, 10); //render player hurt state
+    else { //if player being hurt/invulner
+      if (playerState > 0) { //hurt state
+        setRect(2); 
+        playerState--;  //reset player state
+        rect(playerX * screenScaling, (playerY + 10) * screenScaling, playerHitX * screenScaling, (playerHitY - 10) * screenScaling, 10); //render player hurt state
+      } else { //invulner state
+        playerState++; //return to normal
+        strokeWeight(5);
+        stroke(20, 20, 255);
+        fill(20, 230, 240);
+        rect((playerX - 15) * screenScaling, (playerY + 25) * screenScaling, (playerHitX + 35) * screenScaling, (playerHitY - 35) * screenScaling, 10);
+      }
     }
     
     if (playerHP <= 0) { //if player dies
@@ -279,7 +287,12 @@ void drawFrame() {
       fill(255, 50, 50);
       text("YOU DIED", 550 * screenScaling, 350 * screenScaling);
       textSize(48 * screenScaling);
+      if (oneHitMode == true && playerLives > 0) {
+        text("Press R, Space or A to respawn", 400 * screenScaling, 450 * screenScaling);
+        text(playerLives + " lives left", 400 * screenScaling, 500 * screenScaling);
+      } else 
       text("Press R, Space or A to restart", 400 * screenScaling, 450 * screenScaling);
+      
       
     } else {
       if (shadowFactor > 12) image(shadow4, (playerX - 5) * screenScaling, (playerY - 5) * screenScaling, (playerHitX * 2) * screenScaling, (playerHitY * 2) * screenScaling);
@@ -341,10 +354,19 @@ void drawUI() {
     rect(485 * screenScaling, 653 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
     rect(485 * screenScaling, 678 * screenScaling, 30 * screenScaling, 20 * screenScaling, 5);
     
-    textSize(48);
+    //render player money
+    textSize(36);
     stroke(0);
     fill(200, 255, 20);
-    text("Money: " + playerMoney, 550 * screenScaling, 680 * screenScaling);
+    String playerMoneyShort = nf(int(playerMoney), 0, 0);
+    text("$: " + int(playerMoneyShort), 550 * screenScaling, 680 * screenScaling);
+    
+    //render player level and xp bar
+    fill(20, 255, 255);
+    text("lv: " + playerLevel, 750 * screenScaling, 680 * screenScaling);
+    rect(838 * screenScaling, 653.5 * screenScaling, (194 * (playerXP / pow(playerLevel +1, 3))) * screenScaling, 44 * screenScaling);
+    noFill();
+    rect(835 * screenScaling, 650 * screenScaling, 200 * screenScaling, 50 * screenScaling, 10);
   } else if (screenIndex == 1) { //title page
     background(0);
     fill(200, 200, 255, 120);
@@ -619,9 +641,14 @@ void levelStart(int cmdIndex) {
   playerHP = playerHPMax;
   playerShield = playerShieldMax;
   playerState = 0;
+  playerLives = 3;
   initObjects();
   placeEnemies();
   
+  calculateStats();
+}
+
+void calculateStats() {
   //calculate stats
   if (oneHitMode == true) enemyBalanceDMG = 9000;
   playerDMGReduction = 1 - ((playerDefense - 1) * 0.1);
@@ -775,6 +802,18 @@ void playerCollision() { //check collision with enemy bullets/ships
               if (itemDrop[i].itemType == 0) { //money item
                 playerMoney = playerMoney + itemDrop[i].itemValue; //add item money to player money
                 dmg[findDamage()] = new damage(itemDrop[i].itemX, itemDrop[i].itemY, itemDrop[i].itemValue, 4, 30);
+              } else if (itemDrop[i].itemType == 2) { //xp item
+                playerXP = playerXP + itemDrop[i].itemValue; //add value to player xp
+                dmg[findDamage()] = new damage(itemDrop[i].itemX, itemDrop[i].itemY, itemDrop[i].itemValue, 6, 30);
+                checkForLevelUp();
+              } else if (itemDrop[i].itemType == 4) { //hp pickup
+                playerHP = playerHP + itemDrop[i].itemValue; //add value to player hp
+                if (playerHP > playerHPMax) playerHP = playerHPMax;
+                dmg[findDamage()] = new damage(itemDrop[i].itemX, itemDrop[i].itemY, itemDrop[i].itemValue, 8, 30);
+              } else if (itemDrop[i].itemType == 4) { //shield pickup
+                playerShield = playerShield + itemDrop[i].itemValue; //add value to player shield
+                if (playerShield > playerShieldMax) playerShield = playerShieldMax;
+                dmg[findDamage()] = new damage(itemDrop[i].itemX, itemDrop[i].itemY, itemDrop[i].itemValue, 10, 30);
               }
               itemDrop[i].itemType = 255;
           }
