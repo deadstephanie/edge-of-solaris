@@ -2365,6 +2365,7 @@ class item {
   playerX = 200;
   playerY = 250;
   playerShield = 0;
+  playerLives = 3;
   
   calculateStats();
   
@@ -3067,7 +3068,7 @@ starsBG(int starXtemp, int starYtemp, int starSpeedXtemp, int starSpeedYtemp) {
 }
 }
 //game vars
-int buildNumber = 123; //the current build number, should be incremented manually each commit
+int buildNumber = 124; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level

@@ -565,6 +565,7 @@ void loadLevel() { //load a saved level editor level
   playerX = 200;
   playerY = 250;
   playerShield = 0;
+  playerLives = 3;
   
   calculateStats();
   
