@@ -384,7 +384,7 @@ void intentConfirm() { //called when space/A are pressed
       playerLives--;
       playerHP = playerHPMax;
       playerShield = playerShieldMax;
-      playerState = -60;
+      playerState = -120;
     } else intentRestart(); //restart level
     }
   } if (screenIndex == 2 || screenIndex == 1 || screenIndex == 5 || screenIndex == 8 || screenIndex == 4) {
