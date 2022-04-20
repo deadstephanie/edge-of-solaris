@@ -97,6 +97,7 @@ void setup(){
 }
 
 void draw() {
+  frameRate(60);
   controllerSupport(); //detects controllers, controller movement,etc
   processInput(); //process keyboard input
   playerX = constrain(playerX, 20 * screenScaling, 1200 * screenScaling); //constrain playerX to playfield

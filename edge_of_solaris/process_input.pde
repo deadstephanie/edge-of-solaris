@@ -325,9 +325,10 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
     }
     if (currController.getAxisState(ControllerAxis.TRIGGERLEFT) > 0.1) {
       intentSecondarySwitchDown();
-    } else if (currController.getAxisState(ControllerAxis.TRIGGERRIGHT) > 0.1) {
-      intentSecondarySwitchUp();
-    } else btnAdvanceSec = true; //if neither trigger is pressed
+    } else if (currController.getAxisState(ControllerAxis.TRIGGERRIGHT) > RTDeadzone) {
+      frameRate(60 + (60 * constrain(currController.getAxisState(ControllerAxis.TRIGGERRIGHT), 0, 1)));
+      println(60 + (60 * constrain(currController.getAxisState(ControllerAxis.TRIGGERRIGHT), 0, 1)));
+    } //else btnAdvanceSec = true; //if neither trigger is pressed
     if (currController.isButtonPressed(ControllerButton.B)) {
       intentCancel();
     } else btnAdvanceCancel = true;
@@ -335,8 +336,9 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
       intentWeaponSwitchUp();
     }
     else if (currController.isButtonPressed(ControllerButton.RIGHTBUMPER)) {
-      intentWeaponSwitchDown();
-    } else btnAdvanceWpn = true; //if neither bumper is pressed
+      //intentWeaponSwitchDown();
+      frameRate(30);
+    } //else btnAdvanceWpn = true; //if neither bumper is pressed
     if (currController.isButtonPressed(ControllerButton.START)) {
       if (screenIndex == 9 && btnAdvancePause == true) {btnAdvancePause = false; intentLevelEditor(5);}
       intentPause();
@@ -345,6 +347,9 @@ void controllerSupport() { //scans for controllers, reads inputs, etc
       intentLevelEditor(0);
       intentY();
     } else btnAdvanceY = true;
+    if (currController.isButtonPressed(ControllerButton.X)) {
+      intentY();
+    } else btnAdvanceX = true;
     if (currController.isButtonPressed(ControllerButton.BACK)) {
       if (btnAdvanceBack == true) {
         btnAdvanceBack = false;
@@ -596,8 +601,10 @@ void intentConfirmMenu() {
 
 void intentY () {
   if (btnAdvanceY == true) {
-    if (screenIndex == 3) { //extraneous but here for clarity, ease of understanding
+    if (screenIndex == 3) { //vn segment
       skipVNText(); //skip to next vn command
+    } else if (screenIndex == 0) { //in game
+      //frameRate(120);
     }
   }
 }

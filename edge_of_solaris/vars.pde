@@ -1,5 +1,5 @@
 //game vars
-int buildNumber = 125; //the current build number, should be incremented manually each commit
+int buildNumber = 126; //the current build number, should be incremented manually each commit
 int screenIndex = 1; //0 = game, 1 = title, 2 = level select, 3 = visual novel story stuff, 4 = settings menu, 5 = status, 6 = mess hall
 //7 = hanger, 8 = engineering, 9 = level editor
 int levelIndex = 0; //what level the player is playing, 98/99 is test level
@@ -143,6 +143,7 @@ int playerLives = 3; //used for one hit mode only
 boolean damageOnTop = false; //whether or not to render to damage on top of the player
 float RSDeadzone = 0.2; //deadzone of right stick
 float LSDeadzone = 0.05; //deadzone of left stick
+float RTDeadzone = 0.05; //deadzone of right trigger
 int screenRes; //screen resolution, 0 = 720, 1 = 1080
 
 //level editor vars
